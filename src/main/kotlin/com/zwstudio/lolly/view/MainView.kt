@@ -1,6 +1,6 @@
-package com.example.demo.view
+package com.zwstudio.lolly.view
 
-import com.example.demo.app.Styles
+import com.zwstudio.lolly.app.Styles
 import tornadofx.*
 
 class MainView : View("Hello TornadoFX") {
