@@ -2,7 +2,6 @@ package com.zwstudio.lolly.domain
 
 // Generated 2014-10-12 21:44:14 by Hibernate Tools 4.3.1
 
-import android.util.Log
 import com.google.gson.annotations.Expose
 import com.google.gson.annotations.SerializedName
 import com.zwstudio.lolly.data.extractTextFrom
@@ -91,7 +90,7 @@ class MDictionary: Serializable {
         } catch (e: UnsupportedEncodingException) {
             e.printStackTrace()
         }
-        Log.d("", "urlString: " + wordUrl!!)
+        println("urlString: " + wordUrl!!)
         return wordUrl
     }
 

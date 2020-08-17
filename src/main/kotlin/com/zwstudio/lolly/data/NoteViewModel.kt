@@ -1,6 +1,5 @@
 package com.zwstudio.lolly.data
 
-import android.util.Log
 import com.zwstudio.lolly.service.HtmlService
 import io.reactivex.rxjava3.core.Observable
 import io.reactivex.rxjava3.disposables.CompositeDisposable
@@ -22,7 +21,7 @@ class NoteViewModel : BaseViewModel2() {
         val dictNote = vmSettings.selectedDictNote ?: return Observable.empty()
         val url = dictNote.urlString(word, vmSettings.lstAutoCorrect)
         return htmlService.getHtml(url).map {
-            Log.d("", it)
+            println(it)
             extractTextFrom(it, dictNote.transform!!, "") { text, _ -> text }
         }
     }

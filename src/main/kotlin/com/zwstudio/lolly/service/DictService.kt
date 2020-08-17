@@ -5,9 +5,7 @@ import com.zwstudio.lolly.restapi.RestDictNote
 import com.zwstudio.lolly.restapi.RestDictReference
 import com.zwstudio.lolly.restapi.RestDictTranslation
 import io.reactivex.rxjava3.core.Observable
-import org.androidannotations.annotations.EBean
 
-@EBean
 class DictionaryService: BaseService() {
     fun getDictsReferenceByLang(langid: Int): Observable<List<MDictionary>> =
         retrofitJson.create(RestDictReference::class.java)
