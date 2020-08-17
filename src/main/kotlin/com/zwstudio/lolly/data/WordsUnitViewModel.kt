@@ -7,7 +7,7 @@ import com.zwstudio.lolly.service.WordFamiService
 import io.reactivex.rxjava3.core.Observable
 import io.reactivex.rxjava3.disposables.CompositeDisposable
 
-class WordsUnitViewModel : BaseViewModel2() {
+class WordsUnitViewModel : BaseViewModel() {
 
     var lstWords = listOf<MUnitWord>()
     var isSwipeStarted = false

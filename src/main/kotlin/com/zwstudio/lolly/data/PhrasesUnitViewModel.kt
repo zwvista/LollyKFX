@@ -6,7 +6,7 @@ import com.zwstudio.lolly.service.UnitPhraseService
 import io.reactivex.rxjava3.core.Observable
 import io.reactivex.rxjava3.disposables.CompositeDisposable
 
-class PhrasesUnitViewModel : BaseViewModel2() {
+class PhrasesUnitViewModel : BaseViewModel() {
 
     var lstPhrases = listOf<MUnitPhrase>()
     var isSwipeStarted = false

@@ -3,7 +3,7 @@ package com.zwstudio.lolly.data
 import com.zwstudio.lolly.service.HtmlService
 import io.reactivex.rxjava3.core.Observable
 
-class SearchViewModel : BaseViewModel2() {
+class SearchViewModel : BaseViewModel() {
     var lstWords = mutableListOf<String>()
     var selectedWordIndex = 0
     val selectedWord: String

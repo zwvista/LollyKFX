@@ -5,7 +5,7 @@ import com.zwstudio.lolly.service.LangWordService
 import com.zwstudio.lolly.service.WordFamiService
 import io.reactivex.rxjava3.core.Observable
 
-class WordsLangViewModel : BaseViewModel2() {
+class WordsLangViewModel : BaseViewModel() {
 
     var lstWords = mutableListOf<MLangWord>()
     var isSwipeStarted = false

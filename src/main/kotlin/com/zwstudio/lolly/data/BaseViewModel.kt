@@ -10,6 +10,6 @@ fun <T> Observable<T>.applyIO(): Observable<T> =
     this.subscribeOn(Schedulers.computation())
         .observeOn(JavaFxScheduler.platform())
 
-open class BaseViewModel2: Component(), ScopedInstance {
+open class BaseViewModel: Component(), ScopedInstance {
     val vmSettings: SettingsViewModel by inject()
 }

@@ -5,7 +5,7 @@ import com.zwstudio.lolly.domain.ReviewMode
 import com.zwstudio.lolly.service.UnitPhraseService
 import io.reactivex.rxjava3.core.Observable
 
-class PhrasesReviewModel : BaseViewModel2() {
+class PhrasesReviewModel : BaseViewModel() {
 
     val unitPhraseService: UnitPhraseService by inject()
 

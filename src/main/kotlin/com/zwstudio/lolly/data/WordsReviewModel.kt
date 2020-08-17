@@ -6,7 +6,7 @@ import com.zwstudio.lolly.service.HtmlService
 import com.zwstudio.lolly.service.UnitWordService
 import io.reactivex.rxjava3.core.Observable
 
-class WordsReviewModel : BaseViewModel2() {
+class WordsReviewModel : BaseViewModel() {
 
     val unitWordService: UnitWordService by inject()
     val vmWordFami: WordsFamiViewModel by inject()

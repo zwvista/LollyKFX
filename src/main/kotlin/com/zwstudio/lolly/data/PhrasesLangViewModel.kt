@@ -4,7 +4,7 @@ import com.zwstudio.lolly.domain.MLangPhrase
 import com.zwstudio.lolly.service.LangPhraseService
 import io.reactivex.rxjava3.core.Observable
 
-class PhrasesLangViewModel : BaseViewModel2() {
+class PhrasesLangViewModel : BaseViewModel() {
 
     var lstPhrases = mutableListOf<MLangPhrase>()
     var isSwipeStarted = false
