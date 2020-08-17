@@ -4,6 +4,7 @@ import com.zwstudio.lolly.domain.*
 import com.zwstudio.lolly.service.*
 import io.reactivex.rxjava3.core.Observable
 import io.reactivex.rxjava3.kotlin.Observables
+import javafx.application.Platform
 import tornadofx.Component
 import tornadofx.ScopedInstance
 
@@ -224,7 +225,6 @@ class SettingsViewModel : Component(), ScopedInstance {
         return MUserSettingInfo(o2.id, o.valueid)
     }
 
-    var handler: Handler? = null
     var settingsListener: SettingsListener? = null
     fun getData(): Observable<Unit> =
         Observables.zip(languageService.getData(),
@@ -241,7 +241,7 @@ class SettingsViewModel : Component(), ScopedInstance {
             val lst = getUSValue(INFO_USLEVELCOLORS)!!.split("\r\n").map { it.split(',') }
             // https://stackoverflow.com/questions/32935470/how-to-convert-list-to-map-in-kotlin
             uslevelcolors = lst.associateBy({ it[0].toInt() }, { listOf(it[1], it[2]) })
-            handler?.post { settingsListener?.onGetData() }
+            Platform.runLater { settingsListener?.onGetData() }
             setSelectedLang(lstLanguages.first { it.id == uslangid })
         }.applyIO()
 
@@ -275,7 +275,7 @@ class SettingsViewModel : Component(), ScopedInstance {
             selectedVoice = lstVoices.firstOrNull { it.id == usvoiceid } ?: lstVoices.firstOrNull()
         }.concatMap {
             if (isinit) {
-                handler?.post { settingsListener?.onUpdateLang() }
+                Platform.runLater { settingsListener?.onUpdateLang() }
                 Observable.just(Unit)
             } else
                 updateLang()
@@ -284,32 +284,32 @@ class SettingsViewModel : Component(), ScopedInstance {
 
     fun updateLang(): Observable<Unit> =
         userSettingService.update(INFO_USLANGID, uslangid)
-            .map { handler?.post { settingsListener?.onUpdateLang() }; Unit }
+            .map { Platform.runLater { settingsListener?.onUpdateLang() } }
             .applyIO()
 
     fun updateTextbook(): Observable<Unit> =
         userSettingService.update(INFO_USTEXTBOOKID, ustextbookid)
-            .map { handler?.post { settingsListener?.onUpdateTextbook() }; Unit }
+            .map { Platform.runLater { settingsListener?.onUpdateTextbook() } }
             .applyIO()
 
     fun updateDictReference(): Observable<Unit> =
         userSettingService.update(INFO_USDICTREFERENCE, usdictreference)
-            .map { handler?.post { settingsListener?.onUpdateDictReference() }; Unit }
+            .map { Platform.runLater { settingsListener?.onUpdateDictReference() } }
             .applyIO()
 
     fun updateDictNote(): Observable<Unit> =
         userSettingService.update(INFO_USDICTNOTE, usdictnoteid)
-            .map { handler?.post { settingsListener?.onUpdateDictNote() }; Unit }
+            .map { Platform.runLater { settingsListener?.onUpdateDictNote() } }
             .applyIO()
 
     fun updateDictTranslation(): Observable<Unit> =
         userSettingService.update(INFO_USDICTTRANSLATION, usdicttranslationid)
-            .map { handler?.post { settingsListener?.onUpdateDictTranslation() }; Unit }
+            .map { Platform.runLater { settingsListener?.onUpdateDictTranslation() } }
             .applyIO()
 
     fun updateVoice(): Observable<Unit> =
         userSettingService.update(INFO_USANDROIDVOICEID, usvoiceid)
-            .map { handler?.post { settingsListener?.onUpdateVoice() }; Unit }
+            .map { Platform.runLater { settingsListener?.onUpdateVoice() } }
             .applyIO()
 
     fun autoCorrectInput(text: String): String =
@@ -398,7 +398,7 @@ class SettingsViewModel : Component(), ScopedInstance {
         if (check && usunitfrom == v) return Observable.empty()
         usunitfrom = v
         return userSettingService.update(INFO_USUNITFROM, usunitfrom)
-            .map { handler?.post { settingsListener?.onUpdateUnitFrom() }; Unit }
+            .map { Platform.runLater { settingsListener?.onUpdateUnitFrom() } }
             .applyIO()
     }
 
@@ -406,7 +406,7 @@ class SettingsViewModel : Component(), ScopedInstance {
         if (check && uspartfrom == v) return Observable.empty()
         uspartfrom = v
         return userSettingService.update(INFO_USPARTFROM, uspartfrom)
-            .map { handler?.post { settingsListener?.onUpdatePartFrom() }; Unit }
+            .map { Platform.runLater { settingsListener?.onUpdatePartFrom() } }
             .applyIO()
     }
 
@@ -414,7 +414,7 @@ class SettingsViewModel : Component(), ScopedInstance {
         if (check && usunitto == v) return Observable.empty()
         usunitto = v
         return userSettingService.update(INFO_USUNITTO, usunitto)
-            .map { handler?.post { settingsListener?.onUpdateUnitTo() }; Unit }
+            .map { Platform.runLater { settingsListener?.onUpdateUnitTo() } }
             .applyIO()
     }
 
@@ -422,7 +422,7 @@ class SettingsViewModel : Component(), ScopedInstance {
         if (check && uspartto == v) return Observable.empty()
         uspartto = v
         return userSettingService.update(INFO_USPARTTO, uspartto)
-            .map { handler?.post { settingsListener?.onUpdatePartTo() }; Unit }
+            .map { Platform.runLater { settingsListener?.onUpdatePartTo() } }
             .applyIO()
     }
 }
