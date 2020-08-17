@@ -6,24 +6,18 @@ import com.zwstudio.lolly.service.UnitWordService
 import com.zwstudio.lolly.service.WordFamiService
 import io.reactivex.rxjava3.core.Observable
 import io.reactivex.rxjava3.disposables.CompositeDisposable
-import org.androidannotations.annotations.Bean
-import org.androidannotations.annotations.EBean
 
-@EBean
 class WordsUnitViewModel : BaseViewModel2() {
 
     var lstWords = listOf<MUnitWord>()
     var isSwipeStarted = false
 
-    lateinit var vmNote: NoteViewModel
-    lateinit var compositeDisposable: CompositeDisposable
+    val vmNote: NoteViewModel by inject()
+    val compositeDisposable = CompositeDisposable()
 
-    @Bean
-    lateinit var unitWordService: UnitWordService
-    @Bean
-    lateinit var langWordService: LangWordService
-    @Bean
-    lateinit var wordFamiService: WordFamiService
+    val unitWordService: UnitWordService by inject()
+    val langWordService: LangWordService by inject()
+    val wordFamiService: WordFamiService by inject()
 
     fun getDataInTextbook(): Observable<Unit> =
         unitWordService.getDataByTextbookUnitPart(vmSettings.selectedTextbook,
@@ -36,15 +30,15 @@ class WordsUnitViewModel : BaseViewModel2() {
             .map { lstWords = it }
             .applyIO()
 
-    fun updateSeqNum(id: Int, seqnum: Int): Observable<Int> =
+    fun updateSeqNum(id: Int, seqnum: Int): Observable<Unit> =
         unitWordService.updateSeqNum(id, seqnum)
             .applyIO()
 
-    fun updateNote(id: Int, note: String?): Observable<Int> =
+    fun updateNote(id: Int, note: String?): Observable<Unit> =
         unitWordService.updateNote(id, note)
             .applyIO()
 
-    fun update(item: MUnitWord): Observable<Int> =
+    fun update(item: MUnitWord): Observable<Unit> =
         unitWordService.update(item)
             .applyIO()
 
@@ -52,7 +46,7 @@ class WordsUnitViewModel : BaseViewModel2() {
         unitWordService.create(item)
             .applyIO()
 
-    fun delete(item: MUnitWord): Observable<Int> =
+    fun delete(item: MUnitWord): Observable<Unit> =
         unitWordService.delete(item)
             .applyIO()
 
@@ -77,7 +71,7 @@ class WordsUnitViewModel : BaseViewModel2() {
         seqnum = (maxItem?.seqnum ?: 0) + 1
     }
 
-    fun getNote(index: Int): Observable<Int> {
+    fun getNote(index: Int): Observable<Unit> {
         val item = lstWords[index]
         return vmNote.getNote(item.word).concatMap {
             item.note = it

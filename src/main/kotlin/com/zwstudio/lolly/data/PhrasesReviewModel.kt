@@ -4,14 +4,10 @@ import com.zwstudio.lolly.domain.MUnitPhrase
 import com.zwstudio.lolly.domain.ReviewMode
 import com.zwstudio.lolly.service.UnitPhraseService
 import io.reactivex.rxjava3.core.Observable
-import org.androidannotations.annotations.Bean
-import org.androidannotations.annotations.EBean
 
-@EBean
 class PhrasesReviewModel : BaseViewModel2() {
 
-    @Bean
-    lateinit var unitPhraseService: UnitPhraseService
+    val unitPhraseService: UnitPhraseService by inject()
 
     var lstPhrases = listOf<MUnitPhrase>()
     var lstCorrectIDs = mutableListOf<Int>()

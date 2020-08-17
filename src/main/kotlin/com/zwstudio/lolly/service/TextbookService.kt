@@ -4,9 +4,7 @@ import com.zwstudio.lolly.domain.MSelectItem
 import com.zwstudio.lolly.domain.MTextbook
 import com.zwstudio.lolly.restapi.RestTextbook
 import io.reactivex.rxjava3.core.Observable
-import org.androidannotations.annotations.EBean
 
-@EBean
 class TextbookService: BaseService() {
     fun getDataByLang(langid: Int): Observable<List<MTextbook>> {
         fun f(units: String): List<String> {

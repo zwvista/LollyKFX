@@ -1,8 +1,7 @@
 package com.zwstudio.lolly.data
 
-import android.content.*
-import android.net.Uri
-import android.view.View
+import javafx.scene.input.ClipboardContent
+import tornadofx.View
 import java.net.URLEncoder
 
 object GlobalConstants {
@@ -10,25 +9,14 @@ object GlobalConstants {
 }
 
 fun View.copyText(text: String) {
-    // https://stackoverflow.com/questions/19177231/android-copy-paste-from-clipboard-manager
-    val clipboard = context.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
-    val clip = ClipData.newPlainText("", text)
-    // https://stackoverflow.com/questions/57128725/kotlin-android-studio-var-is-seen-as-val-in-sdk-29
-    clipboard.setPrimaryClip(clip)
+    // https://docs.oracle.com/javase/jp/8/javafx/api/javafx/scene/input/Clipboard.html
+    val content = ClipboardContent()
+    content.putString(text)
 }
 
 fun View.openPage(url: String) {
-    // https://stackoverflow.com/questions/12013416/is-there-any-way-in-android-to-force-open-a-link-to-open-in-chrome
-    val intent = Intent(Intent.ACTION_VIEW, Uri.parse(url))
-    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-    intent.`package` = "com.android.chrome"
-    try {
-        context.startActivity(intent)
-    } catch (ex: ActivityNotFoundException) {
-        // Chrome browser presumably not installed so allow user to choose instead
-        intent.`package` = null
-        context.startActivity(intent)
-    }
+    // https://stackoverflow.com/questions/16604341/how-can-i-open-the-default-system-browser-from-a-java-fx-application
+    app.getHostServices().showDocument(url);
 }
 
 fun View.googleString(text: String) {
@@ -37,7 +25,7 @@ fun View.googleString(text: String) {
 }
 
 fun extractTextFrom(html: String, transform: String, template: String, templateHandler: (String, String) -> String): String {
-    val dic = mapOf("<delete>" to "", "\\t" to "\t", "\\r" to "\r", "\\n" to "\n")
+    val dic = mapOf("<delete>" to "", "\\t" to "\t", "\\n" to "\n")
 
     var text = html
     do {

@@ -4,28 +4,23 @@ import com.zwstudio.lolly.domain.MLangWord
 import com.zwstudio.lolly.service.LangWordService
 import com.zwstudio.lolly.service.WordFamiService
 import io.reactivex.rxjava3.core.Observable
-import org.androidannotations.annotations.Bean
-import org.androidannotations.annotations.EBean
 
-@EBean
 class WordsLangViewModel : BaseViewModel2() {
 
     var lstWords = mutableListOf<MLangWord>()
     var isSwipeStarted = false
 
-    lateinit var vmNote: NoteViewModel
+    val vmNote: NoteViewModel by inject()
 
-    @Bean
-    lateinit var langWordService: LangWordService
-    @Bean
-    lateinit var wordFamiService: WordFamiService
+    val langWordService: LangWordService by inject()
+    val wordFamiService: WordFamiService by inject()
 
     fun getData(): Observable<Unit> =
         langWordService.getDataByLang(vmSettings.selectedLang.id, vmSettings.lstTextbooks)
             .map { lstWords = it.toMutableList() }
             .applyIO()
 
-    fun update(id: Int, langid: Int, word: String, level: Int, note: String?): Observable<Int> =
+    fun update(id: Int, langid: Int, word: String, level: Int, note: String?): Observable<Unit> =
         langWordService.update(id, langid, word, note)
             .applyIO()
 
@@ -33,7 +28,7 @@ class WordsLangViewModel : BaseViewModel2() {
         langWordService.create(langid, word, note)
             .applyIO()
 
-    fun delete(item: MLangWord): Observable<Int> =
+    fun delete(item: MLangWord): Observable<Unit> =
         langWordService.delete(item)
             .applyIO()
 
@@ -41,7 +36,7 @@ class WordsLangViewModel : BaseViewModel2() {
         langid = vmSettings.selectedLang.id
     }
 
-    fun getNote(index: Int): Observable<Int> {
+    fun getNote(index: Int): Observable<Unit> {
         val item = lstWords[index]
         return vmNote.getNote(item.word).concatMap {
             item.note = it

@@ -5,17 +5,13 @@ import io.reactivex.rxjava3.core.Observable
 import io.reactivex.rxjava3.disposables.CompositeDisposable
 import io.reactivex.rxjava3.disposables.Disposable
 import io.reactivex.rxjava3.schedulers.Schedulers
-import org.androidannotations.annotations.Bean
-import org.androidannotations.annotations.EBean
 import java.util.concurrent.TimeUnit
 
-@EBean
 class NoteViewModel : BaseViewModel2() {
 
     lateinit var compositeDisposable: CompositeDisposable
 
-    @Bean
-    lateinit var htmlService: HtmlService
+    val htmlService: HtmlService by inject()
 
     fun getNote(word: String): Observable<String> {
         val dictNote = vmSettings.selectedDictNote ?: return Observable.empty()

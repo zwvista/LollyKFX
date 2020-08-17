@@ -1,15 +1,13 @@
 package com.zwstudio.lolly.data
 
-import android.os.Handler
 import com.zwstudio.lolly.domain.*
 import com.zwstudio.lolly.service.*
 import io.reactivex.rxjava3.core.Observable
 import io.reactivex.rxjava3.kotlin.Observables
-import org.androidannotations.annotations.Bean
-import org.androidannotations.annotations.EBean
+import tornadofx.Component
+import tornadofx.ScopedInstance
 
-@EBean(scope = EBean.Scope.Singleton)
-class SettingsViewModel : BaseViewModel1() {
+class SettingsViewModel : Component(), ScopedInstance {
 
     var lstUSMappings = listOf<MUSMapping>()
     var lstUserSettings = listOf<MUserSetting>()
@@ -206,20 +204,13 @@ class SettingsViewModel : BaseViewModel1() {
 
     val lstReviewModes = ReviewMode.values().mapIndexed { index, s -> MSelectItem(index, s.toString()) }
 
-    @Bean
-    lateinit var languageService: LanguageService
-    @Bean
-    lateinit var usMappingService: USMappingService
-    @Bean
-    lateinit var userSettingService: UserSettingService
-    @Bean
-    lateinit var dictionaryService: DictionaryService
-    @Bean
-    lateinit var textbookService: TextbookService
-    @Bean
-    lateinit var autoCorrectService: AutoCorrectService
-    @Bean
-    lateinit var voiceService: VoiceService
+    val languageService: LanguageService by inject()
+    val usMappingService: USMappingService by inject()
+    val userSettingService: UserSettingService by inject()
+    val dictionaryService: DictionaryService by inject()
+    val textbookService: TextbookService by inject()
+    val autoCorrectService: AutoCorrectService by inject()
+    val voiceService: VoiceService by inject()
 
     private fun getUSInfo(name: String): MUserSettingInfo {
         val o = lstUSMappings.find { it.name == name }!!

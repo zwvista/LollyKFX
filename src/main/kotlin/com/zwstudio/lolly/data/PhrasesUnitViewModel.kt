@@ -1,26 +1,20 @@
 package com.zwstudio.lolly.data
 
 import com.zwstudio.lolly.domain.MUnitPhrase
-import com.zwstudio.lolly.domain.MUnitWord
 import com.zwstudio.lolly.service.LangPhraseService
 import com.zwstudio.lolly.service.UnitPhraseService
 import io.reactivex.rxjava3.core.Observable
 import io.reactivex.rxjava3.disposables.CompositeDisposable
-import org.androidannotations.annotations.Bean
-import org.androidannotations.annotations.EBean
 
-@EBean
 class PhrasesUnitViewModel : BaseViewModel2() {
 
     var lstPhrases = listOf<MUnitPhrase>()
     var isSwipeStarted = false
 
-    lateinit var compositeDisposable: CompositeDisposable
+    val compositeDisposable = CompositeDisposable()
 
-    @Bean
-    lateinit var unitPhraseService: UnitPhraseService
-    @Bean
-    lateinit var langPhraseService: LangPhraseService
+    val unitPhraseService: UnitPhraseService by inject()
+    val langPhraseService: LangPhraseService by inject()
 
     fun getDataInTextbook(): Observable<Unit> =
         unitPhraseService.getDataByTextbookUnitPart(vmSettings.selectedTextbook,
@@ -33,11 +27,11 @@ class PhrasesUnitViewModel : BaseViewModel2() {
             .map { lstPhrases = it }
             .applyIO()
 
-    fun updateSeqNum(id: Int, seqnum: Int): Observable<Int> =
+    fun updateSeqNum(id: Int, seqnum: Int): Observable<Unit> =
         unitPhraseService.updateSeqNum(id, seqnum)
             .applyIO()
 
-    fun update(item: MUnitPhrase): Observable<Int> =
+    fun update(item: MUnitPhrase): Observable<Unit> =
         unitPhraseService.update(item)
             .applyIO()
 
@@ -45,7 +39,7 @@ class PhrasesUnitViewModel : BaseViewModel2() {
         unitPhraseService.create(item)
             .applyIO()
 
-    fun delete(item: MUnitPhrase): Observable<Int> =
+    fun delete(item: MUnitPhrase): Observable<Unit> =
         unitPhraseService.delete(item)
             .applyIO()
 

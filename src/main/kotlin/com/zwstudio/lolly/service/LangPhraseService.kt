@@ -4,7 +4,6 @@ import com.zwstudio.lolly.domain.MLangPhrase
 import com.zwstudio.lolly.domain.MTextbook
 import com.zwstudio.lolly.restapi.RestLangPhrase
 import io.reactivex.rxjava3.core.Observable
-import java.net.URLEncoder
 
 class LangPhraseService: BaseService() {
     fun getDataByLang(langid: Int, lstTextbooks: List<MTextbook>): Observable<List<MLangPhrase>> =

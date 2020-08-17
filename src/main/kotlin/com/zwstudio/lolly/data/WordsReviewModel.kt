@@ -5,18 +5,12 @@ import com.zwstudio.lolly.domain.ReviewMode
 import com.zwstudio.lolly.service.HtmlService
 import com.zwstudio.lolly.service.UnitWordService
 import io.reactivex.rxjava3.core.Observable
-import org.androidannotations.annotations.Bean
-import org.androidannotations.annotations.EBean
 
-@EBean
 class WordsReviewModel : BaseViewModel2() {
 
-    @Bean
-    lateinit var unitWordService: UnitWordService
-    @Bean
-    lateinit var vmWordFami: WordsFamiViewModel
-    @Bean
-    lateinit var htmlService: HtmlService
+    val unitWordService: UnitWordService by inject()
+    val vmWordFami: WordsFamiViewModel by inject()
+    val htmlService: HtmlService by inject()
 
     var lstWords = listOf<MUnitWord>()
     var lstCorrectIDs = mutableListOf<Int>()

@@ -15,10 +15,10 @@ class WordFamiService: BaseService() {
             .update(id, userid, wordid, level, correct, total)
             .map { println(it.toString()) }
 
-    fun create(userid: Int, wordid: Int, level: Int, correct: Int, total: Int): Observable<Int> =
+    fun create(userid: Int, wordid: Int, level: Int, correct: Int, total: Int): Observable<Unit> =
         retrofitJson.create(RestWordFami::class.java)
             .create(userid, wordid, level, correct, total)
-            .doOnNext { println(it.toString()) }
+            .map { println(it.toString()) }
 
     fun delete(id: Int): Observable<Unit> =
         retrofitJson.create(RestWordFami::class.java)
