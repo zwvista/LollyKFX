@@ -16,13 +16,14 @@ class LollyApp: App(MainView::class, Styles::class) {
         lateinit var retrofitJson: Retrofit
         lateinit var retrofitSP: Retrofit
         lateinit var retrofitHtml: Retrofit
-        val compositeDisposable = CompositeDisposable()
         val initializeObject = ReplaySubject.createWithSize<Unit>(1)
     }
 
     val vm: SettingsViewModel by inject()
+    val compositeDisposable = CompositeDisposable()
 
     init {
+        super.init()
         retrofitJson = Retrofit.Builder().baseUrl("https://zwvista.tk/lolly/api.php/records/")
             .addCallAdapterFactory(RxJava3CallAdapterFactory.create())
             .addConverterFactory(GsonConverterFactory.create())
@@ -41,5 +42,4 @@ class LollyApp: App(MainView::class, Styles::class) {
             initializeObject.onComplete()
         })
     }
-
 }

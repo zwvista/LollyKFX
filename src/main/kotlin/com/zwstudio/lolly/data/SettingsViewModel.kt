@@ -243,7 +243,7 @@ class SettingsViewModel : Component(), ScopedInstance {
             uslevelcolors = lst.associateBy({ it[0].toInt() }, { listOf(it[1], it[2]) })
             Platform.runLater { settingsListener?.onGetData() }
             setSelectedLang(lstLanguages.first { it.id == uslangid })
-        }.applyIO()
+        }
 
     fun setSelectedLang(lang: MLanguage): Observable<Unit> {
         val isinit = lang.id == uslangid
@@ -279,7 +279,7 @@ class SettingsViewModel : Component(), ScopedInstance {
                 Observable.just(Unit)
             } else
                 updateLang()
-        }.applyIO()
+        }
     }
 
     fun updateLang(): Observable<Unit> =
