@@ -1,9 +1,7 @@
 package com.zwstudio.lolly.data
 
 import com.zwstudio.lolly.domain.MUnitWord
-import com.zwstudio.lolly.service.LangWordService
 import com.zwstudio.lolly.service.UnitWordService
-import com.zwstudio.lolly.service.WordFamiService
 import io.reactivex.rxjava3.core.Observable
 import io.reactivex.rxjava3.disposables.CompositeDisposable
 
@@ -16,8 +14,6 @@ class WordsUnitViewModel : BaseViewModel() {
     val compositeDisposable = CompositeDisposable()
 
     val unitWordService: UnitWordService by inject()
-    val langWordService: LangWordService by inject()
-    val wordFamiService: WordFamiService by inject()
 
     fun getDataInTextbook(): Observable<Unit> =
         unitWordService.getDataByTextbookUnitPart(vmSettings.selectedTextbook,
