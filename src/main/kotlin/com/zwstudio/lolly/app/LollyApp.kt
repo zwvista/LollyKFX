@@ -4,6 +4,7 @@ import com.zwstudio.lolly.data.SettingsViewModel
 import com.zwstudio.lolly.view.MainView
 import io.reactivex.rxjava3.disposables.CompositeDisposable
 import io.reactivex.rxjava3.subjects.ReplaySubject
+import javafx.stage.Stage
 import retrofit2.Retrofit
 import retrofit2.adapter.rxjava3.RxJava3CallAdapterFactory
 import retrofit2.converter.gson.GsonConverterFactory
@@ -41,5 +42,10 @@ class LollyApp: App(MainView::class, Styles::class) {
             initializeObject.onNext(Unit)
             initializeObject.onComplete()
         })
+    }
+
+    override fun start(stage: Stage) {
+        super.start(stage)
+        stage.isMaximized = true
     }
 }

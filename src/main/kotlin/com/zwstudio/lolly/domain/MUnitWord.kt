@@ -40,6 +40,9 @@ class MUnitWord: Serializable {
     @SerializedName("NOTE")
     @Expose
     var note: String? = null
+    var noteNotNull: String
+        get() = note ?: ""
+        set(value) { note = if (value.isEmpty()) null else value }
     @SerializedName("WORDID")
     @Expose
     var wordid = 0

@@ -13,6 +13,7 @@ import com.zwstudio.lolly.view.words.WordsReviewScreen
 import com.zwstudio.lolly.view.words.WordsTextbookScreen
 import com.zwstudio.lolly.view.words.WordsUnitScreen
 import javafx.scene.control.TabPane
+import javafx.scene.layout.Priority
 import tornadofx.*
 
 class MainView : View("Lolly TornadoFX") {
@@ -77,6 +78,7 @@ class MainView : View("Lolly TornadoFX") {
             }
         }
         tabpane = tabpane {
+            vgrow = Priority.ALWAYS
         }
     }
 

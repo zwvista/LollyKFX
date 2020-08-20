@@ -4,10 +4,11 @@ import com.zwstudio.lolly.domain.MUnitWord
 import com.zwstudio.lolly.service.UnitWordService
 import io.reactivex.rxjava3.core.Observable
 import io.reactivex.rxjava3.disposables.CompositeDisposable
+import tornadofx.asObservable
 
 class WordsUnitViewModel : BaseViewModel() {
 
-    var lstWords = listOf<MUnitWord>()
+    var lstWords = mutableListOf<MUnitWord>().asObservable()
     var isSwipeStarted = false
 
     val vmNote: NoteViewModel by inject()
@@ -18,12 +19,12 @@ class WordsUnitViewModel : BaseViewModel() {
     fun getDataInTextbook(): Observable<Unit> =
         unitWordService.getDataByTextbookUnitPart(vmSettings.selectedTextbook,
             vmSettings.usunitpartfrom, vmSettings.usunitpartto)
-            .map { lstWords = it }
+            .map { lstWords.clear(); lstWords.addAll(it); Unit }
             .applyIO()
 
     fun getDataInLang(): Observable<Unit> =
         unitWordService.getDataByLang(vmSettings.selectedLang.id, vmSettings.lstTextbooks)
-            .map { lstWords = it }
+            .map { lstWords.clear(); lstWords.addAll(it); Unit }
             .applyIO()
 
     fun updateSeqNum(id: Int, seqnum: Int): Observable<Unit> =
