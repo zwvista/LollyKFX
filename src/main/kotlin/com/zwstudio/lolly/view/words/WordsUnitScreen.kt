@@ -4,14 +4,13 @@ import com.zwstudio.lolly.data.WordsUnitViewModel
 import com.zwstudio.lolly.domain.MUnitWord
 import javafx.geometry.Orientation
 import javafx.scene.control.SplitPane
-import javafx.scene.control.ToolBar
 import javafx.scene.layout.Priority
 import tornadofx.*
 
-class WordsUnitScreen : Fragment("Words in Unit") {
-    var toolbarDicts: ToolBar by singleAssign()
+class WordsUnitScreen : WordsBaseScreen("Words in Unit") {
     var splitPane: SplitPane by singleAssign()
     var vm: WordsUnitViewModel = WordsUnitViewModel()
+    override val vmSettings = vm.vmSettings
 
     override val root = vbox {
         toolbarDicts = toolbar()
@@ -40,6 +39,13 @@ class WordsUnitScreen : Fragment("Words in Unit") {
                 readonlyColumn("ID", MUnitWord::id)
                 readonlyColumn("FAMIID", MUnitWord::famiid)
                 onEditCommit {
+                    val title = this.tableColumn.text
+                    if (title == "WORD") {
+                        // https://stackoverflow.com/questions/29512142/how-do-i-restore-a-previous-value-in-javafx-tablecolumns-oneditcommit
+                        rowValue.word = "ddddddddddd"
+                        tableColumn.isVisible = false
+                        tableColumn.isVisible = true
+                    }
                 }
             }
             splitpane(Orientation.VERTICAL) {
@@ -49,13 +55,7 @@ class WordsUnitScreen : Fragment("Words in Unit") {
     }
 
     init {
-        vm.getDataInTextbook().subscribe {
-            toolbarDicts.items.clear()
-            for (o in vm.vmSettings.lstDictsReference) {
-                toolbarDicts.checkbox {
-                    text = o.dictname
-                }
-            }
-        }
+        vm.getDataInTextbook().subscribe()
+        onSettingsChanged()
     }
 }
