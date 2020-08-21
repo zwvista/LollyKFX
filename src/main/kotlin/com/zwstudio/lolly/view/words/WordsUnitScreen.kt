@@ -3,12 +3,11 @@ package com.zwstudio.lolly.view.words
 import com.zwstudio.lolly.data.WordsUnitViewModel
 import com.zwstudio.lolly.domain.MUnitWord
 import javafx.geometry.Orientation
-import javafx.scene.control.SplitPane
 import javafx.scene.layout.Priority
+import javafx.scene.web.WebView
 import tornadofx.*
 
 class WordsUnitScreen : WordsBaseScreen("Words in Unit") {
-    var splitPane: SplitPane by singleAssign()
     var vm: WordsUnitViewModel = WordsUnitViewModel()
     override val vmSettings = vm.vmSettings
 
@@ -25,7 +24,7 @@ class WordsUnitScreen : WordsBaseScreen("Words in Unit") {
             button("Clear Notes")
             button("Review")
         }
-        splitPane = splitpane(Orientation.HORIZONTAL) {
+        splitpane(Orientation.HORIZONTAL) {
             vgrow = Priority.ALWAYS
             tableview(vm.lstWords) {
                 readonlyColumn("UNIT", MUnitWord::unitstr)
@@ -47,9 +46,14 @@ class WordsUnitScreen : WordsBaseScreen("Words in Unit") {
                         tableColumn.isVisible = true
                     }
                 }
+                onSelectionChange {
+                    dictsPane.tabs.forEach { (it.content as WebView) }
+                }
             }
             splitpane(Orientation.VERTICAL) {
-                webview()
+                dictsPane = tabpane {
+                    vgrow = Priority.ALWAYS
+                }
             }
         }
     }

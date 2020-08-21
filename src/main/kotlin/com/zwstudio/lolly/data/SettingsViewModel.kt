@@ -164,6 +164,13 @@ class SettingsViewModel : Component(), ScopedInstance {
         }
     val selectedDictReferenceIndex: Int
         get() = lstDictsReference.indexOf(selectedDictReference)
+    private var _selectedDictsReference = listOf<MDictionary>()
+    var selectedDictsReference: List<MDictionary>
+        get() = _selectedDictsReference
+        set(value) {
+            _selectedDictsReference = value
+            usdictsreference = _selectedDictsReference.map { it.dictid.toString() }.joinToString(",")
+        }
 
     var lstDictsNote = listOf<MDictionary>()
     var selectedDictNote: MDictionary? = null
@@ -264,6 +271,7 @@ class SettingsViewModel : Component(), ScopedInstance {
             res1, res2, res3, res4, res5, res6 ->
             lstDictsReference = res1
             selectedDictReference = lstDictsReference.first { it.dictid.toString() == usdictreference }
+            selectedDictsReference = usdictsreference.split(",").flatMap { d -> lstDictsReference.filter { it.dictid.toString() == d } }
             lstDictsNote = res2
             selectedDictNote = lstDictsNote.firstOrNull { it.dictid == usdictnoteid } ?: lstDictsNote.firstOrNull()
             lstDictsTranslation = res3
