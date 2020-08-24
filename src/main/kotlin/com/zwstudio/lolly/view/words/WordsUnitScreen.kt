@@ -3,12 +3,18 @@ package com.zwstudio.lolly.view.words
 import com.zwstudio.lolly.data.WordsUnitViewModel
 import com.zwstudio.lolly.domain.MUnitWord
 import javafx.geometry.Orientation
+import javafx.scene.control.TableRow
+import javafx.scene.input.ClipboardContent
+import javafx.scene.input.DataFormat
+import javafx.scene.input.TransferMode
 import javafx.scene.layout.Priority
 import tornadofx.*
+
 
 class WordsUnitScreen : WordsBaseScreen("Words in Unit") {
     var vm = WordsUnitViewModel(true)
     override val vmSettings get() = vm.vmSettings
+    private val SERIALIZED_MIME_TYPE = DataFormat("application/x-java-serialized-object")
 
     override val root = vbox {
         tag = this@WordsUnitScreen
@@ -55,6 +61,43 @@ class WordsUnitScreen : WordsBaseScreen("Words in Unit") {
                         val f = it.content.tag as WordsDictScreen
                         f.searchWord(word)
                     }
+                }
+                // https://stackoverflow.com/questions/28603224/sort-tableview-with-drag-and-drop-rows
+                setRowFactory { tv ->
+                    val row: TableRow<MUnitWord> = TableRow()
+                    row.setOnDragDetected { event ->
+                        if (!row.isEmpty) {
+                            val index = row.index
+                            val db = row.startDragAndDrop(TransferMode.MOVE)
+                            db.dragView = row.snapshot(null, null)
+                            val cc = ClipboardContent()
+                            cc[SERIALIZED_MIME_TYPE] = index
+                            db.setContent(cc)
+                            event.consume()
+                        }
+                    }
+                    row.setOnDragOver { event ->
+                        val db = event.dragboard
+                        if (db.hasContent(SERIALIZED_MIME_TYPE)) {
+                            if (row.index != (db.getContent(SERIALIZED_MIME_TYPE) as Int).toInt()) {
+                                event.acceptTransferModes(*TransferMode.COPY_OR_MOVE)
+                                event.consume()
+                            }
+                        }
+                    }
+                    row.setOnDragDropped { event ->
+                        val db = event.dragboard
+                        if (db.hasContent(SERIALIZED_MIME_TYPE)) {
+                            val draggedIndex = db.getContent(SERIALIZED_MIME_TYPE) as Int
+                            val draggedPerson: MUnitWord = items.removeAt(draggedIndex)
+                            val dropIndex = if (row.isEmpty) items.size else row.index
+                            items.add(dropIndex, draggedPerson)
+                            event.isDropCompleted = true
+                            selectionModel.select(dropIndex)
+                            event.consume()
+                        }
+                    }
+                    row
                 }
             }
             splitpane(Orientation.VERTICAL) {
