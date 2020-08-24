@@ -1,6 +1,7 @@
 package com.zwstudio.lolly.view
 
 import com.zwstudio.lolly.view.misc.BlogScreen
+import com.zwstudio.lolly.view.misc.DictsScreen
 import com.zwstudio.lolly.view.misc.ReadNumberScreen
 import com.zwstudio.lolly.view.misc.TextbooksScreen
 import com.zwstudio.lolly.view.patterns.PatternsScreen
@@ -8,10 +9,7 @@ import com.zwstudio.lolly.view.phrases.PhasesLangScreen
 import com.zwstudio.lolly.view.phrases.PhrasesReviewScreen
 import com.zwstudio.lolly.view.phrases.PhrasesTextbookScreen
 import com.zwstudio.lolly.view.phrases.PhrasesUnitScreen
-import com.zwstudio.lolly.view.words.WordsLangScreen
-import com.zwstudio.lolly.view.words.WordsReviewScreen
-import com.zwstudio.lolly.view.words.WordsTextbookScreen
-import com.zwstudio.lolly.view.words.WordsUnitScreen
+import com.zwstudio.lolly.view.words.*
 import javafx.scene.control.TabPane
 import javafx.scene.layout.Priority
 import tornadofx.*
@@ -23,57 +21,57 @@ class MainView : View("Lolly TornadoFX") {
         menubar {
             menu("Learn") {
                 item("Search").action {
-                    AddTab<WordsUnitScreen>("Search")
+                    AddTab<WordsSearchScreen>()
                 }
                 item("Settings","Ctrl+Alt+S")
                 separator()
                 item("Words in Unit","Ctrl+Alt+W").action {
-                    AddTab<WordsUnitScreen>("Words in Unit")
+                    AddTab<WordsUnitScreen>()
                 }
                 item("Phrases in Unit","Ctrl+Alt+P").action {
-                    AddTab<PhrasesUnitScreen>("Phrases in Unit")
+                    AddTab<PhrasesUnitScreen>()
                 }
                 separator()
                 item("Words Review").action {
-                    AddTab<WordsReviewScreen>("Words Review")
+                    AddTab<WordsReviewScreen>()
                 }
                 item("Phrases Review").action {
-                    AddTab<PhrasesReviewScreen>("Phrases Review")
+                    AddTab<PhrasesReviewScreen>()
                 }
                 separator()
                 item("Words in Textbook").action {
-                    AddTab<WordsTextbookScreen>("Words in Textbook")
+                    AddTab<WordsTextbookScreen>()
                 }
                 item("Phrases in Textbook").action {
-                    AddTab<PhrasesTextbookScreen>("Phrases in Textbook")
+                    AddTab<PhrasesTextbookScreen>()
                 }
                 separator()
                 item("Words in Language").action {
-                    AddTab<WordsLangScreen>("Words in Language")
+                    AddTab<WordsLangScreen>()
                 }
                 item("Phrases in Language").action {
-                    AddTab<PhasesLangScreen>("Phrases in Language")
+                    AddTab<PhasesLangScreen>()
                 }
                 separator()
                 item("Patterns in Language").action {
-                    AddTab<PatternsScreen>("Patterns in Language")
+                    AddTab<PatternsScreen>()
                 }
             }
             menu("Tools") {
                 item("Blog").action {
-                    AddTab<BlogScreen>("Blog")
+                    AddTab<BlogScreen>()
                 }
                 item("Read Number").action {
-                    AddTab<ReadNumberScreen>("Phrases in Unit")
+                    AddTab<ReadNumberScreen>()
                 }
                 item("Textbooks").action {
-                    AddTab<TextbooksScreen>("Phrases in Unit")
+                    AddTab<TextbooksScreen>()
                 }
                 item("Dictionaries").action {
-                    AddTab<PhrasesUnitScreen>("Dictionaries")
+                    AddTab<DictsScreen>()
                 }
                 item("Test").action {
-                    AddTab<PhrasesUnitScreen>("Test")
+                    AddTab<PhrasesUnitScreen>()
                 }
             }
         }
@@ -82,8 +80,8 @@ class MainView : View("Lolly TornadoFX") {
         }
     }
 
-    inline fun <reified Screen: Fragment> AddTab(text: String) {
-        val t = tabpane.tabs.firstOrNull { it.text == text } ?: tabpane.tab<Screen>()
+    inline fun <reified Screen: Fragment> AddTab() {
+        val t = tabpane.tabs.firstOrNull { it.content.tag is Screen } ?: tabpane.tab<Screen>()
         tabpane.selectionModel.select(t)
     }
 }

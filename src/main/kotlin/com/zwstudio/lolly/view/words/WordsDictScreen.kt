@@ -1,8 +1,25 @@
 package com.zwstudio.lolly.view.words
 
-import tornadofx.Fragment
-import tornadofx.webview
+import com.zwstudio.lolly.data.SettingsViewModel
+import com.zwstudio.lolly.domain.MDictionary
+import javafx.scene.layout.Priority
+import javafx.scene.web.WebView
+import tornadofx.*
 
 class WordsDictScreen : Fragment() {
-    override val root = webview()
+    val dict: MDictionary by param()
+    val vmSettings: SettingsViewModel by inject()
+
+    var wvDict: WebView by singleAssign()
+    override val root = vbox {
+        tag = this@WordsDictScreen
+        wvDict = webview {
+            vgrow = Priority.ALWAYS
+        }
+    }
+
+    fun searchWord(word: String) {
+        val url = dict.urlString(word, vmSettings.lstAutoCorrect)
+        wvDict.engine.load(url)
+    }
 }

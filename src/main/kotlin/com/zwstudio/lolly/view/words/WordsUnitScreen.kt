@@ -4,7 +4,6 @@ import com.zwstudio.lolly.data.WordsUnitViewModel
 import com.zwstudio.lolly.domain.MUnitWord
 import javafx.geometry.Orientation
 import javafx.scene.layout.Priority
-import javafx.scene.web.WebView
 import tornadofx.*
 
 class WordsUnitScreen : WordsBaseScreen("Words in Unit") {
@@ -12,6 +11,7 @@ class WordsUnitScreen : WordsBaseScreen("Words in Unit") {
     override val vmSettings = vm.vmSettings
 
     override val root = vbox {
+        tag = this@WordsUnitScreen
         toolbarDicts = toolbar()
         toolbar {
             button("Add")
@@ -47,7 +47,12 @@ class WordsUnitScreen : WordsBaseScreen("Words in Unit") {
                     }
                 }
                 onSelectionChange {
-                    dictsPane.tabs.forEach { (it.content as WebView) }
+                    if (it == null) return@onSelectionChange
+                    val word = it.word
+                    dictsPane.tabs.forEach {
+                        val f = it.content.tag as WordsDictScreen
+                        f.searchWord(word)
+                    }
                 }
             }
             splitpane(Orientation.VERTICAL) {

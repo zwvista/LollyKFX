@@ -1,15 +1,13 @@
 package com.zwstudio.lolly.view.words
 
 import com.zwstudio.lolly.data.SettingsViewModel
+import com.zwstudio.lolly.domain.MDictionary
 import com.zwstudio.lolly.view.ILollySettings
 import javafx.scene.Node
 import javafx.scene.control.CheckBox
 import javafx.scene.control.TabPane
 import javafx.scene.control.ToolBar
-import tornadofx.Fragment
-import tornadofx.action
-import tornadofx.checkbox
-import tornadofx.singleAssign
+import tornadofx.*
 
 abstract class WordsBaseScreen(title: String? = null, icon: Node? = null) : Fragment(title, icon), ILollySettings {
     open var toolbarDicts: ToolBar by singleAssign()
@@ -17,10 +15,11 @@ abstract class WordsBaseScreen(title: String? = null, icon: Node? = null) : Frag
     abstract val vmSettings: SettingsViewModel
 
     override fun onSettingsChanged() {
-        fun f(name: String) {
+        fun f(o: MDictionary) {
+            val name = o.dictname
             val t = dictsPane.tabs.firstOrNull { it.text == name }
             if (t == null) {
-                dictsPane.tab<WordsDictScreen> {
+                dictsPane.tab(find<WordsDictScreen>("dict" to o)) {
                     textProperty().unbind()
                     text = name
                 }.setOnClosed {
@@ -36,14 +35,14 @@ abstract class WordsBaseScreen(title: String? = null, icon: Node? = null) : Frag
             toolbarDicts.checkbox {
                 text = o.dictname
             }.action {
-                f(o.dictname)
+                f(o)
             }
         }
         dictsPane.tabs.clear()
         for (o in vmSettings.selectedDictsReference) {
             val b = toolbarDicts.items.first { (it as CheckBox).text == o.dictname } as CheckBox
             b.isSelected = true
-            f(o.dictname)
+            f(o)
         }
     }
 }
