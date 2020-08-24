@@ -43,6 +43,9 @@ class MUnitPhrase: Serializable {
     @SerializedName("TRANSLATION")
     @Expose
     var translation: String? = null
+    var translationNotNull: String
+        get() = translation ?: ""
+        set(value) { translation = if (value.isEmpty()) null else value }
 
     lateinit var textbook: MTextbook
     val unitstr: String

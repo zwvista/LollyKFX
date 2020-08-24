@@ -1,5 +1,8 @@
-package com.zwstudio.lolly.data
+package com.zwstudio.lolly.data.words
 
+import com.zwstudio.lolly.data.BaseViewModel
+import com.zwstudio.lolly.data.applyIO
+import com.zwstudio.lolly.data.extractTextFrom
 import com.zwstudio.lolly.domain.MUnitWord
 import com.zwstudio.lolly.domain.ReviewMode
 import com.zwstudio.lolly.service.HtmlService

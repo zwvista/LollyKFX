@@ -1,30 +1,35 @@
-package com.zwstudio.lolly.data
+package com.zwstudio.lolly.data.phrases
 
+import com.zwstudio.lolly.data.BaseViewModel
+import com.zwstudio.lolly.data.applyIO
 import com.zwstudio.lolly.domain.MUnitPhrase
-import com.zwstudio.lolly.service.LangPhraseService
 import com.zwstudio.lolly.service.UnitPhraseService
 import io.reactivex.rxjava3.core.Observable
 import io.reactivex.rxjava3.disposables.CompositeDisposable
+import tornadofx.asObservable
 
-class PhrasesUnitViewModel : BaseViewModel() {
+class PhrasesUnitViewModel(val inTextbook: Boolean) : BaseViewModel() {
 
-    var lstPhrases = listOf<MUnitPhrase>()
-    var isSwipeStarted = false
-
+    var lstPhrases = mutableListOf<MUnitPhrase>().asObservable()
     val compositeDisposable = CompositeDisposable()
-
     val unitPhraseService: UnitPhraseService by inject()
-    val langPhraseService: LangPhraseService by inject()
+
+    fun reload() {
+        if (inTextbook)
+            getDataInTextbook().subscribe()
+        else
+            getDataInLang().subscribe()
+    }
 
     fun getDataInTextbook(): Observable<Unit> =
         unitPhraseService.getDataByTextbookUnitPart(vmSettings.selectedTextbook,
                 vmSettings.usunitpartfrom, vmSettings.usunitpartto)
-            .map { lstPhrases = it }
+            .map { lstPhrases.clear(); lstPhrases.addAll(it); Unit }
             .applyIO()
 
     fun getDataInLang(): Observable<Unit> =
         unitPhraseService.getDataByLang(vmSettings.selectedLang.id, vmSettings.lstTextbooks)
-            .map { lstPhrases = it }
+            .map { lstPhrases.clear(); lstPhrases.addAll(it); Unit }
             .applyIO()
 
     fun updateSeqNum(id: Int, seqnum: Int): Observable<Unit> =

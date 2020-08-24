@@ -1,23 +1,26 @@
-package com.zwstudio.lolly.data
+package com.zwstudio.lolly.data.words
 
+import com.zwstudio.lolly.data.BaseViewModel
+import com.zwstudio.lolly.data.NoteViewModel
+import com.zwstudio.lolly.data.applyIO
 import com.zwstudio.lolly.domain.MLangWord
 import com.zwstudio.lolly.service.LangWordService
-import com.zwstudio.lolly.service.WordFamiService
 import io.reactivex.rxjava3.core.Observable
+import tornadofx.asObservable
 
 class WordsLangViewModel : BaseViewModel() {
 
-    var lstWords = mutableListOf<MLangWord>()
-    var isSwipeStarted = false
-
+    var lstWords = mutableListOf<MLangWord>().asObservable()
     val vmNote: NoteViewModel by inject()
-
     val langWordService: LangWordService by inject()
-    val wordFamiService: WordFamiService by inject()
+
+    fun reload() {
+        getData().subscribe()
+    }
 
     fun getData(): Observable<Unit> =
         langWordService.getDataByLang(vmSettings.selectedLang.id, vmSettings.lstTextbooks)
-            .map { lstWords = it.toMutableList() }
+            .map { lstWords.clear(); lstWords.addAll(it); Unit }
             .applyIO()
 
     fun update(id: Int, langid: Int, word: String, level: Int, note: String?): Observable<Unit> =

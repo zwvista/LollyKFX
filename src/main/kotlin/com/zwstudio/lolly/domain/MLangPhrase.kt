@@ -25,6 +25,9 @@ class MLangPhrase(): Serializable {
     @SerializedName("TRANSLATION")
     @Expose
     var translation: String? = null
+    var translationNotNull: String
+        get() = translation ?: ""
+        set(value) { translation = if (value.isEmpty()) null else value }
 
     constructor(phraseid: Int, langid: Int, phrase: String, translation: String?) : this() {
         this.id = phraseid

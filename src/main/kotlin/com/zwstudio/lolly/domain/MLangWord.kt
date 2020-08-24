@@ -27,6 +27,9 @@ class MLangWord: Serializable {
     @SerializedName("NOTE")
     @Expose
     var note: String? = null
+    var noteNotNull: String
+        get() = note ?: ""
+        set(value) { note = if (value.isEmpty()) null else value }
     @SerializedName("FAMIID")
     @Expose
     var famiid = 0
