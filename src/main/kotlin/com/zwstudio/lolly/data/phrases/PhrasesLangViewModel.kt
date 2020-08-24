@@ -16,7 +16,7 @@ class PhrasesLangViewModel : BaseViewModel() {
         getData().subscribe()
     }
 
-    fun getData(): Observable<Unit> =
+    private fun getData(): Observable<Unit> =
         langPhraseService.getDataByLang(vmSettings.selectedLang.id, vmSettings.lstTextbooks)
             .map { lstPhrases.clear(); lstPhrases.addAll(it); Unit }
             .applyIO()

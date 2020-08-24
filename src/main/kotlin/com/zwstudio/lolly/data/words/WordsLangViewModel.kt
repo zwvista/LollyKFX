@@ -18,7 +18,7 @@ class WordsLangViewModel : BaseViewModel() {
         getData().subscribe()
     }
 
-    fun getData(): Observable<Unit> =
+    private fun getData(): Observable<Unit> =
         langWordService.getDataByLang(vmSettings.selectedLang.id, vmSettings.lstTextbooks)
             .map { lstWords.clear(); lstWords.addAll(it); Unit }
             .applyIO()

@@ -5,7 +5,7 @@ import com.zwstudio.lolly.view.misc.DictsScreen
 import com.zwstudio.lolly.view.misc.ReadNumberScreen
 import com.zwstudio.lolly.view.misc.TextbooksScreen
 import com.zwstudio.lolly.view.patterns.PatternsScreen
-import com.zwstudio.lolly.view.phrases.PhasesLangScreen
+import com.zwstudio.lolly.view.phrases.PhrasesLangScreen
 import com.zwstudio.lolly.view.phrases.PhrasesReviewScreen
 import com.zwstudio.lolly.view.phrases.PhrasesTextbookScreen
 import com.zwstudio.lolly.view.phrases.PhrasesUnitScreen
@@ -50,7 +50,7 @@ class MainView : View("Lolly TornadoFX") {
                     AddTab<WordsLangScreen>()
                 }
                 item("Phrases in Language").action {
-                    AddTab<PhasesLangScreen>()
+                    AddTab<PhrasesLangScreen>()
                 }
                 separator()
                 item("Patterns in Language").action {

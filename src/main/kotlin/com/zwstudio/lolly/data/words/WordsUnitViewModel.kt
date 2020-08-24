@@ -23,13 +23,13 @@ class WordsUnitViewModel(val inTextbook: Boolean) : BaseViewModel() {
             getDataInLang().subscribe()
     }
 
-    fun getDataInTextbook(): Observable<Unit> =
+    private fun getDataInTextbook(): Observable<Unit> =
         unitWordService.getDataByTextbookUnitPart(vmSettings.selectedTextbook,
             vmSettings.usunitpartfrom, vmSettings.usunitpartto)
             .map { lstWords.clear(); lstWords.addAll(it); Unit }
             .applyIO()
 
-    fun getDataInLang(): Observable<Unit> =
+    private fun getDataInLang(): Observable<Unit> =
         unitWordService.getDataByLang(vmSettings.selectedLang.id, vmSettings.lstTextbooks)
             .map { lstWords.clear(); lstWords.addAll(it); Unit }
             .applyIO()
