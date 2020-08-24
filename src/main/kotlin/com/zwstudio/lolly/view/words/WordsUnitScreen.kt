@@ -7,15 +7,17 @@ import javafx.scene.layout.Priority
 import tornadofx.*
 
 class WordsUnitScreen : WordsBaseScreen("Words in Unit") {
-    var vm: WordsUnitViewModel = WordsUnitViewModel()
-    override val vmSettings = vm.vmSettings
+    var vm = WordsUnitViewModel(true)
+    override val vmSettings get() = vm.vmSettings
 
     override val root = vbox {
         tag = this@WordsUnitScreen
         toolbarDicts = toolbar()
         toolbar {
             button("Add")
-            button("Refresh")
+            button("Refresh").action {
+                vm.reload()
+            }
             button("Batch")
             button("Toggle")
             button("Previous")
@@ -64,7 +66,11 @@ class WordsUnitScreen : WordsBaseScreen("Words in Unit") {
     }
 
     init {
-        vm.getDataInTextbook().subscribe()
         onSettingsChanged()
+    }
+
+    override fun onSettingsChanged() {
+        vm.reload()
+        super.onSettingsChanged()
     }
 }

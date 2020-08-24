@@ -6,15 +6,19 @@ import io.reactivex.rxjava3.core.Observable
 import io.reactivex.rxjava3.disposables.CompositeDisposable
 import tornadofx.asObservable
 
-class WordsUnitViewModel : BaseViewModel() {
+class WordsUnitViewModel(val inTextbook: Boolean) : BaseViewModel() {
 
     var lstWords = mutableListOf<MUnitWord>().asObservable()
-    var isSwipeStarted = false
-
     val vmNote: NoteViewModel by inject()
     val compositeDisposable = CompositeDisposable()
-
     val unitWordService: UnitWordService by inject()
+
+    fun reload() {
+        if (inTextbook)
+            getDataInTextbook().subscribe()
+        else
+            getDataInLang().subscribe()
+    }
 
     fun getDataInTextbook(): Observable<Unit> =
         unitWordService.getDataByTextbookUnitPart(vmSettings.selectedTextbook,
