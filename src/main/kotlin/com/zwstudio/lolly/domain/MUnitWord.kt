@@ -42,7 +42,7 @@ class MUnitWord: Serializable {
     var word: String get() = wordProperty.value; set(value) { wordProperty.value = value }
     @SerializedName("NOTE")
     @Expose
-    var noteProperty = SimpleStringProperty()
+    val noteProperty = SimpleStringProperty()
     var note: String get() = noteProperty.value; set(value) { noteProperty.value = value }
     @SerializedName("WORDID")
     @Expose
@@ -74,5 +74,10 @@ class MUnitWord: Serializable {
 }
 
 class UnitWordViewModel(item: MUnitWord) : ItemViewModel<MUnitWord>(item) {
+    val id = bind(MUnitWord::id)
+    val unit = bind(MUnitWord::unit)
     val word = bind(MUnitWord::wordProperty)
+    val note = bind(MUnitWord::noteProperty)
+//    val famiid = bind(MUnitWord::famiid)
+//    val level = bind(MUnitWord::level)
 }

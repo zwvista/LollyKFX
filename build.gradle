@@ -33,6 +33,7 @@ repositories {
 
 dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
+    implementation "org.jetbrains.kotlin:kotlin-reflect:$kotlin_version"
     implementation "no.tornado:tornadofx:$tornadofx_version"
     implementation 'javax.persistence:persistence-api:1.0.2'
     implementation 'io.reactivex.rxjava3:rxandroid:3.0.0'
