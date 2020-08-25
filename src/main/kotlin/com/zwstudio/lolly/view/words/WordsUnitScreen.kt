@@ -54,12 +54,7 @@ class WordsUnitScreen : WordsBaseScreen("Words in Unit") {
                     }
                 }
                 onSelectionChange {
-                    if (it == null) return@onSelectionChange
-                    val word = it.word
-                    dictsPane.tabs.forEach {
-                        val f = it.content.tag as WordsDictScreen
-                        f.searchWord(word)
-                    }
+                    onWordChanged(it?.word)
                 }
                 // https://stackoverflow.com/questions/28603224/sort-tableview-with-drag-and-drop-rows
                 setRowFactory { tv ->

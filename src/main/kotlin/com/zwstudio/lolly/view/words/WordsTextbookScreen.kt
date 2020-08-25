@@ -42,12 +42,7 @@ class WordsTextbookScreen : WordsBaseScreen("Words in Textbook") {
                     }
                 }
                 onSelectionChange {
-                    if (it == null) return@onSelectionChange
-                    val word = it.word
-                    dictsPane.tabs.forEach {
-                        val f = it.content.tag as WordsDictScreen
-                        f.searchWord(word)
-                    }
+                    onWordChanged(it?.word)
                 }
             }
             splitpane(Orientation.VERTICAL) {
