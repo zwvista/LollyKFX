@@ -33,8 +33,6 @@ class WordsLangScreen : WordsBaseScreen("Words in Language") {
                     if (title == "WORD") {
                         // https://stackoverflow.com/questions/29512142/how-do-i-restore-a-previous-value-in-javafx-tablecolumns-oneditcommit
                         rowValue.word = "ddddddddddd"
-                        tableColumn.isVisible = false
-                        tableColumn.isVisible = true
                     }
                 }
                 onSelectionChange {

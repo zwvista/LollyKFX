@@ -6,6 +6,7 @@ import io.reactivex.rxjava3.disposables.CompositeDisposable
 import io.reactivex.rxjava3.subjects.ReplaySubject
 import javafx.scene.input.DataFormat
 import javafx.stage.Stage
+import org.hildan.fxgson.FxGson
 import retrofit2.Retrofit
 import retrofit2.adapter.rxjava3.RxJava3CallAdapterFactory
 import retrofit2.converter.gson.GsonConverterFactory
@@ -29,7 +30,7 @@ class LollyApp: App(MainView::class, Styles::class) {
         super.init()
         retrofitJson = Retrofit.Builder().baseUrl("https://zwvista.tk/lolly/api.php/records/")
             .addCallAdapterFactory(RxJava3CallAdapterFactory.create())
-            .addConverterFactory(GsonConverterFactory.create())
+            .addConverterFactory(GsonConverterFactory.create(FxGson.create()))
             .build()
         retrofitSP = Retrofit.Builder().baseUrl("https://zwvista.tk/lolly/sp.php/")
             .addCallAdapterFactory(RxJava3CallAdapterFactory.create())

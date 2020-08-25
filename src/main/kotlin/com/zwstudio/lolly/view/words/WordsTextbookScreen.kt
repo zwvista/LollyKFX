@@ -26,7 +26,7 @@ class WordsTextbookScreen : WordsBaseScreen("Words in Textbook") {
                 readonlyColumn("PART", MUnitWord::partstr)
                 readonlyColumn("SEQNUM", MUnitWord::seqnum)
                 column("WORD", MUnitWord::word).makeEditable()
-                column("NOTE", MUnitWord::noteNotNull).makeEditable()
+                column("NOTE", MUnitWord::note).makeEditable()
                 readonlyColumn("LEVEL", MUnitWord::level)
                 readonlyColumn("ACCURACY", MUnitWord::accuracy)
                 readonlyColumn("WORDID", MUnitWord::wordid)
@@ -37,8 +37,6 @@ class WordsTextbookScreen : WordsBaseScreen("Words in Textbook") {
                     if (title == "WORD") {
                         // https://stackoverflow.com/questions/29512142/how-do-i-restore-a-previous-value-in-javafx-tablecolumns-oneditcommit
                         rowValue.word = "ddddddddddd"
-                        tableColumn.isVisible = false
-                        tableColumn.isVisible = true
                     }
                 }
                 onSelectionChange {

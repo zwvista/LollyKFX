@@ -3,6 +3,7 @@ package com.zwstudio.lolly.view.words
 import com.zwstudio.lolly.app.LollyApp
 import com.zwstudio.lolly.data.words.WordsUnitViewModel
 import com.zwstudio.lolly.domain.MUnitWord
+import com.zwstudio.lolly.domain.UnitWordViewModel
 import javafx.geometry.Orientation
 import javafx.scene.control.TableRow
 import javafx.scene.input.ClipboardContent
@@ -38,7 +39,7 @@ class WordsUnitScreen : WordsBaseScreen("Words in Unit") {
                 readonlyColumn("PART", MUnitWord::partstr)
                 readonlyColumn("SEQNUM", MUnitWord::seqnum)
                 column("WORD", MUnitWord::word).makeEditable()
-                column("NOTE", MUnitWord::noteNotNull).makeEditable()
+                column("NOTE", MUnitWord::note).makeEditable()
                 readonlyColumn("LEVEL", MUnitWord::level)
                 readonlyColumn("ACCURACY", MUnitWord::accuracy)
                 readonlyColumn("WORDID", MUnitWord::wordid)
@@ -48,13 +49,14 @@ class WordsUnitScreen : WordsBaseScreen("Words in Unit") {
                     val title = this.tableColumn.text
                     if (title == "WORD") {
                         // https://stackoverflow.com/questions/29512142/how-do-i-restore-a-previous-value-in-javafx-tablecolumns-oneditcommit
-                        rowValue.word = "ddddddddddd"
-                        tableColumn.isVisible = false
-                        tableColumn.isVisible = true
                     }
                 }
                 onSelectionChange {
                     onWordChanged(it?.word)
+                }
+                onDoubleClick {
+                    // https://github.com/edvin/tornadofx/issues/226
+                    find<WordsUnitDetailView>("model" to UnitWordViewModel(selectionModel.selectedItem)) { openModal() }
                 }
                 // https://stackoverflow.com/questions/28603224/sort-tableview-with-drag-and-drop-rows
                 setRowFactory { tv ->

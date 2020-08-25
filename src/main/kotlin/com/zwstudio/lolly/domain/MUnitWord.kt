@@ -2,6 +2,8 @@ package com.zwstudio.lolly.domain
 
 import com.google.gson.annotations.Expose
 import com.google.gson.annotations.SerializedName
+import javafx.beans.property.SimpleStringProperty
+import tornadofx.ItemViewModel
 import java.io.Serializable
 
 class MUnitWords {
@@ -36,13 +38,12 @@ class MUnitWord: Serializable {
     var seqnum = 0
     @SerializedName("WORD")
     @Expose
-    var word = ""
+    val wordProperty = SimpleStringProperty()
+    var word: String get() = wordProperty.value; set(value) { wordProperty.value = value }
     @SerializedName("NOTE")
     @Expose
-    var note: String? = null
-    var noteNotNull: String
-        get() = note ?: ""
-        set(value) { note = if (value.isEmpty()) null else value }
+    var noteProperty = SimpleStringProperty()
+    var note: String get() = noteProperty.value; set(value) { noteProperty.value = value }
     @SerializedName("WORDID")
     @Expose
     var wordid = 0
@@ -70,4 +71,8 @@ class MUnitWord: Serializable {
         get() = word + (if (note.isNullOrEmpty()) "" else "($note)")
     val accuracy: String
         get() = if (total == 0) "N/A" else "${Math.floor(correct.toDouble() / total.toDouble() * 1000) / 10}%"
+}
+
+class UnitWordViewModel(item: MUnitWord) : ItemViewModel<MUnitWord>(item) {
+    val word = bind(MUnitWord::wordProperty)
 }
