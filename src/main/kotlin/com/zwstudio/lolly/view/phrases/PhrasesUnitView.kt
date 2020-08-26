@@ -5,7 +5,6 @@ import com.zwstudio.lolly.data.phrases.PhrasesUnitViewModel
 import com.zwstudio.lolly.domain.wpp.MUnitPhrase
 import com.zwstudio.lolly.domain.wpp.UnitPhraseViewModel
 import javafx.geometry.Orientation
-import javafx.scene.control.ButtonBar
 import javafx.scene.control.TableRow
 import javafx.scene.input.ClipboardContent
 import javafx.scene.input.TransferMode
@@ -40,12 +39,8 @@ class PhrasesUnitView : PhrasesBaseView("Phrases in Unit") {
                 readonlyColumn("ID", MUnitPhrase::id)
                 onEditCommit {
                     val title = this.tableColumn.text
-                    if (title == "Phrase") {
-                        // https://stackoverflow.com/questions/29512142/how-do-i-restore-a-previous-value-in-javafx-tablecolumns-oneditcommit
-                        rowValue.phrase = "ddddddddddd"
-                        tableColumn.isVisible = false
-                        tableColumn.isVisible = true
-                    }
+                    if (title == "Phrase")
+                        rowValue.phrase = vmSettings.autoCorrectInput(rowValue.phrase)
                 }
                 onSelectionChange {
                     if (it == null) return@onSelectionChange

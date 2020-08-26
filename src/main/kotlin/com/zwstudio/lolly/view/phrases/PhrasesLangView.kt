@@ -4,7 +4,6 @@ import com.zwstudio.lolly.data.phrases.PhrasesLangViewModel
 import com.zwstudio.lolly.domain.wpp.LangPhraseViewModel
 import com.zwstudio.lolly.domain.wpp.MLangPhrase
 import javafx.geometry.Orientation
-import javafx.scene.control.ButtonBar
 import javafx.scene.layout.Priority
 import tornadofx.*
 
@@ -28,12 +27,8 @@ class PhrasesLangView : PhrasesBaseView("Phrases in Language") {
                 column("TRANSLATION", MLangPhrase::translationProperty).makeEditable()
                 onEditCommit {
                     val title = this.tableColumn.text
-                    if (title == "Phrase") {
-                        // https://stackoverflow.com/questions/29512142/how-do-i-restore-a-previous-value-in-javafx-tablecolumns-oneditcommit
-                        rowValue.phrase = "ddddddddddd"
-                        tableColumn.isVisible = false
-                        tableColumn.isVisible = true
-                    }
+                    if (title == "Phrase")
+                        rowValue.phrase = vmSettings.autoCorrectInput(rowValue.phrase)
                 }
                 onSelectionChange {
                     if (it == null) return@onSelectionChange

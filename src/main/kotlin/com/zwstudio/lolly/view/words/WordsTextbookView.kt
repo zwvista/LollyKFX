@@ -4,7 +4,6 @@ import com.zwstudio.lolly.data.words.WordsUnitViewModel
 import com.zwstudio.lolly.domain.wpp.MUnitWord
 import com.zwstudio.lolly.domain.wpp.UnitWordViewModel
 import javafx.geometry.Orientation
-import javafx.scene.control.ButtonBar
 import javafx.scene.layout.Priority
 import tornadofx.*
 
@@ -36,10 +35,8 @@ class WordsTextbookView : WordsBaseView("Words in Textbook") {
                 readonlyColumn("FAMIID", MUnitWord::famiid)
                 onEditCommit {
                     val title = this.tableColumn.text
-                    if (title == "WORD") {
-                        // https://stackoverflow.com/questions/29512142/how-do-i-restore-a-previous-value-in-javafx-tablecolumns-oneditcommit
-                        rowValue.word = "ddddddddddd"
-                    }
+                    if (title == "WORD")
+                        rowValue.word = vmSettings.autoCorrectInput(rowValue.word)
                 }
                 onSelectionChange {
                     onWordChanged(it?.word)

@@ -47,9 +47,8 @@ class WordsUnitView : WordsBaseView("Words in Unit") {
                 readonlyColumn("FAMIID", MUnitWord::famiid)
                 onEditCommit {
                     val title = this.tableColumn.text
-                    if (title == "WORD") {
-                        // https://stackoverflow.com/questions/29512142/how-do-i-restore-a-previous-value-in-javafx-tablecolumns-oneditcommit
-                    }
+                    if (title == "WORD")
+                        rowValue.word = vmSettings.autoCorrectInput(rowValue.word)
                 }
                 onSelectionChange {
                     onWordChanged(it?.word)
