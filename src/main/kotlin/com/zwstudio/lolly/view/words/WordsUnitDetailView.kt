@@ -14,7 +14,19 @@ class WordsUnitDetailView : View("Words in Unit Detail") {
                 }
             }
             field("UNIT") {
-                choicebox(model.unit) {
+                combobox(values = model.item.textbook.lstUnits) {
+                    selectionModel.select(model.item.textbook.lstUnits.first { it.value == model.item.unit })
+                    setOnAction {
+                        model.item.unit = selectionModel.selectedItem.value
+                    }
+                }
+            }
+            field("PART") {
+                combobox(values = model.item.textbook.lstParts) {
+                    selectionModel.select(model.item.textbook.lstParts.first { it.value == model.item.part })
+                    setOnAction {
+                        model.item.part = selectionModel.selectedItem.value
+                    }
                 }
             }
             field("WORD") {

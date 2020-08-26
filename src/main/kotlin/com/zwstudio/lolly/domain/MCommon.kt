@@ -4,7 +4,9 @@ import com.google.gson.annotations.Expose
 import com.google.gson.annotations.SerializedName
 import java.io.Serializable
 
-class MSelectItem(val value: Int, val label: String): Serializable
+class MSelectItem(val value: Int, val label: String): Serializable {
+    override fun toString() = label
+}
 
 enum class ReviewMode {
     ReviewAuto, Test, ReviewManual;
