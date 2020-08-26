@@ -6,6 +6,7 @@ import tornadofx.*
 
 class PhrasesTextbookDetailView : Fragment("Phrases in Textbook Detail") {
     val model : UnitPhraseViewModel by param()
+    var result = ButtonBar.ButtonData.CANCEL_CLOSE
 
     override val root = form {
         fieldset {
@@ -44,6 +45,7 @@ class PhrasesTextbookDetailView : Fragment("Phrases in Textbook Detail") {
             button("OK", ButtonBar.ButtonData.OK_DONE) {
                 isDefaultButton = true
                 action {
+                    result = ButtonBar.ButtonData.OK_DONE
                     model.commit()
                     close()
                 }

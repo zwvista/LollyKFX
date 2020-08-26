@@ -28,7 +28,7 @@ class MLangPhrase(): Serializable {
     @SerializedName("TRANSLATION")
     @Expose
     val translationProperty = SimpleStringProperty()
-    var translation: String get() = translationProperty.value; set(value) { translationProperty.value = value }
+    var translation: String? get() = translationProperty.value; set(value) { translationProperty.value = value }
 }
 
 class LangPhraseViewModel(item: MLangPhrase) : ItemViewModel<MLangPhrase>(item) {

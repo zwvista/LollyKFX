@@ -4,6 +4,7 @@ import com.zwstudio.lolly.data.words.WordsLangViewModel
 import com.zwstudio.lolly.domain.wpp.LangWordViewModel
 import com.zwstudio.lolly.domain.wpp.MLangWord
 import javafx.geometry.Orientation
+import javafx.scene.control.ButtonBar
 import javafx.scene.layout.Priority
 import tornadofx.*
 
@@ -24,8 +25,8 @@ class WordsLangView : WordsBaseView("Words in Language") {
             vgrow = Priority.ALWAYS
             tableview(vm.lstWords) {
                 readonlyColumn("ID", MLangWord::id)
-                column("WORD", MLangWord::word).makeEditable()
-                column("NOTE", MLangWord::note).makeEditable()
+                column("WORD", MLangWord::wordProperty).makeEditable()
+                column("NOTE", MLangWord::noteProperty).makeEditable()
                 readonlyColumn("LEVEL", MLangWord::level)
                 readonlyColumn("ACCURACY", MLangWord::accuracy)
                 readonlyColumn("FAMIID", MLangWord::famiid)
@@ -41,7 +42,9 @@ class WordsLangView : WordsBaseView("Words in Language") {
                 }
                 onDoubleClick {
                     // https://github.com/edvin/tornadofx/issues/226
-                    find<WordsLangDetailView>("model" to LangWordViewModel(selectionModel.selectedItem)) { openModal() }
+                    val modal = find<WordsLangDetailView>("model" to LangWordViewModel(selectionModel.selectedItem)) { openModal(block = true) }
+                    if (modal.result == ButtonBar.ButtonData.OK_DONE)
+                        this.refresh()
                 }
             }
             splitpane(Orientation.VERTICAL) {

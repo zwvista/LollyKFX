@@ -4,6 +4,7 @@ import com.zwstudio.lolly.data.phrases.PhrasesLangViewModel
 import com.zwstudio.lolly.domain.wpp.LangPhraseViewModel
 import com.zwstudio.lolly.domain.wpp.MLangPhrase
 import javafx.geometry.Orientation
+import javafx.scene.control.ButtonBar
 import javafx.scene.layout.Priority
 import tornadofx.*
 
@@ -23,8 +24,8 @@ class PhrasesLangView : PhrasesBaseView("Phrases in Language") {
             vgrow = Priority.ALWAYS
             tableview(vm.lstPhrases) {
                 readonlyColumn("ID", MLangPhrase::id)
-                column("PHRASE", MLangPhrase::phrase).makeEditable()
-                column("TRANSLATION", MLangPhrase::translation).makeEditable()
+                column("PHRASE", MLangPhrase::phraseProperty).makeEditable()
+                column("TRANSLATION", MLangPhrase::translationProperty).makeEditable()
                 onEditCommit {
                     val title = this.tableColumn.text
                     if (title == "Phrase") {
@@ -39,7 +40,9 @@ class PhrasesLangView : PhrasesBaseView("Phrases in Language") {
                 }
                 onDoubleClick {
                     // https://github.com/edvin/tornadofx/issues/226
-                    find<PhrasesLangDetailView>("model" to LangPhraseViewModel(selectionModel.selectedItem)) { openModal() }
+                    val modal = find<PhrasesLangDetailView>("model" to LangPhraseViewModel(selectionModel.selectedItem)) { openModal(block = true) }
+                    if (modal.result == ButtonBar.ButtonData.OK_DONE)
+                        this.refresh()
                 }
             }
         }

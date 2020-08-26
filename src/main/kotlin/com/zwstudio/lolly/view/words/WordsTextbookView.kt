@@ -4,6 +4,7 @@ import com.zwstudio.lolly.data.words.WordsUnitViewModel
 import com.zwstudio.lolly.domain.wpp.MUnitWord
 import com.zwstudio.lolly.domain.wpp.UnitWordViewModel
 import javafx.geometry.Orientation
+import javafx.scene.control.ButtonBar
 import javafx.scene.layout.Priority
 import tornadofx.*
 
@@ -26,8 +27,8 @@ class WordsTextbookView : WordsBaseView("Words in Textbook") {
                 readonlyColumn("UNIT", MUnitWord::unitstr)
                 readonlyColumn("PART", MUnitWord::partstr)
                 readonlyColumn("SEQNUM", MUnitWord::seqnum)
-                column("WORD", MUnitWord::word).makeEditable()
-                column("NOTE", MUnitWord::note).makeEditable()
+                column("WORD", MUnitWord::wordProperty).makeEditable()
+                column("NOTE", MUnitWord::noteProperty).makeEditable()
                 readonlyColumn("LEVEL", MUnitWord::level)
                 readonlyColumn("ACCURACY", MUnitWord::accuracy)
                 readonlyColumn("WORDID", MUnitWord::wordid)
@@ -45,7 +46,9 @@ class WordsTextbookView : WordsBaseView("Words in Textbook") {
                 }
                 onDoubleClick {
                     // https://github.com/edvin/tornadofx/issues/226
-                    find<WordsUnitDetailView>("model" to UnitWordViewModel(selectionModel.selectedItem)) { openModal() }
+                    val modal = find<WordsUnitDetailView>("model" to UnitWordViewModel(selectionModel.selectedItem)) { openModal(block = true) }
+                    if (modal.result == ButtonBar.ButtonData.OK_DONE)
+                        this.refresh()
                 }
             }
             splitpane(Orientation.VERTICAL) {

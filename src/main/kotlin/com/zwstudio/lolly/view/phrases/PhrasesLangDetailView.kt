@@ -6,6 +6,7 @@ import tornadofx.*
 
 class PhrasesLangDetailView : Fragment("Phrases in Language Detail") {
     val model : LangPhraseViewModel by param()
+    var result = ButtonBar.ButtonData.CANCEL_CLOSE
 
     override val root = form {
         fieldset {
@@ -25,6 +26,7 @@ class PhrasesLangDetailView : Fragment("Phrases in Language Detail") {
             button("OK", ButtonBar.ButtonData.OK_DONE) {
                 isDefaultButton = true
                 action {
+                    result = ButtonBar.ButtonData.OK_DONE
                     model.commit()
                     close()
                 }

@@ -30,7 +30,7 @@ class MLangWord: Serializable {
     @SerializedName("NOTE")
     @Expose
     val noteProperty = SimpleStringProperty()
-    var note: String get() = noteProperty.value; set(value) { noteProperty.value = value }
+    var note: String? get() = noteProperty.value; set(value) { noteProperty.value = value }
     @SerializedName("FAMIID")
     @Expose
     var famiid = 0

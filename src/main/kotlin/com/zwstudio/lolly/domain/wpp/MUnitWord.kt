@@ -46,7 +46,7 @@ class MUnitWord: Serializable {
     @SerializedName("NOTE")
     @Expose
     val noteProperty = SimpleStringProperty()
-    var note: String get() = noteProperty.value; set(value) { noteProperty.value = value }
+    var note: String? get() = noteProperty.value; set(value) { noteProperty.value = value }
     @SerializedName("WORDID")
     @Expose
     var wordid = 0
@@ -96,5 +96,11 @@ class UnitWordViewModel(item: MUnitWord) : ItemViewModel<MUnitWord>(item) {
         item.partitem = item.textbook.lstParts.first { it.value == item.part }
         unititem = bind(MUnitWord::unititem)
         partitem = bind(MUnitWord::partitem)
+    }
+
+    override fun onCommit() {
+        super.onCommit()
+        item.unit = item.unititem!!.value
+        item.part = item.partitem!!.value
     }
 }

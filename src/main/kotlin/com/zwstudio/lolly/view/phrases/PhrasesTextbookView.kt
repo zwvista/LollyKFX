@@ -4,6 +4,7 @@ import com.zwstudio.lolly.data.phrases.PhrasesUnitViewModel
 import com.zwstudio.lolly.domain.wpp.MUnitPhrase
 import com.zwstudio.lolly.domain.wpp.UnitPhraseViewModel
 import javafx.geometry.Orientation
+import javafx.scene.control.ButtonBar
 import javafx.scene.layout.Priority
 import tornadofx.*
 
@@ -25,8 +26,8 @@ class PhrasesTextbookView : PhrasesBaseView("Phrases in Textbook") {
                 readonlyColumn("UNIT", MUnitPhrase::unitstr)
                 readonlyColumn("PART", MUnitPhrase::partstr)
                 readonlyColumn("SEQNUM", MUnitPhrase::seqnum)
-                column("PHRASE", MUnitPhrase::phrase).makeEditable()
-                column("TRANSLATION", MUnitPhrase::translation).makeEditable()
+                column("PHRASE", MUnitPhrase::phraseProperty).makeEditable()
+                column("TRANSLATION", MUnitPhrase::translationProperty).makeEditable()
                 readonlyColumn("PHRASEID", MUnitPhrase::phraseid)
                 readonlyColumn("ID", MUnitPhrase::id)
                 onEditCommit {
@@ -43,7 +44,9 @@ class PhrasesTextbookView : PhrasesBaseView("Phrases in Textbook") {
                 }
                 onDoubleClick {
                     // https://github.com/edvin/tornadofx/issues/226
-                    find<PhrasesUnitDetailView>("model" to UnitPhraseViewModel(selectionModel.selectedItem)) { openModal() }
+                    val modal = find<PhrasesUnitDetailView>("model" to UnitPhraseViewModel(selectionModel.selectedItem)) { openModal(block = true) }
+                    if (modal.result == ButtonBar.ButtonData.OK_DONE)
+                        this.refresh()
                 }
             }
         }

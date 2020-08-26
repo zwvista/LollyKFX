@@ -49,7 +49,7 @@ class MUnitPhrase: Serializable {
     @SerializedName("TRANSLATION")
     @Expose
     val translationProperty = SimpleStringProperty()
-    var translation: String get() = translationProperty.value; set(value) { translationProperty.value = value }
+    var translation: String? get() = translationProperty.value; set(value) { translationProperty.value = value }
 
     lateinit var textbook: MTextbook
     val unitstr: String
@@ -77,5 +77,11 @@ class UnitPhraseViewModel(item: MUnitPhrase) : ItemViewModel<MUnitPhrase>(item) 
         item.partitem = item.textbook.lstParts.first { it.value == item.part }
         unititem = bind(MUnitPhrase::unititem)
         partitem = bind(MUnitPhrase::partitem)
+    }
+
+    override fun onCommit() {
+        super.onCommit()
+        item.unit = item.unititem!!.value
+        item.part = item.partitem!!.value
     }
 }

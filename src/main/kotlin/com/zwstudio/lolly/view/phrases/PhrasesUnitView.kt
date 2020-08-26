@@ -5,6 +5,7 @@ import com.zwstudio.lolly.data.phrases.PhrasesUnitViewModel
 import com.zwstudio.lolly.domain.wpp.MUnitPhrase
 import com.zwstudio.lolly.domain.wpp.UnitPhraseViewModel
 import javafx.geometry.Orientation
+import javafx.scene.control.ButtonBar
 import javafx.scene.control.TableRow
 import javafx.scene.input.ClipboardContent
 import javafx.scene.input.TransferMode
@@ -33,8 +34,8 @@ class PhrasesUnitView : PhrasesBaseView("Phrases in Unit") {
                 readonlyColumn("UNIT", MUnitPhrase::unitstr)
                 readonlyColumn("PART", MUnitPhrase::partstr)
                 readonlyColumn("SEQNUM", MUnitPhrase::seqnum)
-                column("PHRASE", MUnitPhrase::phrase).makeEditable()
-                column("TRANSLATION", MUnitPhrase::translation).makeEditable()
+                column("PHRASE", MUnitPhrase::phraseProperty).makeEditable()
+                column("TRANSLATION", MUnitPhrase::translationProperty).makeEditable()
                 readonlyColumn("PHRASEID", MUnitPhrase::phraseid)
                 readonlyColumn("ID", MUnitPhrase::id)
                 onEditCommit {
@@ -51,7 +52,9 @@ class PhrasesUnitView : PhrasesBaseView("Phrases in Unit") {
                 }
                 onDoubleClick {
                     // https://github.com/edvin/tornadofx/issues/226
-                    find<PhrasesUnitDetailView>("model" to UnitPhraseViewModel(selectionModel.selectedItem)) { openModal() }
+                    val modal = find<PhrasesUnitDetailView>("model" to UnitPhraseViewModel(selectionModel.selectedItem)) { openModal(block = true) }
+                    if (modal.result == ButtonBar.ButtonData.OK_DONE)
+                        this.refresh()
                 }
                 // https://stackoverflow.com/questions/28603224/sort-tableview-with-drag-and-drop-rows
                 setRowFactory { tv ->
