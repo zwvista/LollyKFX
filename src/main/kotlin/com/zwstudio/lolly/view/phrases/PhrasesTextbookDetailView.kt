@@ -1,12 +1,11 @@
 package com.zwstudio.lolly.view.phrases
 
 import com.zwstudio.lolly.domain.wpp.UnitPhraseViewModel
-import javafx.scene.control.ButtonBar
 import tornadofx.*
 
 class PhrasesTextbookDetailView : Fragment("Phrases in Textbook Detail") {
     val model : UnitPhraseViewModel by param()
-    var result = ButtonBar.ButtonData.CANCEL_CLOSE
+    var result = false
 
     override val root = form {
         fieldset {
@@ -42,15 +41,15 @@ class PhrasesTextbookDetailView : Fragment("Phrases in Textbook Detail") {
             }
         }
         buttonbar {
-            button("OK", ButtonBar.ButtonData.OK_DONE) {
+            button("OK") {
                 isDefaultButton = true
                 action {
-                    result = ButtonBar.ButtonData.OK_DONE
+                    result = true
                     model.commit()
                     close()
                 }
             }
-            button("Cancel", ButtonBar.ButtonData.CANCEL_CLOSE) {
+            button("Cancel") {
                 isCancelButton = true
                 action {
                     close()

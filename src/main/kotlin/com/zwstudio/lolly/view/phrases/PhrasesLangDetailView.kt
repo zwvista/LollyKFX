@@ -1,12 +1,11 @@
 package com.zwstudio.lolly.view.phrases
 
 import com.zwstudio.lolly.domain.wpp.LangPhraseViewModel
-import javafx.scene.control.ButtonBar
 import tornadofx.*
 
 class PhrasesLangDetailView : Fragment("Phrases in Language Detail") {
     val model : LangPhraseViewModel by param()
-    var result = ButtonBar.ButtonData.CANCEL_CLOSE
+    var result = false
 
     override val root = form {
         fieldset {
@@ -23,15 +22,15 @@ class PhrasesLangDetailView : Fragment("Phrases in Language Detail") {
             }
         }
         buttonbar {
-            button("OK", ButtonBar.ButtonData.OK_DONE) {
+            button("OK") {
                 isDefaultButton = true
                 action {
-                    result = ButtonBar.ButtonData.OK_DONE
+                    result = true
                     model.commit()
                     close()
                 }
             }
-            button("Cancel", ButtonBar.ButtonData.CANCEL_CLOSE) {
+            button("Cancel") {
                 isCancelButton = true
                 action {
                     close()

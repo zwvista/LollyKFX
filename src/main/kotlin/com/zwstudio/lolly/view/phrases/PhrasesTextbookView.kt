@@ -45,7 +45,7 @@ class PhrasesTextbookView : PhrasesBaseView("Phrases in Textbook") {
                 onDoubleClick {
                     // https://github.com/edvin/tornadofx/issues/226
                     val modal = find<PhrasesUnitDetailView>("model" to UnitPhraseViewModel(selectionModel.selectedItem)) { openModal(block = true) }
-                    if (modal.result == ButtonBar.ButtonData.OK_DONE)
+                    if (modal.result)
                         this.refresh()
                 }
             }

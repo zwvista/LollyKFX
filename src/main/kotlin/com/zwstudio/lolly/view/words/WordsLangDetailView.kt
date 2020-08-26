@@ -6,7 +6,7 @@ import tornadofx.*
 
 class WordsLangDetailView : Fragment("Words in Language Detail") {
     val model : LangWordViewModel by param()
-    var result = ButtonBar.ButtonData.CANCEL_CLOSE
+    var result = false
 
     override val root = form {
         fieldset {
@@ -36,15 +36,15 @@ class WordsLangDetailView : Fragment("Words in Language Detail") {
             }
         }
         buttonbar {
-            button("OK", ButtonBar.ButtonData.OK_DONE) {
+            button("OK") {
                 isDefaultButton = true
                 action {
-                    result = ButtonBar.ButtonData.OK_DONE
+                    result = true
                     model.commit()
                     close()
                 }
             }
-            button("Cancel", ButtonBar.ButtonData.CANCEL_CLOSE) {
+            button("Cancel") {
                 isCancelButton = true
                 action {
                     close()

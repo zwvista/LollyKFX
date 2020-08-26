@@ -5,7 +5,6 @@ import com.zwstudio.lolly.data.words.WordsUnitViewModel
 import com.zwstudio.lolly.domain.wpp.MUnitWord
 import com.zwstudio.lolly.domain.wpp.UnitWordViewModel
 import javafx.geometry.Orientation
-import javafx.scene.control.ButtonBar
 import javafx.scene.control.TableRow
 import javafx.scene.input.ClipboardContent
 import javafx.scene.input.TransferMode
@@ -58,7 +57,7 @@ class WordsUnitView : WordsBaseView("Words in Unit") {
                 onDoubleClick {
                     // https://github.com/edvin/tornadofx/issues/226
                     val modal = find<WordsUnitDetailView>("model" to UnitWordViewModel(selectionModel.selectedItem)) { openModal(block = true) }
-                    if (modal.result == ButtonBar.ButtonData.OK_DONE)
+                    if (modal.result)
                         this.refresh()
                 }
                 // https://stackoverflow.com/questions/28603224/sort-tableview-with-drag-and-drop-rows

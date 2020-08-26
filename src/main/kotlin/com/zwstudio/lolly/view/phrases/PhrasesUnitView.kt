@@ -53,7 +53,7 @@ class PhrasesUnitView : PhrasesBaseView("Phrases in Unit") {
                 onDoubleClick {
                     // https://github.com/edvin/tornadofx/issues/226
                     val modal = find<PhrasesUnitDetailView>("model" to UnitPhraseViewModel(selectionModel.selectedItem)) { openModal(block = true) }
-                    if (modal.result == ButtonBar.ButtonData.OK_DONE)
+                    if (modal.result)
                         this.refresh()
                 }
                 // https://stackoverflow.com/questions/28603224/sort-tableview-with-drag-and-drop-rows

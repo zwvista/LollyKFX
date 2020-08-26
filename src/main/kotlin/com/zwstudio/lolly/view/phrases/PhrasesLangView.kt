@@ -41,7 +41,7 @@ class PhrasesLangView : PhrasesBaseView("Phrases in Language") {
                 onDoubleClick {
                     // https://github.com/edvin/tornadofx/issues/226
                     val modal = find<PhrasesLangDetailView>("model" to LangPhraseViewModel(selectionModel.selectedItem)) { openModal(block = true) }
-                    if (modal.result == ButtonBar.ButtonData.OK_DONE)
+                    if (modal.result)
                         this.refresh()
                 }
             }
