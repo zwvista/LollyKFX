@@ -1,7 +1,7 @@
 package com.zwstudio.lolly.service
 
 import com.zwstudio.lolly.domain.MTextbook
-import com.zwstudio.lolly.domain.MUnitPhrase
+import com.zwstudio.lolly.domain.wpp.MUnitPhrase
 import com.zwstudio.lolly.restapi.RestUnitPhrase
 import io.reactivex.rxjava3.core.Observable
 

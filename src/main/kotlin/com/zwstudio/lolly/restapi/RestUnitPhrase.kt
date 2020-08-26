@@ -1,7 +1,7 @@
 package com.zwstudio.lolly.restapi
 
 import com.zwstudio.lolly.domain.MSPResult
-import com.zwstudio.lolly.domain.MUnitPhrases
+import com.zwstudio.lolly.domain.wpp.MUnitPhrases
 import io.reactivex.rxjava3.core.Observable
 import retrofit2.http.*
 

@@ -1,29 +1,15 @@
 package com.zwstudio.lolly.view.words
 
-import com.zwstudio.lolly.domain.wpp.UnitWordViewModel
+import com.zwstudio.lolly.domain.wpp.LangWordViewModel
 import tornadofx.*
 
-class WordsUnitDetailView : View("Words in Unit Detail") {
-    val model : UnitWordViewModel by param()
+class WordsLangDetailView : View("Words in Unit Detail") {
+    val model : LangWordViewModel by param()
 
     override val root = form {
         fieldset {
             field("ID") {
                 textfield(model.id) {
-                    isEditable = false
-                }
-            }
-            field("UNIT") {
-                combobox(model.unititem, model.item.textbook.lstUnits)
-            }
-            field("PART") {
-                combobox(model.partitem, model.item.textbook.lstParts)
-            }
-            field("SEQNUM") {
-                textfield(model.seqnum)
-            }
-            field("WORDID") {
-                textfield(model.wordid) {
                     isEditable = false
                 }
             }

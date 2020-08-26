@@ -1,6 +1,6 @@
 package com.zwstudio.lolly.restapi
 
-import com.zwstudio.lolly.domain.MLangWords
+import com.zwstudio.lolly.domain.wpp.MLangWords
 import com.zwstudio.lolly.domain.MSPResult
 import io.reactivex.rxjava3.core.Observable
 import retrofit2.http.*

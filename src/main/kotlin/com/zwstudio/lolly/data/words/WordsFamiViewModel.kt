@@ -3,7 +3,7 @@ package com.zwstudio.lolly.data.words
 import com.zwstudio.lolly.data.GlobalConstants
 import com.zwstudio.lolly.data.GlobalConstants.userid
 import com.zwstudio.lolly.data.applyIO
-import com.zwstudio.lolly.domain.MWordFami
+import com.zwstudio.lolly.domain.wpp.MWordFami
 import com.zwstudio.lolly.service.WordFamiService
 import io.reactivex.rxjava3.core.Observable
 import tornadofx.Component

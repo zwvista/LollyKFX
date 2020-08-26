@@ -3,13 +3,18 @@ package com.zwstudio.lolly.view.words
 import com.zwstudio.lolly.domain.wpp.UnitWordViewModel
 import tornadofx.*
 
-class WordsUnitDetailView : View("Words in Unit Detail") {
+class WordsTextbookDetailView : View("Words in Unit Detail") {
     val model : UnitWordViewModel by param()
 
     override val root = form {
         fieldset {
             field("ID") {
                 textfield(model.id) {
+                    isEditable = false
+                }
+            }
+            field("TEXTBOOK") {
+                textfield(model.textbookname) {
                     isEditable = false
                 }
             }

@@ -2,8 +2,8 @@ package com.zwstudio.lolly.view.words
 
 import com.zwstudio.lolly.app.LollyApp
 import com.zwstudio.lolly.data.words.WordsUnitViewModel
-import com.zwstudio.lolly.domain.MUnitWord
-import com.zwstudio.lolly.domain.UnitWordViewModel
+import com.zwstudio.lolly.domain.wpp.MUnitWord
+import com.zwstudio.lolly.domain.wpp.UnitWordViewModel
 import javafx.geometry.Orientation
 import javafx.scene.control.TableRow
 import javafx.scene.input.ClipboardContent

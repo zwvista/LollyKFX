@@ -1,4 +1,4 @@
-package com.zwstudio.lolly.domain
+package com.zwstudio.lolly.domain.wpp
 
 import com.google.gson.annotations.Expose
 import com.google.gson.annotations.SerializedName

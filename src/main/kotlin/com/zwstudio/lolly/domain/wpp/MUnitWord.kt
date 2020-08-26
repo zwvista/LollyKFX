@@ -1,7 +1,10 @@
-package com.zwstudio.lolly.domain
+package com.zwstudio.lolly.domain.wpp
 
 import com.google.gson.annotations.Expose
 import com.google.gson.annotations.SerializedName
+import com.zwstudio.lolly.domain.MSelectItem
+import com.zwstudio.lolly.domain.MTextbook
+import javafx.beans.property.Property
 import javafx.beans.property.SimpleStringProperty
 import tornadofx.ItemViewModel
 import java.io.Serializable
@@ -63,8 +66,10 @@ class MUnitWord: Serializable {
     lateinit var textbook: MTextbook
     val unitstr: String
         get() = textbook.unitstr(unit)
+    var unititem: MSelectItem? = null
     val partstr: String
         get() = textbook.partstr(part)
+    var partitem: MSelectItem? = null
     val unitpartseqnum: String
         get() = "$unitstr $seqnum\n$partstr"
     val wordnote: String
@@ -75,9 +80,21 @@ class MUnitWord: Serializable {
 
 class UnitWordViewModel(item: MUnitWord) : ItemViewModel<MUnitWord>(item) {
     val id = bind(MUnitWord::id)
-    val unit = bind(MUnitWord::unit)
+    val textbookname = bind(MUnitWord::textbookname)
+    val unititem: Property<MSelectItem>
+    val partitem: Property<MSelectItem>
+    val seqnum = bind(MUnitWord::seqnum)
+    val wordid = bind(MUnitWord::wordid)
     val word = bind(MUnitWord::wordProperty)
     val note = bind(MUnitWord::noteProperty)
-//    val famiid = bind(MUnitWord::famiid)
-//    val level = bind(MUnitWord::level)
+    val famiid = bind(MUnitWord::famiid)
+    val level = bind(MUnitWord::level)
+    val accuracy = bind(MUnitWord::accuracy)
+
+    init {
+        item.unititem = item.textbook.lstUnits.first { it.value == item.unit }
+        item.partitem = item.textbook.lstParts.first { it.value == item.part }
+        unititem = bind(MUnitWord::unititem)
+        partitem = bind(MUnitWord::partitem)
+    }
 }

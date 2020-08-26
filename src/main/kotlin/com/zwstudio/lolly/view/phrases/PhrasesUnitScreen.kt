@@ -2,7 +2,8 @@ package com.zwstudio.lolly.view.phrases
 
 import com.zwstudio.lolly.app.LollyApp
 import com.zwstudio.lolly.data.phrases.PhrasesUnitViewModel
-import com.zwstudio.lolly.domain.MUnitPhrase
+import com.zwstudio.lolly.domain.wpp.MUnitPhrase
+import com.zwstudio.lolly.domain.wpp.UnitPhraseViewModel
 import javafx.geometry.Orientation
 import javafx.scene.control.TableRow
 import javafx.scene.input.ClipboardContent
@@ -33,7 +34,7 @@ class PhrasesUnitScreen : PhrasesBaseScreen("Phrases in Unit") {
                 readonlyColumn("PART", MUnitPhrase::partstr)
                 readonlyColumn("SEQNUM", MUnitPhrase::seqnum)
                 column("PHRASE", MUnitPhrase::phrase).makeEditable()
-                column("TRANSLATION", MUnitPhrase::translationNotNull).makeEditable()
+                column("TRANSLATION", MUnitPhrase::translation).makeEditable()
                 readonlyColumn("PHRASEID", MUnitPhrase::phraseid)
                 readonlyColumn("ID", MUnitPhrase::id)
                 onEditCommit {
@@ -47,6 +48,10 @@ class PhrasesUnitScreen : PhrasesBaseScreen("Phrases in Unit") {
                 }
                 onSelectionChange {
                     if (it == null) return@onSelectionChange
+                }
+                onDoubleClick {
+                    // https://github.com/edvin/tornadofx/issues/226
+                    find<PhrasesUnitDetailView>("model" to UnitPhraseViewModel(selectionModel.selectedItem)) { openModal() }
                 }
                 // https://stackoverflow.com/questions/28603224/sort-tableview-with-drag-and-drop-rows
                 setRowFactory { tv ->

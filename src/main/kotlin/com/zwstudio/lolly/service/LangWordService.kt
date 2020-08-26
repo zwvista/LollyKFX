@@ -1,10 +1,9 @@
 package com.zwstudio.lolly.service
 
-import com.zwstudio.lolly.domain.MLangWord
+import com.zwstudio.lolly.domain.wpp.MLangWord
 import com.zwstudio.lolly.domain.MTextbook
 import com.zwstudio.lolly.restapi.RestLangWord
 import io.reactivex.rxjava3.core.Observable
-import java.net.URLEncoder
 
 class LangWordService: BaseService() {
     fun getDataByLang(langid: Int, lstTextbooks: List<MTextbook>): Observable<List<MLangWord>> =

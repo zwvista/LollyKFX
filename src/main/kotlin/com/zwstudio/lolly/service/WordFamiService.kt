@@ -1,6 +1,6 @@
 package com.zwstudio.lolly.service
 
-import com.zwstudio.lolly.domain.MWordFami
+import com.zwstudio.lolly.domain.wpp.MWordFami
 import com.zwstudio.lolly.restapi.RestWordFami
 import io.reactivex.rxjava3.core.Observable
 

@@ -1,7 +1,8 @@
 package com.zwstudio.lolly.view.phrases
 
 import com.zwstudio.lolly.data.phrases.PhrasesLangViewModel
-import com.zwstudio.lolly.domain.MLangPhrase
+import com.zwstudio.lolly.domain.wpp.LangPhraseViewModel
+import com.zwstudio.lolly.domain.wpp.MLangPhrase
 import javafx.geometry.Orientation
 import javafx.scene.layout.Priority
 import tornadofx.*
@@ -23,7 +24,7 @@ class PhrasesLangScreen : PhrasesBaseScreen("Phrases in Language") {
             tableview(vm.lstPhrases) {
                 readonlyColumn("ID", MLangPhrase::id)
                 column("PHRASE", MLangPhrase::phrase).makeEditable()
-                column("TRANSLATION", MLangPhrase::translationNotNull).makeEditable()
+                column("TRANSLATION", MLangPhrase::translation).makeEditable()
                 onEditCommit {
                     val title = this.tableColumn.text
                     if (title == "Phrase") {
@@ -35,6 +36,10 @@ class PhrasesLangScreen : PhrasesBaseScreen("Phrases in Language") {
                 }
                 onSelectionChange {
                     if (it == null) return@onSelectionChange
+                }
+                onDoubleClick {
+                    // https://github.com/edvin/tornadofx/issues/226
+                    find<PhrasesLangDetailView>("model" to LangPhraseViewModel(selectionModel.selectedItem)) { openModal() }
                 }
             }
         }

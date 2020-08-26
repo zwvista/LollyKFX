@@ -1,7 +1,8 @@
 package com.zwstudio.lolly.view.phrases
 
 import com.zwstudio.lolly.data.phrases.PhrasesUnitViewModel
-import com.zwstudio.lolly.domain.MUnitPhrase
+import com.zwstudio.lolly.domain.wpp.MUnitPhrase
+import com.zwstudio.lolly.domain.wpp.UnitPhraseViewModel
 import javafx.geometry.Orientation
 import javafx.scene.layout.Priority
 import tornadofx.*
@@ -25,7 +26,7 @@ class PhrasesTextbookScreen : PhrasesBaseScreen("Phrases in Textbook") {
                 readonlyColumn("PART", MUnitPhrase::partstr)
                 readonlyColumn("SEQNUM", MUnitPhrase::seqnum)
                 column("PHRASE", MUnitPhrase::phrase).makeEditable()
-                column("TRANSLATION", MUnitPhrase::translationNotNull).makeEditable()
+                column("TRANSLATION", MUnitPhrase::translation).makeEditable()
                 readonlyColumn("PHRASEID", MUnitPhrase::phraseid)
                 readonlyColumn("ID", MUnitPhrase::id)
                 onEditCommit {
@@ -39,6 +40,10 @@ class PhrasesTextbookScreen : PhrasesBaseScreen("Phrases in Textbook") {
                 }
                 onSelectionChange {
                     if (it == null) return@onSelectionChange
+                }
+                onDoubleClick {
+                    // https://github.com/edvin/tornadofx/issues/226
+                    find<PhrasesUnitDetailView>("model" to UnitPhraseViewModel(selectionModel.selectedItem)) { openModal() }
                 }
             }
         }

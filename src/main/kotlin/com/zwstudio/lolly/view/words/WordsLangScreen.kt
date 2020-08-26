@@ -1,7 +1,8 @@
 package com.zwstudio.lolly.view.words
 
 import com.zwstudio.lolly.data.words.WordsLangViewModel
-import com.zwstudio.lolly.domain.MLangWord
+import com.zwstudio.lolly.domain.wpp.LangWordViewModel
+import com.zwstudio.lolly.domain.wpp.MLangWord
 import javafx.geometry.Orientation
 import javafx.scene.layout.Priority
 import tornadofx.*
@@ -24,7 +25,7 @@ class WordsLangScreen : WordsBaseScreen("Words in Language") {
             tableview(vm.lstWords) {
                 readonlyColumn("ID", MLangWord::id)
                 column("WORD", MLangWord::word).makeEditable()
-                column("NOTE", MLangWord::noteNotNull).makeEditable()
+                column("NOTE", MLangWord::note).makeEditable()
                 readonlyColumn("LEVEL", MLangWord::level)
                 readonlyColumn("ACCURACY", MLangWord::accuracy)
                 readonlyColumn("FAMIID", MLangWord::famiid)
@@ -37,6 +38,10 @@ class WordsLangScreen : WordsBaseScreen("Words in Language") {
                 }
                 onSelectionChange {
                     onWordChanged(it?.word)
+                }
+                onDoubleClick {
+                    // https://github.com/edvin/tornadofx/issues/226
+                    find<WordsLangDetailView>("model" to LangWordViewModel(selectionModel.selectedItem)) { openModal() }
                 }
             }
             splitpane(Orientation.VERTICAL) {

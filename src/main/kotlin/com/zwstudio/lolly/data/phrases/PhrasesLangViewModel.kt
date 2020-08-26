@@ -2,7 +2,7 @@ package com.zwstudio.lolly.data.phrases
 
 import com.zwstudio.lolly.data.BaseViewModel
 import com.zwstudio.lolly.data.applyIO
-import com.zwstudio.lolly.domain.MLangPhrase
+import com.zwstudio.lolly.domain.wpp.MLangPhrase
 import com.zwstudio.lolly.service.LangPhraseService
 import io.reactivex.rxjava3.core.Observable
 import tornadofx.asObservable

@@ -1,7 +1,8 @@
 package com.zwstudio.lolly.view.words
 
 import com.zwstudio.lolly.data.words.WordsUnitViewModel
-import com.zwstudio.lolly.domain.MUnitWord
+import com.zwstudio.lolly.domain.wpp.MUnitWord
+import com.zwstudio.lolly.domain.wpp.UnitWordViewModel
 import javafx.geometry.Orientation
 import javafx.scene.layout.Priority
 import tornadofx.*
@@ -41,6 +42,10 @@ class WordsTextbookScreen : WordsBaseScreen("Words in Textbook") {
                 }
                 onSelectionChange {
                     onWordChanged(it?.word)
+                }
+                onDoubleClick {
+                    // https://github.com/edvin/tornadofx/issues/226
+                    find<WordsUnitDetailView>("model" to UnitWordViewModel(selectionModel.selectedItem)) { openModal() }
                 }
             }
             splitpane(Orientation.VERTICAL) {

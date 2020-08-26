@@ -3,7 +3,7 @@ package com.zwstudio.lolly.data.words
 import com.zwstudio.lolly.data.BaseViewModel
 import com.zwstudio.lolly.data.NoteViewModel
 import com.zwstudio.lolly.data.applyIO
-import com.zwstudio.lolly.domain.MLangWord
+import com.zwstudio.lolly.domain.wpp.MLangWord
 import com.zwstudio.lolly.service.LangWordService
 import io.reactivex.rxjava3.core.Observable
 import tornadofx.asObservable
