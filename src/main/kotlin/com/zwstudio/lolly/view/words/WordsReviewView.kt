@@ -5,9 +5,9 @@ import tornadofx.button
 import tornadofx.tag
 import tornadofx.vbox
 
-class WordsSearchScreen : Fragment("Search") {
+class WordsReviewView : Fragment("Words Review") {
     override val root = vbox {
-        tag = this@WordsSearchScreen
+        tag = this@WordsReviewView
         button("Button 1")
         button("Button 2")
     }

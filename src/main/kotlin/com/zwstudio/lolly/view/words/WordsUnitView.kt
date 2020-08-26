@@ -12,12 +12,12 @@ import javafx.scene.layout.Priority
 import tornadofx.*
 
 
-class WordsUnitScreen : WordsBaseScreen("Words in Unit") {
+class WordsUnitView : WordsBaseView("Words in Unit") {
     var vm = WordsUnitViewModel(true)
     override val vmSettings get() = vm.vmSettings
 
     override val root = vbox {
-        tag = this@WordsUnitScreen
+        tag = this@WordsUnitView
         toolbarDicts = toolbar()
         toolbar {
             button("Add")
@@ -38,8 +38,8 @@ class WordsUnitScreen : WordsBaseScreen("Words in Unit") {
                 readonlyColumn("UNIT", MUnitWord::unitstr)
                 readonlyColumn("PART", MUnitWord::partstr)
                 readonlyColumn("SEQNUM", MUnitWord::seqnum)
-                column("WORD", MUnitWord::word).makeEditable()
-                column("NOTE", MUnitWord::note).makeEditable()
+                column("WORD", MUnitWord::wordProperty).makeEditable()
+                column("NOTE", MUnitWord::noteProperty).makeEditable()
                 readonlyColumn("LEVEL", MUnitWord::level)
                 readonlyColumn("ACCURACY", MUnitWord::accuracy)
                 readonlyColumn("WORDID", MUnitWord::wordid)

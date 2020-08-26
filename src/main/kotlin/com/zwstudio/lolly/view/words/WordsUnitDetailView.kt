@@ -1,9 +1,10 @@
 package com.zwstudio.lolly.view.words
 
 import com.zwstudio.lolly.domain.wpp.UnitWordViewModel
+import javafx.scene.control.ButtonBar
 import tornadofx.*
 
-class WordsUnitDetailView : View("Words in Unit Detail") {
+class WordsUnitDetailView : Fragment("Words in Unit Detail") {
     val model : UnitWordViewModel by param()
 
     override val root = form {
@@ -44,6 +45,21 @@ class WordsUnitDetailView : View("Words in Unit Detail") {
             field("ACCURACY") {
                 textfield(model.accuracy) {
                     isEditable = false
+                }
+            }
+        }
+        buttonbar {
+            button("OK", ButtonBar.ButtonData.OK_DONE) {
+                isDefaultButton = true
+                action {
+                    model.commit()
+                    close()
+                }
+            }
+            button("Cancel", ButtonBar.ButtonData.CANCEL_CLOSE) {
+                isCancelButton = true
+                action {
+                    close()
                 }
             }
         }

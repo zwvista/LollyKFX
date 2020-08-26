@@ -7,12 +7,12 @@ import javafx.geometry.Orientation
 import javafx.scene.layout.Priority
 import tornadofx.*
 
-class PhrasesLangScreen : PhrasesBaseScreen("Phrases in Language") {
+class PhrasesLangView : PhrasesBaseView("Phrases in Language") {
     var vm = PhrasesLangViewModel()
     override val vmSettings get() = vm.vmSettings
 
     override val root = vbox {
-        tag = this@PhrasesLangScreen
+        tag = this@PhrasesLangView
         toolbar {
             button("Add")
             button("Refresh").action {

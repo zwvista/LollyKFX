@@ -1,13 +1,13 @@
-package com.zwstudio.lolly.view.misc
+package com.zwstudio.lolly.view.words
 
 import tornadofx.Fragment
 import tornadofx.button
 import tornadofx.tag
 import tornadofx.vbox
 
-class ReadNumberScreen : Fragment("Read Number") {
+class WordsSearchView : Fragment("Search") {
     override val root = vbox {
-        tag = this@ReadNumberScreen
+        tag = this@WordsSearchView
         button("Button 1")
         button("Button 2")
     }

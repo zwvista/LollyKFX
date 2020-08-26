@@ -7,12 +7,12 @@ import javafx.geometry.Orientation
 import javafx.scene.layout.Priority
 import tornadofx.*
 
-class PhrasesTextbookScreen : PhrasesBaseScreen("Phrases in Textbook") {
+class PhrasesTextbookView : PhrasesBaseView("Phrases in Textbook") {
     var vm = PhrasesUnitViewModel(false)
     override val vmSettings get() = vm.vmSettings
 
     override val root = vbox {
-        tag = this@PhrasesTextbookScreen
+        tag = this@PhrasesTextbookView
         toolbar {
             button("Refresh").action {
                 vm.reload()

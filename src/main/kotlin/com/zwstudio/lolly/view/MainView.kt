@@ -1,14 +1,14 @@
 package com.zwstudio.lolly.view
 
-import com.zwstudio.lolly.view.misc.BlogScreen
-import com.zwstudio.lolly.view.misc.DictsScreen
-import com.zwstudio.lolly.view.misc.ReadNumberScreen
-import com.zwstudio.lolly.view.misc.TextbooksScreen
-import com.zwstudio.lolly.view.patterns.PatternsScreen
-import com.zwstudio.lolly.view.phrases.PhrasesLangScreen
-import com.zwstudio.lolly.view.phrases.PhrasesReviewScreen
-import com.zwstudio.lolly.view.phrases.PhrasesTextbookScreen
-import com.zwstudio.lolly.view.phrases.PhrasesUnitScreen
+import com.zwstudio.lolly.view.misc.BlogView
+import com.zwstudio.lolly.view.misc.DictsView
+import com.zwstudio.lolly.view.misc.ReadNumberView
+import com.zwstudio.lolly.view.misc.TextbooksView
+import com.zwstudio.lolly.view.patterns.PatternsView
+import com.zwstudio.lolly.view.phrases.PhrasesLangView
+import com.zwstudio.lolly.view.phrases.PhrasesReviewView
+import com.zwstudio.lolly.view.phrases.PhrasesTextbookView
+import com.zwstudio.lolly.view.phrases.PhrasesUnitView
 import com.zwstudio.lolly.view.words.*
 import javafx.scene.control.TabPane
 import javafx.scene.layout.Priority
@@ -21,57 +21,57 @@ class MainView : View("Lolly TornadoFX") {
         menubar {
             menu("Learn") {
                 item("Search").action {
-                    AddTab<WordsSearchScreen>()
+                    AddTab<WordsSearchView>()
                 }
                 item("Settings","Ctrl+Alt+S")
                 separator()
                 item("Words in Unit","Ctrl+Alt+W").action {
-                    AddTab<WordsUnitScreen>()
+                    AddTab<WordsUnitView>()
                 }
                 item("Phrases in Unit","Ctrl+Alt+P").action {
-                    AddTab<PhrasesUnitScreen>()
+                    AddTab<PhrasesUnitView>()
                 }
                 separator()
                 item("Words Review").action {
-                    AddTab<WordsReviewScreen>()
+                    AddTab<WordsReviewView>()
                 }
                 item("Phrases Review").action {
-                    AddTab<PhrasesReviewScreen>()
+                    AddTab<PhrasesReviewView>()
                 }
                 separator()
                 item("Words in Textbook").action {
-                    AddTab<WordsTextbookScreen>()
+                    AddTab<WordsTextbookView>()
                 }
                 item("Phrases in Textbook").action {
-                    AddTab<PhrasesTextbookScreen>()
+                    AddTab<PhrasesTextbookView>()
                 }
                 separator()
                 item("Words in Language").action {
-                    AddTab<WordsLangScreen>()
+                    AddTab<WordsLangView>()
                 }
                 item("Phrases in Language").action {
-                    AddTab<PhrasesLangScreen>()
+                    AddTab<PhrasesLangView>()
                 }
                 separator()
                 item("Patterns in Language").action {
-                    AddTab<PatternsScreen>()
+                    AddTab<PatternsView>()
                 }
             }
             menu("Tools") {
                 item("Blog").action {
-                    AddTab<BlogScreen>()
+                    AddTab<BlogView>()
                 }
                 item("Read Number").action {
-                    AddTab<ReadNumberScreen>()
+                    AddTab<ReadNumberView>()
                 }
                 item("Textbooks").action {
-                    AddTab<TextbooksScreen>()
+                    AddTab<TextbooksView>()
                 }
                 item("Dictionaries").action {
-                    AddTab<DictsScreen>()
+                    AddTab<DictsView>()
                 }
                 item("Test").action {
-                    AddTab<PhrasesUnitScreen>()
+                    AddTab<PhrasesUnitView>()
                 }
             }
         }

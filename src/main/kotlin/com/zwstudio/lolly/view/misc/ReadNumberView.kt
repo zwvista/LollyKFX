@@ -1,13 +1,13 @@
-package com.zwstudio.lolly.view.patterns
+package com.zwstudio.lolly.view.misc
 
 import tornadofx.Fragment
 import tornadofx.button
 import tornadofx.tag
 import tornadofx.vbox
 
-class PatternsScreen : Fragment("Patterns in Language") {
+class ReadNumberView : Fragment("Read Number") {
     override val root = vbox {
-        tag = this@PatternsScreen
+        tag = this@ReadNumberView
         button("Button 1")
         button("Button 2")
     }

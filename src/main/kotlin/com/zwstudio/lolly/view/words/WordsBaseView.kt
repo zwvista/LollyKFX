@@ -9,7 +9,7 @@ import javafx.scene.control.TabPane
 import javafx.scene.control.ToolBar
 import tornadofx.*
 
-abstract class WordsBaseScreen(title: String? = null, icon: Node? = null) : Fragment(title, icon), ILollySettings {
+abstract class WordsBaseView(title: String? = null, icon: Node? = null) : Fragment(title, icon), ILollySettings {
     open var toolbarDicts: ToolBar by singleAssign()
     open var dictsPane: TabPane by singleAssign()
     abstract val vmSettings: SettingsViewModel
@@ -19,7 +19,7 @@ abstract class WordsBaseScreen(title: String? = null, icon: Node? = null) : Frag
             val name = o.dictname
             val t = dictsPane.tabs.firstOrNull { it.text == name }
             if (t == null) {
-                dictsPane.tab(find<WordsDictScreen>("dict" to o)) {
+                dictsPane.tab(find<WordsDictView>("dict" to o)) {
                     textProperty().unbind()
                     text = name
                 }.setOnClosed {
@@ -49,7 +49,7 @@ abstract class WordsBaseScreen(title: String? = null, icon: Node? = null) : Frag
     fun onWordChanged(word: String?) {
         if (word == null) return
         dictsPane.tabs.forEach {
-            val f = it.content.tag as WordsDictScreen
+            val f = it.content.tag as WordsDictView
             f.searchWord(word)
         }
     }

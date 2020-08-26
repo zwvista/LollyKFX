@@ -1,21 +1,20 @@
 package com.zwstudio.lolly.view.words
 
-import com.zwstudio.lolly.data.words.WordsLangViewModel
-import com.zwstudio.lolly.domain.wpp.LangWordViewModel
-import com.zwstudio.lolly.domain.wpp.MLangWord
+import com.zwstudio.lolly.data.words.WordsUnitViewModel
+import com.zwstudio.lolly.domain.wpp.MUnitWord
+import com.zwstudio.lolly.domain.wpp.UnitWordViewModel
 import javafx.geometry.Orientation
 import javafx.scene.layout.Priority
 import tornadofx.*
 
-class WordsLangScreen : WordsBaseScreen("Words in Language") {
-    var vm = WordsLangViewModel()
+class WordsTextbookView : WordsBaseView("Words in Textbook") {
+    var vm = WordsUnitViewModel(false)
     override val vmSettings get() = vm.vmSettings
 
     override val root = vbox {
-        tag = this@WordsLangScreen
+        tag = this@WordsTextbookView
         toolbarDicts = toolbar()
         toolbar {
-            button("Add")
             button("Refresh").action {
                 vm.reload()
             }
@@ -23,12 +22,17 @@ class WordsLangScreen : WordsBaseScreen("Words in Language") {
         splitpane(Orientation.HORIZONTAL) {
             vgrow = Priority.ALWAYS
             tableview(vm.lstWords) {
-                readonlyColumn("ID", MLangWord::id)
-                column("WORD", MLangWord::word).makeEditable()
-                column("NOTE", MLangWord::note).makeEditable()
-                readonlyColumn("LEVEL", MLangWord::level)
-                readonlyColumn("ACCURACY", MLangWord::accuracy)
-                readonlyColumn("FAMIID", MLangWord::famiid)
+                readonlyColumn("TEXTBOOKNAME", MUnitWord::textbookname)
+                readonlyColumn("UNIT", MUnitWord::unitstr)
+                readonlyColumn("PART", MUnitWord::partstr)
+                readonlyColumn("SEQNUM", MUnitWord::seqnum)
+                column("WORD", MUnitWord::word).makeEditable()
+                column("NOTE", MUnitWord::note).makeEditable()
+                readonlyColumn("LEVEL", MUnitWord::level)
+                readonlyColumn("ACCURACY", MUnitWord::accuracy)
+                readonlyColumn("WORDID", MUnitWord::wordid)
+                readonlyColumn("ID", MUnitWord::id)
+                readonlyColumn("FAMIID", MUnitWord::famiid)
                 onEditCommit {
                     val title = this.tableColumn.text
                     if (title == "WORD") {
@@ -41,7 +45,7 @@ class WordsLangScreen : WordsBaseScreen("Words in Language") {
                 }
                 onDoubleClick {
                     // https://github.com/edvin/tornadofx/issues/226
-                    find<WordsLangDetailView>("model" to LangWordViewModel(selectionModel.selectedItem)) { openModal() }
+                    find<WordsUnitDetailView>("model" to UnitWordViewModel(selectionModel.selectedItem)) { openModal() }
                 }
             }
             splitpane(Orientation.VERTICAL) {

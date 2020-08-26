@@ -5,9 +5,9 @@ import tornadofx.button
 import tornadofx.tag
 import tornadofx.vbox
 
-class DictsScreen : Fragment("Dictionaries") {
+class TextbooksView : Fragment("Words in Unit") {
     override val root = vbox {
-        tag = this@DictsScreen
+        tag = this@TextbooksView
         button("Button 1")
         button("Button 2")
     }

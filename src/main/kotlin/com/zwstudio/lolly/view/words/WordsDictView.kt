@@ -6,13 +6,13 @@ import javafx.scene.layout.Priority
 import javafx.scene.web.WebView
 import tornadofx.*
 
-class WordsDictScreen : Fragment() {
+class WordsDictView : Fragment() {
     val dict: MDictionary by param()
     val vmSettings: SettingsViewModel by inject()
 
     var wvDict: WebView by singleAssign()
     override val root = vbox {
-        tag = this@WordsDictScreen
+        tag = this@WordsDictView
         wvDict = webview {
             vgrow = Priority.ALWAYS
         }

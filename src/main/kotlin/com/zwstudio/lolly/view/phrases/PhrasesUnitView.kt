@@ -11,12 +11,12 @@ import javafx.scene.input.TransferMode
 import javafx.scene.layout.Priority
 import tornadofx.*
 
-class PhrasesUnitScreen : PhrasesBaseScreen("Phrases in Unit") {
+class PhrasesUnitView : PhrasesBaseView("Phrases in Unit") {
     var vm = PhrasesUnitViewModel(true)
     override val vmSettings get() = vm.vmSettings
 
     override val root = vbox {
-        tag = this@PhrasesUnitScreen
+        tag = this@PhrasesUnitView
         toolbar {
             button("Add")
             button("Refresh").action {
