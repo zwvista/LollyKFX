@@ -4,6 +4,7 @@ import com.zwstudio.lolly.data.BaseViewModel
 import com.zwstudio.lolly.domain.wpp.MUnitWord
 import com.zwstudio.lolly.service.HtmlService
 import io.reactivex.rxjava3.core.Observable
+import javafx.beans.property.SimpleStringProperty
 import tornadofx.asObservable
 
 class WordsSearchViewModel : BaseViewModel() {
@@ -11,6 +12,8 @@ class WordsSearchViewModel : BaseViewModel() {
     var selectedWordIndex = 0
     val selectedWord: MUnitWord
         get() = lstWords[selectedWordIndex]
+
+    val newWord = SimpleStringProperty()
 
     lateinit var htmlService: HtmlService
 

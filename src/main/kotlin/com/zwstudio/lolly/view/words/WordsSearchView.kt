@@ -3,10 +3,12 @@ package com.zwstudio.lolly.view.words
 import com.zwstudio.lolly.data.words.WordsSearchViewModel
 import com.zwstudio.lolly.domain.wpp.MUnitWord
 import javafx.geometry.Orientation
+import javafx.scene.control.TableView
 import javafx.scene.layout.Priority
 import tornadofx.*
 
 class WordsSearchView : WordsBaseView("Search") {
+    var tvWords: TableView<MUnitWord> by singleAssign()
     var vm = WordsSearchViewModel()
     override val vmSettings get() = vm.vmSettings
 
@@ -17,10 +19,23 @@ class WordsSearchView : WordsBaseView("Search") {
             button("Refresh").action {
                 vm.reload()
             }
+            textfield(vm.newWord) {
+                promptText = "New Word"
+                action {
+                    val item = MUnitWord().apply {
+                        seqnum = vm.lstWords.size + 1
+                        word = vm.newWord.value
+                    }
+                    vm.lstWords.add(item)
+                    vm.newWord.value = ""
+                    tvWords.refresh()
+                    tvWords.selectionModel.select(vm.lstWords.size - 1)
+                }
+            }
         }
         splitpane(Orientation.HORIZONTAL) {
             vgrow = Priority.ALWAYS
-            tableview(vm.lstWords) {
+            tvWords = tableview(vm.lstWords) {
                 readonlyColumn("SEQNUM", MUnitWord::seqnum)
                 column("WORD", MUnitWord::wordProperty).makeEditable()
                 column("NOTE", MUnitWord::noteProperty).makeEditable()
