@@ -152,6 +152,7 @@ class SettingsViewModel : Component(), ScopedInstance {
         }
     val selectedTextbookIndex: Int
         get() = lstTextbooks.indexOf(selectedTextbook)
+    var lstTextbookFilters = listOf<MSelectItem>()
 
     var lstDictsReference = listOf<MDictionary>()
     // https://stackoverflow.com/questions/46366869/kotlin-workaround-for-no-lateinit-when-using-custom-setter
@@ -281,6 +282,7 @@ class SettingsViewModel : Component(), ScopedInstance {
             selectedDictTranslation = lstDictsTranslation.firstOrNull { it.dictid == usdicttranslationid } ?: lstDictsTranslation.firstOrNull()
             lstTextbooks = res4
             selectedTextbook = lstTextbooks.first { it.id == ustextbookid }
+            lstTextbookFilters = listOf(MSelectItem(0, "All Textbooks")) + lstTextbooks.map { MSelectItem(it.id, it.textbookname!!) }
             lstAutoCorrect = res5
             lstVoices = res6
             selectedVoice = lstVoices.firstOrNull { it.id == usvoiceid } ?: lstVoices.firstOrNull()

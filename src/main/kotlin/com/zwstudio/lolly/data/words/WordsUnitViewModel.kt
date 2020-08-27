@@ -3,11 +3,13 @@ package com.zwstudio.lolly.data.words
 import com.zwstudio.lolly.data.BaseViewModel
 import com.zwstudio.lolly.data.NoteViewModel
 import com.zwstudio.lolly.data.applyIO
+import com.zwstudio.lolly.domain.MSelectItem
 import com.zwstudio.lolly.domain.wpp.MUnitWord
 import com.zwstudio.lolly.service.UnitWordService
 import io.reactivex.rxjava3.core.Observable
 import io.reactivex.rxjava3.disposables.CompositeDisposable
 import javafx.beans.property.SimpleBooleanProperty
+import javafx.beans.property.SimpleObjectProperty
 import javafx.beans.property.SimpleStringProperty
 import tornadofx.asObservable
 
@@ -22,12 +24,14 @@ class WordsUnitViewModel(val inTextbook: Boolean) : BaseViewModel() {
     val scopeFilter = SimpleStringProperty(vmSettings.lstScopeWordFilters[0])
     val textFilter = SimpleStringProperty()
     val levelge0only = SimpleBooleanProperty()
+    val textbookFilter = SimpleObjectProperty<MSelectItem>()
 
     fun reload() {
         if (inTextbook)
             getDataInTextbook().subscribe()
         else
             getDataInLang().subscribe()
+        textbookFilter.value = vmSettings.lstTextbookFilters[0]
     }
 
     private fun getDataInTextbook(): Observable<Unit> =

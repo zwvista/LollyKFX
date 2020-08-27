@@ -18,6 +18,12 @@ class WordsTextbookView : WordsBaseView("Words in Textbook") {
             button("Refresh").action {
                 vm.reload()
             }
+            choicebox(vm.scopeFilter, vmSettings.lstScopeWordFilters)
+            textfield(vm.textFilter) {
+                promptText = "Filter"
+            }
+            checkbox("Level >= 0", vm.levelge0only)
+            combobox(vm.textbookFilter, vmSettings.lstTextbookFilters)
         }
         splitpane(Orientation.HORIZONTAL) {
             vgrow = Priority.ALWAYS
