@@ -7,6 +7,8 @@ import com.zwstudio.lolly.domain.wpp.MUnitWord
 import com.zwstudio.lolly.service.UnitWordService
 import io.reactivex.rxjava3.core.Observable
 import io.reactivex.rxjava3.disposables.CompositeDisposable
+import javafx.beans.property.SimpleBooleanProperty
+import javafx.beans.property.SimpleStringProperty
 import tornadofx.asObservable
 
 class WordsUnitViewModel(val inTextbook: Boolean) : BaseViewModel() {
@@ -15,6 +17,11 @@ class WordsUnitViewModel(val inTextbook: Boolean) : BaseViewModel() {
     val vmNote: NoteViewModel by inject()
     val compositeDisposable = CompositeDisposable()
     val unitWordService: UnitWordService by inject()
+
+    val newWord = SimpleStringProperty()
+    val scopeFilter = SimpleStringProperty(vmSettings.lstScopeWordFilters[0])
+    val textFilter = SimpleStringProperty()
+    val levelge0only = SimpleBooleanProperty()
 
     fun reload() {
         if (inTextbook)
@@ -73,6 +80,7 @@ class WordsUnitViewModel(val inTextbook: Boolean) : BaseViewModel() {
         unit = maxItem?.unit ?: vmSettings.usunitto
         part = maxItem?.part ?: vmSettings.uspartto
         seqnum = (maxItem?.seqnum ?: 0) + 1
+        textbook = vmSettings.selectedTextbook
     }
 
     fun getNote(index: Int): Observable<Unit> {

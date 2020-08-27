@@ -210,6 +210,9 @@ class SettingsViewModel : Component(), ScopedInstance {
     val lstToTypes = listOf("Unit", "Part", "To").mapIndexed { index, s -> MSelectItem(index, s) }
     var toType = 0
 
+    val lstScopeWordFilters = listOf("Word", "Note")
+    val lstScopePhraseFilters = listOf("Phrase", "Translation")
+    val lstScopePatternFilters = listOf("Pattern", "Note", "Tags")
     val lstReviewModes = ReviewMode.values().mapIndexed { index, s -> MSelectItem(index, s.toString()) }
 
     val languageService: LanguageService by inject()

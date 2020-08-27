@@ -6,6 +6,8 @@ import com.zwstudio.lolly.domain.wpp.MUnitWord
 import com.zwstudio.lolly.domain.wpp.UnitWordViewModel
 import javafx.geometry.Orientation
 import javafx.scene.control.TableRow
+import javafx.scene.control.TableView
+import javafx.scene.control.TextField
 import javafx.scene.input.ClipboardContent
 import javafx.scene.input.TransferMode
 import javafx.scene.layout.Priority
@@ -13,6 +15,8 @@ import tornadofx.*
 
 
 class WordsUnitView : WordsBaseView("Words in Unit") {
+    var tvWords: TableView<MUnitWord> by singleAssign()
+    var tfFilter: TextField by singleAssign()
     var vm = WordsUnitViewModel(true)
     override val vmSettings get() = vm.vmSettings
 
@@ -20,7 +24,13 @@ class WordsUnitView : WordsBaseView("Words in Unit") {
         tag = this@WordsUnitView
         toolbarDicts = toolbar()
         toolbar {
-            button("Add")
+            button("Add").action {
+                val modal = find<WordsUnitDetailView>("model" to UnitWordViewModel(vm.newUnitWord())) { openModal(block = true) }
+                if (modal.result) {
+                    vm.lstWords.add(modal.model.item)
+                    tvWords.refresh()
+                }
+            }
             button("Refresh").action {
                 vm.reload()
             }
@@ -31,10 +41,23 @@ class WordsUnitView : WordsBaseView("Words in Unit") {
             button("Get Notes")
             button("Clear Notes")
             button("Review")
+            textfield(vm.newWord) {
+                promptText = "New Word"
+                action {
+                    val item = vm.newUnitWord().apply { word = vm.newWord.value }
+                    vm.lstWords.add(item)
+                    tvWords.refresh()
+                }
+            }
+            choicebox(vm.scopeFilter, vmSettings.lstScopeWordFilters)
+            textfield(vm.textFilter) {
+                promptText = "Filter"
+            }
+            checkbox("Level >= 0", vm.levelge0only)
         }
         splitpane(Orientation.HORIZONTAL) {
             vgrow = Priority.ALWAYS
-            tableview(vm.lstWords) {
+            tvWords = tableview(vm.lstWords) {
                 readonlyColumn("UNIT", MUnitWord::unitstr)
                 readonlyColumn("PART", MUnitWord::partstr)
                 readonlyColumn("SEQNUM", MUnitWord::seqnum)
