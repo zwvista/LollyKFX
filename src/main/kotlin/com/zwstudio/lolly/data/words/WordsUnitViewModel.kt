@@ -11,11 +11,14 @@ import io.reactivex.rxjava3.disposables.CompositeDisposable
 import javafx.beans.property.SimpleBooleanProperty
 import javafx.beans.property.SimpleObjectProperty
 import javafx.beans.property.SimpleStringProperty
+import javafx.collections.ObservableList
 import tornadofx.asObservable
 
 class WordsUnitViewModel(val inTextbook: Boolean) : BaseViewModel() {
 
-    var lstWords = mutableListOf<MUnitWord>().asObservable()
+    var lstWordsAll = mutableListOf<MUnitWord>().asObservable()
+    var lstWordsFiltered: ObservableList<MUnitWord>? = null
+    val lstWords get() = lstWordsFiltered ?: lstWordsAll
     val vmNote: NoteViewModel by inject()
     val compositeDisposable = CompositeDisposable()
     val unitWordService: UnitWordService by inject()
@@ -27,23 +30,15 @@ class WordsUnitViewModel(val inTextbook: Boolean) : BaseViewModel() {
     val textbookFilter = SimpleObjectProperty<MSelectItem>()
 
     fun reload() {
-        if (inTextbook)
-            getDataInTextbook().subscribe()
+        (if (inTextbook)
+            unitWordService.getDataByTextbookUnitPart(vmSettings.selectedTextbook, vmSettings.usunitpartfrom, vmSettings.usunitpartto)
         else
-            getDataInLang().subscribe()
+            unitWordService.getDataByLang(vmSettings.selectedLang.id, vmSettings.lstTextbooks))
+            .map { lstWordsAll.clear(); lstWordsAll.addAll(it); Unit }
+            .applyIO()
+            .subscribe()
         textbookFilter.value = vmSettings.lstTextbookFilters[0]
     }
-
-    private fun getDataInTextbook(): Observable<Unit> =
-        unitWordService.getDataByTextbookUnitPart(vmSettings.selectedTextbook,
-            vmSettings.usunitpartfrom, vmSettings.usunitpartto)
-            .map { lstWords.clear(); lstWords.addAll(it); Unit }
-            .applyIO()
-
-    private fun getDataInLang(): Observable<Unit> =
-        unitWordService.getDataByLang(vmSettings.selectedLang.id, vmSettings.lstTextbooks)
-            .map { lstWords.clear(); lstWords.addAll(it); Unit }
-            .applyIO()
 
     fun updateSeqNum(id: Int, seqnum: Int): Observable<Unit> =
         unitWordService.updateSeqNum(id, seqnum)
@@ -66,8 +61,8 @@ class WordsUnitViewModel(val inTextbook: Boolean) : BaseViewModel() {
             .applyIO()
 
     fun reindex(onNext: (Int) -> Unit) {
-        for (i in 1..lstWords.size) {
-            val item = lstWords[i - 1]
+        for (i in 1..lstWordsAll.size) {
+            val item = lstWordsAll[i - 1]
             if (item.seqnum == i) continue
             item.seqnum = i
             compositeDisposable.add(updateSeqNum(item.id, i).subscribe {
@@ -80,7 +75,7 @@ class WordsUnitViewModel(val inTextbook: Boolean) : BaseViewModel() {
         langid = vmSettings.selectedLang.id
         textbookid = vmSettings.ustextbookid
         // https://stackoverflow.com/questions/33640864/how-to-sort-based-on-compare-multiple-values-in-kotlin
-        val maxItem = lstWords.maxWith(compareBy({ it.unit }, { it.part }, { it.seqnum }))
+        val maxItem = lstWordsAll.maxWithOrNull(compareBy({ it.unit }, { it.part }, { it.seqnum }))
         unit = maxItem?.unit ?: vmSettings.usunitto
         part = maxItem?.part ?: vmSettings.uspartto
         seqnum = (maxItem?.seqnum ?: 0) + 1
@@ -88,7 +83,7 @@ class WordsUnitViewModel(val inTextbook: Boolean) : BaseViewModel() {
     }
 
     fun getNote(index: Int): Observable<Unit> {
-        val item = lstWords[index]
+        val item = lstWordsAll[index]
         return vmNote.getNote(item.word).concatMap {
             item.note = it
             unitWordService.updateNote(item.id, it)
@@ -96,8 +91,8 @@ class WordsUnitViewModel(val inTextbook: Boolean) : BaseViewModel() {
     }
 
     fun getNotes(ifEmpty: Boolean, oneComplete: (Int) -> Unit, allComplete: () -> Unit) {
-        vmNote.getNotes(lstWords.size, isNoteEmpty = {
-            !ifEmpty || lstWords[it].note.isNullOrEmpty()
+        vmNote.getNotes(lstWordsAll.size, isNoteEmpty = {
+            !ifEmpty || lstWordsAll[it].note.isNullOrEmpty()
         }, getOne = { i ->
             compositeDisposable.add(getNote(i).subscribe { oneComplete(i) })
         }, allComplete = allComplete)

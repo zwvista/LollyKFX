@@ -6,19 +6,27 @@ import com.zwstudio.lolly.domain.wpp.MUnitPhrase
 import com.zwstudio.lolly.domain.wpp.UnitPhraseViewModel
 import javafx.geometry.Orientation
 import javafx.scene.control.TableRow
+import javafx.scene.control.TableView
 import javafx.scene.input.ClipboardContent
 import javafx.scene.input.TransferMode
 import javafx.scene.layout.Priority
 import tornadofx.*
 
 class PhrasesUnitView : PhrasesBaseView("Phrases in Unit") {
+    var tvPhrases: TableView<MUnitPhrase> by singleAssign()
     var vm = PhrasesUnitViewModel(true)
     override val vmSettings get() = vm.vmSettings
 
     override val root = vbox {
         tag = this@PhrasesUnitView
         toolbar {
-            button("Add")
+            button("Add").action {
+                val modal = find<PhrasesUnitDetailView>("model" to UnitPhraseViewModel(vm.newUnitPhrase())) { openModal(block = true) }
+                if (modal.result) {
+                    vm.lstPhrasesAll.add(modal.model.item)
+                    tvPhrases.refresh()
+                }
+            }
             button("Refresh").action {
                 vm.reload()
             }
@@ -29,7 +37,7 @@ class PhrasesUnitView : PhrasesBaseView("Phrases in Unit") {
         }
         splitpane(Orientation.HORIZONTAL) {
             vgrow = Priority.ALWAYS
-            tableview(vm.lstPhrases) {
+            tvPhrases = tableview(vm.lstPhrases) {
                 readonlyColumn("UNIT", MUnitPhrase::unitstr)
                 readonlyColumn("PART", MUnitPhrase::partstr)
                 readonlyColumn("SEQNUM", MUnitPhrase::seqnum)

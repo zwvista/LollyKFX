@@ -5,21 +5,22 @@ import com.zwstudio.lolly.data.applyIO
 import com.zwstudio.lolly.domain.wpp.MLangPhrase
 import com.zwstudio.lolly.service.LangPhraseService
 import io.reactivex.rxjava3.core.Observable
+import javafx.collections.ObservableList
 import tornadofx.asObservable
 
 class PhrasesLangViewModel : BaseViewModel() {
 
-    var lstPhrases = mutableListOf<MLangPhrase>().asObservable()
+    var lstPhrasesAll = mutableListOf<MLangPhrase>().asObservable()
+    var lstPhrasesFiltered: ObservableList<MLangPhrase>? = null
+    val lstPhrases get() = lstPhrasesFiltered ?: lstPhrasesAll
     val langPhraseService: LangPhraseService by inject()
 
     fun reload() {
-        getData().subscribe()
-    }
-
-    private fun getData(): Observable<Unit> =
         langPhraseService.getDataByLang(vmSettings.selectedLang.id, vmSettings.lstTextbooks)
-            .map { lstPhrases.clear(); lstPhrases.addAll(it); Unit }
+            .map { lstPhrasesAll.clear(); lstPhrasesAll.addAll(it); Unit }
             .applyIO()
+            .subscribe()
+    }
 
     fun update(id: Int, langid: Int, phrase: String, translation: String?): Observable<Unit> =
         langPhraseService.update(id, langid, phrase, translation)

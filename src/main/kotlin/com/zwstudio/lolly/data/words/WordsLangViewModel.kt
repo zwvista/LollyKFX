@@ -8,11 +8,14 @@ import com.zwstudio.lolly.service.LangWordService
 import io.reactivex.rxjava3.core.Observable
 import javafx.beans.property.SimpleBooleanProperty
 import javafx.beans.property.SimpleStringProperty
+import javafx.collections.ObservableList
 import tornadofx.asObservable
 
 class WordsLangViewModel : BaseViewModel() {
 
-    var lstWords = mutableListOf<MLangWord>().asObservable()
+    var lstWordsAll = mutableListOf<MLangWord>().asObservable()
+    var lstWordsFiltered: ObservableList<MLangWord>? = null
+    val lstWords get() = lstWordsFiltered ?: lstWordsAll
     val vmNote: NoteViewModel by inject()
     val langWordService: LangWordService by inject()
 
@@ -22,13 +25,11 @@ class WordsLangViewModel : BaseViewModel() {
     val levelge0only = SimpleBooleanProperty()
 
     fun reload() {
-        getData().subscribe()
-    }
-
-    private fun getData(): Observable<Unit> =
         langWordService.getDataByLang(vmSettings.selectedLang.id, vmSettings.lstTextbooks)
-            .map { lstWords.clear(); lstWords.addAll(it); Unit }
+            .map { lstWordsAll.clear(); lstWordsAll.addAll(it); Unit }
             .applyIO()
+            .subscribe()
+    }
 
     fun update(id: Int, langid: Int, word: String, level: Int, note: String?): Observable<Unit> =
         langWordService.update(id, langid, word, note)
@@ -47,7 +48,7 @@ class WordsLangViewModel : BaseViewModel() {
     }
 
     fun getNote(index: Int): Observable<Unit> {
-        val item = lstWords[index]
+        val item = lstWordsAll[index]
         return vmNote.getNote(item.word).concatMap {
             item.note = it
             langWordService.updateNote(item.id, it)
