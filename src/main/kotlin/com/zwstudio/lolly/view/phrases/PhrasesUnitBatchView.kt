@@ -1,10 +1,9 @@
 package com.zwstudio.lolly.view.phrases
 
 import com.zwstudio.lolly.data.phrases.PhrasesUnitDetailViewModel
-import com.zwstudio.lolly.domain.wpp.MUnitWord
 import tornadofx.*
 
-class PhrasesUnitBatchView : Fragment("Phrases in Unit Detail") {
+class PhrasesUnitBatchView : Fragment("Phrases in Unit Batch Edit") {
     val model : PhrasesUnitDetailViewModel by param()
     var result = false
 

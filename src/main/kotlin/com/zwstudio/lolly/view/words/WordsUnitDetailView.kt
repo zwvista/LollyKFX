@@ -5,51 +5,51 @@ import com.zwstudio.lolly.domain.wpp.MUnitWord
 import tornadofx.*
 
 class WordsUnitDetailView : Fragment("Words in Unit Detail") {
-    val model : WordsUnitDetailViewModel by param()
+    val vm : WordsUnitDetailViewModel by param()
     var result = false
 
     override val root = form {
         fieldset {
             field("ID") {
-                textfield(model.id) {
+                textfield(vm.id) {
                     isEditable = false
                 }
             }
             field("UNIT") {
-                combobox(model.unititem, model.item.textbook.lstUnits)
+                combobox(vm.unititem, vm.item.textbook.lstUnits)
             }
             field("PART") {
-                combobox(model.partitem, model.item.textbook.lstParts)
+                combobox(vm.partitem, vm.item.textbook.lstParts)
             }
             field("SEQNUM") {
-                textfield(model.seqnum)
+                textfield(vm.seqnum)
             }
             field("WORDID") {
-                textfield(model.wordid) {
+                textfield(vm.wordid) {
                     isEditable = false
                 }
             }
             field("WORD") {
-                textfield(model.word)
+                textfield(vm.word)
             }
             field("NOTE") {
-                textfield(model.note)
+                textfield(vm.note)
             }
             field("FAMIID") {
-                textfield(model.famiid) {
+                textfield(vm.famiid) {
                     isEditable = false
                 }
             }
             field("LEVEL") {
-                textfield(model.level)
+                textfield(vm.level)
             }
             field("ACCURACY") {
-                textfield(model.accuracy) {
+                textfield(vm.accuracy) {
                     isEditable = false
                 }
             }
         }
-        tableview(model.vmSingle.lstWords) {
+        tableview(vm.vmSingle.lstWords) {
             readonlyColumn("TEXTBOOKNAME", MUnitWord::textbookname)
             readonlyColumn("UNIT", MUnitWord::unitstr)
             readonlyColumn("PART", MUnitWord::partstr)
@@ -67,7 +67,7 @@ class WordsUnitDetailView : Fragment("Words in Unit Detail") {
                 isDefaultButton = true
                 action {
                     result = true
-                    model.commit()
+                    vm.commit()
                     close()
                 }
             }

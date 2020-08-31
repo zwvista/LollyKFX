@@ -1,6 +1,7 @@
 package com.zwstudio.lolly.view.words
 
 import com.zwstudio.lolly.app.LollyApp
+import com.zwstudio.lolly.data.words.WordsUnitBatchViewModel
 import com.zwstudio.lolly.data.words.WordsUnitDetailViewModel
 import com.zwstudio.lolly.data.words.WordsUnitViewModel
 import com.zwstudio.lolly.domain.wpp.MUnitWord
@@ -24,14 +25,19 @@ class WordsUnitView : WordsBaseView("Words in Unit") {
             button("Add").action {
                 val modal = find<WordsUnitDetailView>("model" to WordsUnitDetailViewModel(vm.newUnitWord())) { openModal(block = true) }
                 if (modal.result) {
-                    vm.lstWordsAll.add(modal.model.item)
+                    vm.lstWordsAll.add(modal.vm.item)
                     tvWords.refresh()
                 }
             }
             button("Refresh").action {
                 vm.reload()
             }
-            button("Batch")
+            button("Batch").action {
+                val modal = find<WordsUnitBatchView>("model" to WordsUnitBatchViewModel(vm)) { openModal(block = true) }
+                if (modal.result) {
+                    tvWords.refresh()
+                }
+            }
             button("Toggle")
             button("Previous")
             checkbox("If Empty")

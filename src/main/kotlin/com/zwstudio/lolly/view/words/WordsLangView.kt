@@ -20,7 +20,7 @@ class WordsLangView : WordsBaseView("Words in Language") {
             button("Add").action {
                 val modal = find<WordsLangDetailView>("model" to WordsLangDetailViewModel(vm.newLangWord())) { openModal(block = true) }
                 if (modal.result) {
-                    vm.lstWords.add(modal.model.item)
+                    vm.lstWords.add(modal.vm.item)
                     tvWords.refresh()
                 }
             }
