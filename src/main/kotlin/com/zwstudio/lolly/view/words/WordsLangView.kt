@@ -18,7 +18,7 @@ class WordsLangView : WordsBaseView("Words in Language") {
         toolbarDicts = toolbar()
         toolbar {
             button("Add").action {
-                val modal = find<WordsLangDetailView>("model" to WordsLangDetailViewModel(vm.newLangWord())) { openModal(block = true) }
+                val modal = find<WordsLangDetailView>("vm" to WordsLangDetailViewModel(vm.newLangWord())) { openModal(block = true) }
                 if (modal.result) {
                     vm.lstWords.add(modal.vm.item)
                     tvWords.refresh()
@@ -60,7 +60,7 @@ class WordsLangView : WordsBaseView("Words in Language") {
                 }
                 onDoubleClick {
                     // https://github.com/edvin/tornadofx/issues/226
-                    val modal = find<WordsLangDetailView>("model" to WordsLangDetailViewModel(selectionModel.selectedItem)) { openModal(block = true) }
+                    val modal = find<WordsLangDetailView>("vm" to WordsLangDetailViewModel(selectionModel.selectedItem)) { openModal(block = true) }
                     if (modal.result)
                         this.refresh()
                 }

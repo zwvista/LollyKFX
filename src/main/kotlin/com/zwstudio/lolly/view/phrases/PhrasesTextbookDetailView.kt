@@ -4,40 +4,40 @@ import com.zwstudio.lolly.data.phrases.PhrasesUnitDetailViewModel
 import tornadofx.*
 
 class PhrasesTextbookDetailView : Fragment("Phrases in Textbook Detail") {
-    val model : PhrasesUnitDetailViewModel by param()
+    val vm : PhrasesUnitDetailViewModel by param()
     var result = false
 
     override val root = form {
         fieldset {
             field("ID") {
-                textfield(model.id) {
+                textfield(vm.id) {
                     isEditable = false
                 }
             }
             field("TEXTBOOK") {
-                textfield(model.textbookname) {
+                textfield(vm.textbookname) {
                     isEditable = false
                 }
             }
             field("UNIT") {
-                combobox(model.unititem, model.item.textbook.lstUnits)
+                combobox(vm.unititem, vm.item.textbook.lstUnits)
             }
             field("PART") {
-                combobox(model.partitem, model.item.textbook.lstParts)
+                combobox(vm.partitem, vm.item.textbook.lstParts)
             }
             field("SEQNUM") {
-                textfield(model.seqnum)
+                textfield(vm.seqnum)
             }
             field("PHRASEID") {
-                textfield(model.phraseid) {
+                textfield(vm.phraseid) {
                     isEditable = false
                 }
             }
             field("PHRASE") {
-                textfield(model.phrase)
+                textfield(vm.phrase)
             }
             field("TRANSLATION") {
-                textfield(model.translation)
+                textfield(vm.translation)
             }
         }
         buttonbar {
@@ -45,7 +45,7 @@ class PhrasesTextbookDetailView : Fragment("Phrases in Textbook Detail") {
                 isDefaultButton = true
                 action {
                     result = true
-                    model.commit()
+                    vm.commit()
                     close()
                 }
             }

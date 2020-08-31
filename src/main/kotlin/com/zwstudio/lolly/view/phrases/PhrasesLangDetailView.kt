@@ -5,24 +5,24 @@ import com.zwstudio.lolly.domain.wpp.MUnitPhrase
 import tornadofx.*
 
 class PhrasesLangDetailView : Fragment("Phrases in Language Detail") {
-    val model : PhrasesLangDetailViewModel by param()
+    val vm : PhrasesLangDetailViewModel by param()
     var result = false
 
     override val root = form {
         fieldset {
             field("ID") {
-                textfield(model.id) {
+                textfield(vm.id) {
                     isEditable = false
                 }
             }
             field("PHRASE") {
-                textfield(model.phrase)
+                textfield(vm.phrase)
             }
             field("TRANSLATION") {
-                textfield(model.translation)
+                textfield(vm.translation)
             }
         }
-        tableview(model.vmSingle.lstPhrases) {
+        tableview(vm.vmSingle.lstPhrases) {
             readonlyColumn("UNIT", MUnitPhrase::unitstr)
             readonlyColumn("PART", MUnitPhrase::partstr)
             readonlyColumn("SEQNUM", MUnitPhrase::seqnum)
@@ -36,7 +36,7 @@ class PhrasesLangDetailView : Fragment("Phrases in Language Detail") {
                 isDefaultButton = true
                 action {
                     result = true
-                    model.commit()
+                    vm.commit()
                     close()
                 }
             }

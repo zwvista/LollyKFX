@@ -22,9 +22,9 @@ class PhrasesUnitView : PhrasesBaseView("Phrases in Unit") {
         tag = this@PhrasesUnitView
         toolbar {
             button("Add").action {
-                val modal = find<PhrasesUnitDetailView>("model" to PhrasesUnitDetailViewModel(vm.newUnitPhrase())) { openModal(block = true) }
+                val modal = find<PhrasesUnitDetailView>("vm" to PhrasesUnitDetailViewModel(vm.newUnitPhrase())) { openModal(block = true) }
                 if (modal.result) {
-                    vm.lstPhrasesAll.add(modal.model.item)
+                    vm.lstPhrasesAll.add(modal.vm.item)
                     tvPhrases.refresh()
                 }
             }
@@ -32,7 +32,7 @@ class PhrasesUnitView : PhrasesBaseView("Phrases in Unit") {
                 vm.reload()
             }
             button("Batch").action {
-                val modal = find<PhrasesUnitBatchView>("model" to PhrasesUnitBatchViewModel(vm)) { openModal(block = true) }
+                val modal = find<PhrasesUnitBatchView>("vm" to PhrasesUnitBatchViewModel(vm)) { openModal(block = true) }
                 if (modal.result) {
                     tvPhrases.refresh()
                 }
@@ -61,7 +61,7 @@ class PhrasesUnitView : PhrasesBaseView("Phrases in Unit") {
                 }
                 onDoubleClick {
                     // https://github.com/edvin/tornadofx/issues/226
-                    val modal = find<PhrasesUnitDetailView>("model" to PhrasesUnitDetailViewModel(selectionModel.selectedItem)) { openModal(block = true) }
+                    val modal = find<PhrasesUnitDetailView>("vm" to PhrasesUnitDetailViewModel(selectionModel.selectedItem)) { openModal(block = true) }
                     if (modal.result)
                         this.refresh()
                 }

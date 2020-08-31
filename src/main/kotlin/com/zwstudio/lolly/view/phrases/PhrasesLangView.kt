@@ -17,9 +17,9 @@ class PhrasesLangView : PhrasesBaseView("Phrases in Language") {
         tag = this@PhrasesLangView
         toolbar {
             button("Add").action {
-                val modal = find<PhrasesLangDetailView>("model" to PhrasesLangDetailViewModel(vm.newLangPhrase())) { openModal(block = true) }
+                val modal = find<PhrasesLangDetailView>("vm" to PhrasesLangDetailViewModel(vm.newLangPhrase())) { openModal(block = true) }
                 if (modal.result) {
-                    vm.lstPhrases.add(modal.model.item)
+                    vm.lstPhrases.add(modal.vm.item)
                     tvPhrases.refresh()
                 }
             }
@@ -43,7 +43,7 @@ class PhrasesLangView : PhrasesBaseView("Phrases in Language") {
                 }
                 onDoubleClick {
                     // https://github.com/edvin/tornadofx/issues/226
-                    val modal = find<PhrasesLangDetailView>("model" to PhrasesLangDetailViewModel(selectionModel.selectedItem)) { openModal(block = true) }
+                    val modal = find<PhrasesLangDetailView>("vm" to PhrasesLangDetailViewModel(selectionModel.selectedItem)) { openModal(block = true) }
                     if (modal.result)
                         this.refresh()
                 }

@@ -23,7 +23,7 @@ class WordsUnitView : WordsBaseView("Words in Unit") {
         toolbarDicts = toolbar()
         toolbar {
             button("Add").action {
-                val modal = find<WordsUnitDetailView>("model" to WordsUnitDetailViewModel(vm.newUnitWord())) { openModal(block = true) }
+                val modal = find<WordsUnitDetailView>("vm" to WordsUnitDetailViewModel(vm.newUnitWord())) { openModal(block = true) }
                 if (modal.result) {
                     vm.lstWordsAll.add(modal.vm.item)
                     tvWords.refresh()
@@ -33,7 +33,7 @@ class WordsUnitView : WordsBaseView("Words in Unit") {
                 vm.reload()
             }
             button("Batch").action {
-                val modal = find<WordsUnitBatchView>("model" to WordsUnitBatchViewModel(vm)) { openModal(block = true) }
+                val modal = find<WordsUnitBatchView>("vm" to WordsUnitBatchViewModel(vm)) { openModal(block = true) }
                 if (modal.result) {
                     tvWords.refresh()
                 }
@@ -81,7 +81,7 @@ class WordsUnitView : WordsBaseView("Words in Unit") {
                 }
                 onDoubleClick {
                     // https://github.com/edvin/tornadofx/issues/226
-                    val modal = find<WordsUnitDetailView>("model" to WordsUnitDetailViewModel(selectionModel.selectedItem)) { openModal(block = true) }
+                    val modal = find<WordsUnitDetailView>("vm" to WordsUnitDetailViewModel(selectionModel.selectedItem)) { openModal(block = true) }
                     if (modal.result)
                         this.refresh()
                 }
