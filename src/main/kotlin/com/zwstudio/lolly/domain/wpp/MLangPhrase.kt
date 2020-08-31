@@ -3,7 +3,6 @@ package com.zwstudio.lolly.domain.wpp
 import com.google.gson.annotations.Expose
 import com.google.gson.annotations.SerializedName
 import javafx.beans.property.SimpleStringProperty
-import tornadofx.ItemViewModel
 import java.io.Serializable
 
 class MLangPhrases {
@@ -29,10 +28,4 @@ class MLangPhrase(): Serializable {
     @Expose
     val translationProperty = SimpleStringProperty()
     var translation: String? get() = translationProperty.value; set(value) { translationProperty.value = value }
-}
-
-class LangPhraseViewModel(item: MLangPhrase) : ItemViewModel<MLangPhrase>(item) {
-    val id = bind(MLangPhrase::id)
-    val phrase = bind(MLangPhrase::phraseProperty)
-    val translation = bind(MLangPhrase::translationProperty)
 }

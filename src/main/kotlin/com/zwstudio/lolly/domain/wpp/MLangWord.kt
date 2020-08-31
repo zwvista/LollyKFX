@@ -5,7 +5,6 @@ package com.zwstudio.lolly.domain.wpp
 import com.google.gson.annotations.Expose
 import com.google.gson.annotations.SerializedName
 import javafx.beans.property.SimpleStringProperty
-import tornadofx.ItemViewModel
 import java.io.Serializable
 
 class MLangWords {
@@ -48,13 +47,4 @@ class MLangWord: Serializable {
         get() = word + (if (note.isNullOrEmpty()) "" else "($note)")
     val accuracy: String
         get() = if (total == 0) "N/A" else "${Math.floor(correct.toDouble() / total.toDouble() * 1000) / 10}%"
-}
-
-class LangWordViewModel(item: MLangWord) : ItemViewModel<MLangWord>(item) {
-    val id = bind(MLangWord::id)
-    val word = bind(MLangWord::wordProperty)
-    val note = bind(MLangWord::noteProperty)
-    val famiid = bind(MLangWord::famiid)
-    val level = bind(MLangWord::level)
-    val accuracy = bind(MLangWord::accuracy)
 }

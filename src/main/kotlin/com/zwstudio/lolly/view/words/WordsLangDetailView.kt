@@ -1,11 +1,11 @@
 package com.zwstudio.lolly.view.words
 
-import com.zwstudio.lolly.domain.wpp.LangWordViewModel
-import javafx.scene.control.ButtonBar
+import com.zwstudio.lolly.data.words.WordsLangDetailViewModel
+import com.zwstudio.lolly.domain.wpp.MUnitWord
 import tornadofx.*
 
 class WordsLangDetailView : Fragment("Words in Language Detail") {
-    val model : LangWordViewModel by param()
+    val model : WordsLangDetailViewModel by param()
     var result = false
 
     override val root = form {
@@ -34,6 +34,19 @@ class WordsLangDetailView : Fragment("Words in Language Detail") {
                     isEditable = false
                 }
             }
+        }
+        tableview(model.vmSingle.lstWords) {
+            readonlyColumn("TEXTBOOKNAME", MUnitWord::textbookname)
+            readonlyColumn("UNIT", MUnitWord::unitstr)
+            readonlyColumn("PART", MUnitWord::partstr)
+            readonlyColumn("SEQNUM", MUnitWord::seqnum)
+            readonlyColumn("WORD", MUnitWord::wordProperty)
+            readonlyColumn("NOTE", MUnitWord::noteProperty)
+            readonlyColumn("LEVEL", MUnitWord::level)
+            readonlyColumn("ACCURACY", MUnitWord::accuracy)
+            readonlyColumn("WORDID", MUnitWord::wordid)
+            readonlyColumn("ID", MUnitWord::id)
+            readonlyColumn("FAMIID", MUnitWord::famiid)
         }
         buttonbar {
             button("OK") {

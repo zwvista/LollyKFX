@@ -1,7 +1,7 @@
 package com.zwstudio.lolly.view.words
 
+import com.zwstudio.lolly.data.words.WordsLangDetailViewModel
 import com.zwstudio.lolly.data.words.WordsLangViewModel
-import com.zwstudio.lolly.domain.wpp.LangWordViewModel
 import com.zwstudio.lolly.domain.wpp.MLangWord
 import javafx.geometry.Orientation
 import javafx.scene.control.TableView
@@ -18,7 +18,7 @@ class WordsLangView : WordsBaseView("Words in Language") {
         toolbarDicts = toolbar()
         toolbar {
             button("Add").action {
-                val modal = find<WordsLangDetailView>("model" to LangWordViewModel(vm.newLangWord())) { openModal(block = true) }
+                val modal = find<WordsLangDetailView>("model" to WordsLangDetailViewModel(vm.newLangWord())) { openModal(block = true) }
                 if (modal.result) {
                     vm.lstWords.add(modal.model.item)
                     tvWords.refresh()
@@ -60,7 +60,7 @@ class WordsLangView : WordsBaseView("Words in Language") {
                 }
                 onDoubleClick {
                     // https://github.com/edvin/tornadofx/issues/226
-                    val modal = find<WordsLangDetailView>("model" to LangWordViewModel(selectionModel.selectedItem)) { openModal(block = true) }
+                    val modal = find<WordsLangDetailView>("model" to WordsLangDetailViewModel(selectionModel.selectedItem)) { openModal(block = true) }
                     if (modal.result)
                         this.refresh()
                 }
