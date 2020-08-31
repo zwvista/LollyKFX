@@ -1,10 +1,10 @@
 package com.zwstudio.lolly.view.phrases
 
-import com.zwstudio.lolly.domain.wpp.UnitPhraseViewModel
+import com.zwstudio.lolly.data.phrases.PhrasesUnitDetailViewModel
 import tornadofx.*
 
 class PhrasesTextbookDetailView : Fragment("Phrases in Textbook Detail") {
-    val model : UnitPhraseViewModel by param()
+    val model : PhrasesUnitDetailViewModel by param()
     var result = false
 
     override val root = form {

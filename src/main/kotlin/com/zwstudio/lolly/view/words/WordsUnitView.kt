@@ -1,9 +1,9 @@
 package com.zwstudio.lolly.view.words
 
 import com.zwstudio.lolly.app.LollyApp
+import com.zwstudio.lolly.data.words.WordsUnitDetailViewModel
 import com.zwstudio.lolly.data.words.WordsUnitViewModel
 import com.zwstudio.lolly.domain.wpp.MUnitWord
-import com.zwstudio.lolly.domain.wpp.UnitWordViewModel
 import javafx.geometry.Orientation
 import javafx.scene.control.TableRow
 import javafx.scene.control.TableView
@@ -11,7 +11,6 @@ import javafx.scene.input.ClipboardContent
 import javafx.scene.input.TransferMode
 import javafx.scene.layout.Priority
 import tornadofx.*
-
 
 class WordsUnitView : WordsBaseView("Words in Unit") {
     var tvWords: TableView<MUnitWord> by singleAssign()
@@ -23,7 +22,7 @@ class WordsUnitView : WordsBaseView("Words in Unit") {
         toolbarDicts = toolbar()
         toolbar {
             button("Add").action {
-                val modal = find<WordsUnitDetailView>("model" to UnitWordViewModel(vm.newUnitWord())) { openModal(block = true) }
+                val modal = find<WordsUnitDetailView>("model" to WordsUnitDetailViewModel(vm.newUnitWord())) { openModal(block = true) }
                 if (modal.result) {
                     vm.lstWordsAll.add(modal.model.item)
                     tvWords.refresh()
@@ -76,7 +75,7 @@ class WordsUnitView : WordsBaseView("Words in Unit") {
                 }
                 onDoubleClick {
                     // https://github.com/edvin/tornadofx/issues/226
-                    val modal = find<WordsUnitDetailView>("model" to UnitWordViewModel(selectionModel.selectedItem)) { openModal(block = true) }
+                    val modal = find<WordsUnitDetailView>("model" to WordsUnitDetailViewModel(selectionModel.selectedItem)) { openModal(block = true) }
                     if (modal.result)
                         this.refresh()
                 }

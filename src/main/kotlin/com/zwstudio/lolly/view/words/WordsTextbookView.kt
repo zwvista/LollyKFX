@@ -1,8 +1,8 @@
 package com.zwstudio.lolly.view.words
 
+import com.zwstudio.lolly.data.words.WordsUnitDetailViewModel
 import com.zwstudio.lolly.data.words.WordsUnitViewModel
 import com.zwstudio.lolly.domain.wpp.MUnitWord
-import com.zwstudio.lolly.domain.wpp.UnitWordViewModel
 import javafx.geometry.Orientation
 import javafx.scene.layout.Priority
 import tornadofx.*
@@ -49,7 +49,7 @@ class WordsTextbookView : WordsBaseView("Words in Textbook") {
                 }
                 onDoubleClick {
                     // https://github.com/edvin/tornadofx/issues/226
-                    val modal = find<WordsUnitDetailView>("model" to UnitWordViewModel(selectionModel.selectedItem)) { openModal(block = true) }
+                    val modal = find<WordsUnitDetailView>("model" to WordsUnitDetailViewModel(selectionModel.selectedItem)) { openModal(block = true) }
                     if (modal.result)
                         this.refresh()
                 }

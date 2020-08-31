@@ -4,9 +4,7 @@ import com.google.gson.annotations.Expose
 import com.google.gson.annotations.SerializedName
 import com.zwstudio.lolly.domain.MSelectItem
 import com.zwstudio.lolly.domain.MTextbook
-import javafx.beans.property.Property
 import javafx.beans.property.SimpleStringProperty
-import tornadofx.ItemViewModel
 import java.io.Serializable
 
 class MUnitWords {
@@ -76,31 +74,4 @@ class MUnitWord: Serializable {
         get() = word + (if (note.isNullOrEmpty()) "" else "($note)")
     val accuracy: String
         get() = if (total == 0) "N/A" else "${Math.floor(correct.toDouble() / total.toDouble() * 1000) / 10}%"
-}
-
-class UnitWordViewModel(item: MUnitWord) : ItemViewModel<MUnitWord>(item) {
-    val id = bind(MUnitWord::id)
-    val textbookname = bind(MUnitWord::textbookname)
-    val unititem: Property<MSelectItem>
-    val partitem: Property<MSelectItem>
-    val seqnum = bind(MUnitWord::seqnum)
-    val wordid = bind(MUnitWord::wordid)
-    val word = bind(MUnitWord::wordProperty)
-    val note = bind(MUnitWord::noteProperty)
-    val famiid = bind(MUnitWord::famiid)
-    val level = bind(MUnitWord::level)
-    val accuracy = bind(MUnitWord::accuracy)
-
-    init {
-        item.unititem = item.textbook.lstUnits.first { it.value == item.unit }
-        item.partitem = item.textbook.lstParts.first { it.value == item.part }
-        unititem = bind(MUnitWord::unititem)
-        partitem = bind(MUnitWord::partitem)
-    }
-
-    override fun onCommit() {
-        super.onCommit()
-        item.unit = item.unititem!!.value
-        item.part = item.partitem!!.value
-    }
 }

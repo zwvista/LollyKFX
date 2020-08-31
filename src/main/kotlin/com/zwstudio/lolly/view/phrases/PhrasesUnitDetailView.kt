@@ -1,11 +1,11 @@
 package com.zwstudio.lolly.view.phrases
 
-import com.zwstudio.lolly.domain.wpp.UnitPhraseViewModel
-import javafx.scene.control.ButtonBar
+import com.zwstudio.lolly.data.phrases.PhrasesUnitDetailViewModel
+import com.zwstudio.lolly.domain.wpp.MUnitPhrase
 import tornadofx.*
 
 class PhrasesUnitDetailView : Fragment("Phrases in Unit Detail") {
-    val model : UnitPhraseViewModel by param()
+    val model : PhrasesUnitDetailViewModel by param()
     var result = false
 
     override val root = form {
@@ -35,6 +35,15 @@ class PhrasesUnitDetailView : Fragment("Phrases in Unit Detail") {
             field("TRANSLATION") {
                 textfield(model.translation)
             }
+        }
+        tableview(model.vmSingle.lstPhrases) {
+            readonlyColumn("UNIT", MUnitPhrase::unitstr)
+            readonlyColumn("PART", MUnitPhrase::partstr)
+            readonlyColumn("SEQNUM", MUnitPhrase::seqnum)
+            readonlyColumn("PHRASE", MUnitPhrase::phraseProperty)
+            readonlyColumn("TRANSLATION", MUnitPhrase::translationProperty)
+            readonlyColumn("PHRASEID", MUnitPhrase::phraseid)
+            readonlyColumn("ID", MUnitPhrase::id)
         }
         buttonbar {
             button("OK") {
