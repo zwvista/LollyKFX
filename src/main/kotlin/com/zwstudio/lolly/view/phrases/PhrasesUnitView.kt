@@ -1,6 +1,7 @@
 package com.zwstudio.lolly.view.phrases
 
 import com.zwstudio.lolly.app.LollyApp
+import com.zwstudio.lolly.data.phrases.PhrasesUnitBatchViewModel
 import com.zwstudio.lolly.data.phrases.PhrasesUnitDetailViewModel
 import com.zwstudio.lolly.data.phrases.PhrasesUnitViewModel
 import com.zwstudio.lolly.domain.wpp.MUnitPhrase
@@ -30,7 +31,12 @@ class PhrasesUnitView : PhrasesBaseView("Phrases in Unit") {
             button("Refresh").action {
                 vm.reload()
             }
-            button("Batch")
+            button("Batch").action {
+                val modal = find<PhrasesUnitBatchView>("model" to PhrasesUnitBatchViewModel(vm)) { openModal(block = true) }
+                if (modal.result) {
+                    tvPhrases.refresh()
+                }
+            }
             button("Toggle")
             button("Previous")
             button("Review")
