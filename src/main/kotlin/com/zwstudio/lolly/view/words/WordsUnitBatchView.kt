@@ -1,13 +1,62 @@
 package com.zwstudio.lolly.view.words
 
 import com.zwstudio.lolly.data.words.WordsUnitBatchViewModel
+import com.zwstudio.lolly.domain.wpp.MUnitWord
+import javafx.geometry.Insets
 import tornadofx.*
 
 class WordsUnitBatchView : Fragment("Words in Unit Batch Edit") {
     val vm : WordsUnitBatchViewModel by param()
     var result = false
 
-    override val root = form {
+    override val root = vbox {
+        padding = Insets(10.0)
+        spacing = 10.0
+        gridpane {
+            hgap = 10.0
+            vgap = 10.0
+            row {
+                checkbox("UNIT:", vm.unitIsChecked)
+                combobox(vm.unititem, vm.selectedTextbook.lstUnits)
+            }
+            row {
+                checkbox("PART:", vm.partIsChecked)
+                combobox(vm.partitem, vm.selectedTextbook.lstParts)
+            }
+            row {
+                checkbox("SEQNUM(+):", vm.seqNumIsChecked)
+                textfield(vm.seqnum)
+            }
+            row {
+                checkbox("LEVEL:", vm.levelIsChecked)
+                textfield(vm.level)
+            }
+            row {
+                checkbox("Level = 0 Only", vm.level0OnlyIsChecked) {
+                    gridpaneConstraints {
+                        columnIndex = 2
+                    }
+                }
+            }
+        }
+        buttonbar {
+            button("Check All")
+            button("Uncheck All")
+            button("Check Selected")
+            button("Uncheck Selected")
+        }
+        tableview(vm.vm.lstWords) {
+            readonlyColumn("UNIT", MUnitWord::unitstr)
+            readonlyColumn("PART", MUnitWord::partstr)
+            readonlyColumn("SEQNUM", MUnitWord::seqnum)
+            readonlyColumn("WORD", MUnitWord::word)
+            readonlyColumn("NOTE", MUnitWord::note)
+            readonlyColumn("LEVEL", MUnitWord::level)
+            readonlyColumn("ACCURACY", MUnitWord::accuracy)
+            readonlyColumn("WORDID", MUnitWord::wordid)
+            readonlyColumn("ID", MUnitWord::id)
+            readonlyColumn("FAMIID", MUnitWord::famiid)
+        }
         buttonbar {
             button("OK") {
                 isDefaultButton = true

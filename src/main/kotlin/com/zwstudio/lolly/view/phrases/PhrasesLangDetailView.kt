@@ -23,11 +23,12 @@ class PhrasesLangDetailView : Fragment("Phrases in Language Detail") {
             }
         }
         tableview(vm.vmSingle.lstPhrases) {
+            readonlyColumn("TEXTBOOKNAME", MUnitPhrase::textbookname)
             readonlyColumn("UNIT", MUnitPhrase::unitstr)
             readonlyColumn("PART", MUnitPhrase::partstr)
             readonlyColumn("SEQNUM", MUnitPhrase::seqnum)
-            readonlyColumn("PHRASE", MUnitPhrase::phraseProperty)
-            readonlyColumn("TRANSLATION", MUnitPhrase::translationProperty)
+            readonlyColumn("PHRASE", MUnitPhrase::phrase)
+            readonlyColumn("TRANSLATION", MUnitPhrase::translation)
             readonlyColumn("PHRASEID", MUnitPhrase::phraseid)
             readonlyColumn("ID", MUnitPhrase::id)
         }

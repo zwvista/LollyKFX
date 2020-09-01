@@ -1,6 +1,7 @@
 package com.zwstudio.lolly.view.words
 
 import com.zwstudio.lolly.data.words.WordsUnitDetailViewModel
+import com.zwstudio.lolly.domain.wpp.MUnitWord
 import tornadofx.*
 
 class WordsTextbookDetailView : Fragment("Words in Textbook Detail") {
@@ -52,6 +53,19 @@ class WordsTextbookDetailView : Fragment("Words in Textbook Detail") {
                     isEditable = false
                 }
             }
+        }
+        tableview(vm.vmSingle.lstWords) {
+            readonlyColumn("TEXTBOOKNAME", MUnitWord::textbookname)
+            readonlyColumn("UNIT", MUnitWord::unitstr)
+            readonlyColumn("PART", MUnitWord::partstr)
+            readonlyColumn("SEQNUM", MUnitWord::seqnum)
+            readonlyColumn("WORD", MUnitWord::word)
+            readonlyColumn("NOTE", MUnitWord::note)
+            readonlyColumn("LEVEL", MUnitWord::level)
+            readonlyColumn("ACCURACY", MUnitWord::accuracy)
+            readonlyColumn("WORDID", MUnitWord::wordid)
+            readonlyColumn("ID", MUnitWord::id)
+            readonlyColumn("FAMIID", MUnitWord::famiid)
         }
         buttonbar {
             button("OK") {
