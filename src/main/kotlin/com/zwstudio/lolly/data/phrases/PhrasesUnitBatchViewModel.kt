@@ -10,11 +10,9 @@ class PhrasesUnitBatchViewModel(val vm: PhrasesUnitViewModel) : ViewModel() {
     val unitIsChecked = SimpleBooleanProperty()
     val partIsChecked = SimpleBooleanProperty()
     val seqNumIsChecked = SimpleBooleanProperty()
-    val unit = SimpleIntegerProperty()
-    val part = SimpleIntegerProperty()
-    val seqnum = SimpleIntegerProperty()
     val unititem = SimpleObjectProperty<MSelectItem>()
     val partitem = SimpleObjectProperty<MSelectItem>()
+    val seqnum = SimpleIntegerProperty()
     val selectedTextbook get() = vm.vmSettings.selectedTextbook
 
     override fun onCommit() {

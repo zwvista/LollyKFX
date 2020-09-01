@@ -17,15 +17,21 @@ class PhrasesUnitBatchView : Fragment("Phrases in Unit Batch Edit") {
             vgap = 10.0
             row {
                 checkbox("UNIT:", vm.unitIsChecked)
-                combobox(vm.unititem, vm.selectedTextbook.lstUnits)
+                combobox(vm.unititem, vm.selectedTextbook.lstUnits) {
+                    enableWhen { vm.unitIsChecked }
+                }
             }
             row {
                 checkbox("PART:", vm.partIsChecked)
-                combobox(vm.partitem, vm.selectedTextbook.lstParts)
+                combobox(vm.partitem, vm.selectedTextbook.lstParts) {
+                    enableWhen { vm.partIsChecked }
+                }
             }
             row {
                 checkbox("SEQNUM(+):", vm.seqNumIsChecked)
-                textfield(vm.seqnum)
+                textfield(vm.seqnum) {
+                    enableWhen { vm.seqNumIsChecked }
+                }
             }
         }
         buttonbar {

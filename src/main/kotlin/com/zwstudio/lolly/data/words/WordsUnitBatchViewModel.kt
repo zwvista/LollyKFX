@@ -12,12 +12,10 @@ class WordsUnitBatchViewModel(val vm: WordsUnitViewModel) : ViewModel() {
     val seqNumIsChecked = SimpleBooleanProperty()
     val levelIsChecked = SimpleBooleanProperty()
     val level0OnlyIsChecked = SimpleBooleanProperty()
-    val unit = SimpleIntegerProperty()
-    val part = SimpleIntegerProperty()
-    val seqnum = SimpleIntegerProperty()
-    val level = SimpleIntegerProperty()
     val unititem = SimpleObjectProperty<MSelectItem>()
     val partitem = SimpleObjectProperty<MSelectItem>()
+    val seqnum = SimpleIntegerProperty()
+    val level = SimpleIntegerProperty()
     val selectedTextbook get() = vm.vmSettings.selectedTextbook
 
     override fun onCommit() {
