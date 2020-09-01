@@ -21,10 +21,14 @@ class WordsTextbookDetailView : Fragment("Words in Textbook Detail") {
                 }
             }
             field("UNIT") {
-                combobox(vm.unititem, vm.item.textbook.lstUnits)
+                combobox(vm.unititem, vm.item.textbook.lstUnits) {
+                    maxWidth = Double.MAX_VALUE
+                }
             }
             field("PART") {
-                combobox(vm.partitem, vm.item.textbook.lstParts)
+                combobox(vm.partitem, vm.item.textbook.lstParts) {
+                    maxWidth = Double.MAX_VALUE
+                }
             }
             field("SEQNUM") {
                 textfield(vm.seqnum)

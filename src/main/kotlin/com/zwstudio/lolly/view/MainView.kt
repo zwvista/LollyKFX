@@ -1,9 +1,6 @@
 package com.zwstudio.lolly.view
 
-import com.zwstudio.lolly.view.misc.BlogView
-import com.zwstudio.lolly.view.misc.DictsView
-import com.zwstudio.lolly.view.misc.ReadNumberView
-import com.zwstudio.lolly.view.misc.TextbooksView
+import com.zwstudio.lolly.view.misc.*
 import com.zwstudio.lolly.view.patterns.PatternsView
 import com.zwstudio.lolly.view.phrases.PhrasesLangView
 import com.zwstudio.lolly.view.phrases.PhrasesReviewView
@@ -23,7 +20,9 @@ class MainView : View("Lolly TornadoFX") {
                 item("Search").action {
                     AddTab<WordsSearchView>()
                 }
-                item("Settings","Ctrl+Alt+S")
+                item("Settings","Ctrl+Alt+S").action {
+                    val modal = find<SettingsView> { openModal(block = true) }
+                }
                 separator()
                 item("Words in Unit","Ctrl+Alt+W").action {
                     AddTab<WordsUnitView>()
@@ -85,4 +84,3 @@ class MainView : View("Lolly TornadoFX") {
         tabpane.selectionModel.select(t)
     }
 }
-

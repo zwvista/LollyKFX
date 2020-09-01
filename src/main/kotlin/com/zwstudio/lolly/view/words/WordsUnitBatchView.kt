@@ -15,15 +15,18 @@ class WordsUnitBatchView : Fragment("Words in Unit Batch Edit") {
         gridpane {
             hgap = 10.0
             vgap = 10.0
+            constraintsForColumn(1).percentWidth = 100.0
             row {
                 checkbox("UNIT:", vm.unitIsChecked)
                 combobox(vm.unititem, vm.selectedTextbook.lstUnits) {
+                    maxWidth = Double.MAX_VALUE
                     enableWhen { vm.unitIsChecked }
                 }
             }
             row {
                 checkbox("PART:", vm.partIsChecked)
                 combobox(vm.partitem, vm.selectedTextbook.lstParts) {
+                    maxWidth = Double.MAX_VALUE
                     enableWhen { vm.partIsChecked }
                 }
             }

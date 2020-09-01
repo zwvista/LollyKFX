@@ -5,8 +5,11 @@ import com.zwstudio.lolly.service.*
 import io.reactivex.rxjava3.core.Observable
 import io.reactivex.rxjava3.kotlin.Observables
 import javafx.application.Platform
+import javafx.beans.property.SimpleObjectProperty
 import tornadofx.Component
 import tornadofx.ScopedInstance
+import tornadofx.getValue
+import tornadofx.setValue
 
 class SettingsViewModel : Component(), ScopedInstance {
 
@@ -118,7 +121,8 @@ class SettingsViewModel : Component(), ScopedInstance {
         get() = usunitpartfrom > usunitpartto
 
     var lstLanguages = listOf<MLanguage>()
-    lateinit var selectedLang: MLanguage
+    val selectedLangProperty = SimpleObjectProperty<MLanguage>()
+    var selectedLang by selectedLangProperty
     val selectedLangIndex: Int
         get() = lstLanguages.indexOf(selectedLang)
 

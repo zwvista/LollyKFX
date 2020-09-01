@@ -15,6 +15,7 @@ class PhrasesUnitBatchView : Fragment("Phrases in Unit Batch Edit") {
         gridpane {
             hgap = 10.0
             vgap = 10.0
+            constraintsForColumn(1).percentWidth = 100.0
             row {
                 checkbox("UNIT:", vm.unitIsChecked)
                 combobox(vm.unititem, vm.selectedTextbook.lstUnits) {
