@@ -20,7 +20,7 @@ class SettingsView : Fragment("Settings") {
     var result = false
 
     override val root = gridpane {
-        padding = Insets(10.0)
+        paddingAll = 10.0
         hgap = 10.0
         vgap = 10.0
 //        setStyle("-fx-background-color: #FF0000;");
