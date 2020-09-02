@@ -13,10 +13,11 @@ class SettingsView : Fragment("Settings") {
         padding = Insets(10.0)
         hgap = 10.0
         vgap = 10.0
-        setStyle("-fx-background-color: #FF0000;");
+//        setStyle("-fx-background-color: #FF0000;");
         constraintsForColumn(1).hgrow = Priority.ALWAYS
         constraintsForColumn(2).hgrow = Priority.ALWAYS
         constraintsForColumn(3).hgrow = Priority.ALWAYS
+        constraintsForRow(2).vgrow = Priority.ALWAYS
         row {
             label("Language:")
             combobox(vm.selectedLangProperty, vm.lstLanguages) {
@@ -27,6 +28,94 @@ class SettingsView : Fragment("Settings") {
                 gridpaneConstraints {
                     columnSpan = 3
                 }
+            }
+        }
+        row {
+            label("Voice:")
+            combobox(vm.selectedVoiceProperty, vm.lstVoices) {
+                maxWidth = Double.MAX_VALUE
+                cellFormat {
+                    text = it.voicename
+                }
+                gridpaneConstraints {
+                    columnSpan = 3
+                }
+            }
+        }
+        row {
+            label("Dictionary(Reference):")
+            listview(values = vm.selectedDictsReference) {
+                maxWidth = Double.MAX_VALUE
+                prefHeight = 100.0
+                cellFormat {
+                    text = it.dictname
+                }
+                gridpaneConstraints {
+                    columnSpan = 2
+                }
+            }
+        }
+        button("Edit") {
+            gridpaneConstraints {
+                columnRowIndex(3, 2)
+            }
+        }
+        row {
+            label("Dictionary(Note):")
+            combobox(vm.selectedDictNoteProperty, vm.lstDictsNote) {
+                maxWidth = Double.MAX_VALUE
+                cellFormat {
+                    text = it.dictname
+                }
+                gridpaneConstraints {
+                    columnSpan = 3
+                }
+            }
+        }
+        row {
+            label("Dictionary(Translation):")
+            combobox(vm.selectedDictTranslationProperty, vm.lstDictsTranslation) {
+                maxWidth = Double.MAX_VALUE
+                cellFormat {
+                    text = it.dictname
+                }
+                gridpaneConstraints {
+                    columnSpan = 3
+                }
+            }
+        }
+        row {
+            label("Textbooks:")
+            combobox(vm.selectedTextbookProperty, vm.lstTextbooks) {
+                maxWidth = Double.MAX_VALUE
+                cellFormat {
+                    text = it.textbookname
+                }
+                gridpaneConstraints {
+                    columnSpan = 3
+                }
+            }
+        }
+        row {
+            label("Unit:")
+            combobox(vm.usunitfromItem, vm.lstUnits) {
+                maxWidth = Double.MAX_VALUE
+            }
+            label(vm.unitsInAll)
+            combobox(vm.uspartfromItem, vm.lstParts) {
+                maxWidth = Double.MAX_VALUE
+            }
+        }
+        row {
+            combobox(vm.toTypeProperty, vm.lstToTypes) {
+                maxWidth = Double.MAX_VALUE
+            }
+            combobox(vm.usunittoItem, vm.lstUnits) {
+                maxWidth = Double.MAX_VALUE
+            }
+            label(vm.unitsInAll)
+            combobox(vm.usparttoItem, vm.lstParts) {
+                maxWidth = Double.MAX_VALUE
             }
         }
         row {

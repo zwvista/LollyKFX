@@ -6,10 +6,10 @@ import io.reactivex.rxjava3.core.Observable
 import io.reactivex.rxjava3.kotlin.Observables
 import javafx.application.Platform
 import javafx.beans.property.SimpleObjectProperty
+import javafx.beans.property.SimpleStringProperty
 import tornadofx.Component
 import tornadofx.ScopedInstance
-import tornadofx.getValue
-import tornadofx.setValue
+import tornadofx.asObservable
 
 class SettingsViewModel : Component(), ScopedInstance {
 
@@ -90,24 +90,28 @@ class SettingsViewModel : Component(), ScopedInstance {
         get() = getUSValue(INFO_USUNITFROM)!!.toInt()
         set(value) {
             setUSValue(INFO_USUNITFROM, value.toString())
+            usunitfromItem = SimpleObjectProperty(lstUnits.first { it.value == usunitfrom })
         }
     private var INFO_USPARTFROM = MUserSettingInfo()
     var uspartfrom: Int
         get() = getUSValue(INFO_USPARTFROM)!!.toInt()
         set(value) {
             setUSValue(INFO_USPARTFROM, value.toString())
+            uspartfromItem = SimpleObjectProperty(lstParts.first { it.value == uspartfrom })
         }
     private var INFO_USUNITTO = MUserSettingInfo()
     var usunitto: Int
         get() = getUSValue(INFO_USUNITTO)!!.toInt()
         set(value) {
             setUSValue(INFO_USUNITTO, value.toString())
+            usunittoItem = SimpleObjectProperty(lstUnits.first { it.value == usunitto })
         }
     private var INFO_USPARTTO = MUserSettingInfo()
     var uspartto: Int
         get() = getUSValue(INFO_USPARTTO)!!.toInt()
         set(value) {
             setUSValue(INFO_USPARTTO, value.toString())
+            usparttoItem = SimpleObjectProperty(lstParts.first { it.value == uspartto })
         }
     val usunitpartfrom: Int
         get() = usunitfrom * 10 + uspartfrom
@@ -122,38 +126,39 @@ class SettingsViewModel : Component(), ScopedInstance {
 
     var lstLanguages = listOf<MLanguage>()
     val selectedLangProperty = SimpleObjectProperty<MLanguage>()
-    var selectedLang by selectedLangProperty
+    var selectedLang get() = selectedLangProperty.value; set(value) = selectedLangProperty.set(value)
     val selectedLangIndex: Int
         get() = lstLanguages.indexOf(selectedLang)
 
     var lstVoices = listOf<MVoice>()
-    var selectedVoice: MVoice? = null
+    var selectedVoiceProperty = SimpleObjectProperty<MVoice>()
         set(value) {
             field = value
-            usvoiceid = field?.id ?: 0
+            usvoiceid = field.value?.id ?: 0
         }
+    var selectedVoice get() = selectedVoiceProperty.value; set(value) { selectedVoiceProperty = SimpleObjectProperty(value) }
     val selectedVoiceIndex: Int
         get() =
             if (selectedVoice == null) 0
             else lstVoices.indexOf(selectedVoice!!)
 
     var lstTextbooks = listOf<MTextbook>()
-    // https://stackoverflow.com/questions/46366869/kotlin-workaround-for-no-lateinit-when-using-custom-setter
-    private var _selectedTextbook: MTextbook? = null
-    var selectedTextbook: MTextbook
-        get() = _selectedTextbook!!
+    var selectedTextbookProperty = SimpleObjectProperty<MTextbook>()
         set(value) {
-            _selectedTextbook = value
-            ustextbookid = value.id
+            field = value
+            ustextbookid = field.value.id
+            unitsInAll.value = "(${unitCount} in all)"
             INFO_USUNITFROM = getUSInfo(MUSMapping.NAME_USUNITFROM)
+            usunitfrom = usunitfrom
             INFO_USPARTFROM = getUSInfo(MUSMapping.NAME_USPARTFROM)
+            uspartfrom = uspartfrom
             INFO_USUNITTO = getUSInfo(MUSMapping.NAME_USUNITTO)
+            usunitto = usunitto
             INFO_USPARTTO = getUSInfo(MUSMapping.NAME_USPARTTO)
-            toType =
-                if (isSingleUnit) 0
-                else if (isSingleUnitPart) 1
-                else 2
+            uspartto = uspartto
+            toType = if (isSingleUnit) 0 else if (isSingleUnitPart) 1 else 2
         }
+    var selectedTextbook get() = selectedTextbookProperty.value; set(value) { selectedTextbookProperty = SimpleObjectProperty(value) }
     val selectedTextbookIndex: Int
         get() = lstTextbooks.indexOf(selectedTextbook)
     var lstTextbookFilters = listOf<MSelectItem>()
@@ -169,31 +174,31 @@ class SettingsViewModel : Component(), ScopedInstance {
         }
     val selectedDictReferenceIndex: Int
         get() = lstDictsReference.indexOf(selectedDictReference)
-    private var _selectedDictsReference = listOf<MDictionary>()
-    var selectedDictsReference: List<MDictionary>
-        get() = _selectedDictsReference
+    var selectedDictsReference = listOf<MDictionary>().asObservable()
         set(value) {
-            _selectedDictsReference = value
-            usdictsreference = _selectedDictsReference.map { it.dictid.toString() }.joinToString(",")
+            field = value
+            usdictsreference = field.map { it.dictid.toString() }.joinToString(",")
         }
 
     var lstDictsNote = listOf<MDictionary>()
-    var selectedDictNote: MDictionary? = null
+    var selectedDictNoteProperty = SimpleObjectProperty<MDictionary>()
         set(value) {
             field = value
-            usdictnoteid = selectedDictNote?.id ?: 0
+            usdictnoteid = field.value?.id ?: 0
         }
+    var selectedDictNote get() = selectedDictNoteProperty.value; set(value) { selectedDictNoteProperty = SimpleObjectProperty(value) }
     val selectedDictNoteIndex: Int
         get() =
             if (selectedDictNote == null) 0
             else lstDictsNote.indexOf(selectedDictNote!!)
 
     var lstDictsTranslation = listOf<MDictionary>()
-    var selectedDictTranslation: MDictionary? = null
+    var selectedDictTranslationProperty = SimpleObjectProperty<MDictionary>()
         set(value) {
             field = value
-            usdicttranslationid = selectedDictTranslation?.id ?: 0
+            usdicttranslationid = field.value?.id ?: 0
         }
+    var selectedDictTranslation get() = selectedDictTranslationProperty.value; set(value) { selectedDictTranslationProperty = SimpleObjectProperty(value) }
     val selectedDictTranslationIndex: Int
         get() =
             if (selectedDictTranslation == null) 0
@@ -201,10 +206,15 @@ class SettingsViewModel : Component(), ScopedInstance {
 
     val lstUnits: List<MSelectItem>
         get() = selectedTextbook.lstUnits
+    var usunitfromItem = SimpleObjectProperty<MSelectItem>()
+    var usunittoItem = SimpleObjectProperty<MSelectItem>()
     val unitCount: Int
         get() = lstUnits.size
+    val unitsInAll = SimpleStringProperty()
     val lstParts: List<MSelectItem>
         get() = selectedTextbook.lstParts
+    var uspartfromItem = SimpleObjectProperty<MSelectItem>()
+    var usparttoItem = SimpleObjectProperty<MSelectItem>()
     val partCount: Int
         get() = lstParts.size
     val isSinglePart: Boolean
@@ -213,7 +223,8 @@ class SettingsViewModel : Component(), ScopedInstance {
     var lstAutoCorrect = listOf<MAutoCorrect>()
 
     val lstToTypes = listOf("Unit", "Part", "To").mapIndexed { index, s -> MSelectItem(index, s) }
-    var toType = 0
+    val toTypeProperty = SimpleObjectProperty(lstToTypes[0])
+    var toType get() = toTypeProperty.value.value; set(value) { toTypeProperty.value = lstToTypes[value] }
 
     val lstScopeWordFilters = listOf("Word", "Note")
     val lstScopePhraseFilters = listOf("Phrase", "Translation")
@@ -279,7 +290,7 @@ class SettingsViewModel : Component(), ScopedInstance {
             res1, res2, res3, res4, res5, res6 ->
             lstDictsReference = res1
             selectedDictReference = lstDictsReference.first { it.dictid.toString() == usdictreference }
-            selectedDictsReference = usdictsreference.split(",").flatMap { d -> lstDictsReference.filter { it.dictid.toString() == d } }
+            selectedDictsReference = usdictsreference.split(",").flatMap { d -> lstDictsReference.filter { it.dictid.toString() == d } }.asObservable()
             lstDictsNote = res2
             selectedDictNote = lstDictsNote.firstOrNull { it.dictid == usdictnoteid } ?: lstDictsNote.firstOrNull()
             lstDictsTranslation = res3
