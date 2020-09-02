@@ -3,6 +3,7 @@ package com.zwstudio.lolly.view.words
 import com.zwstudio.lolly.data.words.WordsUnitBatchViewModel
 import com.zwstudio.lolly.domain.wpp.MUnitWord
 import javafx.geometry.Insets
+import javafx.scene.layout.Priority
 import tornadofx.*
 
 class WordsUnitBatchView : Fragment("Words in Unit Batch Edit") {
@@ -15,7 +16,7 @@ class WordsUnitBatchView : Fragment("Words in Unit Batch Edit") {
         gridpane {
             hgap = 10.0
             vgap = 10.0
-            constraintsForColumn(1).percentWidth = 100.0
+            constraintsForColumn(1).hgrow = Priority.ALWAYS
             row {
                 checkbox("UNIT:", vm.unitIsChecked)
                 combobox(vm.unititem, vm.selectedTextbook.lstUnits) {

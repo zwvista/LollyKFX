@@ -2,6 +2,7 @@ package com.zwstudio.lolly.view.misc
 
 import com.zwstudio.lolly.data.SettingsViewModel
 import javafx.geometry.Insets
+import javafx.scene.layout.Priority
 import tornadofx.*
 
 class SettingsView : Fragment("Settings") {
@@ -13,6 +14,9 @@ class SettingsView : Fragment("Settings") {
         hgap = 10.0
         vgap = 10.0
         setStyle("-fx-background-color: #FF0000;");
+        constraintsForColumn(1).hgrow = Priority.ALWAYS
+        constraintsForColumn(2).hgrow = Priority.ALWAYS
+        constraintsForColumn(3).hgrow = Priority.ALWAYS
         row {
             label("Language:")
             combobox(vm.selectedLangProperty, vm.lstLanguages) {
