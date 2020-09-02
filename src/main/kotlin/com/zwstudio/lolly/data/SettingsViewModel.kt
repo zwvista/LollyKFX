@@ -7,9 +7,7 @@ import io.reactivex.rxjava3.kotlin.Observables
 import javafx.application.Platform
 import javafx.beans.property.SimpleObjectProperty
 import javafx.beans.property.SimpleStringProperty
-import tornadofx.Component
-import tornadofx.ScopedInstance
-import tornadofx.asObservable
+import tornadofx.*
 
 class SettingsViewModel : Component(), ScopedInstance {
 
@@ -90,28 +88,28 @@ class SettingsViewModel : Component(), ScopedInstance {
         get() = getUSValue(INFO_USUNITFROM)!!.toInt()
         set(value) {
             setUSValue(INFO_USUNITFROM, value.toString())
-            usunitfromItem = SimpleObjectProperty(lstUnits.first { it.value == usunitfrom })
+            usunitfromItem.value = lstUnits.first { it.value == usunitfrom }
         }
     private var INFO_USPARTFROM = MUserSettingInfo()
     var uspartfrom: Int
         get() = getUSValue(INFO_USPARTFROM)!!.toInt()
         set(value) {
             setUSValue(INFO_USPARTFROM, value.toString())
-            uspartfromItem = SimpleObjectProperty(lstParts.first { it.value == uspartfrom })
+            uspartfromItem.value = lstParts.first { it.value == uspartfrom }
         }
     private var INFO_USUNITTO = MUserSettingInfo()
     var usunitto: Int
         get() = getUSValue(INFO_USUNITTO)!!.toInt()
         set(value) {
             setUSValue(INFO_USUNITTO, value.toString())
-            usunittoItem = SimpleObjectProperty(lstUnits.first { it.value == usunitto })
+            usunittoItem.value = lstUnits.first { it.value == usunitto }
         }
     private var INFO_USPARTTO = MUserSettingInfo()
     var uspartto: Int
         get() = getUSValue(INFO_USPARTTO)!!.toInt()
         set(value) {
             setUSValue(INFO_USPARTTO, value.toString())
-            usparttoItem = SimpleObjectProperty(lstParts.first { it.value == uspartto })
+            usparttoItem.value = lstParts.first { it.value == uspartto }
         }
     val usunitpartfrom: Int
         get() = usunitfrom * 10 + uspartfrom
@@ -126,39 +124,21 @@ class SettingsViewModel : Component(), ScopedInstance {
 
     var lstLanguages = listOf<MLanguage>()
     val selectedLangProperty = SimpleObjectProperty<MLanguage>()
-    var selectedLang get() = selectedLangProperty.value; set(value) = selectedLangProperty.set(value)
+    var selectedLang by selectedLangProperty
     val selectedLangIndex: Int
         get() = lstLanguages.indexOf(selectedLang)
 
-    var lstVoices = listOf<MVoice>()
-    var selectedVoiceProperty = SimpleObjectProperty<MVoice>()
-        set(value) {
-            field = value
-            usvoiceid = field.value?.id ?: 0
-        }
-    var selectedVoice get() = selectedVoiceProperty.value; set(value) { selectedVoiceProperty = SimpleObjectProperty(value) }
+    var lstVoices = mutableListOf<MVoice>().asObservable()
+    val selectedVoiceProperty = SimpleObjectProperty<MVoice>()
+    var selectedVoice by selectedVoiceProperty
     val selectedVoiceIndex: Int
         get() =
             if (selectedVoice == null) 0
             else lstVoices.indexOf(selectedVoice!!)
 
-    var lstTextbooks = listOf<MTextbook>()
-    var selectedTextbookProperty = SimpleObjectProperty<MTextbook>()
-        set(value) {
-            field = value
-            ustextbookid = field.value.id
-            unitsInAll.value = "(${unitCount} in all)"
-            INFO_USUNITFROM = getUSInfo(MUSMapping.NAME_USUNITFROM)
-            usunitfrom = usunitfrom
-            INFO_USPARTFROM = getUSInfo(MUSMapping.NAME_USPARTFROM)
-            uspartfrom = uspartfrom
-            INFO_USUNITTO = getUSInfo(MUSMapping.NAME_USUNITTO)
-            usunitto = usunitto
-            INFO_USPARTTO = getUSInfo(MUSMapping.NAME_USPARTTO)
-            uspartto = uspartto
-            toType = if (isSingleUnit) 0 else if (isSingleUnitPart) 1 else 2
-        }
-    var selectedTextbook get() = selectedTextbookProperty.value; set(value) { selectedTextbookProperty = SimpleObjectProperty(value) }
+    var lstTextbooks = mutableListOf<MTextbook>().asObservable()
+    val selectedTextbookProperty = SimpleObjectProperty<MTextbook>()
+    var selectedTextbook by selectedTextbookProperty
     val selectedTextbookIndex: Int
         get() = lstTextbooks.indexOf(selectedTextbook)
     var lstTextbookFilters = listOf<MSelectItem>()
@@ -174,45 +154,35 @@ class SettingsViewModel : Component(), ScopedInstance {
         }
     val selectedDictReferenceIndex: Int
         get() = lstDictsReference.indexOf(selectedDictReference)
-    var selectedDictsReference = listOf<MDictionary>().asObservable()
+    var selectedDictsReference = mutableListOf<MDictionary>().asObservable()
         set(value) {
             field = value
             usdictsreference = field.map { it.dictid.toString() }.joinToString(",")
         }
 
-    var lstDictsNote = listOf<MDictionary>()
-    var selectedDictNoteProperty = SimpleObjectProperty<MDictionary>()
-        set(value) {
-            field = value
-            usdictnoteid = field.value?.id ?: 0
-        }
-    var selectedDictNote get() = selectedDictNoteProperty.value; set(value) { selectedDictNoteProperty = SimpleObjectProperty(value) }
+    var lstDictsNote = mutableListOf<MDictionary>().asObservable()
+    val selectedDictNoteProperty = SimpleObjectProperty<MDictionary>()
+    var selectedDictNote by selectedDictNoteProperty
     val selectedDictNoteIndex: Int
         get() =
             if (selectedDictNote == null) 0
             else lstDictsNote.indexOf(selectedDictNote!!)
 
-    var lstDictsTranslation = listOf<MDictionary>()
-    var selectedDictTranslationProperty = SimpleObjectProperty<MDictionary>()
-        set(value) {
-            field = value
-            usdicttranslationid = field.value?.id ?: 0
-        }
-    var selectedDictTranslation get() = selectedDictTranslationProperty.value; set(value) { selectedDictTranslationProperty = SimpleObjectProperty(value) }
+    var lstDictsTranslation = mutableListOf<MDictionary>().asObservable()
+    val selectedDictTranslationProperty = SimpleObjectProperty<MDictionary>()
+    var selectedDictTranslation by selectedDictTranslationProperty
     val selectedDictTranslationIndex: Int
         get() =
             if (selectedDictTranslation == null) 0
             else lstDictsTranslation.indexOf(selectedDictTranslation!!)
 
-    val lstUnits: List<MSelectItem>
-        get() = selectedTextbook.lstUnits
+    val lstUnits = mutableListOf<MSelectItem>().asObservable()
     var usunitfromItem = SimpleObjectProperty<MSelectItem>()
     var usunittoItem = SimpleObjectProperty<MSelectItem>()
     val unitCount: Int
         get() = lstUnits.size
     val unitsInAll = SimpleStringProperty()
-    val lstParts: List<MSelectItem>
-        get() = selectedTextbook.lstParts
+    val lstParts = mutableListOf<MSelectItem>().asObservable()
     var uspartfromItem = SimpleObjectProperty<MSelectItem>()
     var usparttoItem = SimpleObjectProperty<MSelectItem>()
     val partCount: Int
@@ -224,7 +194,7 @@ class SettingsViewModel : Component(), ScopedInstance {
 
     val lstToTypes = listOf("Unit", "Part", "To").mapIndexed { index, s -> MSelectItem(index, s) }
     val toTypeProperty = SimpleObjectProperty(lstToTypes[0])
-    var toType get() = toTypeProperty.value.value; set(value) { toTypeProperty.value = lstToTypes[value] }
+    var toType get() = toTypeProperty.value.value; set(value) = toTypeProperty.setValue(lstToTypes[value])
 
     val lstScopeWordFilters = listOf("Word", "Note")
     val lstScopePhraseFilters = listOf("Phrase", "Translation")
@@ -238,6 +208,34 @@ class SettingsViewModel : Component(), ScopedInstance {
     val textbookService: TextbookService by inject()
     val autoCorrectService: AutoCorrectService by inject()
     val voiceService: VoiceService by inject()
+
+    init {
+        selectedVoiceProperty.addListener { _, _, newValue ->
+            usvoiceid = newValue?.id ?: 0
+        }
+        selectedDictNoteProperty.addListener { _, _, newValue ->
+            usdictnoteid = newValue?.id ?: 0
+        }
+        selectedDictTranslationProperty.addListener { _, _, newValue ->
+            usdicttranslationid = newValue?.id ?: 0
+        }
+        selectedTextbookProperty.addListener { _, _, newValue ->
+            if (newValue == null) return@addListener
+            ustextbookid = newValue.id
+            lstUnits.clear(); lstUnits.addAll(newValue.lstUnits)
+            unitsInAll.value = "(${unitCount} in all)"
+            lstParts.clear(); lstParts.addAll(newValue.lstParts)
+            INFO_USUNITFROM = getUSInfo(MUSMapping.NAME_USUNITFROM)
+            usunitfrom = usunitfrom
+            INFO_USPARTFROM = getUSInfo(MUSMapping.NAME_USPARTFROM)
+            uspartfrom = uspartfrom
+            INFO_USUNITTO = getUSInfo(MUSMapping.NAME_USUNITTO)
+            usunitto = usunitto
+            INFO_USPARTTO = getUSInfo(MUSMapping.NAME_USPARTTO)
+            uspartto = uspartto
+            toType = if (isSingleUnit) 0 else if (isSingleUnitPart) 1 else 2
+        }
+    }
 
     private fun getUSInfo(name: String): MUserSettingInfo {
         val o = lstUSMappings.find { it.name == name }!!
@@ -288,19 +286,22 @@ class SettingsViewModel : Component(), ScopedInstance {
             autoCorrectService.getDataByLang(uslangid),
             voiceService.getDataByLang(uslangid)) {
             res1, res2, res3, res4, res5, res6 ->
-            lstDictsReference = res1
-            selectedDictReference = lstDictsReference.first { it.dictid.toString() == usdictreference }
-            selectedDictsReference = usdictsreference.split(",").flatMap { d -> lstDictsReference.filter { it.dictid.toString() == d } }.asObservable()
-            lstDictsNote = res2
-            selectedDictNote = lstDictsNote.firstOrNull { it.dictid == usdictnoteid } ?: lstDictsNote.firstOrNull()
-            lstDictsTranslation = res3
-            selectedDictTranslation = lstDictsTranslation.firstOrNull { it.dictid == usdicttranslationid } ?: lstDictsTranslation.firstOrNull()
-            lstTextbooks = res4
-            selectedTextbook = lstTextbooks.first { it.id == ustextbookid }
-            lstTextbookFilters = listOf(MSelectItem(0, "All Textbooks")) + lstTextbooks.map { MSelectItem(it.id, it.textbookname!!) }
-            lstAutoCorrect = res5
-            lstVoices = res6
-            selectedVoice = lstVoices.firstOrNull { it.id == usvoiceid } ?: lstVoices.firstOrNull()
+            Platform.runLater {
+                lstDictsReference = res1
+                selectedDictReference = lstDictsReference.first { it.dictid.toString() == usdictreference }
+                selectedDictsReference.clear(); selectedDictsReference.addAll(usdictsreference.split(",").flatMap { d -> lstDictsReference.filter { it.dictid.toString() == d } })
+                lstDictsNote.clear(); lstDictsNote.addAll(res2)
+                selectedDictNote = lstDictsNote.firstOrNull { it.dictid == usdictnoteid } ?: lstDictsNote.firstOrNull()
+                lstDictsTranslation.clear(); lstDictsTranslation.addAll(res3)
+                selectedDictTranslation = lstDictsTranslation.firstOrNull { it.dictid == usdicttranslationid }
+                        ?: lstDictsTranslation.firstOrNull()
+                lstTextbooks.clear(); lstTextbooks.addAll(res4)
+                selectedTextbook = lstTextbooks.first { it.id == ustextbookid }
+                lstTextbookFilters = listOf(MSelectItem(0, "All Textbooks")) + lstTextbooks.map { MSelectItem(it.id, it.textbookname!!) }
+                lstAutoCorrect = res5
+                lstVoices.clear(); lstVoices.addAll(res6)
+                selectedVoice = lstVoices.firstOrNull { it.id == usvoiceid } ?: lstVoices.firstOrNull()
+            }
         }.concatMap {
             if (isinit) {
                 Platform.runLater { settingsListener?.onUpdateLang() }

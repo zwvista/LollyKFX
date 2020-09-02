@@ -1,8 +1,8 @@
 package com.zwstudio.lolly.view.misc
 
 import com.zwstudio.lolly.data.SettingsViewModel
+import com.zwstudio.lolly.data.applyIO
 import javafx.geometry.Insets
-import javafx.geometry.Pos
 import javafx.scene.layout.Priority
 import tornadofx.*
 
@@ -28,6 +28,9 @@ class SettingsView : Fragment("Settings") {
                 }
                 gridpaneConstraints {
                     columnSpan = 3
+                }
+                setOnAction {
+                    vm.setSelectedLang(vm.selectedLang).applyIO().subscribe()
                 }
             }
         }
@@ -120,11 +123,13 @@ class SettingsView : Fragment("Settings") {
             }
         }
         row {  }
-        buttonbar {
-            alignment = Pos.BASELINE_LEFT
+        hbox {
             gridpaneConstraints {
                 columnRowIndex(1, 8)
                 columnSpan = 3
+            }
+            children.style {
+
             }
             button("Previous")
             button("Next")
