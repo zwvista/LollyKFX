@@ -3,6 +3,7 @@ package com.zwstudio.lolly.view.phrases
 import com.zwstudio.lolly.data.phrases.PhrasesUnitBatchViewModel
 import com.zwstudio.lolly.domain.wpp.MUnitPhrase
 import javafx.geometry.Insets
+import javafx.geometry.Pos
 import javafx.scene.layout.Priority
 import tornadofx.*
 
@@ -36,7 +37,8 @@ class PhrasesUnitBatchView : Fragment("Phrases in Unit Batch Edit") {
                 }
             }
         }
-        buttonbar {
+        hbox {
+            alignment = Pos.CENTER
             button("Check All")
             button("Uncheck All")
             button("Check Selected")

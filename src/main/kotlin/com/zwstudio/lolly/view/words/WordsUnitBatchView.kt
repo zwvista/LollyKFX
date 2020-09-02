@@ -3,6 +3,7 @@ package com.zwstudio.lolly.view.words
 import com.zwstudio.lolly.data.words.WordsUnitBatchViewModel
 import com.zwstudio.lolly.domain.wpp.MUnitWord
 import javafx.geometry.Insets
+import javafx.geometry.Pos
 import javafx.scene.layout.Priority
 import tornadofx.*
 
@@ -43,15 +44,15 @@ class WordsUnitBatchView : Fragment("Words in Unit Batch Edit") {
                     enableWhen { vm.levelIsChecked }
                 }
             }
-            row {
-                checkbox("Level = 0 Only", vm.level0OnlyIsChecked) {
-                    gridpaneConstraints {
-                        columnIndex = 2
-                    }
+            row { }
+            checkbox("Level = 0 Only", vm.level0OnlyIsChecked) {
+                gridpaneConstraints {
+                    columnRowIndex(1, 4)
                 }
             }
         }
-        buttonbar {
+        hbox {
+            alignment = Pos.CENTER
             button("Check All")
             button("Uncheck All")
             button("Check Selected")

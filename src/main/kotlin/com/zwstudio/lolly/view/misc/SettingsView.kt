@@ -2,6 +2,7 @@ package com.zwstudio.lolly.view.misc
 
 import com.zwstudio.lolly.data.SettingsViewModel
 import javafx.geometry.Insets
+import javafx.geometry.Pos
 import javafx.scene.layout.Priority
 import tornadofx.*
 
@@ -117,6 +118,16 @@ class SettingsView : Fragment("Settings") {
             combobox(vm.usparttoItem, vm.lstParts) {
                 maxWidth = Double.MAX_VALUE
             }
+        }
+        row {  }
+        buttonbar {
+            alignment = Pos.BASELINE_LEFT
+            gridpaneConstraints {
+                columnRowIndex(1, 8)
+                columnSpan = 3
+            }
+            button("Previous")
+            button("Next")
         }
         row {
             buttonbar {
