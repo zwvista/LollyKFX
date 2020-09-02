@@ -26,6 +26,10 @@ class PhrasesLangView : PhrasesBaseView("Phrases in Language") {
             button("Refresh").action {
                 vm.reload()
             }
+            choicebox(vm.scopeFilter, vmSettings.lstScopePhraseFilters)
+            textfield(vm.textFilter) {
+                promptText = "Filter"
+            }
         }
         splitpane(Orientation.HORIZONTAL) {
             vgrow = Priority.ALWAYS

@@ -2,10 +2,13 @@ package com.zwstudio.lolly.data.phrases
 
 import com.zwstudio.lolly.data.BaseViewModel
 import com.zwstudio.lolly.data.applyIO
+import com.zwstudio.lolly.domain.MSelectItem
 import com.zwstudio.lolly.domain.wpp.MUnitPhrase
 import com.zwstudio.lolly.service.UnitPhraseService
 import io.reactivex.rxjava3.core.Observable
 import io.reactivex.rxjava3.disposables.CompositeDisposable
+import javafx.beans.property.SimpleObjectProperty
+import javafx.beans.property.SimpleStringProperty
 import javafx.collections.ObservableList
 import tornadofx.asObservable
 
@@ -17,6 +20,10 @@ class PhrasesUnitViewModel(val inTextbook: Boolean) : BaseViewModel() {
     val compositeDisposable = CompositeDisposable()
     val unitPhraseService: UnitPhraseService by inject()
 
+    val scopeFilter = SimpleStringProperty(vmSettings.lstScopePhraseFilters[0])
+    val textFilter = SimpleStringProperty()
+    val textbookFilter = SimpleObjectProperty<MSelectItem>()
+
     fun reload() {
         (if (inTextbook)
             unitPhraseService.getDataByTextbookUnitPart(vmSettings.selectedTextbook, vmSettings.usunitpartfrom, vmSettings.usunitpartto)
@@ -25,6 +32,7 @@ class PhrasesUnitViewModel(val inTextbook: Boolean) : BaseViewModel() {
             .map { lstPhrasesAll.clear(); lstPhrasesAll.addAll(it); Unit }
             .applyIO()
             .subscribe()
+        textbookFilter.value = vmSettings.lstTextbookFilters[0]
     }
 
     fun updateSeqNum(id: Int, seqnum: Int): Observable<Unit> =

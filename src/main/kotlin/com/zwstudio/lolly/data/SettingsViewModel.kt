@@ -194,7 +194,9 @@ class SettingsViewModel : Component(), ScopedInstance {
 
     val lstToTypes = listOf("Unit", "Part", "To").mapIndexed { index, s -> MSelectItem(index, s) }
     val toTypeProperty = SimpleObjectProperty(lstToTypes[0])
-    var toType get() = toTypeProperty.value.value; set(value) = toTypeProperty.setValue(lstToTypes[value])
+    var toType: UnitPartToType
+        get() = UnitPartToType.values()[toTypeProperty.value.value];
+        set(value) = toTypeProperty.setValue(lstToTypes[value.ordinal])
 
     val lstScopeWordFilters = listOf("Word", "Note")
     val lstScopePhraseFilters = listOf("Phrase", "Translation")
@@ -233,7 +235,7 @@ class SettingsViewModel : Component(), ScopedInstance {
             usunitto = usunitto
             INFO_USPARTTO = getUSInfo(MUSMapping.NAME_USPARTTO)
             uspartto = uspartto
-            toType = if (isSingleUnit) 0 else if (isSingleUnitPart) 1 else 2
+            toType = if (isSingleUnit) UnitPartToType.Unit else if (isSingleUnitPart) UnitPartToType.Part else UnitPartToType.To
         }
     }
 
@@ -344,36 +346,35 @@ class SettingsViewModel : Component(), ScopedInstance {
     fun autoCorrectInput(text: String): String =
         autoCorrect(text, lstAutoCorrect, { it.input }, { it.extended })
 
-    fun updateUnitFrom(v: Int): Observable<Unit> =
-        doUpdateUnitFrom(v, false).concatMap {
-            if (toType == 0)
+    fun updateUnitFrom(): Observable<Unit> =
+        doUpdateUnitFrom(usunitfrom, false).concatMap {
+            if (toType == UnitPartToType.Unit)
                 doUpdateSingleUnit()
-            else if (toType == 1 || isInvalidUnitPart)
+            else if (toType == UnitPartToType.Part || isInvalidUnitPart)
                 doUpdateUnitPartTo()
             else
                 Observable.empty()
         }
 
-    fun updatePartFrom(v: Int): Observable<Unit> =
-        doUpdatePartFrom(v, false).concatMap {
-            if (toType == 1 || isInvalidUnitPart)
+    fun updatePartFrom(): Observable<Unit> =
+        doUpdatePartFrom(uspartfrom, false).concatMap {
+            if (toType == UnitPartToType.Part || isInvalidUnitPart)
                 doUpdateUnitPartTo()
             else
                 Observable.empty()
         }
 
-    fun updateToType(v: Int): Observable<Unit> {
-        toType = v
-        return if (toType == 0)
+    fun updateToType(): Observable<Unit> {
+        return if (toType == UnitPartToType.Unit)
             doUpdateSingleUnit()
-        else if (toType == 1)
+        else if (toType == UnitPartToType.Part)
             doUpdateUnitPartTo()
         else
             Observable.empty()
     }
 
     fun previousUnitPart(): Observable<Unit> =
-        if (toType == 0)
+        if (toType == UnitPartToType.Unit)
             if (usunitfrom > 1)
                 Observables.zip(doUpdateUnitFrom(usunitfrom - 1), doUpdateUnitTo(usunitfrom)).map { Unit }
             else
@@ -386,7 +387,7 @@ class SettingsViewModel : Component(), ScopedInstance {
             Observable.empty()
 
     fun nextUnitPart(): Observable<Unit> =
-        if (toType == 0)
+        if (toType == UnitPartToType.Unit)
             if (usunitfrom < unitCount)
                 Observables.zip(doUpdateUnitFrom(usunitfrom + 1), doUpdateUnitTo(usunitfrom)).map { Unit }
             else
@@ -398,16 +399,16 @@ class SettingsViewModel : Component(), ScopedInstance {
         else
             Observable.empty()
 
-    fun updateUnitTo(v: Int): Observable<Unit> =
-        doUpdateUnitTo(v, false).concatMap {
+    fun updateUnitTo(): Observable<Unit> =
+        doUpdateUnitTo(usunitto, false).concatMap {
             if (isInvalidUnitPart)
                 doUpdateUnitPartFrom()
             else
                 Observable.empty()
         }
 
-    fun updatePartTo(v: Int): Observable<Unit> =
-        doUpdatePartTo(v, false).concatMap {
+    fun updatePartTo(): Observable<Unit> =
+        doUpdatePartTo(uspartto, false).concatMap {
             if (isInvalidUnitPart)
                 doUpdateUnitPartFrom()
             else

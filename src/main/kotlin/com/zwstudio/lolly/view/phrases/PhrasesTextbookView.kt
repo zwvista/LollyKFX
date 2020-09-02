@@ -17,6 +17,11 @@ class PhrasesTextbookView : PhrasesBaseView("Phrases in Textbook") {
             button("Refresh").action {
                 vm.reload()
             }
+            choicebox(vm.scopeFilter, vmSettings.lstScopePhraseFilters)
+            textfield(vm.textFilter) {
+                promptText = "Filter"
+            }
+            combobox(vm.textbookFilter, vmSettings.lstTextbookFilters)
         }
         splitpane(Orientation.HORIZONTAL) {
             vgrow = Priority.ALWAYS

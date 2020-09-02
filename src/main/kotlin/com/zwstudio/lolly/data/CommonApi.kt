@@ -8,6 +8,10 @@ object GlobalConstants {
     val userid = 1
 }
 
+enum class UnitPartToType {
+    Unit, Part, To
+}
+
 fun View.copyText(text: String) {
     // https://docs.oracle.com/javase/jp/8/javafx/api/javafx/scene/input/Clipboard.html
     val content = ClipboardContent()
@@ -16,7 +20,7 @@ fun View.copyText(text: String) {
 
 fun View.openPage(url: String) {
     // https://stackoverflow.com/questions/16604341/how-can-i-open-the-default-system-browser-from-a-java-fx-application
-    app.getHostServices().showDocument(url);
+    app.hostServices.showDocument(url);
 }
 
 fun View.googleString(text: String) {

@@ -40,6 +40,10 @@ class PhrasesUnitView : PhrasesBaseView("Phrases in Unit") {
             button("Toggle")
             button("Previous")
             button("Review")
+            choicebox(vm.scopeFilter, vmSettings.lstScopePhraseFilters)
+            textfield(vm.textFilter) {
+                promptText = "Filter"
+            }
         }
         splitpane(Orientation.HORIZONTAL) {
             vgrow = Priority.ALWAYS
