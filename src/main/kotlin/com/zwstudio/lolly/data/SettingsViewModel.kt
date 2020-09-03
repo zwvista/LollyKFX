@@ -158,10 +158,10 @@ class SettingsViewModel : Component(), ScopedInstance {
 
     var lstAutoCorrect = listOf<MAutoCorrect>()
 
-    val lstToTypes = listOf("Unit", "Part", "To").mapIndexed { index, s -> MSelectItem(index, s) }
-    val toTypeProperty = SimpleObjectProperty<MSelectItem>()
+    val lstToTypes = listOf("Unit", "Part", "To").mapIndexed { index, s -> Pair(UnitPartToType.values()[index], s) }
+    val toTypeProperty = SimpleObjectProperty<Pair<UnitPartToType, String>>()
     var toType: UnitPartToType
-        get() = UnitPartToType.values()[toTypeProperty.value.value];
+        get() = toTypeProperty.value.first
         set(value) = toTypeProperty.setValue(lstToTypes[value.ordinal])
     val unitToIsEnabled = SimpleBooleanProperty()
     val partToIsEnabled = SimpleBooleanProperty()

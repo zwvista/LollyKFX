@@ -121,6 +121,9 @@ class SettingsView : Fragment("Settings") {
         row {
             combobox(vm.toTypeProperty, vm.lstToTypes) {
                 maxWidth = Double.MAX_VALUE
+                cellFormat {
+                    text = it.second
+                }
             }
             cbUnitTo = combobox(vm.usunittoItem, vm.lstUnits) {
                 maxWidth = Double.MAX_VALUE
