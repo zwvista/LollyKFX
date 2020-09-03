@@ -8,14 +8,12 @@ import com.zwstudio.lolly.service.LangWordService
 import io.reactivex.rxjava3.core.Observable
 import javafx.beans.property.SimpleBooleanProperty
 import javafx.beans.property.SimpleStringProperty
-import javafx.collections.ObservableList
 import tornadofx.asObservable
 
 class WordsLangViewModel : BaseViewModel() {
 
     var lstWordsAll = mutableListOf<MLangWord>().asObservable()
-    var lstWordsFiltered: ObservableList<MLangWord>? = null
-    val lstWords get() = lstWordsFiltered ?: lstWordsAll
+    val lstWords get() = mutableListOf<MLangWord>().asObservable()
     val vmNote: NoteViewModel by inject()
     val langWordService: LangWordService by inject()
 
@@ -24,9 +22,21 @@ class WordsLangViewModel : BaseViewModel() {
     val textFilter = SimpleStringProperty()
     val levelge0only = SimpleBooleanProperty()
 
+    init {
+        scopeFilter.addListener { _, _, _ -> applyFilters() }
+        textFilter.addListener { _, _, _ -> applyFilters() }
+        levelge0only.addListener { _, _, _ -> applyFilters() }
+    }
+
+    private fun applyFilters() =
+        lstWords.setAll(lstWordsAll.filtered {
+            (textFilter.value.isNullOrEmpty() || (if (scopeFilter.value == "Word") it.word else it.note ?: "").contains(textFilter.value, true)) &&
+            (!levelge0only.value || it.level >= 0)
+        })
+
     fun reload() {
         langWordService.getDataByLang(vmSettings.selectedLang.id, vmSettings.lstTextbooks)
-            .map { lstWordsAll.clear(); lstWordsAll.addAll(it); Unit }
+            .map { lstWordsAll.setAll(it); applyFilters() }
             .applyIO()
             .subscribe()
     }

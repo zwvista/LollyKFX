@@ -12,7 +12,7 @@ class SingleWordViewModel(word: String) : BaseViewModel() {
 
     init {
         unitWordService.getDataByLangWord(vmSettings.selectedLang.id, word, vmSettings.lstTextbooks)
-            .map { lstWords.clear(); lstWords.addAll(it); Unit }
+            .map { lstWords.setAll(it); Unit }
             .applyIO()
             .subscribe()
     }

@@ -11,14 +11,12 @@ import io.reactivex.rxjava3.disposables.CompositeDisposable
 import javafx.beans.property.SimpleBooleanProperty
 import javafx.beans.property.SimpleObjectProperty
 import javafx.beans.property.SimpleStringProperty
-import javafx.collections.ObservableList
 import tornadofx.asObservable
 
 class WordsUnitViewModel(val inTextbook: Boolean) : BaseViewModel() {
 
     var lstWordsAll = mutableListOf<MUnitWord>().asObservable()
-    var lstWordsFiltered: ObservableList<MUnitWord>? = null
-    val lstWords get() = lstWordsFiltered ?: lstWordsAll
+    val lstWords = mutableListOf<MUnitWord>().asObservable()
     val vmNote: NoteViewModel by inject()
     val compositeDisposable = CompositeDisposable()
     val unitWordService: UnitWordService by inject()
@@ -29,12 +27,25 @@ class WordsUnitViewModel(val inTextbook: Boolean) : BaseViewModel() {
     val levelge0only = SimpleBooleanProperty()
     val textbookFilter = SimpleObjectProperty<MSelectItem>()
 
+    init {
+        scopeFilter.addListener { _, _, _ -> applyFilters() }
+        textFilter.addListener { _, _, _ -> applyFilters() }
+        levelge0only.addListener { _, _, _ -> applyFilters() }
+        textbookFilter.addListener { _, _, _ -> applyFilters() }
+    }
+
+    private fun applyFilters() =
+        lstWords.setAll(lstWordsAll.filtered {
+            (textFilter.value.isNullOrEmpty() || (if (scopeFilter.value == "Word") it.word else it.note ?: "").contains(textFilter.value, true)) &&
+            (!levelge0only.value || it.level >= 0) && (textbookFilter.value.value == 0 || it.textbookid == textbookFilter.value.value)
+        })
+
     fun reload() {
         (if (inTextbook)
             unitWordService.getDataByTextbookUnitPart(vmSettings.selectedTextbook, vmSettings.usunitpartfrom, vmSettings.usunitpartto)
         else
             unitWordService.getDataByLang(vmSettings.selectedLang.id, vmSettings.lstTextbooks))
-            .map { lstWordsAll.clear(); lstWordsAll.addAll(it); Unit }
+            .map { lstWordsAll.setAll(it); applyFilters() }
             .applyIO()
             .subscribe()
         textbookFilter.value = vmSettings.lstTextbookFilters[0]

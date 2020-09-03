@@ -12,7 +12,7 @@ class SinglePhraseViewModel(phrase: String) : BaseViewModel() {
 
     init {
         unitPhraseService.getDataByLangPhrase(vmSettings.selectedLang.id, phrase, vmSettings.lstTextbooks)
-            .map { lstPhrases.clear(); lstPhrases.addAll(it); Unit }
+            .map { lstPhrases.setAll(it); Unit }
             .applyIO()
             .subscribe()
     }

@@ -224,9 +224,9 @@ class SettingsViewModel : Component(), ScopedInstance {
         selectedTextbookProperty.addListener { _, _, newValue ->
             if (newValue == null) return@addListener
             ustextbookid = newValue.id
-            lstUnits.clear(); lstUnits.addAll(newValue.lstUnits)
+            lstUnits.setAll(newValue.lstUnits)
             unitsInAll.value = "(${unitCount} in all)"
-            lstParts.clear(); lstParts.addAll(newValue.lstParts)
+            lstParts.setAll(newValue.lstParts)
             INFO_USUNITFROM = getUSInfo(MUSMapping.NAME_USUNITFROM)
             usunitfrom = usunitfrom
             INFO_USPARTFROM = getUSInfo(MUSMapping.NAME_USPARTFROM)
@@ -291,17 +291,17 @@ class SettingsViewModel : Component(), ScopedInstance {
             Platform.runLater {
                 lstDictsReference = res1
                 selectedDictReference = lstDictsReference.first { it.dictid.toString() == usdictreference }
-                selectedDictsReference.clear(); selectedDictsReference.addAll(usdictsreference.split(",").flatMap { d -> lstDictsReference.filter { it.dictid.toString() == d } })
-                lstDictsNote.clear(); lstDictsNote.addAll(res2)
+                selectedDictsReference.setAll(usdictsreference.split(",").flatMap { d -> lstDictsReference.filter { it.dictid.toString() == d } })
+                lstDictsNote.setAll(res2)
                 selectedDictNote = lstDictsNote.firstOrNull { it.dictid == usdictnoteid } ?: lstDictsNote.firstOrNull()
-                lstDictsTranslation.clear(); lstDictsTranslation.addAll(res3)
+                lstDictsTranslation.setAll(res3)
                 selectedDictTranslation = lstDictsTranslation.firstOrNull { it.dictid == usdicttranslationid }
                         ?: lstDictsTranslation.firstOrNull()
-                lstTextbooks.clear(); lstTextbooks.addAll(res4)
+                lstTextbooks.setAll(res4)
                 selectedTextbook = lstTextbooks.first { it.id == ustextbookid }
                 lstTextbookFilters = listOf(MSelectItem(0, "All Textbooks")) + lstTextbooks.map { MSelectItem(it.id, it.textbookname!!) }
                 lstAutoCorrect = res5
-                lstVoices.clear(); lstVoices.addAll(res6)
+                lstVoices.setAll(res6)
                 selectedVoice = lstVoices.firstOrNull { it.id == usvoiceid } ?: lstVoices.firstOrNull()
             }
         }.concatMap {

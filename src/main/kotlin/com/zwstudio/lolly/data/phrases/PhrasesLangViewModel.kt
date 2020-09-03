@@ -6,22 +6,30 @@ import com.zwstudio.lolly.domain.wpp.MLangPhrase
 import com.zwstudio.lolly.service.LangPhraseService
 import io.reactivex.rxjava3.core.Observable
 import javafx.beans.property.SimpleStringProperty
-import javafx.collections.ObservableList
 import tornadofx.asObservable
 
 class PhrasesLangViewModel : BaseViewModel() {
 
     var lstPhrasesAll = mutableListOf<MLangPhrase>().asObservable()
-    var lstPhrasesFiltered: ObservableList<MLangPhrase>? = null
-    val lstPhrases get() = lstPhrasesFiltered ?: lstPhrasesAll
+    val lstPhrases = mutableListOf<MLangPhrase>().asObservable()
     val langPhraseService: LangPhraseService by inject()
 
     val scopeFilter = SimpleStringProperty(vmSettings.lstScopePhraseFilters[0])
     val textFilter = SimpleStringProperty()
 
+    init {
+        scopeFilter.addListener { _, _, _ -> applyFilters() }
+        textFilter.addListener { _, _, _ -> applyFilters() }
+    }
+
+    private fun applyFilters() =
+        lstPhrases.setAll(lstPhrasesAll.filtered {
+            (textFilter.value.isNullOrEmpty() || (if (scopeFilter.value == "Phrase") it.phrase else it.translation ?: "").contains(textFilter.value, true))
+        })
+
     fun reload() {
         langPhraseService.getDataByLang(vmSettings.selectedLang.id, vmSettings.lstTextbooks)
-            .map { lstPhrasesAll.clear(); lstPhrasesAll.addAll(it); Unit }
+            .map { lstPhrasesAll.setAll(it); applyFilters() }
             .applyIO()
             .subscribe()
     }

@@ -9,14 +9,12 @@ import io.reactivex.rxjava3.core.Observable
 import io.reactivex.rxjava3.disposables.CompositeDisposable
 import javafx.beans.property.SimpleObjectProperty
 import javafx.beans.property.SimpleStringProperty
-import javafx.collections.ObservableList
 import tornadofx.asObservable
 
 class PhrasesUnitViewModel(val inTextbook: Boolean) : BaseViewModel() {
 
     var lstPhrasesAll = mutableListOf<MUnitPhrase>().asObservable()
-    var lstPhrasesFiltered: ObservableList<MUnitPhrase>? = null
-    val lstPhrases get() = lstPhrasesFiltered ?: lstPhrasesAll
+    val lstPhrases = mutableListOf<MUnitPhrase>().asObservable()
     val compositeDisposable = CompositeDisposable()
     val unitPhraseService: UnitPhraseService by inject()
 
@@ -24,12 +22,24 @@ class PhrasesUnitViewModel(val inTextbook: Boolean) : BaseViewModel() {
     val textFilter = SimpleStringProperty()
     val textbookFilter = SimpleObjectProperty<MSelectItem>()
 
+    init {
+        scopeFilter.addListener { _, _, _ -> applyFilters() }
+        textFilter.addListener { _, _, _ -> applyFilters() }
+        textbookFilter.addListener { _, _, _ -> applyFilters() }
+    }
+
+    private fun applyFilters() =
+        lstPhrases.setAll(lstPhrasesAll.filtered {
+            (textFilter.value.isNullOrEmpty() || (if (scopeFilter.value == "Phrase") it.phrase else it.translation ?: "").contains(textFilter.value, true)) &&
+            (textbookFilter.value.value == 0 || it.textbookid == textbookFilter.value.value)
+        })
+
     fun reload() {
         (if (inTextbook)
             unitPhraseService.getDataByTextbookUnitPart(vmSettings.selectedTextbook, vmSettings.usunitpartfrom, vmSettings.usunitpartto)
         else
             unitPhraseService.getDataByLang(vmSettings.selectedLang.id, vmSettings.lstTextbooks))
-            .map { lstPhrasesAll.clear(); lstPhrasesAll.addAll(it); Unit }
+            .map { lstPhrasesAll.setAll(it); applyFilters() }
             .applyIO()
             .subscribe()
         textbookFilter.value = vmSettings.lstTextbookFilters[0]
