@@ -11,9 +11,8 @@ class PhrasesUnitBatchView : Fragment("Phrases in Unit Batch Edit") {
     val vm : PhrasesUnitBatchViewModel by param()
     var result = false
 
-    override val root = vbox {
-        padding = Insets(10.0)
-        spacing = 10.0
+    override val root = vbox(10.0) {
+        paddingAll = 10.0
         gridpane {
             hgap = 10.0
             vgap = 10.0
@@ -37,12 +36,20 @@ class PhrasesUnitBatchView : Fragment("Phrases in Unit Batch Edit") {
                 }
             }
         }
-        hbox {
+        hbox(10.0) {
             alignment = Pos.CENTER
-            button("Check All")
-            button("Uncheck All")
-            button("Check Selected")
-            button("Uncheck Selected")
+            button("Check All") {
+                prefWidth = 150.0
+            }
+            button("Uncheck All") {
+                prefWidth = 150.0
+            }
+            button("Check Selected") {
+                prefWidth = 150.0
+            }
+            button("Uncheck Selected") {
+                prefWidth = 150.0
+            }
         }
         tableview(vm.vm.lstPhrases) {
             readonlyColumn("UNIT", MUnitPhrase::unitstr)
