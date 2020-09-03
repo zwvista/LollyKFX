@@ -8,6 +8,7 @@ import javafx.application.Platform
 import javafx.beans.property.SimpleBooleanProperty
 import javafx.beans.property.SimpleObjectProperty
 import javafx.beans.property.SimpleStringProperty
+import javafx.collections.ListChangeListener
 import tornadofx.*
 
 class SettingsViewModel : Component(), ScopedInstance {
@@ -54,23 +55,17 @@ class SettingsViewModel : Component(), ScopedInstance {
         set(value) {
             setUSValue(INFO_USTEXTBOOKID, value.toString())
         }
-    private var INFO_USDICTREFERENCE = MUserSettingInfo()
-    var usdictreference: String
-        get() = getUSValue(INFO_USDICTREFERENCE)!!
+    private var INFO_USDICTSREFERENCE = MUserSettingInfo()
+    var usdictsreference: String
+        get() = getUSValue(INFO_USDICTSREFERENCE) ?: ""
         set(value) {
-            setUSValue(INFO_USDICTREFERENCE, value)
+            setUSValue(INFO_USDICTSREFERENCE, value)
         }
     private var INFO_USDICTNOTE = MUserSettingInfo()
     var usdictnoteid: Int
         get() = (getUSValue(INFO_USDICTNOTE) ?: "0").toInt()
         set(value) {
             setUSValue(INFO_USDICTNOTE, value.toString())
-        }
-    private var INFO_USDICTSREFERENCE = MUserSettingInfo()
-    var usdictsreference: String
-        get() = getUSValue(INFO_USDICTSREFERENCE) ?: ""
-        set(value) {
-            setUSValue(INFO_USDICTSREFERENCE, value)
         }
     private var INFO_USDICTTRANSLATION = MUserSettingInfo()
     var usdicttranslationid: Int
@@ -138,10 +133,6 @@ class SettingsViewModel : Component(), ScopedInstance {
 
     var lstDictsReference = listOf<MDictionary>()
     var selectedDictsReference = mutableListOf<MDictionary>().asObservable()
-        set(value) {
-            field = value
-            usdictsreference = field.map { it.dictid.toString() }.joinToString(",")
-        }
 
     var lstDictsNote = mutableListOf<MDictionary>().asObservable()
     val selectedDictNoteProperty = SimpleObjectProperty<MDictionary>()
@@ -185,22 +176,21 @@ class SettingsViewModel : Component(), ScopedInstance {
     val lstScopePatternFilters = listOf("Pattern", "Note", "Tags")
     val lstReviewModes = ReviewMode.values().mapIndexed { index, s -> MSelectItem(index, s.toString()) }
 
-    val languageService: LanguageService by inject()
-    val usMappingService: USMappingService by inject()
-    val userSettingService: UserSettingService by inject()
-    val dictionaryService: DictionaryService by inject()
-    val textbookService: TextbookService by inject()
-    val autoCorrectService: AutoCorrectService by inject()
-    val voiceService: VoiceService by inject()
+    private val languageService: LanguageService by inject()
+    private val usMappingService: USMappingService by inject()
+    private val userSettingService: UserSettingService by inject()
+    private val dictionaryService: DictionaryService by inject()
+    private val textbookService: TextbookService by inject()
+    private val autoCorrectService: AutoCorrectService by inject()
+    private val voiceService: VoiceService by inject()
 
     init {
         selectedLangProperty.addListener { _, _, newValue ->
             val isinit = newValue.id == uslangid
             uslangid = selectedLang.id
             INFO_USTEXTBOOKID = getUSInfo(MUSMapping.NAME_USTEXTBOOKID)
-            INFO_USDICTREFERENCE = getUSInfo(MUSMapping.NAME_USDICTREFERENCE)
-            INFO_USDICTNOTE = getUSInfo(MUSMapping.NAME_USDICTNOTE)
             INFO_USDICTSREFERENCE = getUSInfo(MUSMapping.NAME_USDICTSREFERENCE)
+            INFO_USDICTNOTE = getUSInfo(MUSMapping.NAME_USDICTNOTE)
             INFO_USDICTTRANSLATION = getUSInfo(MUSMapping.NAME_USDICTTRANSLATION)
             INFO_USANDROIDVOICEID = getUSInfo(MUSMapping.NAME_USANDROIDVOICEID)
             Observables.zip(dictionaryService.getDictsReferenceByLang(uslangid),
@@ -231,6 +221,10 @@ class SettingsViewModel : Component(), ScopedInstance {
                     userSettingService.update(INFO_USLANGID, uslangid)
             }.applyIO().subscribe()
         }
+        selectedDictsReference.addListener(ListChangeListener {
+            usdictsreference = selectedDictsReference.joinToString(",") { it.dictid.toString() }
+            userSettingService.update(INFO_USDICTSREFERENCE, usdictsreference).subscribe()
+        })
         selectedDictNoteProperty.addListener { _, _, newValue ->
             usdictnoteid = newValue?.id ?: 0
             userSettingService.update(INFO_USDICTNOTE, usdictnoteid).subscribe()
