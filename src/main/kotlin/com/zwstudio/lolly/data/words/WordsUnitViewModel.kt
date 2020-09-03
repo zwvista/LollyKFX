@@ -95,7 +95,7 @@ class WordsUnitViewModel(val inTextbook: Boolean) : BaseViewModel() {
 
     fun getNote(index: Int): Observable<Unit> {
         val item = lstWordsAll[index]
-        return vmNote.getNote(item.word).concatMap {
+        return vmNote.getNote(item.word).flatMap {
             item.note = it
             unitWordService.updateNote(item.id, it)
         }
