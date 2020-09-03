@@ -108,9 +108,6 @@ class SettingsView : Fragment("Settings") {
             label("Unit:")
             combobox(vm.usunitfromItem, vm.lstUnits) {
                 maxWidth = Double.MAX_VALUE
-                setOnAction {
-                    vm.updateUnitFrom().subscribe()
-                }
             }
             hbox {
                 label(vm.unitsInAll)
@@ -119,9 +116,6 @@ class SettingsView : Fragment("Settings") {
             cbPartFrom = combobox(vm.uspartfromItem, vm.lstParts) {
                 maxWidth = Double.MAX_VALUE
                 enableWhen { vm.partFromIsEnabled }
-                setOnAction {
-                    vm.updatePartFrom().subscribe()
-                }
             }
         }
         row {
@@ -131,9 +125,6 @@ class SettingsView : Fragment("Settings") {
             cbUnitTo = combobox(vm.usunittoItem, vm.lstUnits) {
                 maxWidth = Double.MAX_VALUE
                 enableWhen { vm.unitToIsEnabled }
-                setOnAction {
-                    vm.updateUnitTo().subscribe()
-                }
             }
             hbox {
                 label(vm.unitsInAll)
@@ -142,9 +133,6 @@ class SettingsView : Fragment("Settings") {
             cbPartTo = combobox(vm.usparttoItem, vm.lstParts) {
                 maxWidth = Double.MAX_VALUE
                 enableWhen { vm.partToIsEnabled }
-                setOnAction {
-                    vm.updatePartTo().subscribe()
-                }
             }
         }
         row {  }
