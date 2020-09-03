@@ -1,7 +1,6 @@
 package com.zwstudio.lolly.view.misc
 
 import com.zwstudio.lolly.data.SettingsViewModel
-import com.zwstudio.lolly.data.applyIO
 import com.zwstudio.lolly.domain.MSelectItem
 import javafx.geometry.Pos
 import javafx.scene.control.Button
@@ -37,9 +36,6 @@ class SettingsView : Fragment("Settings") {
                 gridpaneConstraints {
                     columnSpan = 3
                 }
-                setOnAction {
-                    vm.setSelectedLang(vm.selectedLang).applyIO().subscribe()
-                }
             }
         }
         row {
@@ -51,9 +47,6 @@ class SettingsView : Fragment("Settings") {
                 }
                 gridpaneConstraints {
                     columnSpan = 3
-                }
-                setOnAction {
-                    vm.updateVoice().subscribe()
                 }
             }
         }
@@ -85,9 +78,6 @@ class SettingsView : Fragment("Settings") {
                 gridpaneConstraints {
                     columnSpan = 3
                 }
-                setOnAction {
-                    vm.updateDictNote().subscribe()
-                }
             }
         }
         row {
@@ -100,9 +90,6 @@ class SettingsView : Fragment("Settings") {
                 gridpaneConstraints {
                     columnSpan = 3
                 }
-                setOnAction {
-                    vm.updateDictReference().subscribe()
-                }
             }
         }
         row {
@@ -114,9 +101,6 @@ class SettingsView : Fragment("Settings") {
                 }
                 gridpaneConstraints {
                     columnSpan = 3
-                }
-                setOnAction {
-                    vm.updateTextbook().subscribe()
                 }
             }
         }

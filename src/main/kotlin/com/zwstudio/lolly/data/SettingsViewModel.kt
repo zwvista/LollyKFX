@@ -126,35 +126,17 @@ class SettingsViewModel : Component(), ScopedInstance {
     var lstLanguages = listOf<MLanguage>()
     val selectedLangProperty = SimpleObjectProperty<MLanguage>()
     var selectedLang by selectedLangProperty
-    val selectedLangIndex: Int
-        get() = lstLanguages.indexOf(selectedLang)
 
     var lstVoices = mutableListOf<MVoice>().asObservable()
     val selectedVoiceProperty = SimpleObjectProperty<MVoice>()
     var selectedVoice by selectedVoiceProperty
-    val selectedVoiceIndex: Int
-        get() =
-            if (selectedVoice == null) 0
-            else lstVoices.indexOf(selectedVoice!!)
 
     var lstTextbooks = mutableListOf<MTextbook>().asObservable()
     val selectedTextbookProperty = SimpleObjectProperty<MTextbook>()
     var selectedTextbook by selectedTextbookProperty
-    val selectedTextbookIndex: Int
-        get() = lstTextbooks.indexOf(selectedTextbook)
     var lstTextbookFilters = listOf<MSelectItem>()
 
     var lstDictsReference = listOf<MDictionary>()
-    // https://stackoverflow.com/questions/46366869/kotlin-workaround-for-no-lateinit-when-using-custom-setter
-    private var _selectedDictReference: MDictionary? = null
-    var selectedDictReference: MDictionary
-        get() = _selectedDictReference!!
-        set(value) {
-            _selectedDictReference = value
-            usdictreference = selectedDictReference.dictid.toString()
-        }
-    val selectedDictReferenceIndex: Int
-        get() = lstDictsReference.indexOf(selectedDictReference)
     var selectedDictsReference = mutableListOf<MDictionary>().asObservable()
         set(value) {
             field = value
@@ -164,18 +146,10 @@ class SettingsViewModel : Component(), ScopedInstance {
     var lstDictsNote = mutableListOf<MDictionary>().asObservable()
     val selectedDictNoteProperty = SimpleObjectProperty<MDictionary>()
     var selectedDictNote by selectedDictNoteProperty
-    val selectedDictNoteIndex: Int
-        get() =
-            if (selectedDictNote == null) 0
-            else lstDictsNote.indexOf(selectedDictNote!!)
 
     var lstDictsTranslation = mutableListOf<MDictionary>().asObservable()
     val selectedDictTranslationProperty = SimpleObjectProperty<MDictionary>()
     var selectedDictTranslation by selectedDictTranslationProperty
-    val selectedDictTranslationIndex: Int
-        get() =
-            if (selectedDictTranslation == null) 0
-            else lstDictsTranslation.indexOf(selectedDictTranslation!!)
 
     val lstUnits = mutableListOf<MSelectItem>().asObservable()
     var usunitfromItem = SimpleObjectProperty<MSelectItem>()
@@ -220,14 +194,50 @@ class SettingsViewModel : Component(), ScopedInstance {
     val voiceService: VoiceService by inject()
 
     init {
-        selectedVoiceProperty.addListener { _, _, newValue ->
-            usvoiceid = newValue?.id ?: 0
+        selectedLangProperty.addListener { _, _, newValue ->
+            val isinit = newValue.id == uslangid
+            uslangid = selectedLang.id
+            INFO_USTEXTBOOKID = getUSInfo(MUSMapping.NAME_USTEXTBOOKID)
+            INFO_USDICTREFERENCE = getUSInfo(MUSMapping.NAME_USDICTREFERENCE)
+            INFO_USDICTNOTE = getUSInfo(MUSMapping.NAME_USDICTNOTE)
+            INFO_USDICTSREFERENCE = getUSInfo(MUSMapping.NAME_USDICTSREFERENCE)
+            INFO_USDICTTRANSLATION = getUSInfo(MUSMapping.NAME_USDICTTRANSLATION)
+            INFO_USANDROIDVOICEID = getUSInfo(MUSMapping.NAME_USANDROIDVOICEID)
+            Observables.zip(dictionaryService.getDictsReferenceByLang(uslangid),
+                dictionaryService.getDictsNoteByLang(uslangid),
+                dictionaryService.getDictsTranslationByLang(uslangid),
+                textbookService.getDataByLang(uslangid),
+                autoCorrectService.getDataByLang(uslangid),
+                voiceService.getDataByLang(uslangid)) {
+                res1, res2, res3, res4, res5, res6 ->
+                Platform.runLater {
+                    lstDictsReference = res1
+                    selectedDictsReference.setAll(usdictsreference.split(",").flatMap { d -> lstDictsReference.filter { it.dictid.toString() == d } })
+                    lstDictsNote.setAll(res2)
+                    selectedDictNote = lstDictsNote.firstOrNull { it.dictid == usdictnoteid } ?: lstDictsNote.firstOrNull()
+                    lstDictsTranslation.setAll(res3)
+                    selectedDictTranslation = lstDictsTranslation.firstOrNull { it.dictid == usdicttranslationid } ?: lstDictsTranslation.firstOrNull()
+                    lstTextbooks.setAll(res4)
+                    selectedTextbook = lstTextbooks.first { it.id == ustextbookid }
+                    lstTextbookFilters = listOf(MSelectItem(0, "All Textbooks")) + lstTextbooks.map { MSelectItem(it.id, it.textbookname!!) }
+                    lstAutoCorrect = res5
+                    lstVoices.setAll(res6)
+                    selectedVoice = lstVoices.firstOrNull { it.id == usvoiceid } ?: lstVoices.firstOrNull()
+                }
+            }.concatMap {
+                if (isinit)
+                    Observable.empty()
+                else
+                    userSettingService.update(INFO_USLANGID, uslangid)
+            }.applyIO().subscribe()
         }
         selectedDictNoteProperty.addListener { _, _, newValue ->
             usdictnoteid = newValue?.id ?: 0
+            userSettingService.update(INFO_USDICTNOTE, usdictnoteid).subscribe()
         }
         selectedDictTranslationProperty.addListener { _, _, newValue ->
             usdicttranslationid = newValue?.id ?: 0
+            userSettingService.update(INFO_USDICTTRANSLATION, usdicttranslationid).subscribe()
         }
         selectedTextbookProperty.addListener { _, _, newValue ->
             if (newValue == null) return@addListener
@@ -244,6 +254,7 @@ class SettingsViewModel : Component(), ScopedInstance {
             INFO_USPARTTO = getUSInfo(MUSMapping.NAME_USPARTTO)
             uspartto = uspartto
             toType = if (isSingleUnit) UnitPartToType.Unit else if (isSingleUnitPart) UnitPartToType.Part else UnitPartToType.To
+            userSettingService.update(INFO_USTEXTBOOKID, ustextbookid).subscribe()
         }
         toTypeProperty.addListener { _, _, newValue ->
             val b = newValue.value == UnitPartToType.To.ordinal
@@ -257,6 +268,10 @@ class SettingsViewModel : Component(), ScopedInstance {
             nextText.value = "Next $t"
             partFromIsEnabled.value = b2 && !isSinglePart
             updateToType().subscribe()
+        }
+        selectedVoiceProperty.addListener { _, _, newValue ->
+            usvoiceid = newValue?.id ?: 0
+            userSettingService.update(INFO_USANDROIDVOICEID, usvoiceid).subscribe()
         }
     }
 
@@ -276,7 +291,7 @@ class SettingsViewModel : Component(), ScopedInstance {
         Observables.zip(languageService.getData(),
             usMappingService.getData(),
             userSettingService.getDataByUser(GlobalConstants.userid))
-        .concatMap {
+        .map {
             lstLanguages = it.first
             lstUSMappings = it.second
             lstUserSettings = it.third
@@ -287,73 +302,8 @@ class SettingsViewModel : Component(), ScopedInstance {
             val lst = getUSValue(INFO_USLEVELCOLORS)!!.split("\r\n").map { it.split(',') }
             // https://stackoverflow.com/questions/32935470/how-to-convert-list-to-map-in-kotlin
             uslevelcolors = lst.associateBy({ it[0].toInt() }, { listOf(it[1], it[2]) })
-            setSelectedLang(lstLanguages.first { it.id == uslangid })
+            selectedLang = lstLanguages.first { it.id == uslangid }
         }
-
-    fun setSelectedLang(lang: MLanguage): Observable<Unit> {
-        val isinit = lang.id == uslangid
-        selectedLang = lang
-        uslangid = selectedLang.id
-        INFO_USTEXTBOOKID = getUSInfo(MUSMapping.NAME_USTEXTBOOKID)
-        INFO_USDICTREFERENCE = getUSInfo(MUSMapping.NAME_USDICTREFERENCE)
-        INFO_USDICTNOTE = getUSInfo(MUSMapping.NAME_USDICTNOTE)
-        INFO_USDICTSREFERENCE = getUSInfo(MUSMapping.NAME_USDICTSREFERENCE)
-        INFO_USDICTTRANSLATION = getUSInfo(MUSMapping.NAME_USDICTTRANSLATION)
-        INFO_USANDROIDVOICEID = getUSInfo(MUSMapping.NAME_USANDROIDVOICEID)
-        return Observables.zip(dictionaryService.getDictsReferenceByLang(uslangid),
-            dictionaryService.getDictsNoteByLang(uslangid),
-            dictionaryService.getDictsTranslationByLang(uslangid),
-            textbookService.getDataByLang(uslangid),
-            autoCorrectService.getDataByLang(uslangid),
-            voiceService.getDataByLang(uslangid)) {
-            res1, res2, res3, res4, res5, res6 ->
-            Platform.runLater {
-                lstDictsReference = res1
-                selectedDictReference = lstDictsReference.first { it.dictid.toString() == usdictreference }
-                selectedDictsReference.setAll(usdictsreference.split(",").flatMap { d -> lstDictsReference.filter { it.dictid.toString() == d } })
-                lstDictsNote.setAll(res2)
-                selectedDictNote = lstDictsNote.firstOrNull { it.dictid == usdictnoteid } ?: lstDictsNote.firstOrNull()
-                lstDictsTranslation.setAll(res3)
-                selectedDictTranslation = lstDictsTranslation.firstOrNull { it.dictid == usdicttranslationid }
-                        ?: lstDictsTranslation.firstOrNull()
-                lstTextbooks.setAll(res4)
-                selectedTextbook = lstTextbooks.first { it.id == ustextbookid }
-                lstTextbookFilters = listOf(MSelectItem(0, "All Textbooks")) + lstTextbooks.map { MSelectItem(it.id, it.textbookname!!) }
-                lstAutoCorrect = res5
-                lstVoices.setAll(res6)
-                selectedVoice = lstVoices.firstOrNull { it.id == usvoiceid } ?: lstVoices.firstOrNull()
-            }
-        }.concatMap {
-            if (isinit)
-                Observable.empty()
-            else
-                updateLang()
-        }
-    }
-
-    fun updateLang(): Observable<Unit> =
-        userSettingService.update(INFO_USLANGID, uslangid)
-            .applyIO()
-
-    fun updateTextbook(): Observable<Unit> =
-        userSettingService.update(INFO_USTEXTBOOKID, ustextbookid)
-            .applyIO()
-
-    fun updateDictReference(): Observable<Unit> =
-        userSettingService.update(INFO_USDICTREFERENCE, usdictreference)
-            .applyIO()
-
-    fun updateDictNote(): Observable<Unit> =
-        userSettingService.update(INFO_USDICTNOTE, usdictnoteid)
-            .applyIO()
-
-    fun updateDictTranslation(): Observable<Unit> =
-        userSettingService.update(INFO_USDICTTRANSLATION, usdicttranslationid)
-            .applyIO()
-
-    fun updateVoice(): Observable<Unit> =
-        userSettingService.update(INFO_USANDROIDVOICEID, usvoiceid)
-            .applyIO()
 
     fun autoCorrectInput(text: String): String =
         autoCorrect(text, lstAutoCorrect, { it.input }, { it.extended })
