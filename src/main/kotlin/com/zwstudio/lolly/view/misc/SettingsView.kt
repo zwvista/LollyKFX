@@ -1,10 +1,9 @@
 package com.zwstudio.lolly.view.misc
 
 import com.zwstudio.lolly.data.SettingsViewModel
-import com.zwstudio.lolly.data.UnitPartToType
 import com.zwstudio.lolly.data.applyIO
 import com.zwstudio.lolly.domain.MSelectItem
-import javafx.geometry.Insets
+import javafx.geometry.Pos
 import javafx.scene.control.Button
 import javafx.scene.control.ComboBox
 import javafx.scene.layout.Priority
@@ -126,59 +125,64 @@ class SettingsView : Fragment("Settings") {
             combobox(vm.usunitfromItem, vm.lstUnits) {
                 maxWidth = Double.MAX_VALUE
                 setOnAction {
-                    vm.updateUnitFrom()
+                    vm.updateUnitFrom().subscribe()
                 }
             }
-            label(vm.unitsInAll)
+            hbox {
+                label(vm.unitsInAll)
+                alignment = Pos.CENTER
+            }
             cbPartFrom = combobox(vm.uspartfromItem, vm.lstParts) {
                 maxWidth = Double.MAX_VALUE
+                enableWhen { vm.partFromIsEnabled }
                 setOnAction {
-                    vm.updatePartFrom()
+                    vm.updatePartFrom().subscribe()
                 }
             }
         }
         row {
             combobox(vm.toTypeProperty, vm.lstToTypes) {
                 maxWidth = Double.MAX_VALUE
-                setOnAction {
-                    val b = vm.toType == UnitPartToType.To
-                    cbUnitTo.isDisable = !b
-                    cbPartTo.isDisable = !b || vm.isSinglePart
-                    btnPrevious.isDisable = b
-                    btnNext.isDisable = b
-                    val b2 = vm.toType != UnitPartToType.Unit
-                    val t = if (!b2) "Unit" else "Part"
-                    btnPrevious.text = "Previous " + t
-                    btnNext.text = "Next " + t
-                    cbPartFrom.isDisable = !b2 || vm.isSinglePart
-                    vm.updateToType()
-                }
             }
             cbUnitTo = combobox(vm.usunittoItem, vm.lstUnits) {
                 maxWidth = Double.MAX_VALUE
+                enableWhen { vm.unitToIsEnabled }
                 setOnAction {
-                    vm.updateUnitTo()
+                    vm.updateUnitTo().subscribe()
                 }
             }
-            label(vm.unitsInAll)
+            hbox {
+                label(vm.unitsInAll)
+                alignment = Pos.CENTER
+            }
             cbPartTo = combobox(vm.usparttoItem, vm.lstParts) {
                 maxWidth = Double.MAX_VALUE
+                enableWhen { vm.partToIsEnabled }
                 setOnAction {
-                    vm.updatePartTo()
+                    vm.updatePartTo().subscribe()
                 }
             }
         }
         row {  }
-        hbox {
+        hbox(10.0) {
             gridpaneConstraints {
                 columnRowIndex(1, 8)
                 columnSpan = 3
             }
-            children.style {
-
+            btnPrevious = button(vm.previousText) {
+                enableWhen { vm.previousIsEnabled }
+                prefWidth = 100.0
+                action {
+                    vm.previousUnitPart()
+                }
             }
-            btnPrevious = button("Previous")
-            btnNext = button("Next")
+            btnNext = button(vm.nextText) {
+                enableWhen { vm.nextIsEnabled }
+                prefWidth = 100.0
+                action {
+                    vm.nextUnitPart()
+                }
+            }
         }
         row {
             buttonbar {
