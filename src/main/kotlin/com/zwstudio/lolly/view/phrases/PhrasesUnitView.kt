@@ -22,9 +22,9 @@ class PhrasesUnitView : PhrasesBaseView("Phrases in Unit") {
         tag = this@PhrasesUnitView
         toolbar {
             button("Add").action {
-                val modal = find<PhrasesUnitDetailView>("vm" to PhrasesUnitDetailViewModel(vm.newUnitPhrase())) { openModal(block = true) }
+                val modal = find<PhrasesUnitDetailView>("vmDetail" to PhrasesUnitDetailViewModel(vm, vm.newUnitPhrase())) { openModal(block = true) }
                 if (modal.result) {
-                    vm.lstPhrasesAll.add(modal.vm.item)
+                    vm.lstPhrasesAll.add(modal.vmDetail.item)
                     tvPhrases.refresh()
                 }
             }
@@ -83,13 +83,14 @@ class PhrasesUnitView : PhrasesBaseView("Phrases in Unit") {
                     val title = this.tableColumn.text
                     if (title == "Phrase")
                         rowValue.phrase = vmSettings.autoCorrectInput(rowValue.phrase)
+                    vm.update(rowValue)
                 }
                 onSelectionChange {
                     if (it == null) return@onSelectionChange
                 }
                 onDoubleClick {
                     // https://github.com/edvin/tornadofx/issues/226
-                    val modal = find<PhrasesUnitDetailView>("vm" to PhrasesUnitDetailViewModel(selectionModel.selectedItem)) { openModal(block = true) }
+                    val modal = find<PhrasesUnitDetailView>("vmDetail" to PhrasesUnitDetailViewModel(vm, selectionModel.selectedItem)) { openModal(block = true) }
                     if (modal.result)
                         this.refresh()
                 }

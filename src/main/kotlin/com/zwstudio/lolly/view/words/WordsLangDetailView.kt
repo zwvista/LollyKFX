@@ -5,37 +5,37 @@ import com.zwstudio.lolly.domain.wpp.MUnitWord
 import tornadofx.*
 
 class WordsLangDetailView : Fragment("Words in Language Detail") {
-    val vm : WordsLangDetailViewModel by param()
+    val vmDetail : WordsLangDetailViewModel by param()
     var result = false
 
     override val root = form {
         fieldset {
             field("ID") {
-                textfield(vm.id) {
+                textfield(vmDetail.id) {
                     isEditable = false
                 }
             }
             field("WORD") {
-                textfield(vm.word)
+                textfield(vmDetail.word)
             }
             field("NOTE") {
-                textfield(vm.note)
+                textfield(vmDetail.note)
             }
             field("FAMIID") {
-                textfield(vm.famiid) {
+                textfield(vmDetail.famiid) {
                     isEditable = false
                 }
             }
             field("LEVEL") {
-                textfield(vm.level)
+                textfield(vmDetail.level)
             }
             field("ACCURACY") {
-                textfield(vm.accuracy) {
+                textfield(vmDetail.accuracy) {
                     isEditable = false
                 }
             }
         }
-        tableview(vm.vmSingle.lstWords) {
+        tableview(vmDetail.vmSingle.lstWords) {
             readonlyColumn("TEXTBOOKNAME", MUnitWord::textbookname)
             readonlyColumn("UNIT", MUnitWord::unitstr)
             readonlyColumn("PART", MUnitWord::partstr)
@@ -53,7 +53,7 @@ class WordsLangDetailView : Fragment("Words in Language Detail") {
                 isDefaultButton = true
                 action {
                     result = true
-                    vm.commit()
+                    vmDetail.commit()
                     close()
                 }
             }

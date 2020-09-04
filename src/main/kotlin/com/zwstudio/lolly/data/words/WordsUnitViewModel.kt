@@ -55,10 +55,6 @@ class WordsUnitViewModel(val inTextbook: Boolean) : BaseViewModel() {
         unitWordService.updateSeqNum(id, seqnum)
             .applyIO()
 
-    fun updateNote(id: Int, note: String?): Observable<Unit> =
-        unitWordService.updateNote(id, note)
-            .applyIO()
-
     fun update(item: MUnitWord): Observable<Unit> =
         unitWordService.update(item)
             .applyIO()

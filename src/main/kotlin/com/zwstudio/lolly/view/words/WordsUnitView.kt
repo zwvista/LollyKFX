@@ -23,9 +23,9 @@ class WordsUnitView : WordsBaseView("Words in Unit") {
         toolbarDicts = toolbar()
         toolbar {
             button("Add").action {
-                val modal = find<WordsUnitDetailView>("vm" to WordsUnitDetailViewModel(vm.newUnitWord())) { openModal(block = true) }
+                val modal = find<WordsUnitDetailView>("vmDetail" to WordsUnitDetailViewModel(vm, vm.newUnitWord())) { openModal(block = true) }
                 if (modal.result) {
-                    vm.lstWordsAll.add(modal.vm.item)
+                    vm.lstWordsAll.add(modal.vmDetail.item)
                     tvWords.refresh()
                 }
             }
@@ -34,9 +34,8 @@ class WordsUnitView : WordsBaseView("Words in Unit") {
             }
             button("Batch").action {
                 val modal = find<WordsUnitBatchView>("vm" to WordsUnitBatchViewModel(vm)) { openModal(block = true) }
-                if (modal.result) {
+                if (modal.result)
                     tvWords.refresh()
-                }
             }
             button("Toggle") {
                 isDisable = !vmSettings.toTypeIsMovable
@@ -99,13 +98,14 @@ class WordsUnitView : WordsBaseView("Words in Unit") {
                     val title = this.tableColumn.text
                     if (title == "WORD")
                         rowValue.word = vmSettings.autoCorrectInput(rowValue.word)
+                    vm.update(rowValue).subscribe()
                 }
                 onSelectionChange {
                     onWordChanged(it?.word)
                 }
                 onDoubleClick {
                     // https://github.com/edvin/tornadofx/issues/226
-                    val modal = find<WordsUnitDetailView>("vm" to WordsUnitDetailViewModel(selectionModel.selectedItem)) { openModal(block = true) }
+                    val modal = find<WordsUnitDetailView>("vmDetail" to WordsUnitDetailViewModel(vm, selectionModel.selectedItem)) { openModal(block = true) }
                     if (modal.result)
                         this.refresh()
                 }

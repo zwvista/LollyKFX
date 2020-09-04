@@ -5,7 +5,7 @@ import com.zwstudio.lolly.domain.wpp.MUnitPhrase
 import javafx.beans.property.Property
 import tornadofx.ItemViewModel
 
-class PhrasesUnitDetailViewModel(item: MUnitPhrase) : ItemViewModel<MUnitPhrase>(item) {
+class PhrasesUnitDetailViewModel(val vm: PhrasesUnitViewModel, item: MUnitPhrase) : ItemViewModel<MUnitPhrase>(item) {
     val id = bind(MUnitPhrase::id)
     val textbookname = bind(MUnitPhrase::textbookname)
     val unititem: Property<MSelectItem>
@@ -27,5 +27,9 @@ class PhrasesUnitDetailViewModel(item: MUnitPhrase) : ItemViewModel<MUnitPhrase>
         super.onCommit()
         item.unit = item.unititem!!.value
         item.part = item.partitem!!.value
+        if (item.id == 0)
+            vm.create(item).subscribe()
+        else
+            vm.update(item).subscribe()
     }
 }
