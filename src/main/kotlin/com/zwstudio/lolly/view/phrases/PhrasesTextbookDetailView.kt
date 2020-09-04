@@ -5,47 +5,47 @@ import com.zwstudio.lolly.domain.wpp.MUnitPhrase
 import tornadofx.*
 
 class PhrasesTextbookDetailView : Fragment("Phrases in Textbook Detail") {
-    val vm : PhrasesUnitDetailViewModel by param()
+    val vmDetail : PhrasesUnitDetailViewModel by param()
     var result = false
 
     override val root = form {
         fieldset {
             field("ID") {
-                textfield(vm.id) {
+                textfield(vmDetail.id) {
                     isEditable = false
                 }
             }
             field("TEXTBOOK") {
-                textfield(vm.textbookname) {
+                textfield(vmDetail.textbookname) {
                     isEditable = false
                 }
             }
             field("UNIT") {
-                combobox(vm.unititem, vm.item.textbook.lstUnits) {
+                combobox(vmDetail.unititem, vmDetail.item.textbook.lstUnits) {
                     maxWidth = Double.MAX_VALUE
                 }
             }
             field("PART") {
-                combobox(vm.partitem, vm.item.textbook.lstParts) {
+                combobox(vmDetail.partitem, vmDetail.item.textbook.lstParts) {
                     maxWidth = Double.MAX_VALUE
                 }
             }
             field("SEQNUM") {
-                textfield(vm.seqnum)
+                textfield(vmDetail.seqnum)
             }
             field("PHRASEID") {
-                textfield(vm.phraseid) {
+                textfield(vmDetail.phraseid) {
                     isEditable = false
                 }
             }
             field("PHRASE") {
-                textfield(vm.phrase)
+                textfield(vmDetail.phrase)
             }
             field("TRANSLATION") {
-                textfield(vm.translation)
+                textfield(vmDetail.translation)
             }
         }
-        tableview(vm.vmSingle.lstPhrases) {
+        tableview(vmDetail.vmSingle.lstPhrases) {
             readonlyColumn("TEXTBOOKNAME", MUnitPhrase::textbookname)
             readonlyColumn("UNIT", MUnitPhrase::unitstr)
             readonlyColumn("PART", MUnitPhrase::partstr)
@@ -60,7 +60,7 @@ class PhrasesTextbookDetailView : Fragment("Phrases in Textbook Detail") {
                 isDefaultButton = true
                 action {
                     result = true
-                    vm.commit()
+                    vmDetail.commit()
                     close()
                 }
             }
