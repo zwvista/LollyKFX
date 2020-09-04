@@ -49,7 +49,7 @@ class WordsTextbookView : WordsBaseView("Words in Textbook") {
                 }
                 onDoubleClick {
                     // https://github.com/edvin/tornadofx/issues/226
-                    val modal = find<WordsUnitDetailView>("vmDetail" to WordsUnitDetailViewModel(vm, selectionModel.selectedItem)) { openModal(block = true) }
+                    val modal = find<WordsTextbookDetailView>("vmDetail" to WordsUnitDetailViewModel(vm, selectionModel.selectedItem)) { openModal(block = true) }
                     if (modal.result)
                         this.refresh()
                 }
