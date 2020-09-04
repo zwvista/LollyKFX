@@ -37,8 +37,32 @@ class PhrasesUnitView : PhrasesBaseView("Phrases in Unit") {
                     tvPhrases.refresh()
                 }
             }
-            button("Toggle")
-            button("Previous")
+            button("Toggle") {
+                isDisable = !vmSettings.toTypeIsMovable
+                action {
+                    val item = tvPhrases.selectionModel.selectedItem
+                    val part = item?.part ?: vmSettings.lstParts[0].value
+                    vmSettings.toggleUnitPart(part).subscribe {
+                        vm.reload()
+                    }
+                }
+            }
+            button("Previous") {
+                isDisable = !vmSettings.toTypeIsMovable
+                action {
+                    vmSettings.previousUnitPart().subscribe {
+                        vm.reload()
+                    }
+                }
+            }
+            button("Next") {
+                isDisable = !vmSettings.toTypeIsMovable
+                action {
+                    vmSettings.nextUnitPart().subscribe {
+                        vm.reload()
+                    }
+                }
+            }
             button("Review")
             choicebox(vm.scopeFilter, vmSettings.lstScopePhraseFilters)
             textfield(vm.textFilter) {

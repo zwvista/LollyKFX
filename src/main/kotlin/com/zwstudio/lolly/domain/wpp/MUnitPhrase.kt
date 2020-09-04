@@ -42,7 +42,7 @@ class MUnitPhrase: Serializable {
     var phraseid = 0
     @SerializedName("PHRASE")
     @Expose
-    val phraseProperty = SimpleStringProperty()
+    val phraseProperty = SimpleStringProperty("")
     var phrase: String get() = phraseProperty.value; set(value) { phraseProperty.value = value }
     @SerializedName("TRANSLATION")
     @Expose

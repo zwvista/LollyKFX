@@ -163,6 +163,7 @@ class SettingsViewModel : Component(), ScopedInstance {
     var toType: UnitPartToType
         get() = toTypeProperty.value.first
         set(value) = toTypeProperty.setValue(lstToTypes[value.ordinal])
+    val toTypeIsMovable get() = toType != UnitPartToType.To
     val unitToIsEnabled = SimpleBooleanProperty()
     val partToIsEnabled = SimpleBooleanProperty()
     val previousIsEnabled = SimpleBooleanProperty()
@@ -285,7 +286,7 @@ class SettingsViewModel : Component(), ScopedInstance {
                 else if (toType == UnitPartToType.Part || isInvalidUnitPart)
                     doUpdateUnitPartTo()
                 else
-                    Observable.empty()
+                    Observable.just(Unit)
             }.subscribe()
         }
         uspartfromItem.addListener { _, oldValue, _ ->
@@ -294,7 +295,7 @@ class SettingsViewModel : Component(), ScopedInstance {
                 if (toType == UnitPartToType.Part || isInvalidUnitPart)
                     doUpdateUnitPartTo()
                 else
-                    Observable.empty()
+                    Observable.just(Unit)
             }.subscribe()
         }
         usunittoItem.addListener { _, oldValue, _ ->
@@ -303,7 +304,7 @@ class SettingsViewModel : Component(), ScopedInstance {
                 if (isInvalidUnitPart)
                     doUpdateUnitPartFrom()
                 else
-                    Observable.empty()
+                    Observable.just(Unit)
             }.subscribe()
         }
         usparttoItem.addListener { _, oldValue, _ ->
@@ -312,7 +313,7 @@ class SettingsViewModel : Component(), ScopedInstance {
                 if (isInvalidUnitPart)
                     doUpdateUnitPartFrom()
                 else
-                    Observable.empty()
+                    Observable.just(Unit)
             }.subscribe()
         }
     }
@@ -350,31 +351,41 @@ class SettingsViewModel : Component(), ScopedInstance {
     fun autoCorrectInput(text: String): String =
         autoCorrect(text, lstAutoCorrect, { it.input }, { it.extended })
 
+    fun toggleUnitPart(part: Int): Observable<Unit> =
+        if (toType == UnitPartToType.Unit) {
+            toType = UnitPartToType.Part
+            Observables.zip(doUpdatePartFrom(part), doUpdateUnitPartTo()).map { Unit }
+        } else if (toType == UnitPartToType.Part) {
+            toType = UnitPartToType.Unit
+            doUpdateSingleUnit()
+        } else
+            Observable.just(Unit)
+
     fun previousUnitPart(): Observable<Unit> =
         if (toType == UnitPartToType.Unit)
             if (usunitfrom > 1)
                 Observables.zip(doUpdateUnitFrom(usunitfrom - 1), doUpdateUnitTo(usunitfrom)).map { Unit }
             else
-                Observable.empty()
+                Observable.just(Unit)
         else if (uspartfrom > 1)
             Observables.zip(doUpdatePartFrom(uspartfrom - 1), doUpdateUnitPartTo()).map { Unit }
         else if (usunitfrom > 1)
             Observables.zip(doUpdateUnitFrom(usunitfrom - 1), doUpdatePartFrom(partCount), doUpdateUnitPartTo()).map { Unit }
         else
-            Observable.empty()
+            Observable.just(Unit)
 
     fun nextUnitPart(): Observable<Unit> =
         if (toType == UnitPartToType.Unit)
             if (usunitfrom < unitCount)
                 Observables.zip(doUpdateUnitFrom(usunitfrom + 1), doUpdateUnitTo(usunitfrom)).map { Unit }
             else
-                Observable.empty()
+                Observable.just(Unit)
         else if (uspartfrom < partCount)
             Observables.zip(doUpdatePartFrom(uspartfrom + 1), doUpdateUnitPartTo()).map { Unit }
         else if (usunitfrom < unitCount)
             Observables.zip(doUpdateUnitFrom(usunitfrom + 1), doUpdatePartFrom(1), doUpdateUnitPartTo()).map { Unit }
         else
-            Observable.empty()
+            Observable.just(Unit)
 
     private fun doUpdateUnitPartFrom(): Observable<Unit> =
         Observables.zip(doUpdateUnitFrom(usunitto), doUpdatePartFrom(uspartto)).map { Unit }
@@ -386,25 +397,25 @@ class SettingsViewModel : Component(), ScopedInstance {
         Observables.zip(doUpdateUnitTo(usunitfrom), doUpdatePartFrom(1), doUpdatePartTo(partCount)).map { Unit }
 
     private fun doUpdateUnitFrom(v: Int, check: Boolean = true): Observable<Unit> {
-        if (check && usunitfrom == v) return Observable.empty()
+        if (check && usunitfrom == v) return Observable.just(Unit)
         usunitfrom = v
         return userSettingService.update(INFO_USUNITFROM, usunitfrom)
     }
 
     private fun doUpdatePartFrom(v: Int, check: Boolean = true): Observable<Unit> {
-        if (check && uspartfrom == v) return Observable.empty()
+        if (check && uspartfrom == v) return Observable.just(Unit)
         uspartfrom = v
         return userSettingService.update(INFO_USPARTFROM, uspartfrom)
     }
 
     private fun doUpdateUnitTo(v: Int, check: Boolean = true): Observable<Unit> {
-        if (check && usunitto == v) return Observable.empty()
+        if (check && usunitto == v) return Observable.just(Unit)
         usunitto = v
         return userSettingService.update(INFO_USUNITTO, usunitto)
     }
 
     private fun doUpdatePartTo(v: Int, check: Boolean = true): Observable<Unit> {
-        if (check && uspartto == v) return Observable.empty()
+        if (check && uspartto == v) return Observable.just(Unit)
         uspartto = v
         return userSettingService.update(INFO_USPARTTO, uspartto)
     }

@@ -38,8 +38,32 @@ class WordsUnitView : WordsBaseView("Words in Unit") {
                     tvWords.refresh()
                 }
             }
-            button("Toggle")
-            button("Previous")
+            button("Toggle") {
+                isDisable = !vmSettings.toTypeIsMovable
+                action {
+                    val item = tvWords.selectionModel.selectedItem
+                    val part = item?.part ?: vmSettings.lstParts[0].value
+                    vmSettings.toggleUnitPart(part).subscribe {
+                        vm.reload()
+                    }
+                }
+            }
+            button("Previous") {
+                isDisable = !vmSettings.toTypeIsMovable
+                action {
+                    vmSettings.previousUnitPart().subscribe {
+                        vm.reload()
+                    }
+                }
+            }
+            button("Next") {
+                isDisable = !vmSettings.toTypeIsMovable
+                action {
+                    vmSettings.nextUnitPart().subscribe {
+                        vm.reload()
+                    }
+                }
+            }
             checkbox("If Empty")
             button("Get Notes")
             button("Clear Notes")

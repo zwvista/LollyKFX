@@ -39,7 +39,7 @@ class MUnitWord: Serializable {
     var seqnum = 0
     @SerializedName("WORD")
     @Expose
-    val wordProperty = SimpleStringProperty()
+    val wordProperty = SimpleStringProperty("")
     var word: String get() = wordProperty.value; set(value) { wordProperty.value = value }
     @SerializedName("NOTE")
     @Expose

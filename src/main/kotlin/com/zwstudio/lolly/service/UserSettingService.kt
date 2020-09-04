@@ -28,6 +28,6 @@ class UserSettingService: BaseService() {
             4 -> retrofitJson.create(RestUserSetting::class.java)
                 .updateValue4(info.usersettingid, v)
                 .map { println(it.toString()) }
-            else -> Observable.empty()
+            else -> Observable.just(Unit)
         }
 }
