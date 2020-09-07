@@ -4,6 +4,7 @@ import com.google.gson.annotations.Expose
 import com.google.gson.annotations.SerializedName
 import com.zwstudio.lolly.domain.MSelectItem
 import com.zwstudio.lolly.domain.MTextbook
+import javafx.beans.property.SimpleBooleanProperty
 import javafx.beans.property.SimpleStringProperty
 import java.io.Serializable
 
@@ -68,10 +69,7 @@ class MUnitWord: Serializable {
     val partstr: String
         get() = textbook.partstr(part)
     var partitem: MSelectItem? = null
-    val unitpartseqnum: String
-        get() = "$unitstr $seqnum\n$partstr"
-    val wordnote: String
-        get() = word + (if (note.isNullOrEmpty()) "" else "($note)")
     val accuracy: String
         get() = if (total == 0) "N/A" else "${Math.floor(correct.toDouble() / total.toDouble() * 1000) / 10}%"
+    val isChecked = SimpleBooleanProperty()
 }

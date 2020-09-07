@@ -4,6 +4,7 @@ import com.google.gson.annotations.Expose
 import com.google.gson.annotations.SerializedName
 import com.zwstudio.lolly.domain.MSelectItem
 import com.zwstudio.lolly.domain.MTextbook
+import javafx.beans.property.SimpleBooleanProperty
 import javafx.beans.property.SimpleStringProperty
 import java.io.Serializable
 
@@ -56,6 +57,5 @@ class MUnitPhrase: Serializable {
     val partstr: String
         get() = textbook.partstr(part)
     var partitem: MSelectItem? = null
-    val unitpartseqnum: String
-        get() = "$unitstr $seqnum\n$partstr"
+    val isChecked = SimpleBooleanProperty()
 }

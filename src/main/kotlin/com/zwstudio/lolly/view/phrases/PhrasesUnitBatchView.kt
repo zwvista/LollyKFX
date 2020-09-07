@@ -2,12 +2,14 @@ package com.zwstudio.lolly.view.phrases
 
 import com.zwstudio.lolly.data.phrases.PhrasesUnitBatchViewModel
 import com.zwstudio.lolly.domain.wpp.MUnitPhrase
-import javafx.geometry.Insets
 import javafx.geometry.Pos
+import javafx.scene.control.SelectionMode
+import javafx.scene.control.TableView
 import javafx.scene.layout.Priority
 import tornadofx.*
 
 class PhrasesUnitBatchView : Fragment("Phrases in Unit Batch Edit") {
+    var tvPhrases: TableView<MUnitPhrase> by singleAssign()
     val vm : PhrasesUnitBatchViewModel by param()
     var result = false
 
@@ -40,18 +42,31 @@ class PhrasesUnitBatchView : Fragment("Phrases in Unit Batch Edit") {
             alignment = Pos.CENTER
             button("Check All") {
                 prefWidth = 150.0
+                action {
+                    vm.checkItems(0, tvPhrases.selectionModel.selectedItems)
+                }
             }
             button("Uncheck All") {
                 prefWidth = 150.0
+                action {
+                    vm.checkItems(1, tvPhrases.selectionModel.selectedItems)
+                }
             }
             button("Check Selected") {
                 prefWidth = 150.0
+                action {
+                    vm.checkItems(2, tvPhrases.selectionModel.selectedItems)
+                }
             }
             button("Uncheck Selected") {
                 prefWidth = 150.0
+                action {
+                    vm.checkItems(3, tvPhrases.selectionModel.selectedItems)
+                }
             }
         }
-        tableview(vm.vm.lstPhrases) {
+        tvPhrases = tableview(vm.vm.lstPhrases) {
+            column("", MUnitPhrase::isChecked).makeEditable()
             readonlyColumn("UNIT", MUnitPhrase::unitstr)
             readonlyColumn("PART", MUnitPhrase::partstr)
             readonlyColumn("SEQNUM", MUnitPhrase::seqnum)
@@ -59,6 +74,7 @@ class PhrasesUnitBatchView : Fragment("Phrases in Unit Batch Edit") {
             readonlyColumn("TRANSLATION", MUnitPhrase::translation)
             readonlyColumn("PHRASEID", MUnitPhrase::phraseid)
             readonlyColumn("ID", MUnitPhrase::id)
+            selectionModel.selectionMode = SelectionMode.MULTIPLE
         }
         buttonbar {
             button("OK") {

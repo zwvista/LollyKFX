@@ -2,12 +2,14 @@ package com.zwstudio.lolly.view.words
 
 import com.zwstudio.lolly.data.words.WordsUnitBatchViewModel
 import com.zwstudio.lolly.domain.wpp.MUnitWord
-import javafx.geometry.Insets
 import javafx.geometry.Pos
+import javafx.scene.control.SelectionMode
+import javafx.scene.control.TableView
 import javafx.scene.layout.Priority
 import tornadofx.*
 
 class WordsUnitBatchView : Fragment("Words in Unit Batch Edit") {
+    var tvWords: TableView<MUnitWord> by singleAssign()
     val vm : WordsUnitBatchViewModel by param()
     var result = false
 
@@ -54,18 +56,31 @@ class WordsUnitBatchView : Fragment("Words in Unit Batch Edit") {
             alignment = Pos.CENTER
             button("Check All") {
                 prefWidth = 150.0
+                action {
+                    vm.checkItems(0, tvWords.selectionModel.selectedItems)
+                }
             }
             button("Uncheck All") {
                 prefWidth = 150.0
+                action {
+                    vm.checkItems(1, tvWords.selectionModel.selectedItems)
+                }
             }
             button("Check Selected") {
                 prefWidth = 150.0
+                action {
+                    vm.checkItems(2, tvWords.selectionModel.selectedItems)
+                }
             }
             button("Uncheck Selected") {
                 prefWidth = 150.0
+                action {
+                    vm.checkItems(3, tvWords.selectionModel.selectedItems)
+                }
             }
         }
-        tableview(vm.vm.lstWords) {
+        tvWords = tableview(vm.vm.lstWords) {
+            column("", MUnitWord::isChecked).makeEditable()
             readonlyColumn("UNIT", MUnitWord::unitstr)
             readonlyColumn("PART", MUnitWord::partstr)
             readonlyColumn("SEQNUM", MUnitWord::seqnum)
@@ -76,6 +91,7 @@ class WordsUnitBatchView : Fragment("Words in Unit Batch Edit") {
             readonlyColumn("WORDID", MUnitWord::wordid)
             readonlyColumn("ID", MUnitWord::id)
             readonlyColumn("FAMIID", MUnitWord::famiid)
+            selectionModel.selectionMode = SelectionMode.MULTIPLE
         }
         buttonbar {
             button("OK") {
