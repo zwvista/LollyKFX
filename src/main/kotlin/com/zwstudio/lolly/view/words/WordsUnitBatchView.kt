@@ -39,18 +39,6 @@ class WordsUnitBatchView : Fragment("Words in Unit Batch Edit") {
                     enableWhen { vm.seqNumIsChecked }
                 }
             }
-            row {
-                checkbox("LEVEL:", vm.levelIsChecked)
-                textfield(vm.level) {
-                    enableWhen { vm.levelIsChecked }
-                }
-            }
-            row { }
-            checkbox("Level = 0 Only", vm.level0OnlyIsChecked) {
-                gridpaneConstraints {
-                    columnRowIndex(1, 4)
-                }
-            }
         }
         hbox(10.0) {
             alignment = Pos.CENTER
@@ -86,7 +74,6 @@ class WordsUnitBatchView : Fragment("Words in Unit Batch Edit") {
             readonlyColumn("SEQNUM", MUnitWord::seqnum)
             readonlyColumn("WORD", MUnitWord::word)
             readonlyColumn("NOTE", MUnitWord::note)
-            readonlyColumn("LEVEL", MUnitWord::level)
             readonlyColumn("ACCURACY", MUnitWord::accuracy)
             readonlyColumn("WORDID", MUnitWord::wordid)
             readonlyColumn("ID", MUnitWord::id)

@@ -8,7 +8,6 @@ import com.zwstudio.lolly.domain.wpp.MUnitWord
 import com.zwstudio.lolly.service.UnitWordService
 import io.reactivex.rxjava3.core.Observable
 import io.reactivex.rxjava3.disposables.CompositeDisposable
-import javafx.beans.property.SimpleBooleanProperty
 import javafx.beans.property.SimpleObjectProperty
 import javafx.beans.property.SimpleStringProperty
 import tornadofx.asObservable
@@ -24,20 +23,18 @@ class WordsUnitViewModel(val inTextbook: Boolean) : BaseViewModel() {
     val newWord = SimpleStringProperty()
     val scopeFilter = SimpleStringProperty(vmSettings.lstScopeWordFilters[0])
     val textFilter = SimpleStringProperty()
-    val levelge0only = SimpleBooleanProperty()
     val textbookFilter = SimpleObjectProperty<MSelectItem>()
 
     init {
         scopeFilter.addListener { _, _, _ -> applyFilters() }
         textFilter.addListener { _, _, _ -> applyFilters() }
-        levelge0only.addListener { _, _, _ -> applyFilters() }
         textbookFilter.addListener { _, _, _ -> applyFilters() }
     }
 
     private fun applyFilters() =
         lstWords.setAll(lstWordsAll.filtered {
             (textFilter.value.isNullOrEmpty() || (if (scopeFilter.value == "Word") it.word else it.note ?: "").contains(textFilter.value, true)) &&
-            (!levelge0only.value || it.level >= 0) && (textbookFilter.value.value == 0 || it.textbookid == textbookFilter.value.value)
+            (textbookFilter.value.value == 0 || it.textbookid == textbookFilter.value.value)
         })
 
     fun reload() {

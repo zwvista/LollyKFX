@@ -3,8 +3,8 @@ package com.zwstudio.lolly.data.words
 import com.zwstudio.lolly.data.BaseViewModel
 import com.zwstudio.lolly.data.applyIO
 import com.zwstudio.lolly.data.extractTextFrom
-import com.zwstudio.lolly.domain.wpp.MUnitWord
 import com.zwstudio.lolly.domain.ReviewMode
+import com.zwstudio.lolly.domain.wpp.MUnitWord
 import com.zwstudio.lolly.service.HtmlService
 import com.zwstudio.lolly.service.UnitWordService
 import io.reactivex.rxjava3.core.Observable
@@ -22,12 +22,11 @@ class WordsReviewModel : BaseViewModel() {
     val isTestMode: Boolean
         get() = mode == ReviewMode.Test
 
-    fun newTest(shuffled: Boolean, levelge0only: Boolean): Observable<Unit> =
+    fun newTest(shuffled: Boolean): Observable<Unit> =
         unitWordService.getDataByTextbookUnitPart(vmSettings.selectedTextbook, vmSettings.usunitpartfrom, vmSettings.usunitpartto)
             .map {
                 lstWords = it
                 lstCorrectIDs = mutableListOf()
-                if (levelge0only) lstWords = lstWords.filter { it.level >= 0 }
                 if (shuffled) lstWords = lstWords.shuffled()
                 index = 0
             }

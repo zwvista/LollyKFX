@@ -49,12 +49,12 @@ class UnitWordService: BaseService() {
 
     fun update(o: MUnitWord): Observable<Unit> =
         retrofitSP.create(RestUnitWord::class.java)
-            .update(o.id, o.langid, o.textbookid, o.unit, o.part, o.seqnum, o.wordid, o.word, o.note, o.famiid, o.level, o.correct, o.total)
+            .update(o.id, o.langid, o.textbookid, o.unit, o.part, o.seqnum, o.wordid, o.word, o.note, o.famiid, o.correct, o.total)
             .map { println(it.toString()) }
 
     fun create(o: MUnitWord): Observable<Int> =
         retrofitSP.create(RestUnitWord::class.java)
-            .create(o.id, o.langid, o.textbookid, o.unit, o.part, o.seqnum, o.wordid, o.word, o.note, o.famiid, o.level, o.correct, o.total)
+            .create(o.id, o.langid, o.textbookid, o.unit, o.part, o.seqnum, o.wordid, o.word, o.note, o.famiid, o.correct, o.total)
             .map {
                 println(it.toString())
                 it[0][0].newid!!.toInt()
@@ -62,6 +62,6 @@ class UnitWordService: BaseService() {
 
     fun delete(o: MUnitWord): Observable<Unit> =
         retrofitSP.create(RestUnitWord::class.java)
-            .delete(o.id, o.langid, o.textbookid, o.unit, o.part, o.seqnum, o.wordid, o.word, o.note, o.famiid, o.level, o.correct, o.total)
+            .delete(o.id, o.langid, o.textbookid, o.unit, o.part, o.seqnum, o.wordid, o.word, o.note, o.famiid, o.correct, o.total)
             .map { println(it.toString()) }
 }

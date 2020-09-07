@@ -6,7 +6,6 @@ import com.zwstudio.lolly.data.applyIO
 import com.zwstudio.lolly.domain.wpp.MLangWord
 import com.zwstudio.lolly.service.LangWordService
 import io.reactivex.rxjava3.core.Observable
-import javafx.beans.property.SimpleBooleanProperty
 import javafx.beans.property.SimpleStringProperty
 import tornadofx.asObservable
 
@@ -20,18 +19,15 @@ class WordsLangViewModel : BaseViewModel() {
     val newWord = SimpleStringProperty()
     val scopeFilter = SimpleStringProperty(vmSettings.lstScopeWordFilters[0])
     val textFilter = SimpleStringProperty()
-    val levelge0only = SimpleBooleanProperty()
 
     init {
         scopeFilter.addListener { _, _, _ -> applyFilters() }
         textFilter.addListener { _, _, _ -> applyFilters() }
-        levelge0only.addListener { _, _, _ -> applyFilters() }
     }
 
     private fun applyFilters() =
         lstWords.setAll(lstWordsAll.filtered {
-            (textFilter.value.isNullOrEmpty() || (if (scopeFilter.value == "Word") it.word else it.note ?: "").contains(textFilter.value, true)) &&
-            (!levelge0only.value || it.level >= 0)
+            (textFilter.value.isNullOrEmpty() || (if (scopeFilter.value == "Word") it.word else it.note ?: "").contains(textFilter.value, true))
         })
 
     fun reload() {
@@ -41,12 +37,12 @@ class WordsLangViewModel : BaseViewModel() {
             .subscribe()
     }
 
-    fun update(id: Int, langid: Int, word: String, level: Int, note: String?): Observable<Unit> =
-        langWordService.update(id, langid, word, note)
+    fun update(o: MLangWord): Observable<Unit> =
+        langWordService.update(o.id, o.langid, o.word, o.note)
             .applyIO()
 
-    fun create(langid: Int, word: String, level: Int, note: String?): Observable<Int> =
-        langWordService.create(langid, word, note)
+    fun create(o: MLangWord): Observable<Int> =
+        langWordService.create(o.langid, o.word, o.note)
             .applyIO()
 
     fun delete(item: MLangWord): Observable<Unit> =

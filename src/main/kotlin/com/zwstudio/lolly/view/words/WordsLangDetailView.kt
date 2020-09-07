@@ -26,9 +26,6 @@ class WordsLangDetailView : Fragment("Words in Language Detail") {
                     isEditable = false
                 }
             }
-            field("LEVEL") {
-                textfield(vmDetail.level)
-            }
             field("ACCURACY") {
                 textfield(vmDetail.accuracy) {
                     isEditable = false
@@ -42,7 +39,6 @@ class WordsLangDetailView : Fragment("Words in Language Detail") {
             readonlyColumn("SEQNUM", MUnitWord::seqnum)
             readonlyColumn("WORD", MUnitWord::word)
             readonlyColumn("NOTE", MUnitWord::note)
-            readonlyColumn("LEVEL", MUnitWord::level)
             readonlyColumn("ACCURACY", MUnitWord::accuracy)
             readonlyColumn("WORDID", MUnitWord::wordid)
             readonlyColumn("ID", MUnitWord::id)

@@ -11,12 +11,9 @@ class WordsUnitBatchViewModel(val vm: WordsUnitViewModel) : ViewModel() {
     val unitIsChecked = SimpleBooleanProperty()
     val partIsChecked = SimpleBooleanProperty()
     val seqNumIsChecked = SimpleBooleanProperty()
-    val levelIsChecked = SimpleBooleanProperty()
-    val level0OnlyIsChecked = SimpleBooleanProperty()
     val unititem = SimpleObjectProperty<MSelectItem>()
     val partitem = SimpleObjectProperty<MSelectItem>()
     val seqnum = SimpleIntegerProperty()
-    val level = SimpleIntegerProperty()
     val selectedTextbook get() = vm.vmSettings.selectedTextbook
 
     init {
@@ -38,10 +35,6 @@ class WordsUnitBatchViewModel(val vm: WordsUnitViewModel) : ViewModel() {
             }
             if (seqNumIsChecked.value) {
                 o.seqnum += seqnum.value
-                b = true
-            }
-            if (levelIsChecked.value && (!level0OnlyIsChecked.value || o.level == 0)) {
-                o.level = level.value
                 b = true
             }
             if (b)

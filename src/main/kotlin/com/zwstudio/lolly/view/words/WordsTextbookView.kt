@@ -22,7 +22,6 @@ class WordsTextbookView : WordsBaseView("Words in Textbook") {
             textfield(vm.textFilter) {
                 promptText = "Filter"
             }
-            checkbox("Level >= 0", vm.levelge0only)
             combobox(vm.textbookFilter, vmSettings.lstTextbookFilters)
         }
         splitpane(Orientation.HORIZONTAL) {
@@ -34,7 +33,6 @@ class WordsTextbookView : WordsBaseView("Words in Textbook") {
                 readonlyColumn("SEQNUM", MUnitWord::seqnum)
                 column("WORD", MUnitWord::wordProperty).makeEditable()
                 column("NOTE", MUnitWord::noteProperty).makeEditable()
-                readonlyColumn("LEVEL", MUnitWord::level)
                 readonlyColumn("ACCURACY", MUnitWord::accuracy)
                 readonlyColumn("WORDID", MUnitWord::wordid)
                 readonlyColumn("ID", MUnitWord::id)

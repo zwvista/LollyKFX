@@ -15,7 +15,6 @@ class WordsUnitDetailViewModel(val vm: WordsUnitViewModel, item: MUnitWord) : It
     val word = bind(MUnitWord::wordProperty)
     val note = bind(MUnitWord::noteProperty)
     val famiid = bind(MUnitWord::famiid)
-    val level = bind(MUnitWord::level)
     val accuracy = bind(MUnitWord::accuracy)
     val vmSingle = SingleWordViewModel(item.word)
 

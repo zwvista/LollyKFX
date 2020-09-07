@@ -44,9 +44,6 @@ class WordsUnitDetailView : Fragment("Words in Unit Detail") {
                     isEditable = false
                 }
             }
-            field("LEVEL") {
-                textfield(vmDetail.level)
-            }
             field("ACCURACY") {
                 textfield(vmDetail.accuracy) {
                     isEditable = false
@@ -60,7 +57,6 @@ class WordsUnitDetailView : Fragment("Words in Unit Detail") {
             readonlyColumn("SEQNUM", MUnitWord::seqnum)
             readonlyColumn("WORD", MUnitWord::word)
             readonlyColumn("NOTE", MUnitWord::note)
-            readonlyColumn("LEVEL", MUnitWord::level)
             readonlyColumn("ACCURACY", MUnitWord::accuracy)
             readonlyColumn("WORDID", MUnitWord::wordid)
             readonlyColumn("ID", MUnitWord::id)

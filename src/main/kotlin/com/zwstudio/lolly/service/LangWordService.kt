@@ -1,7 +1,7 @@
 package com.zwstudio.lolly.service
 
-import com.zwstudio.lolly.domain.wpp.MLangWord
 import com.zwstudio.lolly.domain.MTextbook
+import com.zwstudio.lolly.domain.wpp.MLangWord
 import com.zwstudio.lolly.restapi.RestLangWord
 import io.reactivex.rxjava3.core.Observable
 
@@ -28,6 +28,6 @@ class LangWordService: BaseService() {
 
     fun delete(o: MLangWord): Observable<Unit> =
         retrofitJson.create(RestLangWord::class.java)
-            .delete(o.id, o.langid, o.word, o.note, o.famiid, o.level, o.correct, o.total)
+            .delete(o.id, o.langid, o.word, o.note, o.famiid, o.correct, o.total)
             .map { println(it.toString()) }
 }

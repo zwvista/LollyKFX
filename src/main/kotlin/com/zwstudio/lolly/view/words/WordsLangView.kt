@@ -18,7 +18,7 @@ class WordsLangView : WordsBaseView("Words in Language") {
         toolbarDicts = toolbar()
         toolbar {
             button("Add").action {
-                val modal = find<WordsLangDetailView>("vmDetail" to WordsLangDetailViewModel(vm.newLangWord())) { openModal(block = true) }
+                val modal = find<WordsLangDetailView>("vmDetail" to WordsLangDetailViewModel(vm, vm.newLangWord())) { openModal(block = true) }
                 if (modal.result) {
                     vm.lstWords.add(modal.vmDetail.item)
                     tvWords.refresh()
@@ -39,7 +39,6 @@ class WordsLangView : WordsBaseView("Words in Language") {
             textfield(vm.textFilter) {
                 promptText = "Filter"
             }
-            checkbox("Level >= 0", vm.levelge0only)
         }
         splitpane(Orientation.HORIZONTAL) {
             vgrow = Priority.ALWAYS
@@ -47,7 +46,6 @@ class WordsLangView : WordsBaseView("Words in Language") {
                 readonlyColumn("ID", MLangWord::id)
                 column("WORD", MLangWord::wordProperty).makeEditable()
                 column("NOTE", MLangWord::noteProperty).makeEditable()
-                readonlyColumn("LEVEL", MLangWord::level)
                 readonlyColumn("ACCURACY", MLangWord::accuracy)
                 readonlyColumn("FAMIID", MLangWord::famiid)
                 onEditCommit {
@@ -60,7 +58,7 @@ class WordsLangView : WordsBaseView("Words in Language") {
                 }
                 onDoubleClick {
                     // https://github.com/edvin/tornadofx/issues/226
-                    val modal = find<WordsLangDetailView>("vmDetail" to WordsLangDetailViewModel(selectionModel.selectedItem)) { openModal(block = true) }
+                    val modal = find<WordsLangDetailView>("vmDetail" to WordsLangDetailViewModel(vm, selectionModel.selectedItem)) { openModal(block = true) }
                     if (modal.result)
                         this.refresh()
                 }
