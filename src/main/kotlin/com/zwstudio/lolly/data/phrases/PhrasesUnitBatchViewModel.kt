@@ -23,6 +23,23 @@ class PhrasesUnitBatchViewModel(val vm: PhrasesUnitViewModel) : ViewModel() {
 
     override fun onCommit() {
         super.onCommit()
+        for (o in vm.lstPhrasesAll) {
+            var b = false
+            if (unitIsChecked.value) {
+                o.unit = unititem.value.value
+                b = true
+            }
+            if (partIsChecked.value) {
+                o.part = partitem.value.value
+                b = true
+            }
+            if (seqNumIsChecked.value) {
+                o.seqnum += seqnum.value
+                b = true
+            }
+            if (b)
+                vm.update(o).subscribe()
+        }
     }
 
     fun checkItems(n: Int, selectedItems: List<MUnitPhrase>) {
