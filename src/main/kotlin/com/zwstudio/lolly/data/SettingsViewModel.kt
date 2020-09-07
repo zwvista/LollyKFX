@@ -232,15 +232,15 @@ class SettingsViewModel : Component(), ScopedInstance {
             userSettingService.update(INFO_USDICTSREFERENCE, usdictsreference).subscribe()
         })
         selectedDictNoteProperty.addListener { _, _, newValue ->
-            val newid = newValue?.id ?: 0
-            if (usdictnoteid == newid) return@addListener
-            usdictnoteid = newid
+            val newdictid = newValue?.dictid ?: 0
+            if (usdictnoteid == newdictid) return@addListener
+            usdictnoteid = newdictid
             userSettingService.update(INFO_USDICTNOTE, usdictnoteid).subscribe()
         }
         selectedDictTranslationProperty.addListener { _, _, newValue ->
-            val newid = newValue?.id ?: 0
-            if (usdicttranslationid == newid) return@addListener
-            usdicttranslationid = newid
+            val newdictid = newValue?.dictid ?: 0
+            if (usdicttranslationid == newdictid) return@addListener
+            usdicttranslationid = newdictid
             userSettingService.update(INFO_USDICTTRANSLATION, usdicttranslationid).subscribe()
         }
         selectedTextbookProperty.addListener { _, _, newValue ->
