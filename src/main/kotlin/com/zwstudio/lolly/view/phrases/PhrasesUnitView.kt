@@ -110,7 +110,7 @@ class PhrasesUnitView : PhrasesBaseView("Phrases in Unit") {
                 setRowFactory { tv ->
                     val row = TableRow<MUnitPhrase>()
                     row.setOnDragDetected { event ->
-                        if (!row.isEmpty) {
+                        if (!row.isEmpty && vm.noFilter) {
                             val index = row.index
                             val db = row.startDragAndDrop(TransferMode.MOVE)
                             db.dragView = row.snapshot(null, null)

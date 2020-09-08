@@ -24,6 +24,7 @@ class WordsUnitViewModel(val inTextbook: Boolean) : BaseViewModel() {
     val scopeFilter = SimpleStringProperty(vmSettings.lstScopeWordFilters[0])
     val textFilter = SimpleStringProperty()
     val textbookFilter = SimpleObjectProperty<MSelectItem>()
+    val noFilter get() = textFilter.value.isNullOrEmpty() && textbookFilter.value.value == 0
 
     init {
         scopeFilter.addListener { _, _, _ -> applyFilters() }
@@ -32,7 +33,7 @@ class WordsUnitViewModel(val inTextbook: Boolean) : BaseViewModel() {
     }
 
     private fun applyFilters() =
-        lstWords.setAll(if (textFilter.value.isNullOrEmpty() && textbookFilter.value.value == 0) lstWordsAll else lstWordsAll.filter {
+        lstWords.setAll(if (noFilter) lstWordsAll else lstWordsAll.filter {
             (textFilter.value.isNullOrEmpty() || (if (scopeFilter.value == "Word") it.word else it.note ?: "").contains(textFilter.value, true)) &&
             (textbookFilter.value.value == 0 || it.textbookid == textbookFilter.value.value)
         })

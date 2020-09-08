@@ -21,6 +21,7 @@ class PhrasesUnitViewModel(val inTextbook: Boolean) : BaseViewModel() {
     val scopeFilter = SimpleStringProperty(vmSettings.lstScopePhraseFilters[0])
     val textFilter = SimpleStringProperty()
     val textbookFilter = SimpleObjectProperty<MSelectItem>()
+    val noFilter get() = textFilter.value.isNullOrEmpty() && textbookFilter.value.value == 0
 
     init {
         scopeFilter.addListener { _, _, _ -> applyFilters() }
@@ -29,7 +30,7 @@ class PhrasesUnitViewModel(val inTextbook: Boolean) : BaseViewModel() {
     }
 
     private fun applyFilters() =
-        lstPhrases.setAll(if (textFilter.value.isNullOrEmpty() && textbookFilter.value.value == 0) lstPhrasesAll else lstPhrasesAll.filter {
+        lstPhrases.setAll(if (noFilter) lstPhrasesAll else lstPhrasesAll.filter {
             (textFilter.value.isNullOrEmpty() || (if (scopeFilter.value == "Phrase") it.phrase else it.translation ?: "").contains(textFilter.value, true)) &&
             (textbookFilter.value.value == 0 || it.textbookid == textbookFilter.value.value)
         })
