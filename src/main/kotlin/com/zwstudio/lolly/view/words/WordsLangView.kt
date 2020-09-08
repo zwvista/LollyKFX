@@ -44,36 +44,40 @@ class WordsLangView : WordsBaseView("Words in Language") {
         }
         splitpane(Orientation.HORIZONTAL) {
             vgrow = Priority.ALWAYS
-            tvWords = tableview(vm.lstWords) {
-                readonlyColumn("ID", MLangWord::id)
-                column("WORD", MLangWord::wordProperty).makeEditable()
-                column("NOTE", MLangWord::noteProperty).makeEditable()
-                readonlyColumn("ACCURACY", MLangWord::accuracy)
-                readonlyColumn("FAMIID", MLangWord::famiid)
-                onEditCommit {
-                    val title = this.tableColumn.text
-                    if (title == "WORD")
-                        rowValue.word = vmSettings.autoCorrectInput(rowValue.word)
-                }
-                onSelectionChange {
-                    onWordChanged(it?.word)
-                }
-                onDoubleClick {
-                    // https://github.com/edvin/tornadofx/issues/226
-                    val modal = find<WordsLangDetailView>("vmDetail" to WordsLangDetailViewModel(vm, selectionModel.selectedItem)) { openModal(block = true) }
-                    if (modal.result)
-                        this.refresh()
-                }
-                contextmenu {
-                    item("Delete")
-                    separator()
-                    item("Copy").action {
-                        copyText(selectedItem?.word)
+            vbox {
+                tvWords = tableview(vm.lstWords) {
+                    vgrow = Priority.ALWAYS
+                    readonlyColumn("ID", MLangWord::id)
+                    column("WORD", MLangWord::wordProperty).makeEditable()
+                    column("NOTE", MLangWord::noteProperty).makeEditable()
+                    readonlyColumn("ACCURACY", MLangWord::accuracy)
+                    readonlyColumn("FAMIID", MLangWord::famiid)
+                    onEditCommit {
+                        val title = this.tableColumn.text
+                        if (title == "WORD")
+                            rowValue.word = vmSettings.autoCorrectInput(rowValue.word)
                     }
-                    item("Google").action {
-                        googleString(selectedItem?.word)
+                    onSelectionChange {
+                        onWordChanged(it?.word)
+                    }
+                    onDoubleClick {
+                        // https://github.com/edvin/tornadofx/issues/226
+                        val modal = find<WordsLangDetailView>("vmDetail" to WordsLangDetailViewModel(vm, selectionModel.selectedItem)) { openModal(block = true) }
+                        if (modal.result)
+                            this.refresh()
+                    }
+                    contextmenu {
+                        item("Delete")
+                        separator()
+                        item("Copy").action {
+                            copyText(selectedItem?.word)
+                        }
+                        item("Google").action {
+                            googleString(selectedItem?.word)
+                        }
                     }
                 }
+                label(vm.statusText)
             }
             splitpane(Orientation.VERTICAL) {
                 dictsPane = tabpane {

@@ -6,29 +6,35 @@ import com.zwstudio.lolly.data.applyIO
 import com.zwstudio.lolly.domain.wpp.MLangWord
 import com.zwstudio.lolly.service.LangWordService
 import io.reactivex.rxjava3.core.Observable
+import javafx.application.Platform
 import javafx.beans.property.SimpleStringProperty
 import tornadofx.asObservable
 
 class WordsLangViewModel : BaseViewModel() {
 
     var lstWordsAll = mutableListOf<MLangWord>()
-    val lstWords get() = mutableListOf<MLangWord>().asObservable()
+    val lstWords = mutableListOf<MLangWord>().asObservable()
     val vmNote: NoteViewModel by inject()
     val langWordService: LangWordService by inject()
 
     val newWord = SimpleStringProperty()
     val scopeFilter = SimpleStringProperty(vmSettings.lstScopeWordFilters[0])
-    val textFilter = SimpleStringProperty()
+    val textFilter = SimpleStringProperty("")
+    val statusText = SimpleStringProperty()
 
     init {
         scopeFilter.addListener { _, _, _ -> applyFilters() }
         textFilter.addListener { _, _, _ -> applyFilters() }
     }
 
-    private fun applyFilters() =
-        lstWords.setAll(if (textFilter.value.isNullOrEmpty()) lstWordsAll else lstWordsAll.filter {
-            (textFilter.value.isNullOrEmpty() || (if (scopeFilter.value == "Word") it.word else it.note ?: "").contains(textFilter.value, true))
+    private fun applyFilters() {
+        lstWords.setAll(if (textFilter.value.isEmpty()) lstWordsAll else lstWordsAll.filter {
+            textFilter.value.isEmpty() || (if (scopeFilter.value == "Word") it.word else it.note ?: "").contains(textFilter.value, true)
         })
+        Platform.runLater {
+            statusText.value = "${lstWords.size} Words in ${vmSettings.langInfo}"
+        }
+    }
 
     fun reload() {
         langWordService.getDataByLang(vmSettings.selectedLang.id, vmSettings.lstTextbooks)

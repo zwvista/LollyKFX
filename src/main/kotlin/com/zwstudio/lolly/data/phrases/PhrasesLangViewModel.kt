@@ -5,6 +5,7 @@ import com.zwstudio.lolly.data.applyIO
 import com.zwstudio.lolly.domain.wpp.MLangPhrase
 import com.zwstudio.lolly.service.LangPhraseService
 import io.reactivex.rxjava3.core.Observable
+import javafx.application.Platform
 import javafx.beans.property.SimpleStringProperty
 import tornadofx.asObservable
 
@@ -15,17 +16,22 @@ class PhrasesLangViewModel : BaseViewModel() {
     val langPhraseService: LangPhraseService by inject()
 
     val scopeFilter = SimpleStringProperty(vmSettings.lstScopePhraseFilters[0])
-    val textFilter = SimpleStringProperty()
+    val textFilter = SimpleStringProperty("")
+    val statusText = SimpleStringProperty()
 
     init {
         scopeFilter.addListener { _, _, _ -> applyFilters() }
         textFilter.addListener { _, _, _ -> applyFilters() }
     }
 
-    private fun applyFilters() =
-        lstPhrases.setAll(if (textFilter.value.isNullOrEmpty()) lstPhrasesAll else lstPhrasesAll.filter {
-            (textFilter.value.isNullOrEmpty() || (if (scopeFilter.value == "Phrase") it.phrase else it.translation ?: "").contains(textFilter.value, true))
+    private fun applyFilters() {
+        lstPhrases.setAll(if (textFilter.value.isEmpty()) lstPhrasesAll else lstPhrasesAll.filter {
+            textFilter.value.isEmpty() || (if (scopeFilter.value == "Phrase") it.phrase else it.translation ?: "").contains(textFilter.value, true)
         })
+        Platform.runLater {
+            statusText.value = "${lstPhrases.size} Phrases in ${vmSettings.langInfo}"
+        }
+    }
 
     fun reload() {
         langPhraseService.getDataByLang(vmSettings.selectedLang.id, vmSettings.lstTextbooks)

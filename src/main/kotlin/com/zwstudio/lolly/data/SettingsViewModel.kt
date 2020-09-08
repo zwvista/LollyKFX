@@ -86,6 +86,7 @@ class SettingsViewModel : Component(), ScopedInstance {
             setUSValue(INFO_USUNITFROM, value.toString())
             usunitfromItem.value = lstUnits.first { it.value == usunitfrom }
         }
+    val usunitfromstr get() = selectedTextbook.unitstr(usunitfrom)
     private var INFO_USPARTFROM = MUserSettingInfo()
     var uspartfrom: Int
         get() = getUSValue(INFO_USPARTFROM)!!.toInt()
@@ -93,6 +94,7 @@ class SettingsViewModel : Component(), ScopedInstance {
             setUSValue(INFO_USPARTFROM, value.toString())
             uspartfromItem.value = lstParts.first { it.value == uspartfrom }
         }
+    val uspartfromstr get() = selectedTextbook.partstr(uspartfrom)
     private var INFO_USUNITTO = MUserSettingInfo()
     var usunitto: Int
         get() = getUSValue(INFO_USUNITTO)!!.toInt()
@@ -100,6 +102,7 @@ class SettingsViewModel : Component(), ScopedInstance {
             setUSValue(INFO_USUNITTO, value.toString())
             usunittoItem.value = lstUnits.first { it.value == usunitto }
         }
+    val usunittostr get() = selectedTextbook.unitstr(usunitto)
     private var INFO_USPARTTO = MUserSettingInfo()
     var uspartto: Int
         get() = getUSValue(INFO_USPARTTO)!!.toInt()
@@ -107,6 +110,7 @@ class SettingsViewModel : Component(), ScopedInstance {
             setUSValue(INFO_USPARTTO, value.toString())
             usparttoItem.value = lstParts.first { it.value == uspartto }
         }
+    val usparttostr get() = selectedTextbook.partstr(uspartto)
     val usunitpartfrom: Int
         get() = usunitfrom * 10 + uspartfrom
     val usunitpartto: Int
@@ -155,6 +159,9 @@ class SettingsViewModel : Component(), ScopedInstance {
         get() = lstParts.size
     val isSinglePart: Boolean
         get() = partCount == 1
+    val langInfo get() = selectedLang.langname
+    val textbookInfo get() = "${langInfo}/${selectedTextbook.textbookname}"
+    val unitInfo get() = "${textbookInfo}/${usunitfromstr} ${uspartfromstr} ~ ${usunittostr} ${usparttostr}"
 
     var lstAutoCorrect = listOf<MAutoCorrect>()
 

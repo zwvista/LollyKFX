@@ -8,6 +8,7 @@ import com.zwstudio.lolly.domain.wpp.MUnitWord
 import com.zwstudio.lolly.service.UnitWordService
 import io.reactivex.rxjava3.core.Observable
 import io.reactivex.rxjava3.disposables.CompositeDisposable
+import javafx.application.Platform
 import javafx.beans.property.SimpleObjectProperty
 import javafx.beans.property.SimpleStringProperty
 import tornadofx.asObservable
@@ -22,9 +23,10 @@ class WordsUnitViewModel(val inTextbook: Boolean) : BaseViewModel() {
 
     val newWord = SimpleStringProperty()
     val scopeFilter = SimpleStringProperty(vmSettings.lstScopeWordFilters[0])
-    val textFilter = SimpleStringProperty()
+    val textFilter = SimpleStringProperty("")
     val textbookFilter = SimpleObjectProperty<MSelectItem>()
-    val noFilter get() = textFilter.value.isNullOrEmpty() && textbookFilter.value.value == 0
+    val noFilter get() = textFilter.value.isEmpty() && textbookFilter.value.value == 0
+    val statusText = SimpleStringProperty()
 
     init {
         scopeFilter.addListener { _, _, _ -> applyFilters() }
@@ -32,11 +34,15 @@ class WordsUnitViewModel(val inTextbook: Boolean) : BaseViewModel() {
         textbookFilter.addListener { _, _, _ -> applyFilters() }
     }
 
-    private fun applyFilters() =
+    private fun applyFilters() {
         lstWords.setAll(if (noFilter) lstWordsAll else lstWordsAll.filter {
-            (textFilter.value.isNullOrEmpty() || (if (scopeFilter.value == "Word") it.word else it.note ?: "").contains(textFilter.value, true)) &&
+            (textFilter.value.isEmpty() || (if (scopeFilter.value == "Word") it.word else it.note ?: "").contains(textFilter.value, true)) &&
             (textbookFilter.value.value == 0 || it.textbookid == textbookFilter.value.value)
         })
+        Platform.runLater {
+            statusText.value = "${lstWords.size} Words in ${if (inTextbook) vmSettings.unitInfo else vmSettings.langInfo}"
+        }
+    }
 
     fun reload() {
         (if (inTextbook)

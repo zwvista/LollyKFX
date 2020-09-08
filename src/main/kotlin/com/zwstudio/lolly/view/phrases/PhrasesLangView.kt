@@ -35,34 +35,38 @@ class PhrasesLangView : PhrasesBaseView("Phrases in Language") {
         }
         splitpane(Orientation.HORIZONTAL) {
             vgrow = Priority.ALWAYS
-            tvPhrases = tableview(vm.lstPhrases) {
-                readonlyColumn("ID", MLangPhrase::id)
-                column("PHRASE", MLangPhrase::phraseProperty).makeEditable()
-                column("TRANSLATION", MLangPhrase::translationProperty).makeEditable()
-                onEditCommit {
-                    val title = this.tableColumn.text
-                    if (title == "Phrase")
-                        rowValue.phrase = vmSettings.autoCorrectInput(rowValue.phrase)
-                }
-                onSelectionChange {
-                    if (it == null) return@onSelectionChange
-                }
-                onDoubleClick {
-                    // https://github.com/edvin/tornadofx/issues/226
-                    val modal = find<PhrasesLangDetailView>("vmDetail" to PhrasesLangDetailViewModel(vm, selectionModel.selectedItem)) { openModal(block = true) }
-                    if (modal.result)
-                        this.refresh()
-                }
-                contextmenu {
-                    item("Delete")
-                    separator()
-                    item("Copy").action {
-                        copyText(selectedItem?.phrase)
+            vbox {
+                tvPhrases = tableview(vm.lstPhrases) {
+                    vgrow = Priority.ALWAYS
+                    readonlyColumn("ID", MLangPhrase::id)
+                    column("PHRASE", MLangPhrase::phraseProperty).makeEditable()
+                    column("TRANSLATION", MLangPhrase::translationProperty).makeEditable()
+                    onEditCommit {
+                        val title = this.tableColumn.text
+                        if (title == "Phrase")
+                            rowValue.phrase = vmSettings.autoCorrectInput(rowValue.phrase)
                     }
-                    item("Google").action {
-                        googleString(selectedItem?.phrase)
+                    onSelectionChange {
+                        if (it == null) return@onSelectionChange
+                    }
+                    onDoubleClick {
+                        // https://github.com/edvin/tornadofx/issues/226
+                        val modal = find<PhrasesLangDetailView>("vmDetail" to PhrasesLangDetailViewModel(vm, selectionModel.selectedItem)) { openModal(block = true) }
+                        if (modal.result)
+                            this.refresh()
+                    }
+                    contextmenu {
+                        item("Delete")
+                        separator()
+                        item("Copy").action {
+                            copyText(selectedItem?.phrase)
+                        }
+                        item("Google").action {
+                            googleString(selectedItem?.phrase)
+                        }
                     }
                 }
+                label(vm.statusText)
             }
         }
     }

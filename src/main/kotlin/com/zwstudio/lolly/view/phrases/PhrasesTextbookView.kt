@@ -27,39 +27,43 @@ class PhrasesTextbookView : PhrasesBaseView("Phrases in Textbook") {
         }
         splitpane(Orientation.HORIZONTAL) {
             vgrow = Priority.ALWAYS
-            tableview(vm.lstPhrases) {
-                readonlyColumn("TEXTBOOKNAME", MUnitPhrase::textbookname)
-                readonlyColumn("UNIT", MUnitPhrase::unitstr)
-                readonlyColumn("PART", MUnitPhrase::partstr)
-                readonlyColumn("SEQNUM", MUnitPhrase::seqnum)
-                column("PHRASE", MUnitPhrase::phraseProperty).makeEditable()
-                column("TRANSLATION", MUnitPhrase::translationProperty).makeEditable()
-                readonlyColumn("PHRASEID", MUnitPhrase::phraseid)
-                readonlyColumn("ID", MUnitPhrase::id)
-                onEditCommit {
-                    val title = this.tableColumn.text
-                    if (title == "Phrase")
-                        rowValue.phrase = vmSettings.autoCorrectInput(rowValue.phrase)
-                }
-                onSelectionChange {
-                    if (it == null) return@onSelectionChange
-                }
-                onDoubleClick {
-                    // https://github.com/edvin/tornadofx/issues/226
-                    val modal = find<PhrasesTextbookDetailView>("vmDetail" to PhrasesUnitDetailViewModel(vm, selectionModel.selectedItem)) { openModal(block = true) }
-                    if (modal.result)
-                        this.refresh()
-                }
-                contextmenu {
-                    item("Delete")
-                    separator()
-                    item("Copy").action {
-                        copyText(selectedItem?.phrase)
+            vbox {
+                tableview(vm.lstPhrases) {
+                    vgrow = Priority.ALWAYS
+                    readonlyColumn("TEXTBOOKNAME", MUnitPhrase::textbookname)
+                    readonlyColumn("UNIT", MUnitPhrase::unitstr)
+                    readonlyColumn("PART", MUnitPhrase::partstr)
+                    readonlyColumn("SEQNUM", MUnitPhrase::seqnum)
+                    column("PHRASE", MUnitPhrase::phraseProperty).makeEditable()
+                    column("TRANSLATION", MUnitPhrase::translationProperty).makeEditable()
+                    readonlyColumn("PHRASEID", MUnitPhrase::phraseid)
+                    readonlyColumn("ID", MUnitPhrase::id)
+                    onEditCommit {
+                        val title = this.tableColumn.text
+                        if (title == "Phrase")
+                            rowValue.phrase = vmSettings.autoCorrectInput(rowValue.phrase)
                     }
-                    item("Google").action {
-                        googleString(selectedItem?.phrase)
+                    onSelectionChange {
+                        if (it == null) return@onSelectionChange
+                    }
+                    onDoubleClick {
+                        // https://github.com/edvin/tornadofx/issues/226
+                        val modal = find<PhrasesTextbookDetailView>("vmDetail" to PhrasesUnitDetailViewModel(vm, selectionModel.selectedItem)) { openModal(block = true) }
+                        if (modal.result)
+                            this.refresh()
+                    }
+                    contextmenu {
+                        item("Delete")
+                        separator()
+                        item("Copy").action {
+                            copyText(selectedItem?.phrase)
+                        }
+                        item("Google").action {
+                            googleString(selectedItem?.phrase)
+                        }
                     }
                 }
+                label(vm.statusText)
             }
         }
     }
