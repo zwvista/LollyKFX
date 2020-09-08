@@ -12,6 +12,14 @@ import retrofit2.adapter.rxjava3.RxJava3CallAdapterFactory
 import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.converter.scalars.ScalarsConverterFactory
 import tornadofx.App
+import java.security.GeneralSecurityException
+import java.security.SecureRandom
+import java.security.cert.X509Certificate
+import javax.net.ssl.HttpsURLConnection
+import javax.net.ssl.SSLContext
+import javax.net.ssl.TrustManager
+import javax.net.ssl.X509TrustManager
+
 
 class LollyApp: App(MainView::class, Styles::class) {
 
@@ -45,6 +53,23 @@ class LollyApp: App(MainView::class, Styles::class) {
             initializeObject.onNext(Unit)
             initializeObject.onComplete()
         })
+
+        // https://stackoverflow.com/questions/22605701/javafx-webview-not-working-using-a-untrusted-ssl-certificate
+        // Create a trust manager that does not validate certificate chains
+        val trustAllCerts = arrayOf<TrustManager>(
+            object : X509TrustManager {
+                override fun checkClientTrusted(certs: Array<X509Certificate?>?, authType: String?) {}
+                override fun checkServerTrusted(certs: Array<X509Certificate?>?, authType: String?) {}
+                override fun getAcceptedIssuers() = null
+            }
+        )
+        // Install the all-trusting trust manager
+        try {
+            val sc: SSLContext = SSLContext.getInstance("SSL")
+            sc.init(null, trustAllCerts, SecureRandom())
+            HttpsURLConnection.setDefaultSSLSocketFactory(sc.socketFactory)
+        } catch (e: GeneralSecurityException) {
+        }
     }
 
     override fun start(stage: Stage) {
