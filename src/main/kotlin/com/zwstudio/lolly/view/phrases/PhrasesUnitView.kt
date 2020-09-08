@@ -1,6 +1,8 @@
 package com.zwstudio.lolly.view.phrases
 
 import com.zwstudio.lolly.app.LollyApp
+import com.zwstudio.lolly.data.copyText
+import com.zwstudio.lolly.data.googleString
 import com.zwstudio.lolly.data.phrases.PhrasesUnitBatchViewModel
 import com.zwstudio.lolly.data.phrases.PhrasesUnitDetailViewModel
 import com.zwstudio.lolly.data.phrases.PhrasesUnitViewModel
@@ -93,6 +95,16 @@ class PhrasesUnitView : PhrasesBaseView("Phrases in Unit") {
                     val modal = find<PhrasesUnitDetailView>("vmDetail" to PhrasesUnitDetailViewModel(vm, selectionModel.selectedItem)) { openModal(block = true) }
                     if (modal.result)
                         this.refresh()
+                }
+                contextmenu {
+                    item("Delete")
+                    separator()
+                    item("Copy").action {
+                        copyText(selectedItem?.phrase)
+                    }
+                    item("Google").action {
+                        googleString(selectedItem?.phrase)
+                    }
                 }
                 // https://stackoverflow.com/questions/28603224/sort-tableview-with-drag-and-drop-rows
                 setRowFactory { tv ->

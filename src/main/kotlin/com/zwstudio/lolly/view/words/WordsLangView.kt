@@ -1,5 +1,7 @@
 package com.zwstudio.lolly.view.words
 
+import com.zwstudio.lolly.data.copyText
+import com.zwstudio.lolly.data.googleString
 import com.zwstudio.lolly.data.words.WordsLangDetailViewModel
 import com.zwstudio.lolly.data.words.WordsLangViewModel
 import com.zwstudio.lolly.domain.wpp.MLangWord
@@ -61,6 +63,16 @@ class WordsLangView : WordsBaseView("Words in Language") {
                     val modal = find<WordsLangDetailView>("vmDetail" to WordsLangDetailViewModel(vm, selectionModel.selectedItem)) { openModal(block = true) }
                     if (modal.result)
                         this.refresh()
+                }
+                contextmenu {
+                    item("Delete")
+                    separator()
+                    item("Copy").action {
+                        copyText(selectedItem?.word)
+                    }
+                    item("Google").action {
+                        googleString(selectedItem?.word)
+                    }
                 }
             }
             splitpane(Orientation.VERTICAL) {

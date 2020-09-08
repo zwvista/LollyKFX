@@ -1,5 +1,7 @@
 package com.zwstudio.lolly.view.phrases
 
+import com.zwstudio.lolly.data.copyText
+import com.zwstudio.lolly.data.googleString
 import com.zwstudio.lolly.data.phrases.PhrasesLangDetailViewModel
 import com.zwstudio.lolly.data.phrases.PhrasesLangViewModel
 import com.zwstudio.lolly.domain.wpp.MLangPhrase
@@ -50,6 +52,16 @@ class PhrasesLangView : PhrasesBaseView("Phrases in Language") {
                     val modal = find<PhrasesLangDetailView>("vmDetail" to PhrasesLangDetailViewModel(vm, selectionModel.selectedItem)) { openModal(block = true) }
                     if (modal.result)
                         this.refresh()
+                }
+                contextmenu {
+                    item("Delete")
+                    separator()
+                    item("Copy").action {
+                        copyText(selectedItem?.phrase)
+                    }
+                    item("Google").action {
+                        googleString(selectedItem?.phrase)
+                    }
                 }
             }
         }

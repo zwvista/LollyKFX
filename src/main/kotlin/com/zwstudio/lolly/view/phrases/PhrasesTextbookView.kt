@@ -1,5 +1,7 @@
 package com.zwstudio.lolly.view.phrases
 
+import com.zwstudio.lolly.data.copyText
+import com.zwstudio.lolly.data.googleString
 import com.zwstudio.lolly.data.phrases.PhrasesUnitDetailViewModel
 import com.zwstudio.lolly.data.phrases.PhrasesUnitViewModel
 import com.zwstudio.lolly.domain.wpp.MUnitPhrase
@@ -47,6 +49,16 @@ class PhrasesTextbookView : PhrasesBaseView("Phrases in Textbook") {
                     val modal = find<PhrasesTextbookDetailView>("vmDetail" to PhrasesUnitDetailViewModel(vm, selectionModel.selectedItem)) { openModal(block = true) }
                     if (modal.result)
                         this.refresh()
+                }
+                contextmenu {
+                    item("Delete")
+                    separator()
+                    item("Copy").action {
+                        copyText(selectedItem?.phrase)
+                    }
+                    item("Google").action {
+                        googleString(selectedItem?.phrase)
+                    }
                 }
             }
         }
