@@ -10,7 +10,7 @@ import tornadofx.asObservable
 
 class PhrasesLangViewModel : BaseViewModel() {
 
-    var lstPhrasesAll = mutableListOf<MLangPhrase>().asObservable()
+    var lstPhrasesAll = mutableListOf<MLangPhrase>()
     val lstPhrases = mutableListOf<MLangPhrase>().asObservable()
     val langPhraseService: LangPhraseService by inject()
 
@@ -23,13 +23,13 @@ class PhrasesLangViewModel : BaseViewModel() {
     }
 
     private fun applyFilters() =
-        lstPhrases.setAll(lstPhrasesAll.filtered {
+        lstPhrases.setAll(if (textFilter.value.isNullOrEmpty()) lstPhrasesAll else lstPhrasesAll.filter {
             (textFilter.value.isNullOrEmpty() || (if (scopeFilter.value == "Phrase") it.phrase else it.translation ?: "").contains(textFilter.value, true))
         })
 
     fun reload() {
         langPhraseService.getDataByLang(vmSettings.selectedLang.id, vmSettings.lstTextbooks)
-            .map { lstPhrasesAll.setAll(it); applyFilters() }
+            .map { lstPhrasesAll = it.toMutableList(); applyFilters() }
             .applyIO()
             .subscribe()
     }

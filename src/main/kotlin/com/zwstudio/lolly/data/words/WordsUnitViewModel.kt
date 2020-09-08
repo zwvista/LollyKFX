@@ -14,7 +14,7 @@ import tornadofx.asObservable
 
 class WordsUnitViewModel(val inTextbook: Boolean) : BaseViewModel() {
 
-    var lstWordsAll = mutableListOf<MUnitWord>().asObservable()
+    var lstWordsAll = mutableListOf<MUnitWord>()
     val lstWords = mutableListOf<MUnitWord>().asObservable()
     val vmNote: NoteViewModel by inject()
     val compositeDisposable = CompositeDisposable()
@@ -32,7 +32,7 @@ class WordsUnitViewModel(val inTextbook: Boolean) : BaseViewModel() {
     }
 
     private fun applyFilters() =
-        lstWords.setAll(lstWordsAll.filtered {
+        lstWords.setAll(if (textFilter.value.isNullOrEmpty() && textbookFilter.value.value == 0) lstWordsAll else lstWordsAll.filter {
             (textFilter.value.isNullOrEmpty() || (if (scopeFilter.value == "Word") it.word else it.note ?: "").contains(textFilter.value, true)) &&
             (textbookFilter.value.value == 0 || it.textbookid == textbookFilter.value.value)
         })
@@ -42,7 +42,7 @@ class WordsUnitViewModel(val inTextbook: Boolean) : BaseViewModel() {
             unitWordService.getDataByTextbookUnitPart(vmSettings.selectedTextbook, vmSettings.usunitpartfrom, vmSettings.usunitpartto)
         else
             unitWordService.getDataByLang(vmSettings.selectedLang.id, vmSettings.lstTextbooks))
-            .map { lstWordsAll.setAll(it); applyFilters() }
+            .map { lstWordsAll = it.toMutableList(); applyFilters() }
             .applyIO()
             .subscribe()
         textbookFilter.value = vmSettings.lstTextbookFilters[0]

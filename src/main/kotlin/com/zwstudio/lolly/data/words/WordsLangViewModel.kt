@@ -11,7 +11,7 @@ import tornadofx.asObservable
 
 class WordsLangViewModel : BaseViewModel() {
 
-    var lstWordsAll = mutableListOf<MLangWord>().asObservable()
+    var lstWordsAll = mutableListOf<MLangWord>()
     val lstWords get() = mutableListOf<MLangWord>().asObservable()
     val vmNote: NoteViewModel by inject()
     val langWordService: LangWordService by inject()
@@ -26,13 +26,13 @@ class WordsLangViewModel : BaseViewModel() {
     }
 
     private fun applyFilters() =
-        lstWords.setAll(lstWordsAll.filtered {
+        lstWords.setAll(if (textFilter.value.isNullOrEmpty()) lstWordsAll else lstWordsAll.filter {
             (textFilter.value.isNullOrEmpty() || (if (scopeFilter.value == "Word") it.word else it.note ?: "").contains(textFilter.value, true))
         })
 
     fun reload() {
         langWordService.getDataByLang(vmSettings.selectedLang.id, vmSettings.lstTextbooks)
-            .map { lstWordsAll.setAll(it); applyFilters() }
+            .map { lstWordsAll = it.toMutableList(); applyFilters() }
             .applyIO()
             .subscribe()
     }
