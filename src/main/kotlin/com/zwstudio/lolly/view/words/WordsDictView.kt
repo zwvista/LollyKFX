@@ -44,10 +44,11 @@ class WordsDictView : Fragment() {
                         val s = dict.automation!!.replace("{0}", word)
                         engine.executeScript(s)
                         dictStatus = DictWebBrowserStatus.Ready
-                        if (dict.dicttypename == "OFFLINE")
+                        if (dict.dicttypename == "OFFLINE-ONLINE")
                             dictStatus = DictWebBrowserStatus.Navigating
                     }
                     DictWebBrowserStatus.Navigating -> {
+                        // https://stackoverflow.com/questions/14273450/get-the-contents-from-the-webview-using-javafx
                         val html = engine.executeScript("document.documentElement.outerHTML") as String
                         val str = dict.htmlString(html, word, false)
                         dictStatus = DictWebBrowserStatus.Ready
@@ -72,7 +73,7 @@ class WordsDictView : Fragment() {
             wvDict.engine.load(url)
             if (dict.automation != null)
                 dictStatus = DictWebBrowserStatus.Automating
-            else if (dict.dicttypename == "OFFLINE")
+            else if (dict.dicttypename == "OFFLINE-ONLINE")
                 dictStatus = DictWebBrowserStatus.Navigating
         }
     }
