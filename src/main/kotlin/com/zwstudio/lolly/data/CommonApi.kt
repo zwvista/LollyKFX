@@ -1,29 +1,33 @@
 package com.zwstudio.lolly.data
 
 import javafx.scene.input.ClipboardContent
-import tornadofx.View
+import tornadofx.UIComponent
 import java.net.URLEncoder
 
 object GlobalConstants {
     val userid = 1
 }
 
+enum class DictWebBrowserStatus {
+    Ready, Navigating, Automating
+}
+
 enum class UnitPartToType {
     Unit, Part, To
 }
 
-fun View.copyText(text: String) {
+fun UIComponent.copyText(text: String) {
     // https://docs.oracle.com/javase/jp/8/javafx/api/javafx/scene/input/Clipboard.html
     val content = ClipboardContent()
     content.putString(text)
 }
 
-fun View.openPage(url: String) {
+fun UIComponent.openPage(url: String) {
     // https://stackoverflow.com/questions/16604341/how-can-i-open-the-default-system-browser-from-a-java-fx-application
     app.hostServices.showDocument(url);
 }
 
-fun View.googleString(text: String) {
+fun UIComponent.googleString(text: String) {
     val url = "https://www.google.com/search?q=" + URLEncoder.encode(text, "UTF-8")
     openPage(url)
 }
