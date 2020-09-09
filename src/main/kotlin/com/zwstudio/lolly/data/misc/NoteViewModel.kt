@@ -1,4 +1,4 @@
-package com.zwstudio.lolly.data
+package com.zwstudio.lolly.data.misc
 
 import com.zwstudio.lolly.service.HtmlService
 import io.reactivex.rxjava3.core.Observable

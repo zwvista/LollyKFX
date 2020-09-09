@@ -1,8 +1,8 @@
 package com.zwstudio.lolly.data.words
 
-import com.zwstudio.lolly.data.BaseViewModel
-import com.zwstudio.lolly.data.applyIO
-import com.zwstudio.lolly.data.extractTextFrom
+import com.zwstudio.lolly.data.misc.BaseViewModel
+import com.zwstudio.lolly.data.misc.applyIO
+import com.zwstudio.lolly.data.misc.extractTextFrom
 import com.zwstudio.lolly.domain.misc.MReviewOptions
 import com.zwstudio.lolly.domain.misc.ReviewMode
 import com.zwstudio.lolly.domain.wpp.MUnitWord
@@ -51,16 +51,16 @@ class WordsReviewViewModel : BaseViewModel() {
         subscriptionTimer?.dispose()
         unitWordService.getDataByTextbookUnitPart(vmSettings.selectedTextbook, vmSettings.usunitpartfrom, vmSettings.usunitpartto).applyIO().subscribe {
             lstWords = it
-            val nFrom = count * (options.groupSelected.value - 1) / options.groupCount.value
-            val nTo = count * options.groupSelected.value / options.groupCount.value
+            val nFrom = count * (options.groupSelected - 1) / options.groupCount
+            val nTo = count * options.groupSelected / options.groupCount
             lstWords = lstWords.subList(nFrom, nTo)
-            if (options.shuffled.value) lstWords = lstWords.shuffled()
+            if (options.shuffled) lstWords = lstWords.shuffled()
             lstCorrectIDs = mutableListOf()
             index = 0
             doTest()
             checkString.value = if (isTestMode) "Check" else "Next"
             if (options.mode == ReviewMode.ReviewAuto)
-                subscriptionTimer = Observable.interval(options.interval.value.toLong(), TimeUnit.SECONDS).applyIO().subscribe { check() }
+                subscriptionTimer = Observable.interval(options.interval.toLong(), TimeUnit.SECONDS).applyIO().subscribe { check() }
             else
                 subscriptionTimer?.dispose()
         }

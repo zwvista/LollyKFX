@@ -1,7 +1,7 @@
 package com.zwstudio.lolly.view.words
 
+import com.zwstudio.lolly.data.misc.ReviewOptionsViewModel
 import com.zwstudio.lolly.data.words.WordsReviewViewModel
-import com.zwstudio.lolly.domain.misc.MReviewOptions
 import com.zwstudio.lolly.view.ILollySettings
 import com.zwstudio.lolly.view.misc.ReviewOptionsView
 import tornadofx.*
@@ -13,7 +13,7 @@ class WordsReviewView : Fragment("Words Review"), ILollySettings {
         tag = this@WordsReviewView
         toolbar {
             button("New Test").action {
-                val modal = find<ReviewOptionsView>("vm" to MReviewOptions()) { openModal(block = true) }
+                val modal = find<ReviewOptionsView>("vm" to ReviewOptionsViewModel(vm.options)) { openModal(block = true) }
                 if (modal.result) {
                 }
             }

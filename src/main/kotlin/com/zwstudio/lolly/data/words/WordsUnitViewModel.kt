@@ -1,9 +1,9 @@
 package com.zwstudio.lolly.data.words
 
-import com.zwstudio.lolly.data.BaseViewModel
-import com.zwstudio.lolly.data.NoteViewModel
-import com.zwstudio.lolly.data.SettingsViewModel
-import com.zwstudio.lolly.data.applyIO
+import com.zwstudio.lolly.data.misc.BaseViewModel
+import com.zwstudio.lolly.data.misc.NoteViewModel
+import com.zwstudio.lolly.data.misc.SettingsViewModel
+import com.zwstudio.lolly.data.misc.applyIO
 import com.zwstudio.lolly.domain.misc.MSelectItem
 import com.zwstudio.lolly.domain.wpp.MUnitWord
 import com.zwstudio.lolly.service.UnitWordService

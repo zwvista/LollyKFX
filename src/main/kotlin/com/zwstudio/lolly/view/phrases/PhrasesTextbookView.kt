@@ -1,8 +1,8 @@
 package com.zwstudio.lolly.view.phrases
 
-import com.zwstudio.lolly.data.SettingsViewModel
-import com.zwstudio.lolly.data.copyText
-import com.zwstudio.lolly.data.googleString
+import com.zwstudio.lolly.data.misc.SettingsViewModel
+import com.zwstudio.lolly.data.misc.copyText
+import com.zwstudio.lolly.data.misc.googleString
 import com.zwstudio.lolly.data.phrases.PhrasesUnitDetailViewModel
 import com.zwstudio.lolly.data.phrases.PhrasesUnitViewModel
 import com.zwstudio.lolly.domain.wpp.MUnitPhrase

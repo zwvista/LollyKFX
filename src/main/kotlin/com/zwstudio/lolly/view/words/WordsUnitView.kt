@@ -1,9 +1,9 @@
 package com.zwstudio.lolly.view.words
 
 import com.zwstudio.lolly.app.LollyApp
-import com.zwstudio.lolly.data.SettingsViewModel
-import com.zwstudio.lolly.data.copyText
-import com.zwstudio.lolly.data.googleString
+import com.zwstudio.lolly.data.misc.SettingsViewModel
+import com.zwstudio.lolly.data.misc.copyText
+import com.zwstudio.lolly.data.misc.googleString
 import com.zwstudio.lolly.data.words.WordsUnitBatchViewModel
 import com.zwstudio.lolly.data.words.WordsUnitDetailViewModel
 import com.zwstudio.lolly.data.words.WordsUnitViewModel

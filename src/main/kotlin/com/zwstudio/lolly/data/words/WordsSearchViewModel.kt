@@ -1,6 +1,6 @@
 package com.zwstudio.lolly.data.words
 
-import com.zwstudio.lolly.data.BaseViewModel
+import com.zwstudio.lolly.data.misc.BaseViewModel
 import com.zwstudio.lolly.domain.wpp.MUnitWord
 import com.zwstudio.lolly.service.HtmlService
 import io.reactivex.rxjava3.core.Observable

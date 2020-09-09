@@ -1,11 +1,11 @@
 package com.zwstudio.lolly.view.misc
 
-import com.zwstudio.lolly.data.SettingsViewModel
-import com.zwstudio.lolly.domain.misc.MReviewOptions
+import com.zwstudio.lolly.data.misc.ReviewOptionsViewModel
+import com.zwstudio.lolly.data.misc.SettingsViewModel
 import tornadofx.*
 
 class ReviewOptionsView : Fragment("Review Options") {
-    val vm : MReviewOptions by param()
+    val vm: ReviewOptionsViewModel by param()
     var result = false
 
     override val root = gridpane {
@@ -18,7 +18,7 @@ class ReviewOptionsView : Fragment("Review Options") {
             choicebox(vm.modeItem, SettingsViewModel.lstReviewModes) {  }
         }
         row {  }
-        checkbox("Shuffled") {
+        checkbox("Shuffled", vm.shuffled) {
             gridpaneConstraints {
                 columnRowIndex(1, 1)
             }
@@ -36,6 +36,24 @@ class ReviewOptionsView : Fragment("Review Options") {
                 spinner(1, 10, property = vm.groupSelected)
                 label("out of:")
                 spinner(1, 10, property = vm.groupCount)
+            }
+        }
+        vbox(10.0) {
+            gridpaneConstraints {
+                columnRowIndex(3, 0)
+            }
+            button("OK") {
+                isDefaultButton = true
+                action {
+                    result = true
+                    close()
+                }
+            }
+            button("Cancel") {
+                isCancelButton = true
+                action {
+                    close()
+                }
             }
         }
     }

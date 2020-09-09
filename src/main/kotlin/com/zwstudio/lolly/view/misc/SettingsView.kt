@@ -1,6 +1,6 @@
 package com.zwstudio.lolly.view.misc
 
-import com.zwstudio.lolly.data.SettingsViewModel
+import com.zwstudio.lolly.data.misc.SettingsViewModel
 import com.zwstudio.lolly.domain.misc.MSelectItem
 import javafx.geometry.Pos
 import javafx.scene.control.Button
@@ -21,7 +21,7 @@ class SettingsView : Fragment("Settings") {
         paddingAll = 10.0
         hgap = 10.0
         vgap = 10.0
-//        setStyle("-fx-background-color: #FF0000;");
+//        style = "-fx-background-color: #FF0000;"
         constraintsForColumn(1).hgrow = Priority.ALWAYS
         constraintsForColumn(2).hgrow = Priority.ALWAYS
         constraintsForColumn(3).hgrow = Priority.ALWAYS

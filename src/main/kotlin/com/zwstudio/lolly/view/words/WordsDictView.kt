@@ -1,8 +1,8 @@
 package com.zwstudio.lolly.view.words
 
-import com.zwstudio.lolly.data.DictWebBrowserStatus
-import com.zwstudio.lolly.data.SettingsViewModel
-import com.zwstudio.lolly.data.openPage
+import com.zwstudio.lolly.data.misc.DictWebBrowserStatus
+import com.zwstudio.lolly.data.misc.SettingsViewModel
+import com.zwstudio.lolly.data.misc.openPage
 import com.zwstudio.lolly.domain.misc.MDictionary
 import com.zwstudio.lolly.service.HtmlService
 import javafx.concurrent.Worker

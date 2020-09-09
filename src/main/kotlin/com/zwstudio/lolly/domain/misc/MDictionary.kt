@@ -4,7 +4,7 @@ package com.zwstudio.lolly.domain.misc
 
 import com.google.gson.annotations.Expose
 import com.google.gson.annotations.SerializedName
-import com.zwstudio.lolly.data.extractTextFrom
+import com.zwstudio.lolly.data.misc.extractTextFrom
 import java.io.Serializable
 import java.io.UnsupportedEncodingException
 import java.net.URLEncoder

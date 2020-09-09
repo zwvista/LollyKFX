@@ -1,6 +1,6 @@
 package com.zwstudio.lolly.app
 
-import com.zwstudio.lolly.data.SettingsViewModel
+import com.zwstudio.lolly.data.misc.SettingsViewModel
 import com.zwstudio.lolly.view.MainView
 import io.reactivex.rxjava3.disposables.CompositeDisposable
 import io.reactivex.rxjava3.subjects.ReplaySubject

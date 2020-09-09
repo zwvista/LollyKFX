@@ -1,6 +1,6 @@
 package com.zwstudio.lolly.service
 
-import com.zwstudio.lolly.data.applyIO
+import com.zwstudio.lolly.data.misc.applyIO
 import com.zwstudio.lolly.restapi.RestHtml
 import io.reactivex.rxjava3.core.Observable
 

@@ -1,6 +1,6 @@
 package com.zwstudio.lolly.view.phrases
 
-import com.zwstudio.lolly.data.SettingsViewModel
+import com.zwstudio.lolly.data.misc.SettingsViewModel
 import com.zwstudio.lolly.view.ILollySettings
 import javafx.scene.Node
 import tornadofx.Fragment

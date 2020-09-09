@@ -1,4 +1,4 @@
-package com.zwstudio.lolly.data
+package com.zwstudio.lolly.data.misc
 
 import com.zwstudio.lolly.domain.misc.*
 import com.zwstudio.lolly.service.*

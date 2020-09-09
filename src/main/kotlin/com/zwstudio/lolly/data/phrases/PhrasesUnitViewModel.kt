@@ -1,8 +1,8 @@
 package com.zwstudio.lolly.data.phrases
 
-import com.zwstudio.lolly.data.BaseViewModel
-import com.zwstudio.lolly.data.SettingsViewModel
-import com.zwstudio.lolly.data.applyIO
+import com.zwstudio.lolly.data.misc.BaseViewModel
+import com.zwstudio.lolly.data.misc.SettingsViewModel
+import com.zwstudio.lolly.data.misc.applyIO
 import com.zwstudio.lolly.domain.misc.MSelectItem
 import com.zwstudio.lolly.domain.wpp.MUnitPhrase
 import com.zwstudio.lolly.service.UnitPhraseService

@@ -1,4 +1,4 @@
-package com.zwstudio.lolly.data
+package com.zwstudio.lolly.data.misc
 
 import javafx.scene.input.Clipboard
 import javafx.scene.input.ClipboardContent
