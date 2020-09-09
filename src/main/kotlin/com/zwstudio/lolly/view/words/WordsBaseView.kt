@@ -1,7 +1,7 @@
 package com.zwstudio.lolly.view.words
 
 import com.zwstudio.lolly.data.SettingsViewModel
-import com.zwstudio.lolly.domain.MDictionary
+import com.zwstudio.lolly.domain.misc.MDictionary
 import com.zwstudio.lolly.view.ILollySettings
 import javafx.scene.Node
 import javafx.scene.control.CheckBox

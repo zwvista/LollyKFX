@@ -2,8 +2,8 @@ package com.zwstudio.lolly.data.phrases
 
 import com.zwstudio.lolly.data.BaseViewModel
 import com.zwstudio.lolly.data.applyIO
+import com.zwstudio.lolly.domain.misc.ReviewMode
 import com.zwstudio.lolly.domain.wpp.MUnitPhrase
-import com.zwstudio.lolly.domain.ReviewMode
 import com.zwstudio.lolly.service.UnitPhraseService
 import io.reactivex.rxjava3.core.Observable
 

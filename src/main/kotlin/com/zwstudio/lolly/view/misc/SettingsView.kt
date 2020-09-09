@@ -1,7 +1,7 @@
 package com.zwstudio.lolly.view.misc
 
 import com.zwstudio.lolly.data.SettingsViewModel
-import com.zwstudio.lolly.domain.MSelectItem
+import com.zwstudio.lolly.domain.misc.MSelectItem
 import javafx.geometry.Pos
 import javafx.scene.control.Button
 import javafx.scene.control.ComboBox

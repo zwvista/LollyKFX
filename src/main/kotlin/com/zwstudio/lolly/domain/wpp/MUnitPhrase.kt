@@ -2,8 +2,8 @@ package com.zwstudio.lolly.domain.wpp
 
 import com.google.gson.annotations.Expose
 import com.google.gson.annotations.SerializedName
-import com.zwstudio.lolly.domain.MSelectItem
-import com.zwstudio.lolly.domain.MTextbook
+import com.zwstudio.lolly.domain.misc.MSelectItem
+import com.zwstudio.lolly.domain.misc.MTextbook
 import javafx.beans.property.SimpleBooleanProperty
 import javafx.beans.property.SimpleStringProperty
 import java.io.Serializable

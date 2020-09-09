@@ -1,6 +1,7 @@
 package com.zwstudio.lolly.view.phrases
 
 import com.zwstudio.lolly.app.LollyApp
+import com.zwstudio.lolly.data.SettingsViewModel
 import com.zwstudio.lolly.data.copyText
 import com.zwstudio.lolly.data.googleString
 import com.zwstudio.lolly.data.phrases.PhrasesUnitBatchViewModel
@@ -66,7 +67,7 @@ class PhrasesUnitView : PhrasesBaseView("Phrases in Unit") {
                 }
             }
             button("Review")
-            choicebox(vm.scopeFilter, vmSettings.lstScopePhraseFilters)
+            choicebox(vm.scopeFilter, SettingsViewModel.lstScopePhraseFilters)
             textfield(vm.textFilter) {
                 promptText = "Filter"
             }

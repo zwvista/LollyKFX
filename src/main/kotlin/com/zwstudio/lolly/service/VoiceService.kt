@@ -1,6 +1,6 @@
 package com.zwstudio.lolly.service
 
-import com.zwstudio.lolly.domain.MVoice
+import com.zwstudio.lolly.domain.misc.MVoice
 import com.zwstudio.lolly.restapi.RestVoice
 import io.reactivex.rxjava3.core.Observable
 

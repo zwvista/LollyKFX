@@ -1,6 +1,6 @@
 package com.zwstudio.lolly.data.phrases
 
-import com.zwstudio.lolly.domain.MSelectItem
+import com.zwstudio.lolly.domain.misc.MSelectItem
 import com.zwstudio.lolly.domain.wpp.MUnitPhrase
 import javafx.beans.property.Property
 import tornadofx.ItemViewModel

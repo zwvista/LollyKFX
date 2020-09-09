@@ -1,7 +1,7 @@
 package com.zwstudio.lolly.service
 
-import com.zwstudio.lolly.domain.MUserSetting
-import com.zwstudio.lolly.domain.MUserSettingInfo
+import com.zwstudio.lolly.domain.misc.MUserSetting
+import com.zwstudio.lolly.domain.misc.MUserSettingInfo
 import com.zwstudio.lolly.restapi.RestUserSetting
 import io.reactivex.rxjava3.core.Observable
 

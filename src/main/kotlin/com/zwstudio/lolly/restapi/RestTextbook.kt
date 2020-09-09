@@ -1,6 +1,6 @@
 package com.zwstudio.lolly.restapi
 
-import com.zwstudio.lolly.domain.MTextbooks
+import com.zwstudio.lolly.domain.misc.MTextbooks
 import io.reactivex.rxjava3.core.Observable
 import retrofit2.http.GET
 import retrofit2.http.Query

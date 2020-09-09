@@ -1,6 +1,7 @@
 package com.zwstudio.lolly.data.phrases
 
 import com.zwstudio.lolly.data.BaseViewModel
+import com.zwstudio.lolly.data.SettingsViewModel
 import com.zwstudio.lolly.data.applyIO
 import com.zwstudio.lolly.domain.wpp.MLangPhrase
 import com.zwstudio.lolly.service.LangPhraseService
@@ -15,7 +16,7 @@ class PhrasesLangViewModel : BaseViewModel() {
     val lstPhrases = mutableListOf<MLangPhrase>().asObservable()
     val langPhraseService: LangPhraseService by inject()
 
-    val scopeFilter = SimpleStringProperty(vmSettings.lstScopePhraseFilters[0])
+    val scopeFilter = SimpleStringProperty(SettingsViewModel.lstScopePhraseFilters[0])
     val textFilter = SimpleStringProperty("")
     val statusText = SimpleStringProperty()
 

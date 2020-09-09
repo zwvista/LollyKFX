@@ -1,8 +1,8 @@
 package com.zwstudio.lolly.restapi
 
-import com.zwstudio.lolly.domain.MDictsNote
-import com.zwstudio.lolly.domain.MDictsReference
-import com.zwstudio.lolly.domain.MDictsTranslation
+import com.zwstudio.lolly.domain.misc.MDictsNote
+import com.zwstudio.lolly.domain.misc.MDictsReference
+import com.zwstudio.lolly.domain.misc.MDictsTranslation
 import io.reactivex.rxjava3.core.Observable
 import retrofit2.http.GET
 import retrofit2.http.Query

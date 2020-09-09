@@ -1,6 +1,7 @@
 package com.zwstudio.lolly.view.words
 
 import com.zwstudio.lolly.app.LollyApp
+import com.zwstudio.lolly.data.SettingsViewModel
 import com.zwstudio.lolly.data.copyText
 import com.zwstudio.lolly.data.googleString
 import com.zwstudio.lolly.data.words.WordsUnitBatchViewModel
@@ -77,7 +78,7 @@ class WordsUnitView : WordsBaseView("Words in Unit") {
                     tvWords.refresh()
                 }
             }
-            choicebox(vm.scopeFilter, vmSettings.lstScopeWordFilters)
+            choicebox(vm.scopeFilter, SettingsViewModel.lstScopeWordFilters)
             textfield(vm.textFilter) {
                 promptText = "Filter"
             }

@@ -1,4 +1,4 @@
-package com.zwstudio.lolly.domain
+package com.zwstudio.lolly.domain.misc
 
 // Generated 2014-10-12 21:44:14 by Hibernate Tools 4.3.1
 

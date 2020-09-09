@@ -1,5 +1,6 @@
 package com.zwstudio.lolly.view.phrases
 
+import com.zwstudio.lolly.data.SettingsViewModel
 import com.zwstudio.lolly.data.copyText
 import com.zwstudio.lolly.data.googleString
 import com.zwstudio.lolly.data.phrases.PhrasesLangDetailViewModel
@@ -28,7 +29,7 @@ class PhrasesLangView : PhrasesBaseView("Phrases in Language") {
             button("Refresh").action {
                 vm.reload()
             }
-            choicebox(vm.scopeFilter, vmSettings.lstScopePhraseFilters)
+            choicebox(vm.scopeFilter, SettingsViewModel.lstScopePhraseFilters)
             textfield(vm.textFilter) {
                 promptText = "Filter"
             }

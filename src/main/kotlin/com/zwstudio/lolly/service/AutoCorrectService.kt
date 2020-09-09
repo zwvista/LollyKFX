@@ -1,6 +1,6 @@
 package com.zwstudio.lolly.service
 
-import com.zwstudio.lolly.domain.MAutoCorrect
+import com.zwstudio.lolly.domain.misc.MAutoCorrect
 import com.zwstudio.lolly.restapi.RestAutoCorrect
 import io.reactivex.rxjava3.core.Observable
 

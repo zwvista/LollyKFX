@@ -1,6 +1,6 @@
 package com.zwstudio.lolly.service
 
-import com.zwstudio.lolly.domain.MDictionary
+import com.zwstudio.lolly.domain.misc.MDictionary
 import com.zwstudio.lolly.restapi.RestDictNote
 import com.zwstudio.lolly.restapi.RestDictReference
 import com.zwstudio.lolly.restapi.RestDictTranslation

@@ -2,6 +2,7 @@ package com.zwstudio.lolly.data.words
 
 import com.zwstudio.lolly.data.BaseViewModel
 import com.zwstudio.lolly.data.NoteViewModel
+import com.zwstudio.lolly.data.SettingsViewModel
 import com.zwstudio.lolly.data.applyIO
 import com.zwstudio.lolly.domain.wpp.MLangWord
 import com.zwstudio.lolly.service.LangWordService
@@ -18,7 +19,7 @@ class WordsLangViewModel : BaseViewModel() {
     val langWordService: LangWordService by inject()
 
     val newWord = SimpleStringProperty()
-    val scopeFilter = SimpleStringProperty(vmSettings.lstScopeWordFilters[0])
+    val scopeFilter = SimpleStringProperty(SettingsViewModel.lstScopeWordFilters[0])
     val textFilter = SimpleStringProperty("")
     val statusText = SimpleStringProperty()
 

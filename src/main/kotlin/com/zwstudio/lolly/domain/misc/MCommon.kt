@@ -1,4 +1,4 @@
-package com.zwstudio.lolly.domain
+package com.zwstudio.lolly.domain.misc
 
 import com.google.gson.annotations.Expose
 import com.google.gson.annotations.SerializedName
@@ -6,18 +6,6 @@ import java.io.Serializable
 
 class MSelectItem(val value: Int, val label: String): Serializable {
     override fun toString() = label
-}
-
-enum class ReviewMode {
-    ReviewAuto, Test, ReviewManual;
-
-    override fun toString(): String {
-        return when(this) {
-            ReviewAuto -> "Review(Auto)"
-            Test -> "Test"
-            ReviewManual -> "Review(Manual)"
-        }
-    }
 }
 
 class MSPResult: Serializable {

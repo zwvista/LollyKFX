@@ -1,6 +1,6 @@
 package com.zwstudio.lolly.data
 
-import com.zwstudio.lolly.domain.*
+import com.zwstudio.lolly.domain.misc.*
 import com.zwstudio.lolly.service.*
 import io.reactivex.rxjava3.core.Observable
 import io.reactivex.rxjava3.kotlin.Observables
@@ -179,10 +179,12 @@ class SettingsViewModel : Component(), ScopedInstance {
     val nextText = SimpleStringProperty()
     val partFromIsEnabled = SimpleBooleanProperty()
 
-    val lstScopeWordFilters = listOf("Word", "Note")
-    val lstScopePhraseFilters = listOf("Phrase", "Translation")
-    val lstScopePatternFilters = listOf("Pattern", "Note", "Tags")
-    val lstReviewModes = ReviewMode.values().mapIndexed { index, s -> MSelectItem(index, s.toString()) }
+    companion object {
+        val lstScopeWordFilters = listOf("Word", "Note")
+        val lstScopePhraseFilters = listOf("Phrase", "Translation")
+        val lstScopePatternFilters = listOf("Pattern", "Note", "Tags")
+        val lstReviewModes = ReviewMode.values().mapIndexed { index, s -> MSelectItem(index, s.toString()) }
+    }
 
     private val languageService: LanguageService by inject()
     private val usMappingService: USMappingService by inject()

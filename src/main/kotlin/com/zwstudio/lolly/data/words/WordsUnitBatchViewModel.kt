@@ -1,6 +1,6 @@
 package com.zwstudio.lolly.data.words
 
-import com.zwstudio.lolly.domain.MSelectItem
+import com.zwstudio.lolly.domain.misc.MSelectItem
 import com.zwstudio.lolly.domain.wpp.MUnitWord
 import javafx.beans.property.SimpleBooleanProperty
 import javafx.beans.property.SimpleIntegerProperty
