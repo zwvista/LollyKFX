@@ -46,6 +46,7 @@ class ReviewOptionsView : Fragment("Review Options") {
                 isDefaultButton = true
                 action {
                     result = true
+                    vm.commit()
                     close()
                 }
             }

@@ -31,21 +31,21 @@ class WordsReviewViewModel : BaseViewModel() {
     val isTestMode get() = options.mode == ReviewMode.Test
     var subscriptionTimer: Disposable? = null
 
-    val isSpeaking = SimpleBooleanProperty()
-    val indexString = SimpleStringProperty()
-    val indexIsVisible = SimpleBooleanProperty()
+    val isSpeaking = SimpleBooleanProperty(true)
+    val indexString = SimpleStringProperty("")
+    val indexIsVisible = SimpleBooleanProperty(true)
     val correctIsVisible = SimpleBooleanProperty()
     val incorrectIsVisible = SimpleBooleanProperty()
-    val accuracyString = SimpleStringProperty()
-    val accuracyIsVisible = SimpleBooleanProperty()
+    val accuracyString = SimpleStringProperty("")
+    val accuracyIsVisible = SimpleBooleanProperty(true)
     val checkEnabled = SimpleBooleanProperty()
-    val wordTargetString = SimpleStringProperty()
-    val noteTargetString = SimpleStringProperty()
-    val wordTargetIsVisible = SimpleBooleanProperty()
-    val noteTargetIsVisible = SimpleBooleanProperty()
-    val translationString = SimpleStringProperty()
-    val wordInputString = SimpleStringProperty()
-    val checkString = SimpleStringProperty()
+    val wordTargetString = SimpleStringProperty("")
+    val noteTargetString = SimpleStringProperty("")
+    val wordTargetIsVisible = SimpleBooleanProperty(true)
+    val noteTargetIsVisible = SimpleBooleanProperty(true)
+    val translationString = SimpleStringProperty("")
+    val wordInputString = SimpleStringProperty("")
+    val checkString = SimpleStringProperty("Check")
 
     fun newTest() {
         subscriptionTimer?.dispose()
@@ -84,7 +84,7 @@ class WordsReviewViewModel : BaseViewModel() {
     }
 
     fun check() {
-        if (!hasNext) {
+        if (!isTestMode) {
             var b = true
             if (options.mode == ReviewMode.ReviewManual && wordInputString.value.isNotEmpty() && wordInputString.value != currentWord) {
                 b = false

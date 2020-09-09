@@ -4,7 +4,9 @@ import com.zwstudio.lolly.data.misc.ReviewOptionsViewModel
 import com.zwstudio.lolly.data.words.WordsReviewViewModel
 import com.zwstudio.lolly.view.ILollySettings
 import com.zwstudio.lolly.view.misc.ReviewOptionsView
+import javafx.geometry.Pos
 import javafx.scene.layout.Priority
+import javafx.scene.layout.Region
 import tornadofx.*
 
 class WordsReviewView : Fragment("Words Review"), ILollySettings {
@@ -15,10 +17,10 @@ class WordsReviewView : Fragment("Words Review"), ILollySettings {
         toolbar {
             button("New Test").action {
                 val modal = find<ReviewOptionsView>("vm" to ReviewOptionsViewModel(vm.options)) { openModal(block = true) }
-                if (modal.result) {
-                }
+                if (modal.result)
+                    vm.newTest()
             }
-            checkbox("Speak?")
+            checkbox("Speak?", vm.isSpeaking)
             button("Speak")
         }
         gridpane {
@@ -33,17 +35,30 @@ class WordsReviewView : Fragment("Words Review"), ILollySettings {
             constraintsForRow(4).percentHeight = 12.5
             constraintsForColumn(0).hgrow = Priority.ALWAYS
             row {
-                hbox {
+                hbox(10.0) {
+                    style {
+                        fontSize = 24.px
+                    }
                     label(vm.indexString) {
                         visibleWhen(vm.indexIsVisible)
                     }
                     stackpane {
+                        setMaxSize(Region.USE_PREF_SIZE, Region.USE_PREF_SIZE)
                         label("Correct") {
                             visibleWhen(vm.correctIsVisible)
+                            style {
+                                textFill = c("green")
+                            }
                         }
                         label("Incorrect") {
                             visibleWhen(vm.incorrectIsVisible)
+                            style {
+                                textFill = c("red")
+                            }
                         }
+                    }
+                    region {
+                        hgrow = Priority.ALWAYS
                     }
                     label(vm.accuracyString) {
                         visibleWhen(vm.accuracyIsVisible)
@@ -51,26 +66,50 @@ class WordsReviewView : Fragment("Words Review"), ILollySettings {
                 }
             }
             row {
-                hbox {
+                hbox(10.0) {
+                    style {
+                        fontSize = 24.px
+                    }
                     label(vm.wordTargetString) {
                         visibleWhen(vm.wordTargetIsVisible)
+                        style {
+                            textFill = c("orange")
+                        }
                     }
                     label(vm.noteTargetString) {
                         visibleWhen(vm.noteTargetIsVisible)
+                        style {
+                            textFill = c("pink")
+                        }
                     }
                 }
             }
             row {
                 textarea(vm.translationString) {
-
+                    style {
+                        fontSize = 12.px
+                    }
                 }
             }
             row {
-                textfield(vm.wordInputString)
+                textfield(vm.wordInputString) {
+                    style {
+                        fontSize = 24.px
+                    }
+                    action {
+                        vm.check()
+                    }
+                }
             }
             row {
-                button(vm.checkString).action {
-                    vm.check()
+                hbox {
+                    region {
+                        hgrow = Priority.ALWAYS
+                    }
+                    button(vm.checkString).action {
+                        alignment = Pos.CENTER_RIGHT
+                        vm.check()
+                    }
                 }
             }
         }
