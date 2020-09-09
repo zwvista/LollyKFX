@@ -1,13 +1,16 @@
 package com.zwstudio.lolly.view.words
 
 import com.zwstudio.lolly.data.misc.ReviewOptionsViewModel
+import com.zwstudio.lolly.data.misc.applyIO
 import com.zwstudio.lolly.data.words.WordsReviewViewModel
 import com.zwstudio.lolly.view.ILollySettings
 import com.zwstudio.lolly.view.misc.ReviewOptionsView
+import io.reactivex.rxjava3.core.Observable
 import javafx.geometry.Pos
 import javafx.scene.layout.Priority
 import javafx.scene.layout.Region
 import tornadofx.*
+import java.util.concurrent.TimeUnit
 
 class WordsReviewView : Fragment("Words Review"), ILollySettings {
     var vm = WordsReviewViewModel()
@@ -16,9 +19,7 @@ class WordsReviewView : Fragment("Words Review"), ILollySettings {
         tag = this@WordsReviewView
         toolbar {
             button("New Test").action {
-                val modal = find<ReviewOptionsView>("vm" to ReviewOptionsViewModel(vm.options)) { openModal(block = true) }
-                if (modal.result)
-                    vm.newTest()
+                onSettingsChanged()
             }
             checkbox("Speak?", vm.isSpeaking)
             button("Speak")
@@ -34,11 +35,11 @@ class WordsReviewView : Fragment("Words Review"), ILollySettings {
             constraintsForRow(3).percentHeight = 12.5
             constraintsForRow(4).percentHeight = 12.5
             constraintsForColumn(0).hgrow = Priority.ALWAYS
+            style {
+                fontSize = 24.px
+            }
             row {
                 hbox(10.0) {
-                    style {
-                        fontSize = 24.px
-                    }
                     label(vm.indexString) {
                         visibleWhen(vm.indexIsVisible)
                     }
@@ -66,36 +67,30 @@ class WordsReviewView : Fragment("Words Review"), ILollySettings {
                 }
             }
             row {
-                hbox(10.0) {
-                    style {
-                        fontSize = 24.px
-                    }
-                    label(vm.wordTargetString) {
-                        visibleWhen(vm.wordTargetIsVisible)
-                        style {
-                            textFill = c("orange")
+                vbox {
+                    hbox(10.0) {
+                        alignment = Pos.CENTER_LEFT
+                        label(vm.wordTargetString) {
+                            visibleWhen(vm.wordTargetIsVisible)
+                            style {
+                                textFill = c("orange")
+                            }
                         }
-                    }
-                    label(vm.noteTargetString) {
-                        visibleWhen(vm.noteTargetIsVisible)
-                        style {
-                            textFill = c("pink")
+                        label(vm.noteTargetString) {
+                            visibleWhen(vm.noteTargetIsVisible)
+                            style {
+                                textFill = c("magenta")
+                                fontSize = 18.px
+                            }
                         }
                     }
                 }
             }
             row {
-                textarea(vm.translationString) {
-                    style {
-                        fontSize = 12.px
-                    }
-                }
+                textarea(vm.translationString)
             }
             row {
                 textfield(vm.wordInputString) {
-                    style {
-                        fontSize = 24.px
-                    }
                     action {
                         vm.check()
                     }
@@ -116,9 +111,14 @@ class WordsReviewView : Fragment("Words Review"), ILollySettings {
     }
 
     init {
-        onSettingsChanged()
+        Observable.timer(1, TimeUnit.SECONDS).applyIO().subscribe {
+            onSettingsChanged()
+        }
     }
 
     override fun onSettingsChanged() {
+        val modal = find<ReviewOptionsView>("vm" to ReviewOptionsViewModel(vm.options)) { openModal(block = true) }
+        if (modal.result)
+            vm.newTest()
     }
 }

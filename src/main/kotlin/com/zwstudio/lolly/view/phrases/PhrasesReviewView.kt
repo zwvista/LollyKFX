@@ -1,13 +1,16 @@
 package com.zwstudio.lolly.view.phrases
 
 import com.zwstudio.lolly.data.misc.ReviewOptionsViewModel
+import com.zwstudio.lolly.data.misc.applyIO
 import com.zwstudio.lolly.data.phrases.PhrasesReviewViewModel
 import com.zwstudio.lolly.view.ILollySettings
 import com.zwstudio.lolly.view.misc.ReviewOptionsView
+import io.reactivex.rxjava3.core.Observable
 import javafx.geometry.Pos
 import javafx.scene.layout.Priority
 import javafx.scene.layout.Region
 import tornadofx.*
+import java.util.concurrent.TimeUnit
 
 class PhrasesReviewView : Fragment("Phrases Review"), ILollySettings {
     var vm = PhrasesReviewViewModel()
@@ -16,9 +19,7 @@ class PhrasesReviewView : Fragment("Phrases Review"), ILollySettings {
         tag = this@PhrasesReviewView
         toolbar {
             button("New Test").action {
-                val modal = find<ReviewOptionsView>("vm" to ReviewOptionsViewModel(vm.options)) { openModal(block = true) }
-                if (modal.result)
-                    vm.newTest()
+                onSettingsChanged()
             }
             checkbox("Speak?", vm.isSpeaking)
             button("Speak")
@@ -28,17 +29,17 @@ class PhrasesReviewView : Fragment("Phrases Review"), ILollySettings {
             paddingAll = 10.0
             hgap = 10.0
             vgap = 10.0
-            constraintsForRow(0).percentHeight = 12.5
-            constraintsForRow(1).percentHeight = 12.5
-            constraintsForRow(2).percentHeight = 50.0
-            constraintsForRow(3).percentHeight = 12.5
-            constraintsForRow(4).percentHeight = 12.5
+            constraintsForRow(0).percentHeight = 20.0
+            constraintsForRow(1).percentHeight = 20.0
+            constraintsForRow(2).percentHeight = 20.0
+            constraintsForRow(3).percentHeight = 20.0
+            constraintsForRow(4).percentHeight = 20.0
             constraintsForColumn(0).hgrow = Priority.ALWAYS
+            style {
+                fontSize = 24.px
+            }
             row {
                 hbox(10.0) {
-                    style {
-                        fontSize = 24.px
-                    }
                     label(vm.indexString) {
                         visibleWhen(vm.indexIsVisible)
                     }
@@ -57,36 +58,25 @@ class PhrasesReviewView : Fragment("Phrases Review"), ILollySettings {
                             }
                         }
                     }
-                    region {
-                        hgrow = Priority.ALWAYS
+                }
+            }
+            row {
+                label(vm.phraseTargetString) {
+                    visibleWhen(vm.phraseTargetIsVisible)
+                    style {
+                        textFill = c("orange")
                     }
                 }
             }
             row {
-                hbox(10.0) {
+                label(vm.translationString) {
                     style {
-                        fontSize = 24.px
-                    }
-                    label(vm.phraseTargetString) {
-                        visibleWhen(vm.phraseTargetIsVisible)
-                        style {
-                            textFill = c("orange")
-                        }
-                    }
-                }
-            }
-            row {
-                textarea(vm.translationString) {
-                    style {
-                        fontSize = 12.px
+                        textFill = c("magenta")
                     }
                 }
             }
             row {
                 textfield(vm.phraseInputString) {
-                    style {
-                        fontSize = 24.px
-                    }
                     action {
                         vm.check()
                     }
@@ -107,9 +97,14 @@ class PhrasesReviewView : Fragment("Phrases Review"), ILollySettings {
     }
 
     init {
-        onSettingsChanged()
+        Observable.timer(1, TimeUnit.SECONDS).applyIO().subscribe {
+            onSettingsChanged()
+        }
     }
 
     override fun onSettingsChanged() {
+        val modal = find<ReviewOptionsView>("vm" to ReviewOptionsViewModel(vm.options)) { openModal(block = true) }
+        if (modal.result)
+            vm.newTest()
     }
 }
