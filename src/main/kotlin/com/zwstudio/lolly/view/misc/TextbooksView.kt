@@ -1,14 +1,28 @@
 package com.zwstudio.lolly.view.misc
 
-import tornadofx.Fragment
-import tornadofx.button
-import tornadofx.tag
-import tornadofx.vbox
+import com.zwstudio.lolly.data.misc.TextbooksViewModel
+import com.zwstudio.lolly.domain.misc.MTextbook
+import com.zwstudio.lolly.view.ILollySettings
+import tornadofx.*
 
-class TextbooksView : Fragment("Words in Unit") {
+class TextbooksView : Fragment("Textbooks"), ILollySettings {
+    var vm = TextbooksViewModel()
+
     override val root = vbox {
         tag = this@TextbooksView
-        button("Button 1")
-        button("Button 2")
+        tableview(vm.lstItems) {
+            readonlyColumn("ID", MTextbook::id)
+            readonlyColumn("TEXTBOOKNAME", MTextbook::textbookname)
+            readonlyColumn("UNITS", MTextbook::units)
+            readonlyColumn("PARTS", MTextbook::parts)
+        }
+    }
+
+    init {
+        onSettingsChanged()
+    }
+
+    override fun onSettingsChanged() {
+        vm.reload()
     }
 }

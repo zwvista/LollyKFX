@@ -3,10 +3,11 @@ package com.zwstudio.lolly.data.misc
 import com.zwstudio.lolly.domain.misc.MDictionary
 import com.zwstudio.lolly.service.misc.DictionaryService
 import io.reactivex.rxjava3.core.Observable
+import tornadofx.asObservable
 
 class DictsViewModel : BaseViewModel() {
 
-    var lstItems = mutableListOf<MDictionary>()
+    var lstItems = mutableListOf<MDictionary>().asObservable()
     val dictionaryService: DictionaryService by inject()
 
     init {
@@ -14,7 +15,7 @@ class DictsViewModel : BaseViewModel() {
 
     fun reload() {
         dictionaryService.getDictsByLang(vmSettings.selectedLang.id)
-            .map { lstItems = it.toMutableList() }
+            .map { lstItems.setAll(it) }
             .applyIO()
             .subscribe()
     }

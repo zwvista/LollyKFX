@@ -37,4 +37,22 @@ class TextbookService: BaseService() {
             }
     }
 
+    fun update(o: MTextbook): Observable<Unit> =
+        retrofitSP.create(RestTextbook::class.java)
+            .update(o.id, o.langid, o.textbookname, o.units, o.parts)
+            .map { println(it.toString()) }
+
+    fun create(o: MTextbook): Observable<Int> =
+        retrofitSP.create(RestTextbook::class.java)
+            .create(o.langid, o.textbookname, o.units, o.parts)
+            .map {
+                println(it.toString())
+                it
+            }
+
+    fun delete(id: Int): Observable<Unit> =
+        retrofitSP.create(RestTextbook::class.java)
+            .delete(id)
+            .map { println(it.toString()) }
+
 }

@@ -221,7 +221,7 @@ class SettingsViewModel : Component(), ScopedInstance {
                     selectedDictTranslation = lstDictsTranslation.firstOrNull { it.dictid == usdicttranslationid } ?: lstDictsTranslation.firstOrNull()
                     lstTextbooks.setAll(res4)
                     selectedTextbook = lstTextbooks.first { it.id == ustextbookid }
-                    lstTextbookFilters = listOf(MSelectItem(0, "All Textbooks")) + lstTextbooks.map { MSelectItem(it.id, it.textbookname!!) }
+                    lstTextbookFilters = listOf(MSelectItem(0, "All Textbooks")) + lstTextbooks.map { MSelectItem(it.id, it.textbookname) }
                     lstAutoCorrect = res5
                     lstVoices.setAll(res6)
                     selectedVoice = lstVoices.firstOrNull { it.id == usvoiceid } ?: lstVoices.firstOrNull()
