@@ -9,7 +9,7 @@ object GlobalConstants {
     val userid = 1
 }
 
-enum class DictWebBrowserStatus {
+enum class DictWebViewStatus {
     Ready, Navigating, Automating
 }
 

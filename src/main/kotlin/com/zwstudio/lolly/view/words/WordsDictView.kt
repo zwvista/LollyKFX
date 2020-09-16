@@ -1,6 +1,6 @@
 package com.zwstudio.lolly.view.words
 
-import com.zwstudio.lolly.data.misc.DictWebBrowserStatus
+import com.zwstudio.lolly.data.misc.DictWebViewStatus
 import com.zwstudio.lolly.data.misc.SettingsViewModel
 import com.zwstudio.lolly.data.misc.openPage
 import com.zwstudio.lolly.domain.misc.MDictionary
@@ -14,7 +14,7 @@ import tornadofx.*
 class WordsDictView : Fragment() {
     val dict: MDictionary by param()
     val vmSettings: SettingsViewModel by inject()
-    var dictStatus = DictWebBrowserStatus.Ready
+    var dictStatus = DictWebViewStatus.Ready
     var url = ""
     var word = ""
 
@@ -39,19 +39,19 @@ class WordsDictView : Fragment() {
                 if (newState != Worker.State.SUCCEEDED) return@ChangeListener
                 tfURL.text = engine.location
                 when (dictStatus) {
-                    DictWebBrowserStatus.Ready -> return@ChangeListener
-                    DictWebBrowserStatus.Automating -> {
+                    DictWebViewStatus.Ready -> return@ChangeListener
+                    DictWebViewStatus.Automating -> {
                         val s = dict.automation!!.replace("{0}", word)
                         engine.executeScript(s)
-                        dictStatus = DictWebBrowserStatus.Ready
+                        dictStatus = DictWebViewStatus.Ready
                         if (dict.dicttypename == "OFFLINE-ONLINE")
-                            dictStatus = DictWebBrowserStatus.Navigating
+                            dictStatus = DictWebViewStatus.Navigating
                     }
-                    DictWebBrowserStatus.Navigating -> {
+                    DictWebViewStatus.Navigating -> {
                         // https://stackoverflow.com/questions/14273450/get-the-contents-from-the-webview-using-javafx
                         val html = engine.executeScript("document.documentElement.outerHTML") as String
                         val str = dict.htmlString(html, word, false)
-                        dictStatus = DictWebBrowserStatus.Ready
+                        dictStatus = DictWebViewStatus.Ready
                         wvDict.engine.loadContent(str)
                     }
                 }
@@ -61,7 +61,7 @@ class WordsDictView : Fragment() {
 
     fun searchWord(word: String) {
         this.word = word
-        dictStatus = DictWebBrowserStatus.Ready
+        dictStatus = DictWebViewStatus.Ready
         url = dict.urlString(word, vmSettings.lstAutoCorrect)
         if (dict.dicttypename == "OFFLINE") {
             wvDict.engine.load("about:blank")
@@ -72,9 +72,9 @@ class WordsDictView : Fragment() {
         } else {
             wvDict.engine.load(url)
             if (dict.automation != null)
-                dictStatus = DictWebBrowserStatus.Automating
+                dictStatus = DictWebViewStatus.Automating
             else if (dict.dicttypename == "OFFLINE-ONLINE")
-                dictStatus = DictWebBrowserStatus.Navigating
+                dictStatus = DictWebViewStatus.Navigating
         }
     }
 }
