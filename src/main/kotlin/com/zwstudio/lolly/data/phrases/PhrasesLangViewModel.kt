@@ -35,7 +35,7 @@ class PhrasesLangViewModel : BaseViewModel() {
     }
 
     fun reload() {
-        langPhraseService.getDataByLang(vmSettings.selectedLang.id, vmSettings.lstTextbooks)
+        langPhraseService.getDataByLang(vmSettings.selectedLang.id)
             .map { lstPhrasesAll = it.toMutableList(); applyFilters() }
             .applyIO()
             .subscribe()

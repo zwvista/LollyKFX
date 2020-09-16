@@ -38,7 +38,7 @@ class WordsLangViewModel : BaseViewModel() {
     }
 
     fun reload() {
-        langWordService.getDataByLang(vmSettings.selectedLang.id, vmSettings.lstTextbooks)
+        langWordService.getDataByLang(vmSettings.selectedLang.id)
             .map { lstWordsAll = it.toMutableList(); applyFilters() }
             .applyIO()
             .subscribe()

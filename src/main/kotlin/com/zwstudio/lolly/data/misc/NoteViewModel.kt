@@ -26,7 +26,7 @@ class NoteViewModel : BaseViewModel() {
         val dictNote = vmSettings.selectedDictNote ?: return
         var i = 0
         var subscription: Disposable? = null
-        subscription = Observable.interval(dictNote.wait!!.toLong(), TimeUnit.MILLISECONDS, Schedulers.io()).subscribe {
+        subscription = Observable.interval(dictNote.wait.toLong(), TimeUnit.MILLISECONDS, Schedulers.io()).subscribe {
             while (i < wordCount && !isNoteEmpty(i))
                 i++
             if (i > wordCount) {

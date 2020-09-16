@@ -8,21 +8,7 @@ import com.zwstudio.lolly.data.misc.extractTextFrom
 import java.io.Serializable
 import java.net.URLEncoder
 
-class MDictsReference {
-
-    @SerializedName("records")
-    @Expose
-    var lst: List<MDictionary>? = null
-}
-
-class MDictsNote {
-
-    @SerializedName("records")
-    @Expose
-    var lst: List<MDictionary>? = null
-}
-
-class MDictsTranslation {
+class MDictionaries {
 
     @SerializedName("records")
     @Expose

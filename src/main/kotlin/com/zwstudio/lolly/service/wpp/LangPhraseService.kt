@@ -1,13 +1,12 @@
 package com.zwstudio.lolly.service.wpp
 
-import com.zwstudio.lolly.domain.misc.MTextbook
 import com.zwstudio.lolly.domain.wpp.MLangPhrase
 import com.zwstudio.lolly.restapi.wpp.RestLangPhrase
 import com.zwstudio.lolly.service.misc.BaseService
 import io.reactivex.rxjava3.core.Observable
 
 class LangPhraseService: BaseService() {
-    fun getDataByLang(langid: Int, lstTextbooks: List<MTextbook>): Observable<List<MLangPhrase>> =
+    fun getDataByLang(langid: Int): Observable<List<MLangPhrase>> =
         retrofitJson.create(RestLangPhrase::class.java)
             .getDataByLang("LANGID,eq,${langid}")
             .map { it.lst!! }
