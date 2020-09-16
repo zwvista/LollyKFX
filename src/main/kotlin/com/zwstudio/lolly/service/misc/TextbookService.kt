@@ -1,8 +1,8 @@
-package com.zwstudio.lolly.service
+package com.zwstudio.lolly.service.misc
 
 import com.zwstudio.lolly.domain.misc.MSelectItem
 import com.zwstudio.lolly.domain.misc.MTextbook
-import com.zwstudio.lolly.restapi.RestTextbook
+import com.zwstudio.lolly.restapi.misc.RestTextbook
 import io.reactivex.rxjava3.core.Observable
 
 class TextbookService: BaseService() {

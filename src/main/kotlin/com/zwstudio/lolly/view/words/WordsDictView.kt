@@ -4,7 +4,7 @@ import com.zwstudio.lolly.data.misc.DictWebBrowserStatus
 import com.zwstudio.lolly.data.misc.SettingsViewModel
 import com.zwstudio.lolly.data.misc.openPage
 import com.zwstudio.lolly.domain.misc.MDictionary
-import com.zwstudio.lolly.service.HtmlService
+import com.zwstudio.lolly.service.misc.HtmlService
 import javafx.concurrent.Worker
 import javafx.scene.control.TextField
 import javafx.scene.layout.Priority

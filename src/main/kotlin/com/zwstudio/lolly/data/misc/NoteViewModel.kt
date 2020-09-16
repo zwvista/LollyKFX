@@ -1,6 +1,6 @@
 package com.zwstudio.lolly.data.misc
 
-import com.zwstudio.lolly.service.HtmlService
+import com.zwstudio.lolly.service.misc.HtmlService
 import io.reactivex.rxjava3.core.Observable
 import io.reactivex.rxjava3.disposables.CompositeDisposable
 import io.reactivex.rxjava3.disposables.Disposable

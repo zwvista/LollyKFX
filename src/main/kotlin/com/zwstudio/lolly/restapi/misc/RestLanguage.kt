@@ -1,4 +1,4 @@
-package com.zwstudio.lolly.restapi
+package com.zwstudio.lolly.restapi.misc
 
 import com.zwstudio.lolly.domain.misc.MLanguages
 import io.reactivex.rxjava3.core.Observable

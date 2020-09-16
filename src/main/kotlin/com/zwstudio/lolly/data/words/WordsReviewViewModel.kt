@@ -6,8 +6,8 @@ import com.zwstudio.lolly.data.misc.extractTextFrom
 import com.zwstudio.lolly.domain.misc.MReviewOptions
 import com.zwstudio.lolly.domain.misc.ReviewMode
 import com.zwstudio.lolly.domain.wpp.MUnitWord
-import com.zwstudio.lolly.service.HtmlService
-import com.zwstudio.lolly.service.UnitWordService
+import com.zwstudio.lolly.service.misc.HtmlService
+import com.zwstudio.lolly.service.wpp.UnitWordService
 import io.reactivex.rxjava3.core.Observable
 import io.reactivex.rxjava3.disposables.Disposable
 import javafx.beans.property.SimpleBooleanProperty

@@ -3,7 +3,7 @@ package com.zwstudio.lolly.data.words
 import com.zwstudio.lolly.data.misc.BaseViewModel
 import com.zwstudio.lolly.data.misc.applyIO
 import com.zwstudio.lolly.domain.wpp.MUnitWord
-import com.zwstudio.lolly.service.UnitWordService
+import com.zwstudio.lolly.service.wpp.UnitWordService
 import tornadofx.asObservable
 
 class SingleWordViewModel(word: String) : BaseViewModel() {

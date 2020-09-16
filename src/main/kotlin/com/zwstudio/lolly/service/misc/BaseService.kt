@@ -1,4 +1,4 @@
-package com.zwstudio.lolly.service
+package com.zwstudio.lolly.service.misc
 
 import com.zwstudio.lolly.app.LollyApp
 import retrofit2.Retrofit

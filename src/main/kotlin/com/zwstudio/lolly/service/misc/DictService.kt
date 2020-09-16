@@ -1,9 +1,9 @@
-package com.zwstudio.lolly.service
+package com.zwstudio.lolly.service.misc
 
 import com.zwstudio.lolly.domain.misc.MDictionary
-import com.zwstudio.lolly.restapi.RestDictNote
-import com.zwstudio.lolly.restapi.RestDictReference
-import com.zwstudio.lolly.restapi.RestDictTranslation
+import com.zwstudio.lolly.restapi.misc.RestDictNote
+import com.zwstudio.lolly.restapi.misc.RestDictReference
+import com.zwstudio.lolly.restapi.misc.RestDictTranslation
 import io.reactivex.rxjava3.core.Observable
 
 class DictionaryService: BaseService() {

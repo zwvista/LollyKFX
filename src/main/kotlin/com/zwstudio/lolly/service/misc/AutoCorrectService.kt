@@ -1,7 +1,7 @@
-package com.zwstudio.lolly.service
+package com.zwstudio.lolly.service.misc
 
 import com.zwstudio.lolly.domain.misc.MAutoCorrect
-import com.zwstudio.lolly.restapi.RestAutoCorrect
+import com.zwstudio.lolly.restapi.misc.RestAutoCorrect
 import io.reactivex.rxjava3.core.Observable
 
 class AutoCorrectService: BaseService() {

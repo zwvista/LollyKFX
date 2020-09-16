@@ -1,4 +1,4 @@
-package com.zwstudio.lolly.restapi
+package com.zwstudio.lolly.restapi.misc
 
 import io.reactivex.rxjava3.core.Observable
 import retrofit2.http.GET

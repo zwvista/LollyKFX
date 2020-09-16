@@ -4,7 +4,7 @@ import com.zwstudio.lolly.data.misc.GlobalConstants
 import com.zwstudio.lolly.data.misc.GlobalConstants.userid
 import com.zwstudio.lolly.data.misc.applyIO
 import com.zwstudio.lolly.domain.wpp.MWordFami
-import com.zwstudio.lolly.service.WordFamiService
+import com.zwstudio.lolly.service.wpp.WordFamiService
 import io.reactivex.rxjava3.core.Observable
 import tornadofx.Component
 import tornadofx.ScopedInstance

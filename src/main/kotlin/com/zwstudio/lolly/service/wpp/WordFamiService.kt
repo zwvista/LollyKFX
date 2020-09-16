@@ -1,7 +1,8 @@
-package com.zwstudio.lolly.service
+package com.zwstudio.lolly.service.wpp
 
 import com.zwstudio.lolly.domain.wpp.MWordFami
-import com.zwstudio.lolly.restapi.RestWordFami
+import com.zwstudio.lolly.restapi.wpp.RestWordFami
+import com.zwstudio.lolly.service.misc.BaseService
 import io.reactivex.rxjava3.core.Observable
 
 class WordFamiService: BaseService() {

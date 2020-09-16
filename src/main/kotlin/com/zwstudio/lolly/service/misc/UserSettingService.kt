@@ -1,8 +1,8 @@
-package com.zwstudio.lolly.service
+package com.zwstudio.lolly.service.misc
 
 import com.zwstudio.lolly.domain.misc.MUserSetting
 import com.zwstudio.lolly.domain.misc.MUserSettingInfo
-import com.zwstudio.lolly.restapi.RestUserSetting
+import com.zwstudio.lolly.restapi.misc.RestUserSetting
 import io.reactivex.rxjava3.core.Observable
 
 class UserSettingService: BaseService() {

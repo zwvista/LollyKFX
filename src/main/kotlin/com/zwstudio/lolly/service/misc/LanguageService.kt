@@ -1,7 +1,7 @@
-package com.zwstudio.lolly.service
+package com.zwstudio.lolly.service.misc
 
 import com.zwstudio.lolly.domain.misc.MLanguage
-import com.zwstudio.lolly.restapi.RestLanguage
+import com.zwstudio.lolly.restapi.misc.RestLanguage
 import io.reactivex.rxjava3.core.Observable
 
 class LanguageService: BaseService() {

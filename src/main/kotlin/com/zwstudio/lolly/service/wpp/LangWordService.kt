@@ -1,8 +1,9 @@
-package com.zwstudio.lolly.service
+package com.zwstudio.lolly.service.wpp
 
 import com.zwstudio.lolly.domain.misc.MTextbook
 import com.zwstudio.lolly.domain.wpp.MLangWord
-import com.zwstudio.lolly.restapi.RestLangWord
+import com.zwstudio.lolly.restapi.wpp.RestLangWord
+import com.zwstudio.lolly.service.misc.BaseService
 import io.reactivex.rxjava3.core.Observable
 
 class LangWordService: BaseService() {

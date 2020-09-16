@@ -2,7 +2,7 @@ package com.zwstudio.lolly.data.words
 
 import com.zwstudio.lolly.data.misc.BaseViewModel
 import com.zwstudio.lolly.domain.wpp.MUnitWord
-import com.zwstudio.lolly.service.HtmlService
+import com.zwstudio.lolly.service.misc.HtmlService
 import io.reactivex.rxjava3.core.Observable
 import javafx.beans.property.SimpleStringProperty
 import tornadofx.asObservable

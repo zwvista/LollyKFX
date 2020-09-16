@@ -1,7 +1,7 @@
-package com.zwstudio.lolly.service
+package com.zwstudio.lolly.service.misc
 
 import com.zwstudio.lolly.domain.misc.MUSMapping
-import com.zwstudio.lolly.restapi.RestUSMapping
+import com.zwstudio.lolly.restapi.misc.RestUSMapping
 import io.reactivex.rxjava3.core.Observable
 
 class USMappingService: BaseService() {

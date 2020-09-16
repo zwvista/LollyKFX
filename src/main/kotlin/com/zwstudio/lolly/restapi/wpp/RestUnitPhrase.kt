@@ -1,4 +1,4 @@
-package com.zwstudio.lolly.restapi
+package com.zwstudio.lolly.restapi.wpp
 
 import com.zwstudio.lolly.domain.misc.MSPResult
 import com.zwstudio.lolly.domain.wpp.MUnitPhrases

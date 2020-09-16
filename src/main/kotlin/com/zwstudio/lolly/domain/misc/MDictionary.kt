@@ -6,7 +6,6 @@ import com.google.gson.annotations.Expose
 import com.google.gson.annotations.SerializedName
 import com.zwstudio.lolly.data.misc.extractTextFrom
 import java.io.Serializable
-import java.io.UnsupportedEncodingException
 import java.net.URLEncoder
 
 class MDictsReference {
@@ -90,13 +89,8 @@ class MDictionary: Serializable {
                 autoCorrect(word, lstAutoCorrects, { it.extended }, { it.basic })
             else
                 word
-        var wordUrl: String? = null
-        try {
-            wordUrl = url!!.replace("{0}", URLEncoder.encode(word2, "UTF-8"))
-        } catch (e: UnsupportedEncodingException) {
-            e.printStackTrace()
-        }
-        println("urlString: " + wordUrl!!)
+        val wordUrl = url!!.replace("{0}", URLEncoder.encode(word2, "UTF-8"))
+        println("urlString: $wordUrl")
         return wordUrl
     }
 

@@ -1,8 +1,9 @@
-package com.zwstudio.lolly.service
+package com.zwstudio.lolly.service.wpp
 
 import com.zwstudio.lolly.domain.misc.MTextbook
 import com.zwstudio.lolly.domain.wpp.MUnitPhrase
-import com.zwstudio.lolly.restapi.RestUnitPhrase
+import com.zwstudio.lolly.restapi.wpp.RestUnitPhrase
+import com.zwstudio.lolly.service.misc.BaseService
 import io.reactivex.rxjava3.core.Observable
 
 class UnitPhraseService: BaseService() {

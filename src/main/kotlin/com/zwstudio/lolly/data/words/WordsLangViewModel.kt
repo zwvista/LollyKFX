@@ -5,7 +5,7 @@ import com.zwstudio.lolly.data.misc.NoteViewModel
 import com.zwstudio.lolly.data.misc.SettingsViewModel
 import com.zwstudio.lolly.data.misc.applyIO
 import com.zwstudio.lolly.domain.wpp.MLangWord
-import com.zwstudio.lolly.service.LangWordService
+import com.zwstudio.lolly.service.wpp.LangWordService
 import io.reactivex.rxjava3.core.Observable
 import javafx.application.Platform
 import javafx.beans.property.SimpleStringProperty
