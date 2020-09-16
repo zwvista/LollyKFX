@@ -8,7 +8,7 @@ import io.reactivex.rxjava3.core.Observable
 class LangWordService: BaseService() {
     fun getDataByLang(langid: Int): Observable<List<MLangWord>> =
         retrofitJson.create(RestLangWord::class.java)
-            .getDataByLang("LANGID,eq,${langid}")
+            .getDataByLang("LANGID,eq,$langid")
             .map { it.lst!! }
 
     fun updateNote(id: Int, note: String?): Observable<Unit> =

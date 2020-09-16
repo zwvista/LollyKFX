@@ -160,8 +160,8 @@ class SettingsViewModel : Component(), ScopedInstance {
     val isSinglePart: Boolean
         get() = partCount == 1
     val langInfo get() = selectedLang.langname
-    val textbookInfo get() = "${langInfo}/${selectedTextbook.textbookname}"
-    val unitInfo get() = "${textbookInfo}/${usunitfromstr} ${uspartfromstr} ~ ${usunittostr} ${usparttostr}"
+    val textbookInfo get() = "$langInfo/${selectedTextbook.textbookname}"
+    val unitInfo get() = "$textbookInfo/$usunitfromstr $uspartfromstr ~ $usunittostr $usparttostr"
 
     var lstAutoCorrect = listOf<MAutoCorrect>()
 
@@ -255,7 +255,7 @@ class SettingsViewModel : Component(), ScopedInstance {
         selectedTextbookProperty.addListener { _, _, newValue ->
             val newid = newValue.id
             lstUnits.setAll(newValue.lstUnits)
-            unitsInAll.value = "(${unitCount} in all)"
+            unitsInAll.value = "($unitCount in all)"
             lstParts.setAll(newValue.lstParts)
             INFO_USUNITFROM = getUSInfo(MUSMapping.NAME_USUNITFROM)
             usunitfrom = usunitfrom

@@ -105,7 +105,7 @@ class PhrasesReviewViewModel : BaseViewModel() {
         phraseTargetIsVisible.value = !isTestMode
         phraseInputString.value = ""
         if (hasNext)
-            indexString.value = "${index + 1}/${count}"
+            indexString.value = "${index + 1}/$count"
         else if (options.mode == ReviewMode.ReviewAuto)
             subscriptionTimer?.dispose()
     }

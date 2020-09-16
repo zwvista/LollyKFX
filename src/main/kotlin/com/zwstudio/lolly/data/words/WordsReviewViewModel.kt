@@ -129,7 +129,7 @@ class WordsReviewViewModel : BaseViewModel() {
         translationString.value = ""
         wordInputString.value = ""
         if (hasNext) {
-            indexString.value = "${index + 1}/${count}"
+            indexString.value = "${index + 1}/$count"
             accuracyString.value = currentItem!!.accuracy
             getTranslation().subscribe { translationString.value = it }
         } else if (options.mode == ReviewMode.ReviewAuto)
