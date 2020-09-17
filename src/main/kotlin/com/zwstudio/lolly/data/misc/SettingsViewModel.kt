@@ -62,13 +62,13 @@ class SettingsViewModel : Component(), ScopedInstance {
             setUSValue(INFO_USDICTSREFERENCE, value)
         }
     private var INFO_USDICTNOTE = MUserSettingInfo()
-    var usdictnoteid: Int
+    var usdictnote: Int
         get() = (getUSValue(INFO_USDICTNOTE) ?: "0").toInt()
         set(value) {
             setUSValue(INFO_USDICTNOTE, value.toString())
         }
     private var INFO_USDICTTRANSLATION = MUserSettingInfo()
-    var usdicttranslationid: Int
+    var usdicttranslation: Int
         get() = (getUSValue(INFO_USDICTTRANSLATION) ?: "0").toInt()
         set(value) {
             setUSValue(INFO_USDICTTRANSLATION, value.toString())
@@ -216,9 +216,9 @@ class SettingsViewModel : Component(), ScopedInstance {
                     lstDictsReference = res1
                     selectedDictsReference.setAll(usdictsreference.split(",").flatMap { d -> lstDictsReference.filter { it.dictid.toString() == d } })
                     lstDictsNote.setAll(res2)
-                    selectedDictNote = lstDictsNote.firstOrNull { it.dictid == usdictnoteid } ?: lstDictsNote.firstOrNull()
+                    selectedDictNote = lstDictsNote.firstOrNull { it.dictid == usdictnote } ?: lstDictsNote.firstOrNull()
                     lstDictsTranslation.setAll(res3)
-                    selectedDictTranslation = lstDictsTranslation.firstOrNull { it.dictid == usdicttranslationid } ?: lstDictsTranslation.firstOrNull()
+                    selectedDictTranslation = lstDictsTranslation.firstOrNull { it.dictid == usdicttranslation } ?: lstDictsTranslation.firstOrNull()
                     lstTextbooks.setAll(res4)
                     selectedTextbook = lstTextbooks.first { it.id == ustextbookid }
                     lstTextbookFilters = listOf(MSelectItem(0, "All Textbooks")) + lstTextbooks.map { MSelectItem(it.id, it.textbookname) }
@@ -242,15 +242,15 @@ class SettingsViewModel : Component(), ScopedInstance {
         })
         selectedDictNoteProperty.addListener { _, _, newValue ->
             val newdictid = newValue?.dictid ?: 0
-            if (usdictnoteid == newdictid) return@addListener
-            usdictnoteid = newdictid
-            userSettingService.update(INFO_USDICTNOTE, usdictnoteid).subscribe()
+            if (usdictnote == newdictid) return@addListener
+            usdictnote = newdictid
+            userSettingService.update(INFO_USDICTNOTE, usdictnote).subscribe()
         }
         selectedDictTranslationProperty.addListener { _, _, newValue ->
             val newdictid = newValue?.dictid ?: 0
-            if (usdicttranslationid == newdictid) return@addListener
-            usdicttranslationid = newdictid
-            userSettingService.update(INFO_USDICTTRANSLATION, usdicttranslationid).subscribe()
+            if (usdicttranslation == newdictid) return@addListener
+            usdicttranslation = newdictid
+            userSettingService.update(INFO_USDICTTRANSLATION, usdicttranslation).subscribe()
         }
         selectedTextbookProperty.addListener { _, _, newValue ->
             val newid = newValue.id
