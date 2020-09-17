@@ -35,12 +35,10 @@ class SettingsViewModel : Component(), ScopedInstance {
             else -> {}
         }
     }
-    private var INFO_USLANGID = MUserSettingInfo()
-    var uslangid: Int
-        get() = getUSValue(INFO_USLANGID)!!.toInt()
-        set(value) {
-            setUSValue(INFO_USLANGID, value.toString())
-        }
+    private var INFO_USLANG = MUserSettingInfo()
+    var uslang: Int
+        get() = getUSValue(INFO_USLANG)!!.toInt()
+        set(value) = setUSValue(INFO_USLANG, value.toString())
     private var INFO_USLEVELCOLORS = MUserSettingInfo()
     var uslevelcolors = mapOf<Int, List<String>>()
     private var INFO_USSCANINTERVAL = MUserSettingInfo()
@@ -49,36 +47,26 @@ class SettingsViewModel : Component(), ScopedInstance {
     private var INFO_USREVIEWINTERVAL = MUserSettingInfo()
     val usreviewinterval: Int
         get() = getUSValue(INFO_USREVIEWINTERVAL)!!.toInt()
-    private var INFO_USTEXTBOOKID = MUserSettingInfo()
-    var ustextbookid: Int
-        get() = getUSValue(INFO_USTEXTBOOKID)!!.toInt()
-        set(value) {
-            setUSValue(INFO_USTEXTBOOKID, value.toString())
-        }
+    private var INFO_USTEXTBOOK = MUserSettingInfo()
+    var ustextbook: Int
+        get() = getUSValue(INFO_USTEXTBOOK)!!.toInt()
+        set(value) = setUSValue(INFO_USTEXTBOOK, value.toString())
     private var INFO_USDICTSREFERENCE = MUserSettingInfo()
     var usdictsreference: String
         get() = getUSValue(INFO_USDICTSREFERENCE) ?: ""
-        set(value) {
-            setUSValue(INFO_USDICTSREFERENCE, value)
-        }
+        set(value) = setUSValue(INFO_USDICTSREFERENCE, value)
     private var INFO_USDICTNOTE = MUserSettingInfo()
     var usdictnote: Int
         get() = (getUSValue(INFO_USDICTNOTE) ?: "0").toInt()
-        set(value) {
-            setUSValue(INFO_USDICTNOTE, value.toString())
-        }
+        set(value) = setUSValue(INFO_USDICTNOTE, value.toString())
     private var INFO_USDICTTRANSLATION = MUserSettingInfo()
     var usdicttranslation: Int
         get() = (getUSValue(INFO_USDICTTRANSLATION) ?: "0").toInt()
-        set(value) {
-            setUSValue(INFO_USDICTTRANSLATION, value.toString())
-        }
-    private var INFO_USANDROIDVOICEID = MUserSettingInfo()
+        set(value) = setUSValue(INFO_USDICTTRANSLATION, value.toString())
+    private var INFO_USANDROIDVOICE = MUserSettingInfo()
     var usvoiceid: Int
-        get() = (getUSValue(INFO_USANDROIDVOICEID) ?: "0").toInt()
-        set(value) {
-            setUSValue(INFO_USANDROIDVOICEID, value.toString())
-        }
+        get() = (getUSValue(INFO_USANDROIDVOICE) ?: "0").toInt()
+        set(value) = setUSValue(INFO_USANDROIDVOICE, value.toString())
     private var INFO_USUNITFROM = MUserSettingInfo()
     var usunitfrom: Int
         get() = getUSValue(INFO_USUNITFROM)!!.toInt()
@@ -196,21 +184,21 @@ class SettingsViewModel : Component(), ScopedInstance {
 
     init {
         selectedLangProperty.addListener { _, _, newValue ->
-            if (newValue.id != uslangid) {
-                uslangid = selectedLang.id
-                userSettingService.update(INFO_USLANGID, uslangid).subscribe()
+            if (newValue.id != uslang) {
+                uslang = selectedLang.id
+                userSettingService.update(INFO_USLANG, uslang).subscribe()
             }
-            INFO_USTEXTBOOKID = getUSInfo(MUSMapping.NAME_USTEXTBOOKID)
+            INFO_USTEXTBOOK = getUSInfo(MUSMapping.NAME_USTEXTBOOK)
             INFO_USDICTSREFERENCE = getUSInfo(MUSMapping.NAME_USDICTSREFERENCE)
             INFO_USDICTNOTE = getUSInfo(MUSMapping.NAME_USDICTNOTE)
             INFO_USDICTTRANSLATION = getUSInfo(MUSMapping.NAME_USDICTTRANSLATION)
-            INFO_USANDROIDVOICEID = getUSInfo(MUSMapping.NAME_USANDROIDVOICEID)
-            Observables.zip(dictionaryService.getDictsReferenceByLang(uslangid),
-                dictionaryService.getDictsNoteByLang(uslangid),
-                dictionaryService.getDictsTranslationByLang(uslangid),
-                textbookService.getDataByLang(uslangid),
-                autoCorrectService.getDataByLang(uslangid),
-                voiceService.getDataByLang(uslangid)) {
+            INFO_USANDROIDVOICE = getUSInfo(MUSMapping.NAME_USANDROIDVOICE)
+            Observables.zip(dictionaryService.getDictsReferenceByLang(uslang),
+                dictionaryService.getDictsNoteByLang(uslang),
+                dictionaryService.getDictsTranslationByLang(uslang),
+                textbookService.getDataByLang(uslang),
+                autoCorrectService.getDataByLang(uslang),
+                voiceService.getDataByLang(uslang)) {
                 res1, res2, res3, res4, res5, res6 ->
                 Platform.runLater {
                     lstDictsReference = res1
@@ -220,7 +208,7 @@ class SettingsViewModel : Component(), ScopedInstance {
                     lstDictsTranslation.setAll(res3)
                     selectedDictTranslation = lstDictsTranslation.firstOrNull { it.dictid == usdicttranslation } ?: lstDictsTranslation.firstOrNull()
                     lstTextbooks.setAll(res4)
-                    selectedTextbook = lstTextbooks.first { it.id == ustextbookid }
+                    selectedTextbook = lstTextbooks.first { it.id == ustextbook }
                     lstTextbookFilters = listOf(MSelectItem(0, "All Textbooks")) + lstTextbooks.map { MSelectItem(it.id, it.textbookname) }
                     lstAutoCorrect = res5
                     lstVoices.setAll(res6)
@@ -232,7 +220,7 @@ class SettingsViewModel : Component(), ScopedInstance {
             val newid = newValue?.id ?: 0
             if (usvoiceid == newid) return@addListener
             usvoiceid = newid
-            userSettingService.update(INFO_USANDROIDVOICEID, usvoiceid).subscribe()
+            userSettingService.update(INFO_USANDROIDVOICE, usvoiceid).subscribe()
         }
         selectedDictsReference.addListener(ListChangeListener {
             val newids = selectedDictsReference.joinToString(",") { it.dictid.toString() }
@@ -266,9 +254,9 @@ class SettingsViewModel : Component(), ScopedInstance {
             INFO_USPARTTO = getUSInfo(MUSMapping.NAME_USPARTTO)
             uspartto = uspartto
             toType = if (isSingleUnit) UnitPartToType.Unit else if (isSingleUnitPart) UnitPartToType.Part else UnitPartToType.To
-            if (ustextbookid == newid) return@addListener
-            ustextbookid = newid
-            userSettingService.update(INFO_USTEXTBOOKID, ustextbookid).subscribe()
+            if (ustextbook == newid) return@addListener
+            ustextbook = newid
+            userSettingService.update(INFO_USTEXTBOOK, ustextbook).subscribe()
         }
         toTypeProperty.addListener { _, oldValue, _ ->
             val b = toType == UnitPartToType.To
@@ -347,14 +335,14 @@ class SettingsViewModel : Component(), ScopedInstance {
             lstLanguages = it.first
             lstUSMappings = it.second
             lstUserSettings = it.third
-            INFO_USLANGID = getUSInfo(MUSMapping.NAME_USLANGID)
+            INFO_USLANG = getUSInfo(MUSMapping.NAME_USLANG)
             INFO_USLEVELCOLORS = getUSInfo(MUSMapping.NAME_USLEVELCOLORS)
             INFO_USSCANINTERVAL = getUSInfo(MUSMapping.NAME_USSCANINTERVAL)
             INFO_USREVIEWINTERVAL = getUSInfo(MUSMapping.NAME_USREVIEWINTERVAL)
             val lst = getUSValue(INFO_USLEVELCOLORS)!!.split("\r\n").map { it.split(',') }
             // https://stackoverflow.com/questions/32935470/how-to-convert-list-to-map-in-kotlin
             uslevelcolors = lst.associateBy({ it[0].toInt() }, { listOf(it[1], it[2]) })
-            selectedLang = lstLanguages.first { it.id == uslangid }
+            selectedLang = lstLanguages.first { it.id == uslang }
         }
 
     fun autoCorrectInput(text: String): String =
