@@ -64,7 +64,7 @@ class SettingsViewModel : Component(), ScopedInstance {
         get() = (getUSValue(INFO_USDICTTRANSLATION) ?: "0").toInt()
         set(value) = setUSValue(INFO_USDICTTRANSLATION, value.toString())
     private var INFO_USANDROIDVOICE = MUserSettingInfo()
-    var usvoiceid: Int
+    var usvoice: Int
         get() = (getUSValue(INFO_USANDROIDVOICE) ?: "0").toInt()
         set(value) = setUSValue(INFO_USANDROIDVOICE, value.toString())
     private var INFO_USUNITFROM = MUserSettingInfo()
@@ -212,15 +212,15 @@ class SettingsViewModel : Component(), ScopedInstance {
                     lstTextbookFilters = listOf(MSelectItem(0, "All Textbooks")) + lstTextbooks.map { MSelectItem(it.id, it.textbookname) }
                     lstAutoCorrect = res5
                     lstVoices.setAll(res6)
-                    selectedVoice = lstVoices.firstOrNull { it.id == usvoiceid } ?: lstVoices.firstOrNull()
+                    selectedVoice = lstVoices.firstOrNull { it.id == usvoice } ?: lstVoices.firstOrNull()
                 }
             }.applyIO().subscribe()
         }
         selectedVoiceProperty.addListener { _, _, newValue ->
             val newid = newValue?.id ?: 0
-            if (usvoiceid == newid) return@addListener
-            usvoiceid = newid
-            userSettingService.update(INFO_USANDROIDVOICE, usvoiceid).subscribe()
+            if (usvoice == newid) return@addListener
+            usvoice = newid
+            userSettingService.update(INFO_USANDROIDVOICE, usvoice).subscribe()
         }
         selectedDictsReference.addListener(ListChangeListener {
             val newids = selectedDictsReference.joinToString(",") { it.dictid.toString() }
