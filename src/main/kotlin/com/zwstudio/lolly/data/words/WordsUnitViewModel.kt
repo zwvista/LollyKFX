@@ -5,11 +5,12 @@ import com.zwstudio.lolly.data.misc.NoteViewModel
 import com.zwstudio.lolly.data.misc.SettingsViewModel
 import com.zwstudio.lolly.data.misc.applyIO
 import com.zwstudio.lolly.domain.misc.MSelectItem
+import com.zwstudio.lolly.domain.wpp.MLangPhrase
 import com.zwstudio.lolly.domain.wpp.MUnitWord
 import com.zwstudio.lolly.service.wpp.UnitWordService
+import com.zwstudio.lolly.service.wpp.WordPhraseService
 import io.reactivex.rxjava3.core.Observable
 import io.reactivex.rxjava3.disposables.CompositeDisposable
-import javafx.application.Platform
 import javafx.beans.property.SimpleObjectProperty
 import javafx.beans.property.SimpleStringProperty
 import tornadofx.asObservable
@@ -21,6 +22,8 @@ class WordsUnitViewModel(val inTextbook: Boolean) : BaseViewModel() {
     val vmNote: NoteViewModel by inject()
     val compositeDisposable = CompositeDisposable()
     val unitWordService: UnitWordService by inject()
+    val lstPhrases = mutableListOf<MLangPhrase>().asObservable()
+    val wordPhraseService: WordPhraseService by inject()
 
     val newWord = SimpleStringProperty()
     val scopeFilter = SimpleStringProperty(SettingsViewModel.lstScopeWordFilters[0])
@@ -40,9 +43,7 @@ class WordsUnitViewModel(val inTextbook: Boolean) : BaseViewModel() {
             (textFilter.value.isEmpty() || (if (scopeFilter.value == "Word") it.word else it.note ?: "").contains(textFilter.value, true)) &&
             (textbookFilter.value.value == 0 || it.textbookid == textbookFilter.value.value)
         })
-        Platform.runLater {
-            statusText.value = "${lstWords.size} Words in ${if (inTextbook) vmSettings.unitInfo else vmSettings.langInfo}"
-        }
+        statusText.value = "${lstWords.size} Words in ${if (inTextbook) vmSettings.unitInfo else vmSettings.langInfo}"
     }
 
     fun reload() {
@@ -50,9 +51,8 @@ class WordsUnitViewModel(val inTextbook: Boolean) : BaseViewModel() {
             unitWordService.getDataByTextbookUnitPart(vmSettings.selectedTextbook, vmSettings.usunitpartfrom, vmSettings.usunitpartto)
         else
             unitWordService.getDataByLang(vmSettings.selectedLang.id, vmSettings.lstTextbooks))
-            .map { lstWordsAll = it.toMutableList(); applyFilters() }
             .applyIO()
-            .subscribe()
+            .subscribe { lstWordsAll = it.toMutableList(); applyFilters() }
         textbookFilter.value = vmSettings.lstTextbookFilters[0]
     }
 
@@ -108,5 +108,15 @@ class WordsUnitViewModel(val inTextbook: Boolean) : BaseViewModel() {
         }, getOne = { i ->
             compositeDisposable.add(getNote(i).subscribe { oneComplete(i) })
         }, allComplete = allComplete)
+    }
+
+    fun searchPhrases(wordid: Int?) {
+        if (wordid == null)
+            lstPhrases.clear()
+        else
+            wordPhraseService.getPhrasesByWordId(wordid)
+                .map { lstPhrases.setAll(it) }
+                .applyIO()
+                .subscribe()
     }
 }

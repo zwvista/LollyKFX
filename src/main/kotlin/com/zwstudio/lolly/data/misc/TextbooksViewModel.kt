@@ -15,9 +15,8 @@ class TextbooksViewModel : BaseViewModel() {
 
     fun reload() {
         textbookService.getDataByLang(vmSettings.selectedLang.id)
-            .map { lstItems.setAll(it) }
             .applyIO()
-            .subscribe()
+            .subscribe { lstItems.setAll(it) }
     }
 
     fun update(o: MTextbook): Observable<Unit> =

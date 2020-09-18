@@ -8,7 +8,6 @@ import com.zwstudio.lolly.domain.wpp.MUnitPhrase
 import com.zwstudio.lolly.service.wpp.UnitPhraseService
 import io.reactivex.rxjava3.core.Observable
 import io.reactivex.rxjava3.disposables.CompositeDisposable
-import javafx.application.Platform
 import javafx.beans.property.SimpleObjectProperty
 import javafx.beans.property.SimpleStringProperty
 import tornadofx.asObservable
@@ -37,9 +36,7 @@ class PhrasesUnitViewModel(val inTextbook: Boolean) : BaseViewModel() {
             (textFilter.value.isEmpty() || (if (scopeFilter.value == "Phrase") it.phrase else it.translation ?: "").contains(textFilter.value, true)) &&
             (textbookFilter.value.value == 0 || it.textbookid == textbookFilter.value.value)
         })
-        Platform.runLater {
-            statusText.value = "${lstPhrases.size} Phrases in ${if (inTextbook) vmSettings.unitInfo else vmSettings.langInfo}"
-        }
+        statusText.value = "${lstPhrases.size} Phrases in ${if (inTextbook) vmSettings.unitInfo else vmSettings.langInfo}"
     }
 
     fun reload() {
@@ -47,9 +44,8 @@ class PhrasesUnitViewModel(val inTextbook: Boolean) : BaseViewModel() {
             unitPhraseService.getDataByTextbookUnitPart(vmSettings.selectedTextbook, vmSettings.usunitpartfrom, vmSettings.usunitpartto)
         else
             unitPhraseService.getDataByLang(vmSettings.selectedLang.id, vmSettings.lstTextbooks))
-            .map { lstPhrasesAll = it.toMutableList(); applyFilters() }
             .applyIO()
-            .subscribe()
+            .subscribe { lstPhrasesAll = it.toMutableList(); applyFilters() }
         textbookFilter.value = vmSettings.lstTextbookFilters[0]
     }
 

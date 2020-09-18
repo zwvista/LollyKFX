@@ -6,7 +6,6 @@ import com.zwstudio.lolly.data.misc.applyIO
 import com.zwstudio.lolly.domain.wpp.MLangPhrase
 import com.zwstudio.lolly.service.wpp.LangPhraseService
 import io.reactivex.rxjava3.core.Observable
-import javafx.application.Platform
 import javafx.beans.property.SimpleStringProperty
 import tornadofx.asObservable
 
@@ -29,16 +28,13 @@ class PhrasesLangViewModel : BaseViewModel() {
         lstPhrases.setAll(if (textFilter.value.isEmpty()) lstPhrasesAll else lstPhrasesAll.filter {
             textFilter.value.isEmpty() || (if (scopeFilter.value == "Phrase") it.phrase else it.translation ?: "").contains(textFilter.value, true)
         })
-        Platform.runLater {
-            statusText.value = "${lstPhrases.size} Phrases in ${vmSettings.langInfo}"
-        }
+        statusText.value = "${lstPhrases.size} Phrases in ${vmSettings.langInfo}"
     }
 
     fun reload() {
         langPhraseService.getDataByLang(vmSettings.selectedLang.id)
-            .map { lstPhrasesAll = it.toMutableList(); applyFilters() }
             .applyIO()
-            .subscribe()
+            .subscribe { lstPhrasesAll = it.toMutableList(); applyFilters() }
     }
 
     fun update(o: MLangPhrase): Observable<Unit> =

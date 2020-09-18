@@ -275,8 +275,9 @@ class SettingsViewModel : Component(), ScopedInstance {
                 else if (toType == UnitPartToType.Part)
                     doUpdateUnitPartTo().subscribe()
         }
-        usunitfromItem.addListener { _, oldValue, _ ->
+        usunitfromItem.addListener { _, oldValue, newValue ->
             if (oldValue == null) return@addListener
+            usunitfrom = newValue.value
             doUpdateUnitFrom(usunitfrom, false).flatMap {
                 if (toType == UnitPartToType.Unit)
                     doUpdateSingleUnit()
@@ -286,8 +287,9 @@ class SettingsViewModel : Component(), ScopedInstance {
                     Observable.just(Unit)
             }.subscribe()
         }
-        uspartfromItem.addListener { _, oldValue, _ ->
+        uspartfromItem.addListener { _, oldValue, newValue ->
             if (oldValue == null) return@addListener
+            uspartfrom = newValue.value
             doUpdatePartFrom(uspartfrom, false).flatMap {
                 if (toType == UnitPartToType.Part || isInvalidUnitPart)
                     doUpdateUnitPartTo()
@@ -295,8 +297,9 @@ class SettingsViewModel : Component(), ScopedInstance {
                     Observable.just(Unit)
             }.subscribe()
         }
-        usunittoItem.addListener { _, oldValue, _ ->
+        usunittoItem.addListener { _, oldValue, newValue ->
             if (oldValue == null) return@addListener
+            usunitto = newValue.value
             doUpdateUnitTo(usunitto, false).flatMap {
                 if (isInvalidUnitPart)
                     doUpdateUnitPartFrom()
@@ -304,8 +307,9 @@ class SettingsViewModel : Component(), ScopedInstance {
                     Observable.just(Unit)
             }.subscribe()
         }
-        usparttoItem.addListener { _, oldValue, _ ->
+        usparttoItem.addListener { _, oldValue, newValue ->
             if (oldValue == null) return@addListener
+            uspartto = newValue.value
             doUpdatePartTo(uspartto, false).flatMap {
                 if (isInvalidUnitPart)
                     doUpdateUnitPartFrom()
@@ -396,24 +400,24 @@ class SettingsViewModel : Component(), ScopedInstance {
     private fun doUpdateUnitFrom(v: Int, check: Boolean = true): Observable<Unit> {
         if (check && usunitfrom == v) return Observable.just(Unit)
         usunitfrom = v
-        return userSettingService.update(INFO_USUNITFROM, usunitfrom)
+        return userSettingService.update(INFO_USUNITFROM, usunitfrom).applyIO()
     }
 
     private fun doUpdatePartFrom(v: Int, check: Boolean = true): Observable<Unit> {
         if (check && uspartfrom == v) return Observable.just(Unit)
         uspartfrom = v
-        return userSettingService.update(INFO_USPARTFROM, uspartfrom)
+        return userSettingService.update(INFO_USPARTFROM, uspartfrom).applyIO()
     }
 
     private fun doUpdateUnitTo(v: Int, check: Boolean = true): Observable<Unit> {
         if (check && usunitto == v) return Observable.just(Unit)
         usunitto = v
-        return userSettingService.update(INFO_USUNITTO, usunitto)
+        return userSettingService.update(INFO_USUNITTO, usunitto).applyIO()
     }
 
     private fun doUpdatePartTo(v: Int, check: Boolean = true): Observable<Unit> {
         if (check && uspartto == v) return Observable.just(Unit)
         uspartto = v
-        return userSettingService.update(INFO_USPARTTO, uspartto)
+        return userSettingService.update(INFO_USPARTTO, uspartto).applyIO()
     }
 }

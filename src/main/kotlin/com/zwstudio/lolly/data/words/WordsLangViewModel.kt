@@ -7,7 +7,6 @@ import com.zwstudio.lolly.data.misc.applyIO
 import com.zwstudio.lolly.domain.wpp.MLangWord
 import com.zwstudio.lolly.service.wpp.LangWordService
 import io.reactivex.rxjava3.core.Observable
-import javafx.application.Platform
 import javafx.beans.property.SimpleStringProperty
 import tornadofx.asObservable
 
@@ -32,16 +31,13 @@ class WordsLangViewModel : BaseViewModel() {
         lstWords.setAll(if (textFilter.value.isEmpty()) lstWordsAll else lstWordsAll.filter {
             textFilter.value.isEmpty() || (if (scopeFilter.value == "Word") it.word else it.note ?: "").contains(textFilter.value, true)
         })
-        Platform.runLater {
-            statusText.value = "${lstWords.size} Words in ${vmSettings.langInfo}"
-        }
+        statusText.value = "${lstWords.size} Words in ${vmSettings.langInfo}"
     }
 
     fun reload() {
         langWordService.getDataByLang(vmSettings.selectedLang.id)
-            .map { lstWordsAll = it.toMutableList(); applyFilters() }
             .applyIO()
-            .subscribe()
+            .subscribe { lstWordsAll = it.toMutableList(); applyFilters() }
     }
 
     fun update(o: MLangWord): Observable<Unit> =
