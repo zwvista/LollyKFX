@@ -169,10 +169,11 @@ class WordsUnitView : WordsBaseView("Words in Unit") {
                 label(vm.statusText)
             }
             splitpane(Orientation.VERTICAL) {
+                setDividerPosition(0, 0.2)
                 tableview(vm.lstPhrases) {
                     readonlyColumn("ID", MLangPhrase::id)
-                    column("PHRASE", MLangPhrase::phraseProperty).makeEditable()
-                    column("TRANSLATION", MLangPhrase::translationProperty).makeEditable()
+                    column("PHRASE", MLangPhrase::phraseProperty)
+                    column("TRANSLATION", MLangPhrase::translationProperty)
                 }
                 dictsPane = tabpane {
                     vgrow = Priority.ALWAYS

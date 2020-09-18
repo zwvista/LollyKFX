@@ -4,8 +4,10 @@ import com.zwstudio.lolly.data.misc.BaseViewModel
 import com.zwstudio.lolly.data.misc.NoteViewModel
 import com.zwstudio.lolly.data.misc.SettingsViewModel
 import com.zwstudio.lolly.data.misc.applyIO
+import com.zwstudio.lolly.domain.wpp.MLangPhrase
 import com.zwstudio.lolly.domain.wpp.MLangWord
 import com.zwstudio.lolly.service.wpp.LangWordService
+import com.zwstudio.lolly.service.wpp.WordPhraseService
 import io.reactivex.rxjava3.core.Observable
 import javafx.beans.property.SimpleStringProperty
 import tornadofx.asObservable
@@ -16,6 +18,8 @@ class WordsLangViewModel : BaseViewModel() {
     val lstWords = mutableListOf<MLangWord>().asObservable()
     val vmNote: NoteViewModel by inject()
     val langWordService: LangWordService by inject()
+    val lstPhrases = mutableListOf<MLangPhrase>().asObservable()
+    val wordPhraseService: WordPhraseService by inject()
 
     val newWord = SimpleStringProperty()
     val scopeFilter = SimpleStringProperty(SettingsViewModel.lstScopeWordFilters[0])
@@ -62,5 +66,15 @@ class WordsLangViewModel : BaseViewModel() {
             item.note = it
             langWordService.updateNote(item.id, it)
         }
+    }
+
+    fun searchPhrases(wordid: Int?) {
+        if (wordid == null)
+            lstPhrases.clear()
+        else
+            wordPhraseService.getPhrasesByWordId(wordid)
+                .map { lstPhrases.setAll(it) }
+                .applyIO()
+                .subscribe()
     }
 }

@@ -5,6 +5,7 @@ import com.zwstudio.lolly.data.misc.copyText
 import com.zwstudio.lolly.data.misc.googleString
 import com.zwstudio.lolly.data.words.WordsUnitDetailViewModel
 import com.zwstudio.lolly.data.words.WordsUnitViewModel
+import com.zwstudio.lolly.domain.wpp.MLangPhrase
 import com.zwstudio.lolly.domain.wpp.MUnitWord
 import javafx.geometry.Orientation
 import javafx.scene.layout.Priority
@@ -49,6 +50,7 @@ class WordsTextbookView : WordsBaseView("Words in Textbook") {
                     }
                     onSelectionChange {
                         onWordChanged(it?.word)
+                        vm.searchPhrases(it?.wordid)
                     }
                     onDoubleClick {
                         // https://github.com/edvin/tornadofx/issues/226
@@ -70,6 +72,12 @@ class WordsTextbookView : WordsBaseView("Words in Textbook") {
                 label(vm.statusText)
             }
             splitpane(Orientation.VERTICAL) {
+                setDividerPosition(0, 0.2)
+                tableview(vm.lstPhrases) {
+                    readonlyColumn("ID", MLangPhrase::id)
+                    column("PHRASE", MLangPhrase::phraseProperty)
+                    column("TRANSLATION", MLangPhrase::translationProperty)
+                }
                 dictsPane = tabpane {
                     vgrow = Priority.ALWAYS
                 }

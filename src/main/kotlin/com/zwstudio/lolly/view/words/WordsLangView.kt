@@ -5,6 +5,7 @@ import com.zwstudio.lolly.data.misc.copyText
 import com.zwstudio.lolly.data.misc.googleString
 import com.zwstudio.lolly.data.words.WordsLangDetailViewModel
 import com.zwstudio.lolly.data.words.WordsLangViewModel
+import com.zwstudio.lolly.domain.wpp.MLangPhrase
 import com.zwstudio.lolly.domain.wpp.MLangWord
 import javafx.geometry.Orientation
 import javafx.scene.control.TableView
@@ -81,6 +82,12 @@ class WordsLangView : WordsBaseView("Words in Language") {
                 label(vm.statusText)
             }
             splitpane(Orientation.VERTICAL) {
+                setDividerPosition(0, 0.2)
+                tableview(vm.lstPhrases) {
+                    readonlyColumn("ID", MLangPhrase::id)
+                    column("PHRASE", MLangPhrase::phraseProperty)
+                    column("TRANSLATION", MLangPhrase::translationProperty)
+                }
                 dictsPane = tabpane {
                     vgrow = Priority.ALWAYS
                 }
