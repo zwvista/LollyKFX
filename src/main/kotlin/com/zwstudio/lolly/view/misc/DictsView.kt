@@ -3,6 +3,7 @@ package com.zwstudio.lolly.view.misc
 import com.zwstudio.lolly.data.misc.DictsViewModel
 import com.zwstudio.lolly.domain.misc.MDictionary
 import com.zwstudio.lolly.view.ILollySettings
+import javafx.scene.layout.Priority
 import tornadofx.*
 
 class DictsView : Fragment("Dictionaries"), ILollySettings {
@@ -11,6 +12,7 @@ class DictsView : Fragment("Dictionaries"), ILollySettings {
     override val root = vbox {
         tag = this@DictsView
         tableview(vm.lstItems) {
+            vgrow = Priority.ALWAYS
             readonlyColumn("ID", MDictionary::id)
             readonlyColumn("LANGNAMETO", MDictionary::langnameto)
             readonlyColumn("SEQNUM", MDictionary::seqnum)
@@ -24,6 +26,7 @@ class DictsView : Fragment("Dictionaries"), ILollySettings {
             readonlyColumn("TEMPLATE", MDictionary::template)
             readonlyColumn("TEMPLATE2", MDictionary::template2)
         }
+        label(vm.statusText)
     }
 
     init {
