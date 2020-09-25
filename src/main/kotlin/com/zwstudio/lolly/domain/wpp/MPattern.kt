@@ -28,4 +28,10 @@ class MPattern: Serializable {
     @SerializedName("TAGS")
     @Expose
     var tags: String? = null
+    @SerializedName("IDS_MERGE")
+    @Expose
+    var idsMerge = ""
+    @SerializedName("PATTERNS_SPLIT")
+    @Expose
+    var patternsSplit = ""
 }

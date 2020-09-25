@@ -1,14 +1,19 @@
 package com.zwstudio.lolly.view.patterns
 
-import tornadofx.Fragment
-import tornadofx.button
-import tornadofx.tag
-import tornadofx.vbox
+import com.zwstudio.lolly.data.patterns.PatternsViewModel
+import tornadofx.*
 
 class PatternsView : Fragment("Patterns in Language") {
+    var vm = PatternsViewModel()
+
     override val root = vbox {
         tag = this@PatternsView
-        button("Button 1")
-        button("Button 2")
+        toolbar {
+            button("Add Pattern")
+            button("Add Web Page")
+            button("Refresh").action {
+                vm.reload()
+            }
+        }
     }
 }
