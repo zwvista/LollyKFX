@@ -6,7 +6,10 @@ import com.zwstudio.lolly.data.misc.applyIO
 import com.zwstudio.lolly.domain.wpp.MPattern
 import com.zwstudio.lolly.domain.wpp.MPatternPhrase
 import com.zwstudio.lolly.domain.wpp.MPatternWebPage
+import com.zwstudio.lolly.service.wpp.PatternPhraseService
 import com.zwstudio.lolly.service.wpp.PatternService
+import com.zwstudio.lolly.service.wpp.PatternWebPageService
+import com.zwstudio.lolly.service.wpp.WebPageService
 import io.reactivex.rxjava3.core.Observable
 import javafx.beans.property.SimpleStringProperty
 import tornadofx.*
@@ -15,10 +18,13 @@ class PatternsViewModel : BaseViewModel() {
 
     var lstPatternsAll = mutableListOf<MPattern>()
     val lstPatterns = mutableListOf<MPattern>().asObservable()
-    var lstWebPages = mutableListOf<MPatternWebPage>()
-    var lstPhrases = mutableListOf<MPatternPhrase>()
+    var lstWebPages = mutableListOf<MPatternWebPage>().asObservable()
+    var lstPhrases = mutableListOf<MPatternPhrase>().asObservable()
 
     val patternService: PatternService by inject()
+    val patternWebPageService: PatternWebPageService by inject()
+    val webPageService: WebPageService by inject()
+    val patternPhraseService: PatternPhraseService by inject()
 
     val scopeFilter = SimpleStringProperty(SettingsViewModel.lstScopePatternFilters[0])
     val textFilter = SimpleStringProperty("")
