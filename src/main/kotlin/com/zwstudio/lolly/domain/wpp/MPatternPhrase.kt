@@ -32,6 +32,9 @@ class MPatternPhrase: Serializable {
     @SerializedName("SEQNUM")
     @Expose
     var seqnum = 0
+    @SerializedName("PHRASEID")
+    @Expose
+    var phraseid = 0
     @SerializedName("PHRASE")
     @Expose
     val phraseProperty = SimpleStringProperty("")

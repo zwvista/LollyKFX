@@ -58,4 +58,8 @@ class PatternsViewModel : BaseViewModel() {
     fun newPattern() = MPattern().apply {
         langid = vmSettings.selectedLang.id
     }
+
+    fun getWebPages(patternid: Int) {
+
+    }
 }
