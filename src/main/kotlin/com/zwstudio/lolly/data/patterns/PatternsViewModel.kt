@@ -65,7 +65,7 @@ class PatternsViewModel : BaseViewModel() {
     fun getWebPages(patternid: Int) =
         patternWebPageService.getDataByPattern(patternid)
             .applyIO()
-            .subscribe { lstWebPages.setAll(it) }
+            .doAfterNext { lstWebPages.setAll(it) }
 
     fun updatePatternWebPage(item: MPatternWebPage) =
         patternWebPageService.update(item)
@@ -97,5 +97,5 @@ class PatternsViewModel : BaseViewModel() {
     fun searchPhrases(patternid: Int) =
         patternPhraseService.getDataByPatternId(patternid)
             .applyIO()
-            .subscribe { lstPhrases.setAll(it) }
+            .doAfterNext { lstPhrases.setAll(it) }
 }

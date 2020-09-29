@@ -8,7 +8,7 @@ import tornadofx.*
 
 class WebPageSelectView : Fragment("WebPage Select") {
     var tvWebPage: TableView<MWebPage> by singleAssign()
-    val vm : WebPageSelectViewModel by param()
+    val vm = WebPageSelectViewModel()
     var result = false
 
     override val root = vbox(10.0) {

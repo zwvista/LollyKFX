@@ -1,7 +1,6 @@
 package com.zwstudio.lolly.view.patterns
 
 import com.zwstudio.lolly.data.patterns.PatternsWebPageViewModel
-import com.zwstudio.lolly.data.patterns.WebPageSelectViewModel
 import tornadofx.*
 
 class PatternsWebPagelView : Fragment("Pattern WebPage Detail") {
@@ -43,7 +42,7 @@ class PatternsWebPagelView : Fragment("Pattern WebPage Detail") {
                     prefWidth = 80.0
                     isDisable = (vmDetail.id.value != 0)
                     action {
-                        val modal = find<WebPageSelectView>("vmDetail" to WebPageSelectViewModel()) { openModal(block = true) }
+                        val modal = find<WebPageSelectView> { openModal(block = true) }
                         if (modal.result) {
                             val o = modal.vm.selectedWebPage.value
                             vmDetail.webpageid.value = o.id
