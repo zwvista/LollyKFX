@@ -21,10 +21,10 @@ class PatternsViewModel : BaseViewModel() {
     var lstWebPages = mutableListOf<MPatternWebPage>().asObservable()
     var lstPhrases = mutableListOf<MPatternPhrase>().asObservable()
 
-    val patternService: PatternService by inject()
-    val patternWebPageService: PatternWebPageService by inject()
-    val webPageService: WebPageService by inject()
-    val patternPhraseService: PatternPhraseService by inject()
+    private val patternService: PatternService by inject()
+    private val patternWebPageService: PatternWebPageService by inject()
+    private val webPageService: WebPageService by inject()
+    private val patternPhraseService: PatternPhraseService by inject()
 
     val scopeFilter = SimpleStringProperty(SettingsViewModel.lstScopePatternFilters[0])
     val textFilter = SimpleStringProperty("")

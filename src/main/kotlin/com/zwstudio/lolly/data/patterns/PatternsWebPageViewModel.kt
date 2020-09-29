@@ -17,13 +17,14 @@ class PatternsWebPageViewModel(val vm: PatternsViewModel, item: MPatternWebPage)
 
     override fun onCommit() {
         super.onCommit()
-        if (item.webpageid == 0)
-            vm.createWebPage(item).subscribe()
+        (if (item.webpageid == 0)
+            vm.createWebPage(item)
         else
-            vm.updateWebPage(item).subscribe()
-        if (item.id == 0)
-            vm.createPatternWebPage(item).subscribe()
-        else
-            vm.updatePatternWebPage(item).subscribe()
+            vm.updateWebPage(item)).flatMap {
+            (if (item.id == 0)
+                vm.createPatternWebPage(item)
+            else
+                vm.updatePatternWebPage(item))
+        }.subscribe()
     }
 }
