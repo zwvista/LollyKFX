@@ -6,9 +6,9 @@ import com.zwstudio.lolly.service.misc.BaseService
 import io.reactivex.rxjava3.core.Observable
 
 class PatternWebPageService: BaseService() {
-    fun getDataByPattern(langid: Int): Observable<List<MPatternWebPage>> =
+    fun getDataByPattern(patternid: Int): Observable<List<MPatternWebPage>> =
         retrofitJson.create(RestPatternWebPage::class.java)
-            .getDataByPattern("LANGID,eq,$langid")
+            .getDataByPattern("PATTERNID,eq,$patternid")
             .map { it.lst!! }
 
     fun getDataById(id: Int): Observable<List<MPatternWebPage>> =

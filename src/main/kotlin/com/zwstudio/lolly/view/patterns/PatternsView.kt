@@ -1,17 +1,21 @@
 package com.zwstudio.lolly.view.patterns
 
 import com.zwstudio.lolly.data.misc.SettingsViewModel
+import com.zwstudio.lolly.data.patterns.PatternsDetailViewModel
 import com.zwstudio.lolly.data.patterns.PatternsViewModel
+import com.zwstudio.lolly.data.patterns.PatternsWebPageViewModel
 import com.zwstudio.lolly.domain.wpp.MPattern
 import com.zwstudio.lolly.domain.wpp.MPatternPhrase
 import com.zwstudio.lolly.domain.wpp.MPatternWebPage
 import com.zwstudio.lolly.view.ILollySettings
 import javafx.geometry.Orientation
 import javafx.scene.layout.Priority
+import javafx.scene.web.WebView
 import tornadofx.*
 
 class PatternsView : Fragment("Patterns in Language"), ILollySettings {
     var vm = PatternsViewModel()
+    var wvWebPage: WebView by singleAssign()
 
     override val root = vbox {
         tag = this@PatternsView
@@ -35,6 +39,17 @@ class PatternsView : Fragment("Patterns in Language"), ILollySettings {
                     column("PATTERN", MPattern::pattern)
                     column("NOTE", MPattern::noteProperty)
                     column("TAGS", MPattern::tagsProperty)
+                    onSelectionChange {
+                        it?.id?.let {
+                            vm.getWebPages(it)
+                            vm.searchPhrases(it)
+                        }
+                    }
+                    onDoubleClick {
+                        val modal = find<PatternsDetailView>("vmDetail" to PatternsDetailViewModel(vm, selectionModel.selectedItem)) { openModal(block = true) }
+                        if (modal.result)
+                            this.refresh()
+                    }
                 }
 //                label(vm.statusText)
                 tableview(vm.lstWebPages) {
@@ -43,6 +58,16 @@ class PatternsView : Fragment("Patterns in Language"), ILollySettings {
                     column("TITLE", MPatternWebPage::title)
                     column("URL", MPatternWebPage::url)
                     column("WEBPAGEID", MPatternWebPage::webpageid)
+                    onSelectionChange {
+                        it?.url?.let {
+                            wvWebPage.engine.load(it)
+                        }
+                    }
+                    onDoubleClick {
+                        val modal = find<PatternsWebPagelView>("vmDetail" to PatternsWebPageViewModel(vm, selectionModel.selectedItem)) { openModal(block = true) }
+                        if (modal.result)
+                            this.refresh()
+                    }
                 }
             }
             splitpane(Orientation.VERTICAL) {
@@ -53,7 +78,7 @@ class PatternsView : Fragment("Patterns in Language"), ILollySettings {
                     column("PHRASE", MPatternPhrase::phrase)
                     column("TRANSLATION", MPatternPhrase::translation)
                 }
-                webview {
+                wvWebPage = webview {
 
                 }
             }

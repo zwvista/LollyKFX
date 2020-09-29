@@ -52,20 +52,50 @@ class PatternsViewModel : BaseViewModel() {
     fun update(item: MPattern): Observable<Unit> =
         patternService.update(item)
             .applyIO()
-
     fun create(item: MPattern): Observable<Int> =
         patternService.create(item)
             .applyIO()
-
     fun delete(id: Int): Observable<Unit> =
         patternService.delete(id)
             .applyIO()
-
     fun newPattern() = MPattern().apply {
         langid = vmSettings.selectedLang.id
     }
 
-    fun getWebPages(patternid: Int) {
+    fun getWebPages(patternid: Int) =
+        patternWebPageService.getDataByPattern(patternid)
+            .applyIO()
+            .subscribe { lstWebPages.setAll(it) }
 
+    fun updatePatternWebPage(item: MPatternWebPage) =
+        patternWebPageService.update(item)
+    fun createPatternWebPage(item: MPatternWebPage) =
+        patternWebPageService.create(item)
+            .applyIO()
+            .doAfterNext {
+                item.id = it
+                lstWebPages.add(item)
+            }
+    fun deletePatternWebPage(id: Int) =
+        patternWebPageService.delete(id)
+
+    fun updateWebPage(item: MPatternWebPage) =
+        webPageService.update(item)
+    fun createWebPage(item: MPatternWebPage) =
+        webPageService.create(item)
+            .applyIO()
+            .doAfterNext { item.id = it }
+    fun deleteWebPage(id: Int) =
+        webPageService.delete(id)
+
+    fun newPatternWebPage(patternid: Int, pattern: String) = MPatternWebPage().apply {
+        this.patternid = patternid
+        this.pattern = pattern
+        seqnum = (lstWebPages.maxOfOrNull { it.seqnum } ?: 0) + 1
     }
+
+    fun searchPhrases(patternid: Int) =
+        patternPhraseService.getDataByPatternId(patternid)
+            .applyIO()
+            .subscribe { lstPhrases.setAll(it) }
 }
