@@ -101,11 +101,13 @@ class WordsReviewView : Fragment("Words Review"), ILollySettings {
             }
             row {
                 hbox {
+                    button("Search") {
+                        enableWhen(vm.searchIsEnabled)
+                    }
                     region {
                         hgrow = Priority.ALWAYS
                     }
                     button(vm.checkString).action {
-                        alignment = Pos.CENTER_RIGHT
                         vm.check()
                     }
                 }
