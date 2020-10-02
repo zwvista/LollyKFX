@@ -50,7 +50,7 @@ class PhrasesReviewViewModel : BaseViewModel() {
         subscriptionTimer?.dispose()
         if (options.mode == ReviewMode.Textbook)
             unitPhraseService.getDataByTextbook(vmSettings.selectedTextbook).applyIO().subscribe {
-                val cnt = min(50, it.size)
+                val cnt = min(options.reviewCount, it.size)
                 lstPhrases = it.shuffled().subList(0, cnt)
                 f()
             }

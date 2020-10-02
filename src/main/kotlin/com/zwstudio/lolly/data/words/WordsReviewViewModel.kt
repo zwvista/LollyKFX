@@ -68,7 +68,7 @@ class WordsReviewViewModel : BaseViewModel() {
                         lst2.add(o)
                 }
                 val lst3 = mutableListOf<MUnitWord>()
-                val cnt = min(50, it.size)
+                val cnt = min(options.reviewCount, it.size)
                 while (lst3.size < cnt) {
                     val o = lst2.random()
                     if (!lst3.contains(o))
@@ -151,7 +151,7 @@ class WordsReviewViewModel : BaseViewModel() {
         noteTargetString.value = currentItem?.note ?: ""
         wordTargetIsVisible.value = !isTestMode
         noteTargetIsVisible.value = !isTestMode
-        wordHintString.value = currentItem?.word?.length.toString() ?: ""
+        wordHintString.value = currentItem?.word?.length?.toString() ?: ""
         wordHintIsVisible.value = isTestMode
         translationString.value = ""
         wordInputString.value = ""
@@ -161,7 +161,7 @@ class WordsReviewViewModel : BaseViewModel() {
             getTranslation().subscribe {
                 translationString.value = it
                 if (it.isEmpty() && !options.speakingEnabled)
-                    wordTargetString.value = currentWord
+                    wordInputString.value = currentWord
             }
         } else if (options.mode == ReviewMode.ReviewAuto)
             subscriptionTimer?.dispose()

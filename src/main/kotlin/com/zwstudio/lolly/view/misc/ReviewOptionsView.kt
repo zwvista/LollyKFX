@@ -36,6 +36,10 @@ class ReviewOptionsView : Fragment("Review Options") {
                 spinner(1, 10, property = vm.groupCount)
             }
         }
+        row {
+            label("Review Count:")
+            spinner(10, 100, property = vm.reviewCount)
+        }
         vbox(10.0) {
             gridpaneConstraints {
                 columnRowIndex(3, 0)
