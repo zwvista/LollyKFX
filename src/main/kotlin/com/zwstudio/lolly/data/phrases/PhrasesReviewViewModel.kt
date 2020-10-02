@@ -50,14 +50,8 @@ class PhrasesReviewViewModel : BaseViewModel() {
         subscriptionTimer?.dispose()
         if (options.mode == ReviewMode.Textbook)
             unitPhraseService.getDataByTextbook(vmSettings.selectedTextbook).applyIO().subscribe {
-                val lst3 = mutableListOf<MUnitPhrase>()
                 val cnt = min(50, it.size)
-                while (lst3.size < cnt) {
-                    val o = it.random()
-                    if (lst3.contains(o))
-                        lst3.add(o)
-                }
-                lstPhrases = lst3.toList()
+                lstPhrases = it.shuffled().subList(0, cnt)
                 f()
             }
         else
@@ -67,10 +61,7 @@ class PhrasesReviewViewModel : BaseViewModel() {
                 val nTo = count * options.groupSelected / options.groupCount
                 lstPhrases = lstPhrases.subList(nFrom, nTo)
                 if (options.shuffled) lstPhrases = lstPhrases.shuffled()
-                lstCorrectIDs = mutableListOf()
-                index = 0
-                doTest()
-                checkString.value = if (isTestMode) "Check" else "Next"
+                f()
                 if (options.mode == ReviewMode.ReviewAuto)
                     subscriptionTimer = Observable.interval(options.interval.toLong(), TimeUnit.SECONDS).applyIO().subscribe { check() }
             }
