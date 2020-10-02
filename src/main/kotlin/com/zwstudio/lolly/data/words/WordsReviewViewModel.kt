@@ -151,7 +151,7 @@ class WordsReviewViewModel : BaseViewModel() {
         noteTargetString.value = currentItem?.note ?: ""
         wordTargetIsVisible.value = !isTestMode
         noteTargetIsVisible.value = !isTestMode
-        wordHintString.value = currentWord.length.toString()
+        wordHintString.value = currentItem?.word?.length.toString() ?: ""
         wordHintIsVisible.value = isTestMode
         translationString.value = ""
         wordInputString.value = ""
