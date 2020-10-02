@@ -83,6 +83,9 @@ class WordsReviewView : Fragment("Words Review"), ILollySettings {
                                 fontSize = 18.px
                             }
                         }
+                        label(vm.wordHintString) {
+                            visibleWhen(vm.wordHintIsVisible)
+                        }
                     }
                 }
             }

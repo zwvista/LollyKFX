@@ -42,8 +42,10 @@ class WordsReviewViewModel : BaseViewModel() {
     val checkEnabled = SimpleBooleanProperty()
     val wordTargetString = SimpleStringProperty("")
     val noteTargetString = SimpleStringProperty("")
+    val wordHintString = SimpleStringProperty("")
     val wordTargetIsVisible = SimpleBooleanProperty(true)
     val noteTargetIsVisible = SimpleBooleanProperty(true)
+    val wordHintIsVisible = SimpleBooleanProperty(true)
     val translationString = SimpleStringProperty("")
     val wordInputString = SimpleStringProperty("")
     val checkString = SimpleStringProperty("Check")
@@ -69,7 +71,7 @@ class WordsReviewViewModel : BaseViewModel() {
                 val cnt = min(50, it.size)
                 while (lst3.size < cnt) {
                     val o = lst2.random()
-                    if (lst3.contains(o))
+                    if (!lst3.contains(o))
                         lst3.add(o)
                 }
                 lstWords = lst3.toList()
@@ -123,6 +125,7 @@ class WordsReviewViewModel : BaseViewModel() {
                 correctIsVisible.value = true
             else
                 incorrectIsVisible.value = true
+            wordHintIsVisible.value = false
             checkString.value = "Next"
             if (!hasNext) return
             val o = currentItem!!
@@ -148,12 +151,18 @@ class WordsReviewViewModel : BaseViewModel() {
         noteTargetString.value = currentItem?.note ?: ""
         wordTargetIsVisible.value = !isTestMode
         noteTargetIsVisible.value = !isTestMode
+        wordHintString.value = currentWord.length.toString()
+        wordHintIsVisible.value = isTestMode
         translationString.value = ""
         wordInputString.value = ""
         if (hasNext) {
             indexString.value = "${index + 1}/$count"
             accuracyString.value = currentItem!!.accuracy
-            getTranslation().subscribe { translationString.value = it }
+            getTranslation().subscribe {
+                translationString.value = it
+                if (it.isEmpty() && !options.speakingEnabled)
+                    wordTargetString.value = currentWord
+            }
         } else if (options.mode == ReviewMode.ReviewAuto)
             subscriptionTimer?.dispose()
     }

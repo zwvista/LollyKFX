@@ -3,7 +3,7 @@ package com.zwstudio.lolly.data.misc
 import com.zwstudio.lolly.domain.misc.MReviewOptions
 import com.zwstudio.lolly.domain.misc.ReviewMode
 import javafx.beans.property.SimpleObjectProperty
-import tornadofx.ItemViewModel
+import tornadofx.*
 
 
 class ReviewOptionsViewModel(item: MReviewOptions) : ItemViewModel<MReviewOptions>(item) {
@@ -12,6 +12,7 @@ class ReviewOptionsViewModel(item: MReviewOptions) : ItemViewModel<MReviewOption
     val interval = bind(MReviewOptions::interval)
     val groupSelected = bind(MReviewOptions::groupSelected)
     val groupCount = bind(MReviewOptions::groupCount)
+    val speakingEnabled = bind(MReviewOptions::speakingEnabled)
 
     init {
         groupSelected.addListener { _, _, newValue ->

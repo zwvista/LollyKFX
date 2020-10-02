@@ -18,5 +18,5 @@ class MReviewOptions {
     var interval = 5
     var groupSelected = 1
     var groupCount = 1
-    var speakingEabled = true
+    var speakingEnabled = true
 }

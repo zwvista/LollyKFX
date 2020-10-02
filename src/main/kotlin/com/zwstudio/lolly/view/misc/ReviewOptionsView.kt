@@ -17,11 +17,9 @@ class ReviewOptionsView : Fragment("Review Options") {
             label("Mode:")
             choicebox(vm.modeItem, SettingsViewModel.lstReviewModes) {  }
         }
-        row {  }
-        checkbox("Shuffled", vm.shuffled) {
-            gridpaneConstraints {
-                columnRowIndex(1, 1)
-            }
+        row {
+            checkbox("Speaking Enabled", vm.speakingEnabled)
+            checkbox("Shuffled", vm.shuffled)
         }
         row {
             label("Interval:")
