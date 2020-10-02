@@ -13,6 +13,7 @@ import io.reactivex.rxjava3.disposables.Disposable
 import javafx.beans.property.SimpleBooleanProperty
 import javafx.beans.property.SimpleStringProperty
 import java.util.concurrent.TimeUnit
+import kotlin.math.min
 
 class WordsReviewViewModel : BaseViewModel() {
 
@@ -28,7 +29,7 @@ class WordsReviewViewModel : BaseViewModel() {
     val currentItem get() = if (hasNext) lstWords[index] else null
     val currentWord get() = if (hasNext) lstWords[index].word else ""
     val options = MReviewOptions()
-    val isTestMode get() = options.mode == ReviewMode.Test
+    val isTestMode get() = options.mode == ReviewMode.Test || options.mode == ReviewMode.Textbook
     var subscriptionTimer: Disposable? = null
 
     val isSpeaking = SimpleBooleanProperty(true)
@@ -48,22 +49,43 @@ class WordsReviewViewModel : BaseViewModel() {
     val checkString = SimpleStringProperty("Check")
 
     fun newTest() {
-        subscriptionTimer?.dispose()
-        unitWordService.getDataByTextbookUnitPart(vmSettings.selectedTextbook, vmSettings.usunitpartfrom, vmSettings.usunitpartto).applyIO().subscribe {
-            lstWords = it
-            val nFrom = count * (options.groupSelected - 1) / options.groupCount
-            val nTo = count * options.groupSelected / options.groupCount
-            lstWords = lstWords.subList(nFrom, nTo)
-            if (options.shuffled) lstWords = lstWords.shuffled()
+        fun f() {
             lstCorrectIDs = mutableListOf()
             index = 0
             doTest()
             checkString.value = if (isTestMode) "Check" else "Next"
-            if (options.mode == ReviewMode.ReviewAuto)
-                subscriptionTimer = Observable.interval(options.interval.toLong(), TimeUnit.SECONDS).applyIO().subscribe { check() }
-            else
-                subscriptionTimer?.dispose()
         }
+        subscriptionTimer?.dispose()
+        if (options.mode == ReviewMode.Textbook)
+            unitWordService.getDataByTextbook(vmSettings.selectedTextbook).applyIO().subscribe {
+                val lst2 = mutableListOf<MUnitWord>()
+                for (o in it) {
+                    val s = o.accuracy
+                    val t = min(6, 11 - (if (!s.endsWith("%")) 0 else s.trimEnd('%').toDouble() / 10).toInt())
+                    for (i in 0 until t)
+                        lst2.add(o)
+                }
+                val lst3 = mutableListOf<MUnitWord>()
+                val cnt = min(50, it.size)
+                while (lst3.size < cnt) {
+                    val o = lst2.random()
+                    if (lst3.contains(o))
+                        lst3.add(o)
+                }
+                lstWords = lst3.toList()
+                f()
+            }
+        else
+            unitWordService.getDataByTextbookUnitPart(vmSettings.selectedTextbook, vmSettings.usunitpartfrom, vmSettings.usunitpartto).applyIO().subscribe {
+                lstWords = it
+                val nFrom = count * (options.groupSelected - 1) / options.groupCount
+                val nTo = count * options.groupSelected / options.groupCount
+                lstWords = lstWords.subList(nFrom, nTo)
+                if (options.shuffled) lstWords = lstWords.shuffled()
+                f()
+                if (options.mode == ReviewMode.ReviewAuto)
+                    subscriptionTimer = Observable.interval(options.interval.toLong(), TimeUnit.SECONDS).applyIO().subscribe { check() }
+            }
     }
 
     fun next() {

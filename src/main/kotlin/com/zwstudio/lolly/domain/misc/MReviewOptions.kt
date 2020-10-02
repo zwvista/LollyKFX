@@ -1,12 +1,13 @@
 package com.zwstudio.lolly.domain.misc
 
 enum class ReviewMode {
-    ReviewAuto, Test, ReviewManual;
+    ReviewAuto, ReviewManual, Test, Textbook;
 
     override fun toString() = when(this) {
         ReviewAuto -> "Review(Auto)"
-        Test -> "Test"
         ReviewManual -> "Review(Manual)"
+        Test -> "Test"
+        Textbook -> "Textbook"
     }
 }
 
@@ -17,4 +18,5 @@ class MReviewOptions {
     var interval = 5
     var groupSelected = 1
     var groupCount = 1
+    var speakingEabled = true
 }
