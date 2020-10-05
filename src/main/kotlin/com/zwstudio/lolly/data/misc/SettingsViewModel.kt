@@ -457,4 +457,17 @@ class SettingsViewModel : Component(), ScopedInstance {
         }
         compositeDisposable.add(subscription)
     }
+
+    fun clearNotes(wordCount: Int, isNoteEmpty: (Int) -> Boolean, getOne: (Int) -> Observable<Unit>): Observable<Unit> {
+        var i = 0
+        var o = Observable.just(Unit)
+        while (i < wordCount) {
+            while (i < wordCount && !isNoteEmpty(i))
+                i++
+            if (i < wordCount)
+                o = o.concatWith(getOne(i))
+            i++
+        }
+        return o
+    }
 }
