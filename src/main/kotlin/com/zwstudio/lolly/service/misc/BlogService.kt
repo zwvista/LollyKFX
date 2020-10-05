@@ -1,6 +1,6 @@
 package com.zwstudio.lolly.service.misc
 
-import com.zwstudio.lolly.data.misc.NoteViewModel
+import com.zwstudio.lolly.data.misc.SettingsViewModel
 
 class BlogService: BaseService() {
     private fun html1With(s: String) =
@@ -108,7 +108,7 @@ class BlogService: BaseService() {
     fun getPatternUrl(patternNo: String) = "http://viethuong.web.fc2.com/MONDAI/$patternNo.html"
     fun getPatternMarkDown(patternText: String) = "* [$patternText　文法](https://www.google.com/search?q=$patternText　文法)\n* [$patternText　句型](https://www.google.com/search?q=$patternText　句型)"
     private val bigDigits = "０１２３４５６７８９"
-    fun addNotes(vmNote: NoteViewModel, text: String) {
+    fun addNotes(vmSettings: SettingsViewModel, text: String) {
         fun f(s: String): String {
             var s = s
             for (i in 0 until 10)
@@ -116,7 +116,7 @@ class BlogService: BaseService() {
             return s
         }
         val items = text.split("\r\n").toMutableList()
-        return vmNote.getNotes(items.size, {
+        return vmSettings.getNotes(items.size, {
             val m = regMarkedEntry.find(items[it]) ?: return@getNotes false
             val word = m.groupValues[2]
             return@getNotes word.all { it != '（' && !bigDigits.contains(it) }
@@ -126,7 +126,7 @@ class BlogService: BaseService() {
             val word = m.groupValues[2]
             val s3 = m.groupValues[3]
             val s4 = m.groupValues[4]
-            vmNote.getNote(word).subscribe { note ->
+            vmSettings.getNote(word).subscribe { note ->
                 val j = note.indexOfFirst { it.isDigit() }
                 val s21 = if (j == -1) note else note.substring(0, j)
                 val s22 = if (j == -1) "" else f(note.substring(j))

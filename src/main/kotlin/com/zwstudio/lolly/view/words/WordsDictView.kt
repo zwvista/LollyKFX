@@ -4,7 +4,6 @@ import com.zwstudio.lolly.data.misc.DictWebViewStatus
 import com.zwstudio.lolly.data.misc.SettingsViewModel
 import com.zwstudio.lolly.data.misc.openPage
 import com.zwstudio.lolly.domain.misc.MDictionary
-import com.zwstudio.lolly.service.misc.HtmlService
 import javafx.concurrent.Worker
 import javafx.scene.control.TextField
 import javafx.scene.layout.Priority
@@ -20,8 +19,6 @@ class WordsDictView : Fragment() {
 
     var wvDict: WebView by singleAssign()
     var tfURL: TextField by singleAssign()
-
-    val htmlService: HtmlService by inject()
 
     override val root = vbox {
         tag = this@WordsDictView
@@ -65,7 +62,7 @@ class WordsDictView : Fragment() {
         url = dict.urlString(word, vmSettings.lstAutoCorrect)
         if (dict.dicttypename == "OFFLINE") {
             wvDict.engine.load("about:blank")
-            htmlService.getHtml(url).subscribe {
+            vmSettings.getHtml(url).subscribe {
                 val str = dict.htmlString(it, word, false)
                 wvDict.engine.loadContent(str)
             }

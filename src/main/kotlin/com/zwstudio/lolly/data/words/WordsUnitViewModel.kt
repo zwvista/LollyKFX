@@ -1,7 +1,6 @@
 package com.zwstudio.lolly.data.words
 
 import com.zwstudio.lolly.data.misc.BaseViewModel
-import com.zwstudio.lolly.data.misc.NoteViewModel
 import com.zwstudio.lolly.data.misc.SettingsViewModel
 import com.zwstudio.lolly.data.misc.applyIO
 import com.zwstudio.lolly.domain.misc.MSelectItem
@@ -13,13 +12,12 @@ import io.reactivex.rxjava3.core.Observable
 import io.reactivex.rxjava3.disposables.CompositeDisposable
 import javafx.beans.property.SimpleObjectProperty
 import javafx.beans.property.SimpleStringProperty
-import tornadofx.asObservable
+import tornadofx.*
 
 class WordsUnitViewModel(val inTextbook: Boolean) : BaseViewModel() {
 
     var lstWordsAll = mutableListOf<MUnitWord>()
     val lstWords = mutableListOf<MUnitWord>().asObservable()
-    val vmNote: NoteViewModel by inject()
     val compositeDisposable = CompositeDisposable()
     val unitWordService: UnitWordService by inject()
     val lstPhrases = mutableListOf<MLangPhrase>().asObservable()
@@ -96,14 +94,14 @@ class WordsUnitViewModel(val inTextbook: Boolean) : BaseViewModel() {
 
     fun getNote(index: Int): Observable<Unit> {
         val item = lstWordsAll[index]
-        return vmNote.getNote(item.word).flatMap {
+        return vmSettings.getNote(item.word).flatMap {
             item.note = it
             unitWordService.updateNote(item.id, it)
         }
     }
 
     fun getNotes(ifEmpty: Boolean, oneComplete: (Int) -> Unit, allComplete: () -> Unit) {
-        vmNote.getNotes(lstWordsAll.size, isNoteEmpty = {
+        vmSettings.getNotes(lstWordsAll.size, isNoteEmpty = {
             !ifEmpty || lstWordsAll[it].note.isNullOrEmpty()
         }, getOne = { i ->
             compositeDisposable.add(getNote(i).subscribe { oneComplete(i) })

@@ -1,14 +1,27 @@
 package com.zwstudio.lolly.view.misc
 
-import tornadofx.Fragment
-import tornadofx.button
-import tornadofx.tag
-import tornadofx.vbox
+import com.zwstudio.lolly.data.patterns.PatternsViewModel
+import tornadofx.*
 
 class BlogView : Fragment("Blog") {
+    var vm = PatternsViewModel()
+
+
     override val root = vbox {
         tag = this@BlogView
-        button("Button 1")
-        button("Button 2")
+        toolbar {
+            button("HtmlToMarked")
+            button("Add B")
+            button("Add I")
+            button("Remove BI")
+            button("Exchange BI")
+            button("AddExplanation")
+            button("MarkedToHtml")
+            button("PatternToHtml")
+            textfield("HtmlToMarked")
+            button("PatternMarkDown")
+            textfield("HtmlToMarked")
+            button("AddNotesCommand")
+        }
     }
 }

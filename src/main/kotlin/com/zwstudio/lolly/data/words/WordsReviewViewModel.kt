@@ -6,7 +6,6 @@ import com.zwstudio.lolly.data.misc.extractTextFrom
 import com.zwstudio.lolly.domain.misc.MReviewOptions
 import com.zwstudio.lolly.domain.misc.ReviewMode
 import com.zwstudio.lolly.domain.wpp.MUnitWord
-import com.zwstudio.lolly.service.misc.HtmlService
 import com.zwstudio.lolly.service.wpp.UnitWordService
 import io.reactivex.rxjava3.core.Observable
 import io.reactivex.rxjava3.disposables.Disposable
@@ -19,7 +18,6 @@ class WordsReviewViewModel : BaseViewModel() {
 
     val unitWordService: UnitWordService by inject()
     val vmWordFami: WordsFamiViewModel by inject()
-    val htmlService: HtmlService by inject()
 
     var lstWords = listOf<MUnitWord>()
     val count get() = lstWords.size
@@ -103,7 +101,7 @@ class WordsReviewViewModel : BaseViewModel() {
         val mDictTranslation = vmSettings.selectedDictTranslation
         if (mDictTranslation == null) return Observable.empty()
         val url = mDictTranslation.urlString(currentWord, vmSettings.lstAutoCorrect)
-        return htmlService.getHtml(url)
+        return vmSettings.getHtml(url)
             .map { extractTextFrom(it, mDictTranslation.transform!!, "") { text, _ -> text } }
             .applyIO()
     }
