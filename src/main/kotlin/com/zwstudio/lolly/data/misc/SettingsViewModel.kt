@@ -282,7 +282,7 @@ class SettingsViewModel : Component(), ScopedInstance {
                     doUpdateUnitPartTo().subscribe()
         }
         usunitfromItem.addListener { _, oldValue, newValue ->
-            if (oldValue == null) return@addListener
+            if (oldValue == null || newValue == null) return@addListener
             usunitfrom = newValue.value
             doUpdateUnitFrom(usunitfrom, false).flatMap {
                 if (toType == UnitPartToType.Unit)
@@ -294,7 +294,7 @@ class SettingsViewModel : Component(), ScopedInstance {
             }.subscribe()
         }
         uspartfromItem.addListener { _, oldValue, newValue ->
-            if (oldValue == null) return@addListener
+            if (oldValue == null || newValue == null) return@addListener
             uspartfrom = newValue.value
             doUpdatePartFrom(uspartfrom, false).flatMap {
                 if (toType == UnitPartToType.Part || isInvalidUnitPart)
@@ -304,7 +304,7 @@ class SettingsViewModel : Component(), ScopedInstance {
             }.subscribe()
         }
         usunittoItem.addListener { _, oldValue, newValue ->
-            if (oldValue == null) return@addListener
+            if (oldValue == null || newValue == null) return@addListener
             usunitto = newValue.value
             doUpdateUnitTo(usunitto, false).flatMap {
                 if (isInvalidUnitPart)
@@ -314,7 +314,7 @@ class SettingsViewModel : Component(), ScopedInstance {
             }.subscribe()
         }
         usparttoItem.addListener { _, oldValue, newValue ->
-            if (oldValue == null) return@addListener
+            if (oldValue == null || newValue == null) return@addListener
             uspartto = newValue.value
             doUpdatePartTo(uspartto, false).flatMap {
                 if (isInvalidUnitPart)
