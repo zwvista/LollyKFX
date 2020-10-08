@@ -20,33 +20,35 @@ class BlogView : Fragment("Blog") {
     override val root = vbox {
         tag = this@BlogView
         toolbar {
-            button("HtmlToMarked")
+            button("HtmlToMarked").action {
+                vm.htmlToMarked()
+            }
             button("Add B").action {
                 replaceSelection(BlogViewModel::addTagB)
             }
-            button("Add I") {
+            button("Add I").action {
                 replaceSelection(BlogViewModel::addTagI)
             }
-            button("Remove BI") {
+            button("Remove BI").action {
                 replaceSelection(BlogViewModel::removeTagBI)
             }
-            button("Exchange BI") {
+            button("Exchange BI").action {
                 replaceSelection(BlogViewModel::exchangeTagBI)
             }
-            button("AddExplanation") {
+            button("AddExplanation").action {
                 val text = Clipboard.getSystemClipboard().getString()
                 taMarkedText.replaceSelection(vm.getExplanation(text))
             }
-            button("MarkedToHtml") {
+            button("MarkedToHtml").action {
                 val str = vm.markedToHtml()
                 wvBlog.engine.loadContent(str)
                 copyText(vm.htmlText.value)
             }
-            button("PatternToHtml") {
+            button("PatternToHtml").action {
                 wvBlog.engine.load(vm.patterUrl)
             }
             textfield(vm.patternNo)
-            button("PatternMarkDown") {
+            button("PatternMarkDown").action {
                 copyText(vm.patternMarkDown)
             }
             textfield(vm.patternText)
@@ -57,10 +59,10 @@ class BlogView : Fragment("Blog") {
             splitpane(Orientation.VERTICAL) {
                 setDividerPosition(0, 0.8)
                 taMarkedText = textarea(vm.markedText) {
-
+                    isWrapText = true
                 }
                 textarea(vm.htmlText) {
-
+                    isWrapText = true
                 }
             }
             wvBlog = webview {

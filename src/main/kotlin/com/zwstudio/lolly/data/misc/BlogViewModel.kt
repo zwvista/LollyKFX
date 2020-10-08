@@ -8,7 +8,7 @@ class BlogViewModel : BaseViewModel() {
 
     val markedText = SimpleStringProperty()
     val htmlText = SimpleStringProperty()
-    val patternNo = SimpleStringProperty()
+    val patternNo = SimpleStringProperty("001")
     val patternText = SimpleStringProperty()
     val patterUrl get() = blogService.getPatternUrl(patternNo.value)
     val patternMarkDown get() = blogService.getPatternMarkDown((patternText.value))
@@ -16,8 +16,9 @@ class BlogViewModel : BaseViewModel() {
     init {
     }
 
-    fun htmlToMarked() =
-        blogService.htmlToMarked(htmlText.value)
+    fun htmlToMarked() {
+        markedText.value = blogService.htmlToMarked(htmlText.value)
+    }
     fun addTagB(text: String) = blogService.addTagB(text)
     fun addTagI(text: String) = blogService.addTagI(text)
     fun removeTagBI(text: String) = blogService.removeTagBI(text)

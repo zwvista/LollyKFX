@@ -4,13 +4,13 @@ import com.zwstudio.lolly.data.misc.SettingsViewModel
 
 class BlogService: BaseService() {
     private fun html1With(s: String) =
-        "<strong><span style=\"color:#0000ff\">$s</span></strong>"
+        "<strong><span style=\"color:#0000ff;\">$s</span></strong>"
     private fun htmlWordWith(s: String) = html1With("$s：")
     private fun htmlBWith(s: String) = html1With(s)
     private fun htmlE1With(s: String) =
-        "<span style=\"color:#006600\">$s</span>"
+        "<span style=\"color:#006600;\">$s</span>"
     private fun html2With(s: String) =
-        "<span style=\"color:#cc00cc\">$s</span>"
+        "<span style=\"color:#cc00cc;\">$s</span>"
     private fun htmlE2With(s: String) = html2With(s)
     private fun htmlIWith(s: String) = "<strong>${html2With(s)}</strong>"
     private val htmlEmptyLine = "<div><br></div>"
