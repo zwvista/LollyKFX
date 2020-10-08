@@ -12,7 +12,6 @@ import io.reactivex.rxjava3.disposables.Disposable
 import javafx.beans.property.SimpleBooleanProperty
 import javafx.beans.property.SimpleStringProperty
 import java.util.concurrent.TimeUnit
-import kotlin.math.max
 import kotlin.math.min
 
 class WordsReviewViewModel : BaseViewModel() {
@@ -64,7 +63,7 @@ class WordsReviewViewModel : BaseViewModel() {
                 for (o in it) {
                     val s = o.accuracy
                     val percentage = if (!s.endsWith("%")) 0.0 else s.trimEnd('%').toDouble()
-                    val t = max(6, 11 - (percentage / 10.0).toInt())
+                    val t = 6 - (percentage / 20.0).toInt()
                     for (i in 0 until t)
                         lst2.add(o)
                 }
