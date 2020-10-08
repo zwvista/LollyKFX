@@ -1,9 +1,12 @@
 package com.zwstudio.lolly.data.misc
 
+import com.zwstudio.lolly.domain.misc.MTransformItem
 import javafx.scene.input.Clipboard
 import javafx.scene.input.ClipboardContent
-import tornadofx.UIComponent
+import tornadofx.*
 import java.net.URLEncoder
+import kotlin.collections.component1
+import kotlin.collections.component2
 
 object GlobalConstants {
     val userid = 1
@@ -36,32 +39,66 @@ fun UIComponent.googleString(text: String?) {
     openPage(url)
 }
 
-fun extractTextFrom(html: String, transform: String, template: String, templateHandler: (String, String) -> String): String {
+fun removeReturns(text: String) =
+    text.replace("\r\n", "\n")
+
+fun toTransformItems(transform: String): List<MTransformItem> {
+    val lst = transform.split("\r\n")
+    val lst2 = lst.subList(0, lst.size / 2 * 2).chunked(2).mapIndexed { i, g ->
+        MTransformItem().apply {
+            index = i + 1
+            extractor = g[0]
+            replacement = g[1]
+        }
+    }
+    return lst2
+}
+
+fun doTransform(text: String, item: MTransformItem): String {
     val dic = mapOf("<delete>" to "", "\\t" to "\t", "\\n" to "\n")
 
-    var text = html
+    val regex = Regex(item.extractor)
+    var replacement = item.replacement
+    var s = text
+    if (replacement.startsWith("<extract>")) {
+        replacement = replacement.drop("<extract>".length)
+        val ms = regex.findAll(s)
+        s = ms.joinToString { m -> m.groupValues[0] }
+    }
+    for ((key, value) in dic)
+        replacement = replacement.replace(key, value)
+    s = regex.replace(s, replacement)
+    return s
+}
+
+fun extractTextFrom(html: String, transform: String, template: String, templateHandler: (String, String) -> String): String {
+    var text = removeReturns(html)
     do {
         if (transform.isEmpty()) break
-        var lst = transform.split("\r\n")
-        if (lst.size % 2 == 1) lst = lst.dropLast(1)
-
-        for (i in lst.indices step 2) {
-            val regex = Regex(lst[i])
-            var replacer = lst[i + 1]
-            if (replacer.startsWith("<extract>")) {
-                replacer = replacer.drop("<extract>".length)
-                val ms = regex.findAll(text)
-                text = ms.joinToString { m -> m.groupValues[0] }
-                if (text.isEmpty()) break
-            }
-            for ((key, value) in dic)
-                replacer = replacer.replace(key, value)
-            text = regex.replace(text, replacer)
-        }
-
+        val items = toTransformItems(transform)
+        for (item in items)
+            text = doTransform(text, item)
         if (template.isEmpty()) break
         text = templateHandler(text, template)
-
     } while (false)
     return text
 }
+
+fun toHtml(text: String) = """
+    <!doctype html>
+    <html>
+    <head>
+    <meta charset=""utf-8"">
+    <meta http-equiv=""Content-Type"" content=""text/html; charset=utf-8"">
+    </head>
+    <body>
+    $text
+    </body>
+    </html>
+    """.trimIndent()
+
+const val cssFolder = "https://zwvista.tk/lolly/css/"
+
+fun applyTemplate(template: String, word: String, text: String) =
+    template.replace("{0}", word).replace("{1}", cssFolder).replace("{2}", text)
+

@@ -4,6 +4,7 @@ package com.zwstudio.lolly.domain.misc
 
 import com.google.gson.annotations.Expose
 import com.google.gson.annotations.SerializedName
+import com.zwstudio.lolly.data.misc.applyTemplate
 import com.zwstudio.lolly.data.misc.extractTextFrom
 import java.io.Serializable
 import java.net.URLEncoder
@@ -82,12 +83,6 @@ class MDictionary: Serializable {
 
     fun htmlString(html: String, word: String, useTemplate2: Boolean): String {
         val t = if (useTemplate2 && !template2.isNullOrEmpty()) template2!! else template!!
-        return extractTextFrom(html, transform!!, t) { text, t ->
-            t.replace( "{0}", word)
-                .replace("{1}", cssFolder)
-                .replace("{2}", text)
-        }
+        return extractTextFrom(html, transform!!, t) { text, template -> applyTemplate(template, word, text) }
     }
 }
-
-val cssFolder = "https://zwvista.tk/lolly/css/"

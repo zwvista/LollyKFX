@@ -17,3 +17,9 @@ class MSPResult: Serializable {
     @Expose
     var result = ""
 }
+
+class MTransformItem {
+    var index = 0
+    var extractor = ""
+    var replacement = ""
+}
