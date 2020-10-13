@@ -50,51 +50,54 @@ class PatternsView : Fragment("Patterns in Language"), ILollySettings {
         }
         splitpane(Orientation.HORIZONTAL) {
             vgrow = Priority.ALWAYS
-            splitpane(Orientation.VERTICAL) {
-                setDividerPosition(0, 0.8)
-                tvPatterns = tableview(vm.lstPatterns) {
-                    readonlyColumn("ID", MPattern::id)
-                    column("PATTERN", MPattern::pattern)
-                    column("NOTE", MPattern::noteProperty)
-                    column("TAGS", MPattern::tagsProperty)
-                    onSelectionChange {
-                        it?.id?.let {
-                            btnAddWebPage.isDisable = false
-                            vm.getWebPages(it).subscribe {
-                                if (it.isNotEmpty())
+            vbox {
+                splitpane(Orientation.VERTICAL) {
+                    setDividerPosition(0, 0.8)
+                    tvPatterns = tableview(vm.lstPatterns) {
+                        vgrow = Priority.ALWAYS
+                        readonlyColumn("ID", MPattern::id)
+                        column("PATTERN", MPattern::pattern)
+                        column("NOTE", MPattern::noteProperty)
+                        column("TAGS", MPattern::tagsProperty)
+                        onSelectionChange {
+                            it?.id?.let {
+                                btnAddWebPage.isDisable = false
+                                vm.getWebPages(it).subscribe {
+                                    if (it.isNotEmpty())
                                     // https://stackoverflow.com/questions/20413419/javafx-2-how-to-focus-a-table-row-programmatically
-                                    Platform.runLater {
-//                                        tvWebPage.requestFocus()
-                                        tvWebPages.selectionModel.select(0)
-                                    }
+                                        Platform.runLater {
+                                            //                                        tvWebPage.requestFocus()
+                                            tvWebPages.selectionModel.select(0)
+                                        }
+                                }
+                                vm.searchPhrases(it).subscribe()
                             }
-                            vm.searchPhrases(it).subscribe()
+                        }
+                        onDoubleClick {
+                            val modal = find<PatternsDetailView>("vmDetail" to PatternsDetailViewModel(vm, selectionModel.selectedItem)) { openModal(block = true) }
+                            if (modal.result)
+                                this.refresh()
                         }
                     }
-                    onDoubleClick {
-                        val modal = find<PatternsDetailView>("vmDetail" to PatternsDetailViewModel(vm, selectionModel.selectedItem)) { openModal(block = true) }
-                        if (modal.result)
-                            this.refresh()
-                    }
-                }
-//                label(vm.statusText)
-                tvWebPages = tableview(vm.lstWebPages) {
-                    readonlyColumn("ID", MPatternWebPage::id)
-                    readonlyColumn("SEQNUM", MPatternWebPage::seqnum)
-                    column("TITLE", MPatternWebPage::title)
-                    column("URL", MPatternWebPage::url)
-                    column("WEBPAGEID", MPatternWebPage::webpageid)
-                    onSelectionChange {
-                        it?.url?.let {
-                            wvWebPage.engine.load(it)
+                    tvWebPages = tableview(vm.lstWebPages) {
+                        readonlyColumn("ID", MPatternWebPage::id)
+                        readonlyColumn("SEQNUM", MPatternWebPage::seqnum)
+                        column("TITLE", MPatternWebPage::title)
+                        column("URL", MPatternWebPage::url)
+                        column("WEBPAGEID", MPatternWebPage::webpageid)
+                        onSelectionChange {
+                            it?.url?.let {
+                                wvWebPage.engine.load(it)
+                            }
+                        }
+                        onDoubleClick {
+                            val modal = find<PatternsWebPagelView>("vmDetail" to PatternsWebPageViewModel(vm, selectionModel.selectedItem)) { openModal(block = true) }
+                            if (modal.result)
+                                this.refresh()
                         }
                     }
-                    onDoubleClick {
-                        val modal = find<PatternsWebPagelView>("vmDetail" to PatternsWebPageViewModel(vm, selectionModel.selectedItem)) { openModal(block = true) }
-                        if (modal.result)
-                            this.refresh()
-                    }
                 }
+                label(vm.statusText)
             }
             splitpane(Orientation.VERTICAL) {
                 setDividerPosition(0, 0.2)

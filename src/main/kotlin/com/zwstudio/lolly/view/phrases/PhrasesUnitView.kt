@@ -23,6 +23,7 @@ class PhrasesUnitView : PhrasesBaseView("Phrases in Unit") {
 
     override val root = vbox {
         tag = this@PhrasesUnitView
+        toolbarDicts = toolbar()
         toolbar {
             button("Add").action {
                 val modal = find<PhrasesUnitDetailView>("vmDetail" to PhrasesUnitDetailViewModel(vm, vm.newUnitPhrase())) { openModal(block = true) }

@@ -47,50 +47,51 @@ class WordsLangView : WordsBaseView("Words in Language") {
         splitpane(Orientation.HORIZONTAL) {
             vgrow = Priority.ALWAYS
             vbox {
-                tvWords = tableview(vm.lstWords) {
+                splitpane(Orientation.VERTICAL) {
                     vgrow = Priority.ALWAYS
-                    readonlyColumn("ID", MLangWord::id)
-                    column("WORD", MLangWord::wordProperty).makeEditable()
-                    column("NOTE", MLangWord::noteProperty).makeEditable()
-                    readonlyColumn("ACCURACY", MLangWord::accuracy)
-                    readonlyColumn("FAMIID", MLangWord::famiid)
-                    onEditCommit {
-                        val title = this.tableColumn.text
-                        if (title == "WORD")
-                            rowValue.word = vmSettings.autoCorrectInput(rowValue.word)
-                    }
-                    onSelectionChange {
-                        onWordChanged(it?.word)
-                    }
-                    onDoubleClick {
-                        // https://github.com/edvin/tornadofx/issues/226
-                        val modal = find<WordsLangDetailView>("vmDetail" to WordsLangDetailViewModel(vm, selectionModel.selectedItem)) { openModal(block = true) }
-                        if (modal.result)
-                            this.refresh()
-                    }
-                    contextmenu {
-                        item("Delete")
-                        separator()
-                        item("Copy").action {
-                            copyText(selectedItem?.word)
+                    setDividerPosition(0, 0.8)
+                    tvWords = tableview(vm.lstWords) {
+                        vgrow = Priority.ALWAYS
+                        readonlyColumn("ID", MLangWord::id)
+                        column("WORD", MLangWord::wordProperty).makeEditable()
+                        column("NOTE", MLangWord::noteProperty).makeEditable()
+                        readonlyColumn("ACCURACY", MLangWord::accuracy)
+                        readonlyColumn("FAMIID", MLangWord::famiid)
+                        onEditCommit {
+                            val title = this.tableColumn.text
+                            if (title == "WORD")
+                                rowValue.word = vmSettings.autoCorrectInput(rowValue.word)
                         }
-                        item("Google").action {
-                            googleString(selectedItem?.word)
+                        onSelectionChange {
+                            onWordChanged(it?.word)
                         }
+                        onDoubleClick {
+                            // https://github.com/edvin/tornadofx/issues/226
+                            val modal = find<WordsLangDetailView>("vmDetail" to WordsLangDetailViewModel(vm, selectionModel.selectedItem)) { openModal(block = true) }
+                            if (modal.result)
+                                this.refresh()
+                        }
+                        contextmenu {
+                            item("Delete")
+                            separator()
+                            item("Copy").action {
+                                copyText(selectedItem?.word)
+                            }
+                            item("Google").action {
+                                googleString(selectedItem?.word)
+                            }
+                        }
+                    }
+                    tableview(vm.lstPhrases) {
+                        readonlyColumn("ID", MLangPhrase::id)
+                        column("PHRASE", MLangPhrase::phraseProperty)
+                        column("TRANSLATION", MLangPhrase::translationProperty)
                     }
                 }
                 label(vm.statusText)
             }
-            splitpane(Orientation.VERTICAL) {
-                setDividerPosition(0, 0.2)
-                tableview(vm.lstPhrases) {
-                    readonlyColumn("ID", MLangPhrase::id)
-                    column("PHRASE", MLangPhrase::phraseProperty)
-                    column("TRANSLATION", MLangPhrase::translationProperty)
-                }
-                dictsPane = tabpane {
-                    vgrow = Priority.ALWAYS
-                }
+            dictsPane = tabpane {
+                vgrow = Priority.ALWAYS
             }
         }
     }

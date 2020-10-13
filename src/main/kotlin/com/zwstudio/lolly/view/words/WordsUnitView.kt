@@ -87,97 +87,97 @@ class WordsUnitView : WordsBaseView("Words in Unit") {
         splitpane(Orientation.HORIZONTAL) {
             vgrow = Priority.ALWAYS
             vbox {
-                tvWords = tableview(vm.lstWords) {
+                splitpane(Orientation.VERTICAL) {
                     vgrow = Priority.ALWAYS
-                    readonlyColumn("UNIT", MUnitWord::unitstr)
-                    readonlyColumn("PART", MUnitWord::partstr)
-                    readonlyColumn("SEQNUM", MUnitWord::seqnum)
-                    column("WORD", MUnitWord::wordProperty).makeEditable()
-                    column("NOTE", MUnitWord::noteProperty).makeEditable()
-                    readonlyColumn("ACCURACY", MUnitWord::accuracy)
-                    readonlyColumn("WORDID", MUnitWord::wordid)
-                    readonlyColumn("ID", MUnitWord::id)
-                    readonlyColumn("FAMIID", MUnitWord::famiid)
-                    onEditCommit {
-                        val title = this.tableColumn.text
-                        if (title == "WORD")
-                            rowValue.word = vmSettings.autoCorrectInput(rowValue.word)
-                        vm.update(rowValue).subscribe()
-                    }
-                    onSelectionChange {
-                        onWordChanged(it?.word)
-                        vm.searchPhrases(it?.wordid)
-                    }
-                    onDoubleClick {
-                        // https://github.com/edvin/tornadofx/issues/226
-                        val modal = find<WordsUnitDetailView>("vmDetail" to WordsUnitDetailViewModel(vm, selectionModel.selectedItem)) { openModal(block = true) }
-                        if (modal.result)
-                            this.refresh()
-                    }
-                    contextmenu {
-                        item("Retrieve Note")
-                        item("Clear Note")
-                        separator()
-                        item("Delete")
-                        separator()
-                        item("Copy").action {
-                            copyText(selectedItem?.word)
+                    setDividerPosition(0, 0.8)
+                    tvWords = tableview(vm.lstWords) {
+                        vgrow = Priority.ALWAYS
+                        readonlyColumn("UNIT", MUnitWord::unitstr)
+                        readonlyColumn("PART", MUnitWord::partstr)
+                        readonlyColumn("SEQNUM", MUnitWord::seqnum)
+                        column("WORD", MUnitWord::wordProperty).makeEditable()
+                        column("NOTE", MUnitWord::noteProperty).makeEditable()
+                        readonlyColumn("ACCURACY", MUnitWord::accuracy)
+                        readonlyColumn("WORDID", MUnitWord::wordid)
+                        readonlyColumn("ID", MUnitWord::id)
+                        readonlyColumn("FAMIID", MUnitWord::famiid)
+                        onEditCommit {
+                            val title = this.tableColumn.text
+                            if (title == "WORD")
+                                rowValue.word = vmSettings.autoCorrectInput(rowValue.word)
+                            vm.update(rowValue).subscribe()
                         }
-                        item("Google").action {
-                            googleString(selectedItem?.word)
+                        onSelectionChange {
+                            onWordChanged(it?.word)
+                            vm.searchPhrases(it?.wordid)
                         }
-                    }
-                    // https://stackoverflow.com/questions/28603224/sort-tableview-with-drag-and-drop-rows
-                    setRowFactory { tv ->
-                        val row = TableRow<MUnitWord>()
-                        row.setOnDragDetected { event ->
-                            if (!row.isEmpty && vm.vmSettings.isSinglePart && vm.noFilter) {
-                                val index = row.index
-                                val db = row.startDragAndDrop(TransferMode.MOVE)
-                                db.dragView = row.snapshot(null, null)
-                                val cc = ClipboardContent()
-                                cc[LollyApp.SERIALIZED_MIME_TYPE] = index
-                                db.setContent(cc)
-                                event.consume()
+                        onDoubleClick {
+                            // https://github.com/edvin/tornadofx/issues/226
+                            val modal = find<WordsUnitDetailView>("vmDetail" to WordsUnitDetailViewModel(vm, selectionModel.selectedItem)) { openModal(block = true) }
+                            if (modal.result)
+                                this.refresh()
+                        }
+                        contextmenu {
+                            item("Retrieve Note")
+                            item("Clear Note")
+                            separator()
+                            item("Delete")
+                            separator()
+                            item("Copy").action {
+                                copyText(selectedItem?.word)
+                            }
+                            item("Google").action {
+                                googleString(selectedItem?.word)
                             }
                         }
-                        row.setOnDragOver { event ->
-                            val db = event.dragboard
-                            if (db.hasContent(LollyApp.SERIALIZED_MIME_TYPE)) {
-                                if (row.index != (db.getContent(LollyApp.SERIALIZED_MIME_TYPE) as Int).toInt()) {
-                                    event.acceptTransferModes(*TransferMode.COPY_OR_MOVE)
+                        // https://stackoverflow.com/questions/28603224/sort-tableview-with-drag-and-drop-rows
+                        setRowFactory { tv ->
+                            val row = TableRow<MUnitWord>()
+                            row.setOnDragDetected { event ->
+                                if (!row.isEmpty && vm.vmSettings.isSinglePart && vm.noFilter) {
+                                    val index = row.index
+                                    val db = row.startDragAndDrop(TransferMode.MOVE)
+                                    db.dragView = row.snapshot(null, null)
+                                    val cc = ClipboardContent()
+                                    cc[LollyApp.SERIALIZED_MIME_TYPE] = index
+                                    db.setContent(cc)
                                     event.consume()
                                 }
                             }
-                        }
-                        row.setOnDragDropped { event ->
-                            val db = event.dragboard
-                            if (db.hasContent(LollyApp.SERIALIZED_MIME_TYPE)) {
-                                val draggedIndex = db.getContent(LollyApp.SERIALIZED_MIME_TYPE) as Int
-                                val draggedItem = items.removeAt(draggedIndex)
-                                val dropIndex = if (row.isEmpty) items.size else row.index
-                                items.add(dropIndex, draggedItem)
-                                event.isDropCompleted = true
-                                selectionModel.select(dropIndex)
-                                event.consume()
-                                vm.reindex { tvWords.refresh() }
+                            row.setOnDragOver { event ->
+                                val db = event.dragboard
+                                if (db.hasContent(LollyApp.SERIALIZED_MIME_TYPE)) {
+                                    if (row.index != (db.getContent(LollyApp.SERIALIZED_MIME_TYPE) as Int).toInt()) {
+                                        event.acceptTransferModes(*TransferMode.COPY_OR_MOVE)
+                                        event.consume()
+                                    }
+                                }
                             }
+                            row.setOnDragDropped { event ->
+                                val db = event.dragboard
+                                if (db.hasContent(LollyApp.SERIALIZED_MIME_TYPE)) {
+                                    val draggedIndex = db.getContent(LollyApp.SERIALIZED_MIME_TYPE) as Int
+                                    val draggedItem = items.removeAt(draggedIndex)
+                                    val dropIndex = if (row.isEmpty) items.size else row.index
+                                    items.add(dropIndex, draggedItem)
+                                    event.isDropCompleted = true
+                                    selectionModel.select(dropIndex)
+                                    event.consume()
+                                    vm.reindex { tvWords.refresh() }
+                                }
+                            }
+                            row
                         }
-                        row
+                    }
+                    tableview(vm.lstPhrases) {
+                        readonlyColumn("ID", MLangPhrase::id)
+                        column("PHRASE", MLangPhrase::phraseProperty)
+                        column("TRANSLATION", MLangPhrase::translationProperty)
                     }
                 }
                 label(vm.statusText)
             }
-            splitpane(Orientation.VERTICAL) {
-                setDividerPosition(0, 0.2)
-                tableview(vm.lstPhrases) {
-                    readonlyColumn("ID", MLangPhrase::id)
-                    column("PHRASE", MLangPhrase::phraseProperty)
-                    column("TRANSLATION", MLangPhrase::translationProperty)
-                }
-                dictsPane = tabpane {
-                    vgrow = Priority.ALWAYS
-                }
+            dictsPane = tabpane {
             }
         }
     }

@@ -18,6 +18,7 @@ class PhrasesLangView : PhrasesBaseView("Phrases in Language") {
 
     override val root = vbox {
         tag = this@PhrasesLangView
+        toolbarDicts = toolbar()
         toolbar {
             button("Add").action {
                 val modal = find<PhrasesLangDetailView>("vmDetail" to PhrasesLangDetailViewModel(vm, vm.newLangPhrase())) { openModal(block = true) }

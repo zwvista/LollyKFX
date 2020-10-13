@@ -16,6 +16,7 @@ class PhrasesTextbookView : PhrasesBaseView("Phrases in Textbook") {
 
     override val root = vbox {
         tag = this@PhrasesTextbookView
+        toolbarDicts = toolbar()
         toolbar {
             button("Refresh").action {
                 vm.reload()
