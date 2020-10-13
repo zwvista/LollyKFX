@@ -52,6 +52,7 @@ class PatternsView : Fragment("Patterns in Language"), ILollySettings {
             vgrow = Priority.ALWAYS
             vbox {
                 splitpane(Orientation.VERTICAL) {
+                    vgrow = Priority.ALWAYS
                     setDividerPosition(0, 0.8)
                     tvPatterns = tableview(vm.lstPatterns) {
                         vgrow = Priority.ALWAYS

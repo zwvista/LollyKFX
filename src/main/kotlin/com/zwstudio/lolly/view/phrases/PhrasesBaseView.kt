@@ -1,15 +1,12 @@
 package com.zwstudio.lolly.view.phrases
 
-import com.zwstudio.lolly.data.misc.SettingsViewModel
-import com.zwstudio.lolly.view.ILollySettings
+import com.zwstudio.lolly.domain.wpp.MLangWord
+import com.zwstudio.lolly.view.words.WordsPhraseBaseView
 import javafx.scene.Node
-import javafx.scene.control.ToolBar
+import javafx.scene.control.TableView
 import tornadofx.*
 
-abstract class PhrasesBaseView(title: String? = null, icon: Node? = null) : Fragment(title, icon), ILollySettings {
-    open var toolbarDicts: ToolBar by singleAssign()
-    abstract val vmSettings: SettingsViewModel
+abstract class PhrasesBaseView(title: String? = null, icon: Node? = null) : WordsPhraseBaseView(title, icon) {
+    open var tvWords: TableView<MLangWord> by singleAssign()
 
-    override fun onSettingsChanged() {
-    }
 }

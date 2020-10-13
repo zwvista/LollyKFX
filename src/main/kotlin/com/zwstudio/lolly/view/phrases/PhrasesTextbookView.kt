@@ -5,7 +5,9 @@ import com.zwstudio.lolly.data.misc.copyText
 import com.zwstudio.lolly.data.misc.googleString
 import com.zwstudio.lolly.data.phrases.PhrasesUnitDetailViewModel
 import com.zwstudio.lolly.data.phrases.PhrasesUnitViewModel
+import com.zwstudio.lolly.domain.wpp.MLangWord
 import com.zwstudio.lolly.domain.wpp.MUnitPhrase
+import javafx.application.Platform
 import javafx.geometry.Orientation
 import javafx.scene.layout.Priority
 import tornadofx.*
@@ -30,42 +32,63 @@ class PhrasesTextbookView : PhrasesBaseView("Phrases in Textbook") {
         splitpane(Orientation.HORIZONTAL) {
             vgrow = Priority.ALWAYS
             vbox {
-                tableview(vm.lstPhrases) {
+                splitpane(Orientation.VERTICAL) {
                     vgrow = Priority.ALWAYS
-                    readonlyColumn("TEXTBOOKNAME", MUnitPhrase::textbookname)
-                    readonlyColumn("UNIT", MUnitPhrase::unitstr)
-                    readonlyColumn("PART", MUnitPhrase::partstr)
-                    readonlyColumn("SEQNUM", MUnitPhrase::seqnum)
-                    column("PHRASE", MUnitPhrase::phraseProperty).makeEditable()
-                    column("TRANSLATION", MUnitPhrase::translationProperty).makeEditable()
-                    readonlyColumn("PHRASEID", MUnitPhrase::phraseid)
-                    readonlyColumn("ID", MUnitPhrase::id)
-                    onEditCommit {
-                        val title = this.tableColumn.text
-                        if (title == "Phrase")
-                            rowValue.phrase = vmSettings.autoCorrectInput(rowValue.phrase)
-                    }
-                    onSelectionChange {
-                        if (it == null) return@onSelectionChange
-                    }
-                    onDoubleClick {
-                        // https://github.com/edvin/tornadofx/issues/226
-                        val modal = find<PhrasesTextbookDetailView>("vmDetail" to PhrasesUnitDetailViewModel(vm, selectionModel.selectedItem)) { openModal(block = true) }
-                        if (modal.result)
-                            this.refresh()
-                    }
-                    contextmenu {
-                        item("Delete")
-                        separator()
-                        item("Copy").action {
-                            copyText(selectedItem?.phrase)
+                    setDividerPosition(0, 0.8)
+                    tableview(vm.lstPhrases) {
+                        vgrow = Priority.ALWAYS
+                        readonlyColumn("TEXTBOOKNAME", MUnitPhrase::textbookname)
+                        readonlyColumn("UNIT", MUnitPhrase::unitstr)
+                        readonlyColumn("PART", MUnitPhrase::partstr)
+                        readonlyColumn("SEQNUM", MUnitPhrase::seqnum)
+                        column("PHRASE", MUnitPhrase::phraseProperty).makeEditable()
+                        column("TRANSLATION", MUnitPhrase::translationProperty).makeEditable()
+                        readonlyColumn("PHRASEID", MUnitPhrase::phraseid)
+                        readonlyColumn("ID", MUnitPhrase::id)
+                        onEditCommit {
+                            val title = this.tableColumn.text
+                            if (title == "Phrase")
+                                rowValue.phrase = vmSettings.autoCorrectInput(rowValue.phrase)
                         }
-                        item("Google").action {
-                            googleString(selectedItem?.phrase)
+                        onSelectionChange {
+                            vm.searchWords(it?.phraseid).subscribe {
+                                if (vm.lstWords.isNotEmpty())
+                                    Platform.runLater {
+                                        tvWords.selectionModel.select(0)
+                                    }
+                            }
+                        }
+                        onDoubleClick {
+                            // https://github.com/edvin/tornadofx/issues/226
+                            val modal = find<PhrasesTextbookDetailView>("vmDetail" to PhrasesUnitDetailViewModel(vm, selectionModel.selectedItem)) { openModal(block = true) }
+                            if (modal.result)
+                                this.refresh()
+                        }
+                        contextmenu {
+                            item("Delete")
+                            separator()
+                            item("Copy").action {
+                                copyText(selectedItem?.phrase)
+                            }
+                            item("Google").action {
+                                googleString(selectedItem?.phrase)
+                            }
+                        }
+                    }
+                    tvWords = tableview(vm.lstWords) {
+                        readonlyColumn("ID", MLangWord::id)
+                        column("WORD", MLangWord::wordProperty).makeEditable()
+                        column("NOTE", MLangWord::noteProperty).makeEditable()
+                        readonlyColumn("ACCURACY", MLangWord::accuracy)
+                        readonlyColumn("FAMIID", MLangWord::famiid)
+                        onSelectionChange {
+                            onWordChanged(it?.word)
                         }
                     }
                 }
                 label(vm.statusText)
+            }
+            dictsPane = tabpane {
             }
         }
     }

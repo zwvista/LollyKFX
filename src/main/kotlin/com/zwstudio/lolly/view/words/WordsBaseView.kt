@@ -9,7 +9,7 @@ import javafx.scene.control.TabPane
 import javafx.scene.control.ToolBar
 import tornadofx.*
 
-abstract class WordsBaseView(title: String? = null, icon: Node? = null) : Fragment(title, icon), ILollySettings {
+abstract class WordsPhraseBaseView(title: String? = null, icon: Node? = null) : Fragment(title, icon), ILollySettings {
     open var toolbarDicts: ToolBar by singleAssign()
     open var dictsPane: TabPane by singleAssign()
     abstract val vmSettings: SettingsViewModel
@@ -53,4 +53,8 @@ abstract class WordsBaseView(title: String? = null, icon: Node? = null) : Fragme
             f.searchWord(word)
         }
     }
+}
+
+abstract class WordsBaseView(title: String? = null, icon: Node? = null) : WordsPhraseBaseView(title, icon) {
+
 }

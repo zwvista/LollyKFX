@@ -4,13 +4,15 @@ import com.zwstudio.lolly.data.misc.BaseViewModel
 import com.zwstudio.lolly.data.misc.SettingsViewModel
 import com.zwstudio.lolly.data.misc.applyIO
 import com.zwstudio.lolly.domain.misc.MSelectItem
+import com.zwstudio.lolly.domain.wpp.MLangWord
 import com.zwstudio.lolly.domain.wpp.MUnitPhrase
 import com.zwstudio.lolly.service.wpp.UnitPhraseService
+import com.zwstudio.lolly.service.wpp.WordPhraseService
 import io.reactivex.rxjava3.core.Observable
 import io.reactivex.rxjava3.disposables.CompositeDisposable
 import javafx.beans.property.SimpleObjectProperty
 import javafx.beans.property.SimpleStringProperty
-import tornadofx.asObservable
+import tornadofx.*
 
 class PhrasesUnitViewModel(val inTextbook: Boolean) : BaseViewModel() {
 
@@ -18,6 +20,8 @@ class PhrasesUnitViewModel(val inTextbook: Boolean) : BaseViewModel() {
     val lstPhrases = mutableListOf<MUnitPhrase>().asObservable()
     val compositeDisposable = CompositeDisposable()
     val unitPhraseService: UnitPhraseService by inject()
+    val lstWords = mutableListOf<MLangWord>().asObservable()
+    val wordPhraseService: WordPhraseService by inject()
 
     val scopeFilter = SimpleStringProperty(SettingsViewModel.lstScopePhraseFilters[0])
     val textFilter = SimpleStringProperty("")
@@ -87,4 +91,12 @@ class PhrasesUnitViewModel(val inTextbook: Boolean) : BaseViewModel() {
         textbook = vmSettings.selectedTextbook
     }
 
+    fun searchWords(phraseid: Int?): Observable<Unit> =
+        if (phraseid == null)
+            Observable.just(Unit)
+                .doAfterNext { lstWords.clear() }
+        else
+            wordPhraseService.getWordsByPhraseId(phraseid)
+                .applyIO()
+                .map { lstWords.setAll(it); Unit }
 }
