@@ -66,13 +66,12 @@ class WordsLangViewModel : BaseViewModel() {
         }
     }
 
-    fun searchPhrases(wordid: Int?) {
+    fun searchPhrases(wordid: Int?): Observable<Unit> =
         if (wordid == null)
-            lstPhrases.clear()
+            Observable.just(Unit)
+                .doAfterNext { lstPhrases.clear() }
         else
             wordPhraseService.getPhrasesByWordId(wordid)
-                .map { lstPhrases.setAll(it) }
                 .applyIO()
-                .subscribe()
-    }
+                .map { lstPhrases.setAll(it); Unit }
 }

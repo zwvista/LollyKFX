@@ -109,7 +109,7 @@ class WordsUnitView : WordsBaseView("Words in Unit") {
                         }
                         onSelectionChange {
                             onWordChanged(it?.word)
-                            vm.searchPhrases(it?.wordid)
+                            vm.searchPhrases(it?.wordid).subscribe()
                         }
                         onDoubleClick {
                             // https://github.com/edvin/tornadofx/issues/226
