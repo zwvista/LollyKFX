@@ -46,8 +46,8 @@ abstract class WordsPhraseBaseView(title: String? = null, icon: Node? = null) : 
         }
     }
 
-    fun onWordChanged(word: String?) {
-        if (word == null) return
+    fun searchDict(word: String?) {
+        val word = word ?: ""
         dictsPane.tabs.forEach {
             val f = it.content.tag as WordsDictView
             f.searchWord(word)

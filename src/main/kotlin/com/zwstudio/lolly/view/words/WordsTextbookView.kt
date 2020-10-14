@@ -52,7 +52,7 @@ class WordsTextbookView : WordsBaseView("Words in Textbook") {
                                 rowValue.word = vmSettings.autoCorrectInput(rowValue.word)
                         }
                         onSelectionChange {
-                            onWordChanged(it?.word)
+                            searchDict(it?.word)
                             vm.searchPhrases(it?.wordid).subscribe()
                         }
                         onDoubleClick {

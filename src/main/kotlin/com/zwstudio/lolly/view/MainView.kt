@@ -83,4 +83,9 @@ class MainView : View("Lolly TornadoFX") {
         val t = tabpane.tabs.firstOrNull { it.content.tag is Screen } ?: tabpane.tab<Screen>()
         tabpane.selectionModel.select(t)
     }
+
+    fun searchWord(word: String) {
+        AddTab<WordsSearchView>()
+        (tabpane.selectionModel.selectedItem.content.tag as WordsSearchView).addNewWord(word)
+    }
 }

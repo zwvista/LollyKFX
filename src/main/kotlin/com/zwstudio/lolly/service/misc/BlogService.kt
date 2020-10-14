@@ -18,7 +18,7 @@ class BlogService: BaseService() {
     private val regMarkedB = Regex("""<B>(.+?)</B>""")
     private val regMarkedI = Regex("""<I>(.+?)</I>""")
     fun markedToHtml(text: String): String {
-        val lst = text.split("\r\n").toMutableList()
+        val lst = text.split(if (text.contains('\r')) "\r\n" else "\n").toMutableList()
         var i = 0
         while (i < lst.size) {
             var s = lst[i];

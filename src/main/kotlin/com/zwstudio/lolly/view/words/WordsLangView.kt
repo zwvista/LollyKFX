@@ -63,7 +63,7 @@ class WordsLangView : WordsBaseView("Words in Language") {
                                 rowValue.word = vmSettings.autoCorrectInput(rowValue.word)
                         }
                         onSelectionChange {
-                            onWordChanged(it?.word)
+                            searchDict(it?.word)
                             vm.searchPhrases(it?.id).subscribe()
                         }
                         onDoubleClick {

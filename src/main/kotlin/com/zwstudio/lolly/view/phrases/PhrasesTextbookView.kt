@@ -82,7 +82,7 @@ class PhrasesTextbookView : PhrasesBaseView("Phrases in Textbook") {
                         readonlyColumn("ACCURACY", MLangWord::accuracy)
                         readonlyColumn("FAMIID", MLangWord::famiid)
                         onSelectionChange {
-                            onWordChanged(it?.word)
+                            searchDict(it?.word)
                         }
                     }
                 }

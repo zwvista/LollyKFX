@@ -108,7 +108,7 @@ class WordsUnitView : WordsBaseView("Words in Unit") {
                             vm.update(rowValue).subscribe()
                         }
                         onSelectionChange {
-                            onWordChanged(it?.word)
+                            searchDict(it?.word)
                             vm.searchPhrases(it?.wordid).subscribe()
                         }
                         onDoubleClick {

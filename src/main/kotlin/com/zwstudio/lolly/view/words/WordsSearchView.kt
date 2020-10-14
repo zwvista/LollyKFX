@@ -22,14 +22,7 @@ class WordsSearchView : WordsBaseView("Search") {
             textfield(vm.newWord) {
                 promptText = "New Word"
                 action {
-                    val item = MUnitWord().apply {
-                        seqnum = vm.lstWords.size + 1
-                        word = vm.newWord.value
-                    }
-                    vm.lstWords.add(item)
-                    vm.newWord.value = ""
-                    tvWords.refresh()
-                    tvWords.selectionModel.select(vm.lstWords.size - 1)
+                    addNewWord(vm.newWord.value)
                 }
             }
         }
@@ -45,7 +38,7 @@ class WordsSearchView : WordsBaseView("Search") {
                         rowValue.word = vmSettings.autoCorrectInput(rowValue.word)
                 }
                 onSelectionChange {
-                    onWordChanged(it?.word)
+                    searchDict(it?.word)
                 }
             }
             splitpane(Orientation.VERTICAL) {
@@ -63,5 +56,16 @@ class WordsSearchView : WordsBaseView("Search") {
     override fun onSettingsChanged() {
         vm.reload()
         super.onSettingsChanged()
+    }
+
+    fun addNewWord(newWord: String) {
+        val item = MUnitWord().apply {
+            seqnum = vm.lstWords.size + 1
+            word = newWord
+        }
+        vm.lstWords.add(item)
+        vm.newWord.value = ""
+        tvWords.refresh()
+        tvWords.selectionModel.select(vm.lstWords.size - 1)
     }
 }

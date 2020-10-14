@@ -2,6 +2,7 @@ package com.zwstudio.lolly.view.misc
 
 import com.zwstudio.lolly.data.misc.BlogViewModel
 import com.zwstudio.lolly.data.misc.copyText
+import com.zwstudio.lolly.view.MainView
 import javafx.geometry.Orientation
 import javafx.scene.control.TextArea
 import javafx.scene.input.Clipboard
@@ -36,8 +37,9 @@ class BlogView : Fragment("Blog") {
                 replaceSelection(BlogViewModel::exchangeTagBI)
             }
             button("AddExplanation").action {
-                val text = Clipboard.getSystemClipboard().getString()
+                val text = Clipboard.getSystemClipboard().string
                 taMarkedText.replaceSelection(vm.getExplanation(text))
+                find<MainView>().searchWord(text)
             }
             button("MarkedToHtml").action {
                 val str = vm.markedToHtml()

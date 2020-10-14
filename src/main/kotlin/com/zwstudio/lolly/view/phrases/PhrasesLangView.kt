@@ -85,7 +85,7 @@ class PhrasesLangView : PhrasesBaseView("Phrases in Language") {
                         readonlyColumn("ACCURACY", MLangWord::accuracy)
                         readonlyColumn("FAMIID", MLangWord::famiid)
                         onSelectionChange {
-                            onWordChanged(it?.word)
+                            searchDict(it?.word)
                         }
                     }
                 }
