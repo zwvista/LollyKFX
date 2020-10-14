@@ -54,7 +54,9 @@ class BlogView : Fragment("Blog") {
                 copyText(vm.patternMarkDown)
             }
             textfield(vm.patternText)
-            button("AddNotesCommand")
+            button("AddNotes").action {
+                vm.addNotes()
+            }
         }
         splitpane(Orientation.HORIZONTAL) {
             vgrow = Priority.ALWAYS

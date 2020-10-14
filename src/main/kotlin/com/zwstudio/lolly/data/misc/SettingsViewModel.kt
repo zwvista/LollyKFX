@@ -6,7 +6,6 @@ import io.reactivex.rxjava3.core.Observable
 import io.reactivex.rxjava3.disposables.CompositeDisposable
 import io.reactivex.rxjava3.disposables.Disposable
 import io.reactivex.rxjava3.kotlin.Observables
-import io.reactivex.rxjava3.schedulers.Schedulers
 import javafx.application.Platform
 import javafx.beans.property.SimpleBooleanProperty
 import javafx.beans.property.SimpleObjectProperty
@@ -443,7 +442,7 @@ class SettingsViewModel : Component(), ScopedInstance {
         val dictNote = selectedDictNote ?: return
         var i = 0
         var subscription: Disposable? = null
-        subscription = Observable.interval(dictNote.wait.toLong(), TimeUnit.MILLISECONDS, Schedulers.io()).subscribe {
+        subscription = Observable.interval(dictNote.wait.toLong(), TimeUnit.MILLISECONDS).applyIO().subscribe {
             while (i < wordCount && !isNoteEmpty(i))
                 i++
             if (i > wordCount) {

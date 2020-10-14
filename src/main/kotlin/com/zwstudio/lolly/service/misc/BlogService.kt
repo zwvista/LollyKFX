@@ -18,7 +18,7 @@ class BlogService: BaseService() {
     private val regMarkedB = Regex("""<B>(.+?)</B>""")
     private val regMarkedI = Regex("""<I>(.+?)</I>""")
     fun markedToHtml(text: String): String {
-        val lst = text.split(if (text.contains('\r')) "\r\n" else "\n").toMutableList()
+        val lst = text.split("\n").toMutableList()
         var i = 0
         while (i < lst.size) {
             var s = lst[i];
@@ -50,7 +50,7 @@ class BlogService: BaseService() {
             }
             i++
         }
-        return lst.joinToString("\r\n")
+        return lst.joinToString("\n")
     }
     private val regLine = Regex("<div>(.*?)</div>")
     private val regHtmlB = Regex(htmlBWith("(.+?)"))
@@ -58,7 +58,7 @@ class BlogService: BaseService() {
     private val regHtmlEntry = Regex("(<li>|<br>)${htmlWordWith("(.*?)")}(?:${htmlE1With("(.*?)")})?(?:${htmlE2With("(.*?)")})?(?:</li>)?")
     fun htmlToMarked(text: String): String
     {
-        val lst = text.split(if (text.contains('\r')) "\r\n" else "\n").toMutableList()
+        val lst = text.split("\n").toMutableList()
         var i = 0
         while (i < lst.size) {
             var s = lst[i]
@@ -92,7 +92,7 @@ class BlogService: BaseService() {
             }
             i++
         }
-        return lst.joinToString("\r\n")
+        return lst.joinToString("\n")
     }
     fun addTagB(text: String) = "<B>$text</B>"
     fun addTagI(text: String) = "<I>$text</I>"
@@ -104,24 +104,25 @@ class BlogService: BaseService() {
         text = Regex("<(/)?Temp>").replace(text, "<$1I>")
         return text
     }
-    fun getExplanation(text: String) = "* $text：：\r\n"
+    fun getExplanation(text: String) = "* $text：：\n"
     fun getPatternUrl(patternNo: String) = "http://viethuong.web.fc2.com/MONDAI/$patternNo.html"
     fun getPatternMarkDown(patternText: String) = "* [$patternText　文法](https://www.google.com/search?q=$patternText　文法)\n* [$patternText　句型](https://www.google.com/search?q=$patternText　句型)"
     private val bigDigits = "０１２３４５６７８９"
-    fun addNotes(vmSettings: SettingsViewModel, text: String) {
+    fun addNotes(vmSettings: SettingsViewModel, text: String, allComplete: (String) -> Unit) {
         fun f(s: String): String {
             var s = s
             for (i in 0 until 10)
                 s = s.replace('0'.plus(i), bigDigits[i])
             return s
         }
-        val items = text.split("\r\n").toMutableList()
+        val items = text.split("\n").toMutableList()
         return vmSettings.getNotes(items.size, {
             val m = regMarkedEntry.find(items[it]) ?: return@getNotes false
             val word = m.groupValues[2]
             return@getNotes word.all { it != '（' && !bigDigits.contains(it) }
         }, {
-            val m = regMarkedEntry.find(items[it])!!
+            val i = it
+            val m = regMarkedEntry.find(items[i])!!
             val s1 = m.groupValues[1]
             val word = m.groupValues[2]
             val s3 = m.groupValues[3]
@@ -131,8 +132,8 @@ class BlogService: BaseService() {
                 val s21 = if (j == -1) note else note.substring(0, j)
                 val s22 = if (j == -1) "" else f(note.substring(j))
                 val s2 = word + (if (s21 == word || s21.isEmpty()) "" else "（$s21）") + s22
-                items[it] = "$s1 $s2：$s3：$s4"
+                items[i] = "$s1 $s2：$s3：$s4"
             }
-        }) {}
+        }) { allComplete(items.joinToString("\n")) }
     }
 }

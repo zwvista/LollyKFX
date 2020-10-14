@@ -29,4 +29,5 @@ class BlogViewModel : BaseViewModel() {
         val str = toHtml(htmlText.value)
         return str
     }
+    fun addNotes() = blogService.addNotes(vmSettings, markedText.value) { markedText.value = it }
 }
