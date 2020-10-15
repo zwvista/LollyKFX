@@ -1,7 +1,9 @@
-package com.zwstudio.lolly.view.misc
+package com.zwstudio.lolly.view.dicts
 
-import com.zwstudio.lolly.data.misc.DictsDetailViewModel
+import com.zwstudio.lolly.data.dicts.DictsDetailViewModel
+import com.zwstudio.lolly.data.dicts.TransformEditViewModel
 import javafx.geometry.Orientation
+import javafx.scene.control.ButtonBar
 import javafx.scene.layout.Priority
 import tornadofx.*
 
@@ -10,6 +12,7 @@ class DictsDetailView : Fragment("Dictionaries Detail") {
     var result = false
 
     override val root = vbox(10.0) {
+        paddingAll = 10.0
         splitpane(Orientation.HORIZONTAL) {
             vgrow = Priority.ALWAYS
             gridpane {
@@ -98,6 +101,9 @@ class DictsDetailView : Fragment("Dictionaries Detail") {
             }
         }
         buttonbar {
+            button("Edit TRANSFORM", ButtonBar.ButtonData.LEFT).action {
+                find<TransformEditView>("vm" to TransformEditViewModel(vmDetail)) { openModal(block = true) }
+            }
             button("OK") {
                 isDefaultButton = true
                 action {
@@ -115,4 +121,3 @@ class DictsDetailView : Fragment("Dictionaries Detail") {
         }
     }
 }
-

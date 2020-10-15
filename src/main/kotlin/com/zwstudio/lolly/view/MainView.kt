@@ -1,6 +1,10 @@
 package com.zwstudio.lolly.view
 
-import com.zwstudio.lolly.view.misc.*
+import com.zwstudio.lolly.view.dicts.DictsView
+import com.zwstudio.lolly.view.misc.BlogView
+import com.zwstudio.lolly.view.misc.ReadNumberView
+import com.zwstudio.lolly.view.misc.SettingsView
+import com.zwstudio.lolly.view.misc.TextbooksView
 import com.zwstudio.lolly.view.patterns.PatternsView
 import com.zwstudio.lolly.view.phrases.PhrasesLangView
 import com.zwstudio.lolly.view.phrases.PhrasesReviewView

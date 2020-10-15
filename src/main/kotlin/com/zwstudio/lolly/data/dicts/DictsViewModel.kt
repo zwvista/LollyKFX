@@ -1,5 +1,7 @@
-package com.zwstudio.lolly.data.misc
+package com.zwstudio.lolly.data.dicts
 
+import com.zwstudio.lolly.data.misc.BaseViewModel
+import com.zwstudio.lolly.data.misc.applyIO
 import com.zwstudio.lolly.domain.misc.MDictionary
 import com.zwstudio.lolly.service.misc.DictionaryService
 import io.reactivex.rxjava3.core.Observable

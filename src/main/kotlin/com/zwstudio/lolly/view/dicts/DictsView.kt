@@ -1,7 +1,7 @@
-package com.zwstudio.lolly.view.misc
+package com.zwstudio.lolly.view.dicts
 
-import com.zwstudio.lolly.data.misc.DictsDetailViewModel
-import com.zwstudio.lolly.data.misc.DictsViewModel
+import com.zwstudio.lolly.data.dicts.DictsDetailViewModel
+import com.zwstudio.lolly.data.dicts.DictsViewModel
 import com.zwstudio.lolly.domain.misc.MDictionary
 import com.zwstudio.lolly.view.ILollySettings
 import javafx.scene.layout.Priority

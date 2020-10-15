@@ -1,4 +1,4 @@
-package com.zwstudio.lolly.data.misc
+package com.zwstudio.lolly.data.dicts
 
 import com.zwstudio.lolly.domain.misc.MDictionary
 import tornadofx.*
