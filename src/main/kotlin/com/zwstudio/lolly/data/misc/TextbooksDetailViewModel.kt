@@ -5,6 +5,7 @@ import tornadofx.*
 
 class TextbooksDetailViewModel(val vm: TextbooksViewModel, item: MTextbook) : ItemViewModel<MTextbook>(item) {
     val id = bind(MTextbook::id)
+    val langname = vm.vmSettings.selectedLang.langname
     val textbookname = bind(MTextbook::textbookname)
     val units = bind(MTextbook::units)
     val parts = bind(MTextbook::parts)

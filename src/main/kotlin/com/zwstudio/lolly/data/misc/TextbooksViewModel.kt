@@ -5,7 +5,7 @@ import com.zwstudio.lolly.service.misc.TextbookService
 import io.reactivex.rxjava3.core.Observable
 import javafx.beans.property.SimpleStringProperty
 import javafx.collections.ListChangeListener
-import tornadofx.asObservable
+import tornadofx.*
 
 class TextbooksViewModel : BaseViewModel() {
 
@@ -23,6 +23,10 @@ class TextbooksViewModel : BaseViewModel() {
         textbookService.getDataByLang(vmSettings.selectedLang.id)
             .applyIO()
             .subscribe { lstItems.setAll(it) }
+    }
+
+    fun newTextbook() = MTextbook().apply {
+        langid = vmSettings.selectedLang.id
     }
 
     fun update(o: MTextbook): Observable<Unit> =

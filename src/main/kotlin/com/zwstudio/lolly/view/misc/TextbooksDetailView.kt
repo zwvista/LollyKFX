@@ -14,13 +14,20 @@ class TextbooksDetailView : Fragment("Textbooks Detail") {
                     isEditable = false
                 }
             }
-            field("SEQNUM") {
-                textfield(vmDetail.textbookname)
+            field("LANGUAGE") {
+                textfield(vmDetail.langname) {
+                    isEditable = false
+                }
             }
-            field("SEQNUM") {
+            field("TEXTBOOKNAME") {
+                textfield(vmDetail.textbookname) {
+                    isEditable = false
+                }
+            }
+            field("UNITS") {
                 textfield(vmDetail.units)
             }
-            field("SEQNUM") {
+            field("PARTS") {
                 textfield(vmDetail.parts)
             }
         }
