@@ -18,6 +18,23 @@ class MSPResult: Serializable {
     var result = ""
 }
 
+class MCodes {
+
+    @SerializedName("records")
+    @Expose
+    var lst: List<MCode>? = null
+}
+
+class MCode: Serializable {
+
+    @SerializedName("CODE")
+    @Expose
+    var code = 0
+    @SerializedName("NAME")
+    @Expose
+    var name = ""
+}
+
 class MTransformItem {
     var index = 0
     var extractor = ""

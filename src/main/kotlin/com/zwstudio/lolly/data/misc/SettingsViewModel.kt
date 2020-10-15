@@ -155,6 +155,7 @@ class SettingsViewModel : Component(), ScopedInstance {
     val unitInfo get() = "$textbookInfo/$usunitfromstr $uspartfromstr ~ $usunittostr $usparttostr"
 
     var lstAutoCorrect = listOf<MAutoCorrect>()
+    var lstDictTypeCodes = listOf<MCode>()
 
     val lstToTypes = UnitPartToType.values().map { v -> Pair(v, v.toString()) }
     val toTypeProperty = SimpleObjectProperty<Pair<UnitPartToType, String>>()

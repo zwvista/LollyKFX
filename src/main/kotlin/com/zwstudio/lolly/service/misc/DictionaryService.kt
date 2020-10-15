@@ -25,21 +25,39 @@ class DictionaryService: BaseService() {
             .getDictsTranslationByLang("LANGIDFROM,eq,$langid")
             .map { it.lst!! }
 
-    fun update(o: MDictionary): Observable<Unit> =
-        retrofitSP.create(RestDictionary::class.java)
-            .update(o.id, o.dictid, o.langidfrom, o.langidto, o.seqnum, o.dicttypeid, o.dictname, o.url, o.chconv, o.automation, o.transform, o.wait, o.template, o.template2)
+    fun updateDict(o: MDictionary): Observable<Unit> =
+        retrofitJson.create(RestDictionary::class.java)
+            .updateDict(o.id, o.langidfrom, o.langidto, o.dictname, o.seqnum, o.dicttypecode, o.url, o.chconv, o.automation, o.template, o.template2)
             .map { println(it.toString()) }
 
-    fun create(o: MDictionary): Observable<Int> =
-        retrofitSP.create(RestDictionary::class.java)
-            .create(o.dictid, o.langidfrom, o.langidto, o.seqnum, o.dicttypeid, o.dictname, o.url, o.chconv, o.automation, o.transform, o.wait, o.template, o.template2)
+    fun createDict(o: MDictionary): Observable<Int> =
+        retrofitJson.create(RestDictionary::class.java)
+            .createDict(o.langidfrom, o.langidto, o.dictname, o.seqnum, o.dicttypecode, o.url, o.chconv, o.automation, o.template, o.template2)
             .map {
                 println(it.toString())
                 it
             }
 
-    fun delete(id: Int): Observable<Unit> =
-        retrofitSP.create(RestDictionary::class.java)
-            .delete(id)
+    fun deleteDict(id: Int): Observable<Unit> =
+        retrofitJson.create(RestDictionary::class.java)
+            .deleteDict(id)
+            .map { println(it.toString()) }
+
+    fun updateSite(o: MDictionary): Observable<Unit> =
+        retrofitJson.create(RestDictionary::class.java)
+            .updateSite(o.siteid, o.dictname, o.transform, o.wait)
+            .map { println(it.toString()) }
+
+    fun createSite(o: MDictionary): Observable<Int> =
+        retrofitJson.create(RestDictionary::class.java)
+            .createSite(o.dictname, o.transform, o.wait)
+            .map {
+                println(it.toString())
+                it
+            }
+
+    fun deleteSite(id: Int): Observable<Unit> =
+        retrofitJson.create(RestDictionary::class.java)
+            .deleteSite(id)
             .map { println(it.toString()) }
 }

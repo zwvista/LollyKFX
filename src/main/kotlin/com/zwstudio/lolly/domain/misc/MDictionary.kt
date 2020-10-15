@@ -39,9 +39,9 @@ class MDictionary: Serializable {
     @SerializedName("SEQNUM")
     @Expose
     var seqnum = 0
-    @SerializedName("DICTTYPEID")
+    @SerializedName("DICTTYPECODE")
     @Expose
-    var dicttypeid = 0
+    var dicttypecode = 0
     @SerializedName("DICTTYPENAME")
     @Expose
     var dicttypename = ""
@@ -54,6 +54,9 @@ class MDictionary: Serializable {
     @SerializedName("CHCONV")
     @Expose
     var chconv: String? = null
+    @SerializedName("SITEID")
+    @Expose
+    var siteid = 0
     @SerializedName("AUTOMATION")
     @Expose
     var automation: String? = null
@@ -69,6 +72,9 @@ class MDictionary: Serializable {
     @SerializedName("TEMPLATE2")
     @Expose
     var template2: String? = null
+
+    var langtoitem: MLanguage? = null
+    var dicttypeitem: MCode? = null
 
     fun urlString(word: String, lstAutoCorrects: List<MAutoCorrect>): String {
         val word2 =

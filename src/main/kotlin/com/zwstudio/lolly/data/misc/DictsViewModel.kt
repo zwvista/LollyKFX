@@ -5,7 +5,7 @@ import com.zwstudio.lolly.service.misc.DictionaryService
 import io.reactivex.rxjava3.core.Observable
 import javafx.beans.property.SimpleStringProperty
 import javafx.collections.ListChangeListener
-import tornadofx.asObservable
+import tornadofx.*
 
 class DictsViewModel : BaseViewModel() {
 
@@ -25,15 +25,27 @@ class DictsViewModel : BaseViewModel() {
             .subscribe { lstItems.setAll(it) }
     }
 
-    fun update(o: MDictionary): Observable<Unit> =
-        dictionaryService.update(o)
+    fun updateDict(o: MDictionary): Observable<Unit> =
+        dictionaryService.updateDict(o)
         .applyIO()
 
-    fun create(o: MDictionary): Observable<Int> =
-        dictionaryService.create(o)
+    fun createDict(o: MDictionary): Observable<Int> =
+        dictionaryService.createDict(o)
         .applyIO()
 
-    fun delete(id: Int): Observable<Unit> =
-        dictionaryService.delete(id)
+    fun deleteDict(id: Int): Observable<Unit> =
+        dictionaryService.deleteDict(id)
+        .applyIO()
+
+    fun updateSite(o: MDictionary): Observable<Unit> =
+        dictionaryService.updateSite(o)
+        .applyIO()
+
+    fun createSite(o: MDictionary): Observable<Int> =
+        dictionaryService.createSite(o)
+        .applyIO()
+
+    fun deleteSite(id: Int): Observable<Unit> =
+        dictionaryService.deleteSite(id)
         .applyIO()
 }

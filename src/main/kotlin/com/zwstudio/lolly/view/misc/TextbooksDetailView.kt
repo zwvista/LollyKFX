@@ -20,9 +20,7 @@ class TextbooksDetailView : Fragment("Textbooks Detail") {
                 }
             }
             field("TEXTBOOKNAME") {
-                textfield(vmDetail.textbookname) {
-                    isEditable = false
-                }
+                textfield(vmDetail.textbookname)
             }
             field("UNITS") {
                 textfield(vmDetail.units)

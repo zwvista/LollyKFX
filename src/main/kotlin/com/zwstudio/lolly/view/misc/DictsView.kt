@@ -1,5 +1,6 @@
 package com.zwstudio.lolly.view.misc
 
+import com.zwstudio.lolly.data.misc.DictsDetailViewModel
 import com.zwstudio.lolly.data.misc.DictsViewModel
 import com.zwstudio.lolly.domain.misc.MDictionary
 import com.zwstudio.lolly.view.ILollySettings
@@ -25,6 +26,11 @@ class DictsView : Fragment("Dictionaries"), ILollySettings {
             readonlyColumn("WAIT", MDictionary::wait)
             readonlyColumn("TEMPLATE", MDictionary::template)
             readonlyColumn("TEMPLATE2", MDictionary::template2)
+            onDoubleClick {
+                val modal = find<DictsDetailView>("vmDetail" to DictsDetailViewModel(vm, selectionModel.selectedItem)) { openModal(block = true) }
+                if (modal.result)
+                    this.refresh()
+            }
         }
         label(vm.statusText)
     }

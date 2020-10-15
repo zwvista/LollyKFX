@@ -24,13 +24,13 @@ class MAutoCorrect: Serializable {
     var seqnum = 0
     @SerializedName("INPUT")
     @Expose
-    var input: String = ""
+    var input = ""
     @SerializedName("EXTENDED")
     @Expose
-    var extended: String = ""
+    var extended = ""
     @SerializedName("BASIC")
     @Expose
-    var basic: String = ""
+    var basic = ""
 }
 
 fun autoCorrect(text: String, lstAutoCorrects: List<MAutoCorrect>,
