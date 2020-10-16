@@ -29,6 +29,8 @@ class DictsViewModel : BaseViewModel() {
 
     fun newDictionary() = MDictionary().apply {
         langidfrom = vmSettings.selectedLang.id
+        langnamefrom = vmSettings.selectedLang.langname!!
+        dicttypecode = 3
     }
 
     fun updateDict(o: MDictionary): Observable<Unit> =
