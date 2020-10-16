@@ -5,12 +5,19 @@ import com.zwstudio.lolly.data.dicts.TransformItemEditViewModel
 import com.zwstudio.lolly.domain.misc.MTransformItem
 import javafx.geometry.Orientation
 import javafx.geometry.Pos
+import javafx.scene.control.Spinner
+import javafx.scene.layout.HBox
 import javafx.scene.layout.Priority
+import javafx.scene.web.WebView
 import tornadofx.*
 
 class TransformEditView : Fragment("Transform Edit") {
     val vm: TransformEditViewModel by param()
     var result = false
+    var wvSource: WebView by singleAssign()
+    var wvResult: WebView by singleAssign()
+    var hbInterim: HBox by singleAssign()
+    var spInterim: Spinner<Int>? = null
 
     override val root = vbox(10.0) {
         paddingAll = 10.0
@@ -31,48 +38,54 @@ class TransformEditView : Fragment("Transform Edit") {
                 tab("Source") {
                     vbox {
                         hbox {
-                            textfield {
+                            textfield(vm.sourceWord) {
                                 promptText = "Word"
                             }
-                            textfield {
+                            textfield(vm.vmDetail.url) {
                                 hgrow = Priority.ALWAYS
                                 promptText = "URL"
+                                isEditable = false
                             }
-                            button("Get Html") {
-
+                            button("Get Html").action {
+                                vm.getHtml().subscribe {
+                                    onGetHtml()
+                                }
                             }
-                            button("Transform") {
-
+                            button("Transform").action {
+                                onTransformText()
                             }
-                            button("Get & Transform") {
-
+                            button("Get & Transform").action {
+                                vm.getHtml().subscribe {
+                                    onGetHtml()
+                                    onTransformText()
+                                }
                             }
                         }
-                        textarea {
+                        textarea(vm.sourceText) {
                             vgrow = Priority.ALWAYS
                         }
-                        textarea {
+                        wvSource = webview {
                             vgrow = Priority.ALWAYS
                         }
                     }
                 }
                 tab("Result") {
-                    vbox {
-                        textarea {
+                    splitpane(Orientation.VERTICAL) {
+                        vgrow = Priority.ALWAYS
+                        textarea(vm.resultText) {
                             vgrow = Priority.ALWAYS
                         }
-                        textarea {
+                        wvResult = webview {
                             vgrow = Priority.ALWAYS
                         }
                     }
                 }
                 tab("Interim") {
                     vbox {
-                        hbox {
+                        hbInterim = hbox {
                             alignment = Pos.CENTER
-                            spinner(0, 10, property = vm.interimIndex)
                         }
-                        textarea {
+                        textarea(vm.interimText) {
                             vgrow = Priority.ALWAYS
                         }
                     }
@@ -102,5 +115,16 @@ class TransformEditView : Fragment("Transform Edit") {
                 }
             }
         }
+    }
+
+    private fun onGetHtml() {
+        wvSource.engine.load(vm.sourceUrl)
+    }
+    private fun onTransformText() {
+        vm.transformText()
+        wvResult.engine.loadContent(vm.resultHtml)
+        if (spInterim != null) hbInterim.children.remove(spInterim)
+        spInterim = spinner(0, vm.interimMaxIndex, property = vm.interimIndex)
+        hbInterim.children.add(spInterim)
     }
 }
