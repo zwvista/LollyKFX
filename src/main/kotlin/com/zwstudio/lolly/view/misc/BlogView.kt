@@ -64,9 +64,15 @@ class BlogView : Fragment("Blog") {
                 setDividerPosition(0, 0.8)
                 taMarkedText = textarea(vm.markedText) {
                     isWrapText = true
+                    style {
+                        fontSize = 15.px
+                    }
                 }
                 textarea(vm.htmlText) {
                     isWrapText = true
+                    style {
+                        fontSize = 15.px
+                    }
                 }
             }
             wvBlog = webview {

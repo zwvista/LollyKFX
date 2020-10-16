@@ -9,15 +9,15 @@ class TransformItemEditView : Fragment("Transform Item Edit") {
 
     override val root = form {
         fieldset {
-            field("ID") {
+            field("Index") {
                 textfield(vmEdit.index) {
                     isEditable = false
                 }
             }
-            field("SEQNUM") {
+            field("Extractor") {
                 textfield(vmEdit.extractor)
             }
-            field("TRANSLATION") {
+            field("Replacement") {
                 textfield(vmEdit.replacement)
             }
         }

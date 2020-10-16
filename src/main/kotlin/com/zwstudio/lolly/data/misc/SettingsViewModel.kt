@@ -113,6 +113,7 @@ class SettingsViewModel : Component(), ScopedInstance {
     val isInvalidUnitPart: Boolean
         get() = usunitpartfrom > usunitpartto
 
+    var lstLanguagesAll = listOf<MLanguage>()
     var lstLanguages = listOf<MLanguage>()
     val selectedLangProperty = SimpleObjectProperty<MLanguage>()
     var selectedLang by selectedLangProperty
@@ -181,6 +182,7 @@ class SettingsViewModel : Component(), ScopedInstance {
     private val languageService: LanguageService by inject()
     private val usMappingService: USMappingService by inject()
     private val userSettingService: UserSettingService by inject()
+    private val codeService: CodeService by inject()
     private val dictionaryService: DictionaryService by inject()
     private val textbookService: TextbookService by inject()
     private val autoCorrectService: AutoCorrectService by inject()
@@ -339,12 +341,15 @@ class SettingsViewModel : Component(), ScopedInstance {
 
     fun getData(): Observable<Unit> =
         Observables.zip(languageService.getData(),
-            usMappingService.getData(),
-            userSettingService.getDataByUser(GlobalConstants.userid))
-        .map {
-            lstLanguages = it.first
-            lstUSMappings = it.second
-            lstUserSettings = it.third
+                usMappingService.getData(),
+                userSettingService.getDataByUser(GlobalConstants.userid),
+                codeService.getDictCodes()) {
+            res1, res2, res3, res4 ->
+            lstLanguagesAll = res1
+            lstLanguages = lstLanguagesAll.filter { it.id != 0 }
+            lstUSMappings = res2
+            lstUserSettings = res3
+            lstDictTypeCodes = res4
             INFO_USLANG = getUSInfo(MUSMapping.NAME_USLANG)
             INFO_USLEVELCOLORS = getUSInfo(MUSMapping.NAME_USLEVELCOLORS)
             INFO_USSCANINTERVAL = getUSInfo(MUSMapping.NAME_USSCANINTERVAL)

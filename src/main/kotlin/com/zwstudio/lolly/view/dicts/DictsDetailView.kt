@@ -34,7 +34,7 @@ class DictsDetailView : Fragment("Dictionaries Detail") {
                 }
                 row {
                     label("LANGNAMETO:")
-                    combobox(vmDetail.langtoitem, vmDetail.vm.vmSettings.lstLanguages) {
+                    combobox(vmDetail.langtoitem, vmDetail.vm.vmSettings.lstLanguagesAll) {
                         maxWidth = Double.MAX_VALUE
                         cellFormat {
                             text = it.langname

@@ -4,15 +4,29 @@ import com.zwstudio.lolly.data.dicts.DictsDetailViewModel
 import com.zwstudio.lolly.data.dicts.DictsViewModel
 import com.zwstudio.lolly.domain.misc.MDictionary
 import com.zwstudio.lolly.view.ILollySettings
+import javafx.scene.control.TableView
 import javafx.scene.layout.Priority
 import tornadofx.*
 
 class DictsView : Fragment("Dictionaries"), ILollySettings {
+    var tvDictionaries: TableView<MDictionary> by singleAssign()
     var vm = DictsViewModel()
 
     override val root = vbox {
         tag = this@DictsView
-        tableview(vm.lstItems) {
+        toolbar {
+            button("Add").action {
+                val modal = find<DictsDetailView>("vmDetail" to DictsDetailViewModel(vm, vm.newDictionary())) { openModal(block = true) }
+                if (modal.result) {
+                    vm.lstItems.add(modal.vmDetail.item)
+                    tvDictionaries.refresh()
+                }
+            }
+            button("Refresh").action {
+                vm.reload()
+            }
+        }
+        tvDictionaries = tableview(vm.lstItems) {
             vgrow = Priority.ALWAYS
             readonlyColumn("ID", MDictionary::id)
             readonlyColumn("LANGNAMETO", MDictionary::langnameto)

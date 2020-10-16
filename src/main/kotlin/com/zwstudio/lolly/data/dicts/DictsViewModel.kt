@@ -27,6 +27,10 @@ class DictsViewModel : BaseViewModel() {
             .subscribe { lstItems.setAll(it) }
     }
 
+    fun newDictionary() = MDictionary().apply {
+        langidfrom = vmSettings.selectedLang.id
+    }
+
     fun updateDict(o: MDictionary): Observable<Unit> =
         dictionaryService.updateDict(o)
         .applyIO()
