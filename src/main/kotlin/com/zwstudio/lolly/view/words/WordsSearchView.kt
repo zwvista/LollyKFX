@@ -22,7 +22,7 @@ class WordsSearchView : WordsBaseView("Search") {
             textfield(vm.newWord) {
                 promptText = "New Word"
                 action {
-                    addNewWord(vm.newWord.value)
+                    searchNewWord(vm.newWord.value)
                 }
             }
         }
@@ -58,7 +58,7 @@ class WordsSearchView : WordsBaseView("Search") {
         super.onSettingsChanged()
     }
 
-    fun addNewWord(newWord: String) {
+    fun searchNewWord(newWord: String) {
         val item = MUnitWord().apply {
             seqnum = vm.lstWords.size + 1
             word = newWord

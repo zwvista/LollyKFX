@@ -39,7 +39,7 @@ class BlogView : Fragment("Blog") {
             button("AddExplanation").action {
                 val text = Clipboard.getSystemClipboard().string
                 taMarkedText.replaceSelection(vm.getExplanation(text))
-                find<MainView>().searchWord(text)
+                find<MainView>().searchNewWord(text)
             }
             button("MarkedToHtml").action {
                 val str = vm.markedToHtml()

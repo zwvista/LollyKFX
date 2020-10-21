@@ -4,6 +4,7 @@ import com.zwstudio.lolly.data.misc.ReviewOptionsViewModel
 import com.zwstudio.lolly.data.misc.applyIO
 import com.zwstudio.lolly.data.words.WordsReviewViewModel
 import com.zwstudio.lolly.view.ILollySettings
+import com.zwstudio.lolly.view.MainView
 import com.zwstudio.lolly.view.misc.ReviewOptionsView
 import io.reactivex.rxjava3.core.Observable
 import javafx.geometry.Pos
@@ -103,6 +104,9 @@ class WordsReviewView : Fragment("Words Review"), ILollySettings {
                 hbox {
                     button("Search") {
                         enableWhen(vm.searchIsEnabled)
+                        action {
+                            find<MainView>().searchNewWord(vm.currentWord)
+                        }
                     }
                     region {
                         hgrow = Priority.ALWAYS

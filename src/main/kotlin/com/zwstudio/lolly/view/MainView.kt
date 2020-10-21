@@ -88,8 +88,8 @@ class MainView : View("Lolly TornadoFX") {
         tabpane.selectionModel.select(t)
     }
 
-    fun searchWord(word: String) {
+    fun searchNewWord(word: String) {
         AddTab<WordsSearchView>()
-        (tabpane.selectionModel.selectedItem.content.tag as WordsSearchView).addNewWord(word)
+        (tabpane.selectionModel.selectedItem.content.tag as WordsSearchView).searchNewWord(word)
     }
 }
