@@ -193,8 +193,8 @@ class WordsUnitView : WordsBaseView("Words in Unit") {
                     }
                     tableview(vm.lstPhrases) {
                         readonlyColumn("ID", MLangPhrase::id)
-                        column("PHRASE", MLangPhrase::phraseProperty)
-                        column("TRANSLATION", MLangPhrase::translationProperty)
+                        column("PHRASE", MLangPhrase::phraseProperty).makeEditable()
+                        column("TRANSLATION", MLangPhrase::translationProperty).makeEditable()
                         contextmenu {
                             item("Copy"){
                                 enableWhen { selectionModel.selectedItemProperty().isNotNull }
@@ -205,6 +205,12 @@ class WordsUnitView : WordsBaseView("Words in Unit") {
                                 enableWhen { selectionModel.selectedItemProperty().isNotNull }
                             }.action {
                                 googleString(selectedItem?.phrase)
+                            }
+                            onEditCommit {
+                                val title = this.tableColumn.text
+                                if (title == "Phrase")
+                                    rowValue.phrase = vmSettings.autoCorrectInput(rowValue.phrase)
+                                vmPhrasesLang.update(rowValue).subscribe()
                             }
                         }
                     }

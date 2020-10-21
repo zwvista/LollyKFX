@@ -49,6 +49,7 @@ class PhrasesTextbookView : PhrasesBaseView("Phrases in Textbook") {
                             val title = this.tableColumn.text
                             if (title == "Phrase")
                                 rowValue.phrase = vmSettings.autoCorrectInput(rowValue.phrase)
+                            vm.update(rowValue).subscribe()
                         }
                         onSelectionChange {
                             vm.getWords(it?.phraseid).subscribe {
@@ -98,6 +99,12 @@ class PhrasesTextbookView : PhrasesBaseView("Phrases in Textbook") {
                                 enableWhen { selectionModel.selectedItemProperty().isNotNull }
                             }.action {
                                 googleString(selectedItem?.word)
+                            }
+                            onEditCommit {
+                                val title = this.tableColumn.text
+                                if (title == "WORD")
+                                    rowValue.word = vmSettings.autoCorrectInput(rowValue.word)
+                                vmWordsLang.update(rowValue).subscribe()
                             }
                         }
                     }

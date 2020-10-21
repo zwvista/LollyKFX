@@ -1,6 +1,7 @@
 package com.zwstudio.lolly.view.words
 
 import com.zwstudio.lolly.data.misc.SettingsViewModel
+import com.zwstudio.lolly.data.phrases.PhrasesLangViewModel
 import com.zwstudio.lolly.domain.misc.MDictionary
 import com.zwstudio.lolly.view.ILollySettings
 import javafx.scene.Node
@@ -56,5 +57,5 @@ abstract class WordsPhraseBaseView(title: String? = null, icon: Node? = null) : 
 }
 
 abstract class WordsBaseView(title: String? = null, icon: Node? = null) : WordsPhraseBaseView(title, icon) {
-
+    val vmPhrasesLang = PhrasesLangViewModel()
 }

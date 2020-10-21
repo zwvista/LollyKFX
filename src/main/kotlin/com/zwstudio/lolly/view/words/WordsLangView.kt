@@ -60,6 +60,7 @@ class WordsLangView : WordsBaseView("Words in Language") {
                             val title = this.tableColumn.text
                             if (title == "WORD")
                                 rowValue.word = vmSettings.autoCorrectInput(rowValue.word)
+                            vm.update(rowValue).subscribe()
                         }
                         onSelectionChange {
                             searchDict(it?.word)
@@ -90,8 +91,8 @@ class WordsLangView : WordsBaseView("Words in Language") {
                     }
                     tableview(vm.lstPhrases) {
                         readonlyColumn("ID", MLangPhrase::id)
-                        column("PHRASE", MLangPhrase::phraseProperty)
-                        column("TRANSLATION", MLangPhrase::translationProperty)
+                        column("PHRASE", MLangPhrase::phraseProperty).makeEditable()
+                        column("TRANSLATION", MLangPhrase::translationProperty).makeEditable()
                         contextmenu {
                             item("Copy") {
                                 enableWhen { selectionModel.selectedItemProperty().isNotNull }
@@ -102,6 +103,12 @@ class WordsLangView : WordsBaseView("Words in Language") {
                                 enableWhen { selectionModel.selectedItemProperty().isNotNull }
                             }.action {
                                 googleString(selectedItem?.phrase)
+                            }
+                            onEditCommit {
+                                val title = this.tableColumn.text
+                                if (title == "Phrase")
+                                    rowValue.phrase = vmSettings.autoCorrectInput(rowValue.phrase)
+                                vmPhrasesLang.update(rowValue).subscribe()
                             }
                         }
                     }

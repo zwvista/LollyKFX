@@ -52,6 +52,7 @@ class PhrasesLangView : PhrasesBaseView("Phrases in Language") {
                             val title = this.tableColumn.text
                             if (title == "Phrase")
                                 rowValue.phrase = vmSettings.autoCorrectInput(rowValue.phrase)
+                            vm.update(rowValue).subscribe()
                         }
                         onSelectionChange {
                             vm.getWords(it?.id).subscribe {
@@ -104,6 +105,12 @@ class PhrasesLangView : PhrasesBaseView("Phrases in Language") {
                             }.action {
                                 googleString(selectedItem?.word)
                             }
+                        }
+                        onEditCommit {
+                            val title = this.tableColumn.text
+                            if (title == "WORD")
+                                rowValue.word = vmSettings.autoCorrectInput(rowValue.word)
+                            vmWordsLang.update(rowValue).subscribe()
                         }
                     }
                 }

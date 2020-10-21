@@ -182,6 +182,12 @@ class PhrasesUnitView : PhrasesBaseView("Phrases in Unit") {
                                 googleString(selectedItem?.word)
                             }
                         }
+                        onEditCommit {
+                            val title = this.tableColumn.text
+                            if (title == "WORD")
+                                rowValue.word = vmSettings.autoCorrectInput(rowValue.word)
+                            vmWordsLang.update(rowValue).subscribe()
+                        }
                     }
                 }
                 label(vm.statusText)
