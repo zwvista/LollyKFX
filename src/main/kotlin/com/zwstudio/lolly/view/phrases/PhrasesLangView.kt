@@ -68,12 +68,18 @@ class PhrasesLangView : PhrasesBaseView("Phrases in Language") {
                                 this.refresh()
                         }
                         contextmenu {
-                            item("Delete")
+                            item("Delete") {
+                                enableWhen { selectionModel.selectedItemProperty().isNotNull }
+                            }
                             separator()
-                            item("Copy").action {
+                            item("Copy") {
+                                enableWhen { selectionModel.selectedItemProperty().isNotNull }
+                            }.action {
                                 copyText(selectedItem?.phrase)
                             }
-                            item("Google").action {
+                            item("Google") {
+                                enableWhen { selectionModel.selectedItemProperty().isNotNull }
+                            }.action {
                                 googleString(selectedItem?.phrase)
                             }
                         }
@@ -86,6 +92,18 @@ class PhrasesLangView : PhrasesBaseView("Phrases in Language") {
                         readonlyColumn("FAMIID", MLangWord::famiid)
                         onSelectionChange {
                             searchDict(it?.word)
+                        }
+                        contextmenu {
+                            item("Copy") {
+                                enableWhen { selectionModel.selectedItemProperty().isNotNull }
+                            }.action {
+                                copyText(selectedItem?.word)
+                            }
+                            item("Google") {
+                                enableWhen { selectionModel.selectedItemProperty().isNotNull }
+                            }.action {
+                                googleString(selectedItem?.word)
+                            }
                         }
                     }
                 }

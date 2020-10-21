@@ -67,10 +67,14 @@ class PhrasesTextbookView : PhrasesBaseView("Phrases in Textbook") {
                         contextmenu {
                             item("Delete")
                             separator()
-                            item("Copy").action {
+                            item("Copy") {
+                                enableWhen { selectionModel.selectedItemProperty().isNotNull }
+                            }.action {
                                 copyText(selectedItem?.phrase)
                             }
-                            item("Google").action {
+                            item("Google") {
+                                enableWhen { selectionModel.selectedItemProperty().isNotNull }
+                            }.action {
                                 googleString(selectedItem?.phrase)
                             }
                         }
@@ -83,6 +87,18 @@ class PhrasesTextbookView : PhrasesBaseView("Phrases in Textbook") {
                         readonlyColumn("FAMIID", MLangWord::famiid)
                         onSelectionChange {
                             searchDict(it?.word)
+                        }
+                        contextmenu {
+                            item("Copy") {
+                                enableWhen { selectionModel.selectedItemProperty().isNotNull }
+                            }.action {
+                                copyText(selectedItem?.word)
+                            }
+                            item("Google") {
+                                enableWhen { selectionModel.selectedItemProperty().isNotNull }
+                            }.action {
+                                googleString(selectedItem?.word)
+                            }
                         }
                     }
                 }

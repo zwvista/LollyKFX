@@ -177,6 +177,7 @@ class SettingsViewModel : Component(), ScopedInstance {
         val lstScopePhraseFilters = listOf("Phrase", "Translation")
         val lstScopePatternFilters = listOf("Pattern", "Note", "Tags")
         val lstReviewModes = ReviewMode.values().mapIndexed { index, s -> MSelectItem(index, s.toString()) }
+        val zeroNote = "O"
     }
 
     private val languageService: LanguageService by inject()
@@ -435,7 +436,7 @@ class SettingsViewModel : Component(), ScopedInstance {
     fun getHtml(url: String): Observable<String> =
         htmlService.getHtml(url)
 
-    fun getNote(word: String): Observable<String> {
+    fun retrieveNote(word: String): Observable<String> {
         val dictNote = selectedDictNote ?: return Observable.empty()
         val url = dictNote.urlString(word, lstAutoCorrect)
         return getHtml(url).map {
@@ -444,7 +445,7 @@ class SettingsViewModel : Component(), ScopedInstance {
         }
     }
 
-    fun getNotes(wordCount: Int, isNoteEmpty: (Int) -> Boolean, getOne: (Int) -> Unit, allComplete: () -> Unit) {
+    fun retrieveNotes(wordCount: Int, isNoteEmpty: (Int) -> Boolean, getOne: (Int) -> Unit, allComplete: () -> Unit) {
         val dictNote = selectedDictNote ?: return
         var i = 0
         var subscription: Disposable? = null
@@ -463,16 +464,16 @@ class SettingsViewModel : Component(), ScopedInstance {
         compositeDisposable.add(subscription)
     }
 
-    fun clearNotes(wordCount: Int, isNoteEmpty: (Int) -> Boolean, getOne: (Int) -> Observable<Unit>): Observable<Unit> {
+    fun clearNotes(wordCount: Int, isNoteEmpty: (Int) -> Boolean, getOne: (Int) -> Unit, allComplete: () -> Unit) {
+        val dictNote = selectedDictNote ?: return
         var i = 0
-        var o = Observable.just(Unit)
         while (i < wordCount) {
             while (i < wordCount && !isNoteEmpty(i))
                 i++
             if (i < wordCount)
-                o = o.concatWith(getOne(i))
+                getOne(i)
             i++
         }
-        return o
+        allComplete()
     }
 }

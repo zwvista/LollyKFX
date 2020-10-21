@@ -58,17 +58,15 @@ class PhrasesTextbookDetailView : Fragment("Phrases in Textbook Detail") {
         buttonbar {
             button("OK") {
                 isDefaultButton = true
-                action {
-                    result = true
-                    vmDetail.commit()
-                    close()
-                }
+            }.action {
+                result = true
+                vmDetail.commit()
+                close()
             }
             button("Cancel") {
                 isCancelButton = true
-                action {
-                    close()
-                }
+            }.action {
+                close()
             }
         }
     }

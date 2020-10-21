@@ -10,6 +10,7 @@ import com.zwstudio.lolly.service.wpp.UnitWordService
 import com.zwstudio.lolly.service.wpp.WordPhraseService
 import io.reactivex.rxjava3.core.Observable
 import io.reactivex.rxjava3.disposables.CompositeDisposable
+import javafx.beans.property.SimpleBooleanProperty
 import javafx.beans.property.SimpleObjectProperty
 import javafx.beans.property.SimpleStringProperty
 import tornadofx.*
@@ -28,6 +29,7 @@ class WordsUnitViewModel(val inTextbook: Boolean) : BaseViewModel() {
     val textFilter = SimpleStringProperty("")
     val textbookFilter = SimpleObjectProperty<MSelectItem>()
     val noFilter get() = textFilter.value.isEmpty() && textbookFilter.value.value == 0
+    val ifEmpty = SimpleBooleanProperty(true)
     val statusText = SimpleStringProperty()
 
     init {
@@ -92,19 +94,31 @@ class WordsUnitViewModel(val inTextbook: Boolean) : BaseViewModel() {
         textbook = vmSettings.selectedTextbook
     }
 
-    fun getNote(index: Int): Observable<Unit> {
-        val item = lstWordsAll[index]
-        return vmSettings.getNote(item.word).flatMap {
+    fun retrieveNote(item: MUnitWord): Observable<Unit> {
+        return vmSettings.retrieveNote(item.word).flatMap {
             item.note = it
             unitWordService.updateNote(item.id, it)
         }
     }
 
-    fun getNotes(ifEmpty: Boolean, oneComplete: (Int) -> Unit, allComplete: () -> Unit) {
-        vmSettings.getNotes(lstWordsAll.size, isNoteEmpty = {
-            !ifEmpty || lstWordsAll[it].note.isNullOrEmpty()
+    fun clearNote(item: MUnitWord): Observable<Unit> {
+        item.note = SettingsViewModel.zeroNote
+        return unitWordService.updateNote(item.id, item.note)
+    }
+
+    fun retrieveNotes(oneComplete: (Int) -> Unit, allComplete: () -> Unit) {
+        vmSettings.retrieveNotes(lstWordsAll.size, isNoteEmpty = {
+            !ifEmpty.value || lstWordsAll[it].note.isNullOrEmpty()
         }, getOne = { i ->
-            compositeDisposable.add(getNote(i).subscribe { oneComplete(i) })
+            retrieveNote(lstWordsAll[i]).subscribe { oneComplete(i) }
+        }, allComplete = allComplete)
+    }
+
+    fun clearNotes(oneComplete: (Int) -> Unit, allComplete: () -> Unit) {
+        vmSettings.clearNotes(lstWordsAll.size, isNoteEmpty = {
+            !ifEmpty.value || lstWordsAll[it].note.isNullOrEmpty()
+        }, getOne = { i ->
+            clearNote(lstWordsAll[i]).subscribe { oneComplete(i) }
         }, allComplete = allComplete)
     }
 

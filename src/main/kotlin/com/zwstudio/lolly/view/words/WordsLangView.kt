@@ -33,11 +33,10 @@ class WordsLangView : WordsBaseView("Words in Language") {
             }
             textfield(vm.newWord) {
                 promptText = "New Word"
-                action {
-                    val item = vm.newLangWord().apply { word = vm.newWord.value }
-                    vm.lstWords.add(item)
-                    tvWords.refresh()
-                }
+            }.action {
+                val item = vm.newLangWord().apply { word = vm.newWord.value }
+                vm.lstWords.add(item)
+                tvWords.refresh()
             }
             choicebox(vm.scopeFilter, SettingsViewModel.lstScopeWordFilters)
             textfield(vm.textFilter) {
@@ -73,12 +72,18 @@ class WordsLangView : WordsBaseView("Words in Language") {
                                 this.refresh()
                         }
                         contextmenu {
-                            item("Delete")
+                            item("Delete") {
+                                enableWhen { selectionModel.selectedItemProperty().isNotNull }
+                            }
                             separator()
-                            item("Copy").action {
+                            item("Copy") {
+                                enableWhen { selectionModel.selectedItemProperty().isNotNull }
+                            }.action {
                                 copyText(selectedItem?.word)
                             }
-                            item("Google").action {
+                            item("Google") {
+                                enableWhen { selectionModel.selectedItemProperty().isNotNull }
+                            }.action {
                                 googleString(selectedItem?.word)
                             }
                         }
@@ -87,6 +92,18 @@ class WordsLangView : WordsBaseView("Words in Language") {
                         readonlyColumn("ID", MLangPhrase::id)
                         column("PHRASE", MLangPhrase::phraseProperty)
                         column("TRANSLATION", MLangPhrase::translationProperty)
+                        contextmenu {
+                            item("Copy") {
+                                enableWhen { selectionModel.selectedItemProperty().isNotNull }
+                            }.action {
+                                copyText(selectedItem?.phrase)
+                            }
+                            item("Google") {
+                                enableWhen { selectionModel.selectedItemProperty().isNotNull }
+                            }.action {
+                                googleString(selectedItem?.phrase)
+                            }
+                        }
                     }
                 }
                 label(vm.statusText)

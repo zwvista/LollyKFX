@@ -21,9 +21,8 @@ class WordsSearchView : WordsBaseView("Search") {
             }
             textfield(vm.newWord) {
                 promptText = "New Word"
-                action {
-                    searchNewWord(vm.newWord.value)
-                }
+            }.action {
+                searchNewWord(vm.newWord.value)
             }
         }
         splitpane(Orientation.HORIZONTAL) {

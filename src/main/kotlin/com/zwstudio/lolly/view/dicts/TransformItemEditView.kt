@@ -24,17 +24,15 @@ class TransformItemEditView : Fragment("Transform Item Edit") {
         buttonbar {
             button("OK") {
                 isDefaultButton = true
-                action {
-                    result = true
-                    vmEdit.commit()
-                    close()
-                }
+            }.action {
+                result = true
+                vmEdit.commit()
+                close()
             }
             button("Cancel") {
                 isCancelButton = true
-                action {
-                    close()
-                }
+            }.action {
+                close()
             }
         }
     }

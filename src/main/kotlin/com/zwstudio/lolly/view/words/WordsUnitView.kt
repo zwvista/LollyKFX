@@ -43,41 +43,41 @@ class WordsUnitView : WordsBaseView("Words in Unit") {
             }
             button("Toggle") {
                 isDisable = !vmSettings.toTypeIsMovable
-                action {
-                    val item = tvWords.selectionModel.selectedItem
-                    val part = item?.part ?: vmSettings.lstParts[0].value
-                    vmSettings.toggleUnitPart(part).subscribe {
-                        vm.reload()
-                    }
+            }.action {
+                val item = tvWords.selectionModel.selectedItem
+                val part = item?.part ?: vmSettings.lstParts[0].value
+                vmSettings.toggleUnitPart(part).subscribe {
+                    vm.reload()
                 }
             }
             button("Previous") {
                 isDisable = !vmSettings.toTypeIsMovable
-                action {
-                    vmSettings.previousUnitPart().subscribe {
-                        vm.reload()
-                    }
+            }.action {
+                vmSettings.previousUnitPart().subscribe {
+                    vm.reload()
                 }
             }
             button("Next") {
                 isDisable = !vmSettings.toTypeIsMovable
-                action {
-                    vmSettings.nextUnitPart().subscribe {
-                        vm.reload()
-                    }
+            }.action {
+                vmSettings.nextUnitPart().subscribe {
+                    vm.reload()
                 }
             }
-            checkbox("If Empty")
-            button("Get Notes")
-            button("Clear Notes")
+            checkbox("If Empty", vm.ifEmpty)
+            button("Retrieve Notes").action {
+                vm.retrieveNotes({}, {})
+            }
+            button("Clear Notes").action {
+                vm.clearNotes({}, {})
+            }
             button("Review")
             textfield(vm.newWord) {
                 promptText = "New Word"
-                action {
-                    val item = vm.newUnitWord().apply { word = vm.newWord.value }
-                    vm.lstWordsAll.add(item)
-                    tvWords.refresh()
-                }
+            }.action {
+                val item = vm.newUnitWord().apply { word = vm.newWord.value }
+                vm.lstWordsAll.add(item)
+                tvWords.refresh()
             }
             choicebox(vm.scopeFilter, SettingsViewModel.lstScopeWordFilters)
             textfield(vm.textFilter) {
@@ -118,16 +118,38 @@ class WordsUnitView : WordsBaseView("Words in Unit") {
                                 this.refresh()
                         }
                         contextmenu {
-                            item("Retrieve Note")
-                            item("Clear Note")
+                            item("Retrieve Note") {
+                                enableWhen { selectionModel.selectedItemProperty().isNotNull }
+                            }.action {
+                                vm.retrieveNote(selectedItem!!)
+                            }
+                            item("Clear Note") {
+                                enableWhen { selectionModel.selectedItemProperty().isNotNull }
+                            }.action {
+                                vm.clearNote(selectedItem!!)
+                            }
                             separator()
-                            item("Delete")
+                            item("Edit") {
+                                enableWhen { selectionModel.selectedItemProperty().isNotNull }
+                            }.action {
+                                vm.clearNote(selectedItem!!)
+                            }
                             separator()
-                            item("Copy").action {
+                            item("Delete") {
+                                enableWhen { selectionModel.selectedItemProperty().isNotNull }
+                            }.action {
+                                vm.clearNote(selectedItem!!)
+                            }
+                            separator()
+                            item("Copy") {
+                                enableWhen { selectionModel.selectedItemProperty().isNotNull }
+                            }.action {
                                 copyText(selectedItem?.word)
                             }
-                            item("Google").action {
-                                googleString(selectedItem?.word)
+                            item("Google") {
+                                enableWhen { selectionModel.selectedItemProperty().isNotNull }
+                            }.action {
+                                vm.clearNote(selectedItem!!)
                             }
                         }
                         // https://stackoverflow.com/questions/28603224/sort-tableview-with-drag-and-drop-rows
@@ -173,6 +195,18 @@ class WordsUnitView : WordsBaseView("Words in Unit") {
                         readonlyColumn("ID", MLangPhrase::id)
                         column("PHRASE", MLangPhrase::phraseProperty)
                         column("TRANSLATION", MLangPhrase::translationProperty)
+                        contextmenu {
+                            item("Copy"){
+                                enableWhen { selectionModel.selectedItemProperty().isNotNull }
+                            }.action {
+                                copyText(selectedItem?.phrase)
+                            }
+                            item("Google"){
+                                enableWhen { selectionModel.selectedItemProperty().isNotNull }
+                            }.action {
+                                googleString(selectedItem?.phrase)
+                            }
+                        }
                     }
                 }
                 label(vm.statusText)

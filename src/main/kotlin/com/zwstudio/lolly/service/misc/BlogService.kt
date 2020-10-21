@@ -116,10 +116,10 @@ class BlogService: BaseService() {
             return s
         }
         val items = text.split("\n").toMutableList()
-        return vmSettings.getNotes(items.size, {
-            val m = regMarkedEntry.find(items[it]) ?: return@getNotes false
+        return vmSettings.retrieveNotes(items.size, {
+            val m = regMarkedEntry.find(items[it]) ?: return@retrieveNotes false
             val word = m.groupValues[2]
-            return@getNotes word.all { it != '（' && !bigDigits.contains(it) }
+            return@retrieveNotes word.all { it != '（' && !bigDigits.contains(it) }
         }, {
             val i = it
             val m = regMarkedEntry.find(items[i])!!
@@ -127,7 +127,7 @@ class BlogService: BaseService() {
             val word = m.groupValues[2]
             val s3 = m.groupValues[3]
             val s4 = m.groupValues[4]
-            vmSettings.getNote(word).subscribe { note ->
+            vmSettings.retrieveNote(word).subscribe { note ->
                 val j = note.indexOfFirst { it.isDigit() }
                 val s21 = if (j == -1) note else note.substring(0, j)
                 val s22 = if (j == -1) "" else f(note.substring(j))

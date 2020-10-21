@@ -44,27 +44,23 @@ class WordsUnitBatchView : Fragment("Words in Unit Batch Edit") {
             alignment = Pos.CENTER
             button("Check All") {
                 prefWidth = 150.0
-                action {
-                    vm.checkItems(0, tvWords.selectionModel.selectedItems)
-                }
+            }.action {
+                vm.checkItems(0, tvWords.selectionModel.selectedItems)
             }
             button("Uncheck All") {
                 prefWidth = 150.0
-                action {
-                    vm.checkItems(1, tvWords.selectionModel.selectedItems)
-                }
+            }.action {
+                vm.checkItems(1, tvWords.selectionModel.selectedItems)
             }
             button("Check Selected") {
                 prefWidth = 150.0
-                action {
-                    vm.checkItems(2, tvWords.selectionModel.selectedItems)
-                }
+            }.action {
+                vm.checkItems(2, tvWords.selectionModel.selectedItems)
             }
             button("Uncheck Selected") {
                 prefWidth = 150.0
-                action {
-                    vm.checkItems(3, tvWords.selectionModel.selectedItems)
-                }
+            }.action {
+                vm.checkItems(3, tvWords.selectionModel.selectedItems)
             }
         }
         tvWords = tableview(vm.vm.lstWords) {
@@ -83,16 +79,14 @@ class WordsUnitBatchView : Fragment("Words in Unit Batch Edit") {
         buttonbar {
             button("OK") {
                 isDefaultButton = true
-                action {
-                    result = true
-                    close()
-                }
+            }.action {
+                result = true
+                close()
             }
             button("Cancel") {
                 isCancelButton = true
-                action {
-                    close()
-                }
+            }.action {
+                close()
             }
         }
     }

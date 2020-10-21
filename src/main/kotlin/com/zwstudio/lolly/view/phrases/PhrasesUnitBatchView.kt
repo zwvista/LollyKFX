@@ -42,27 +42,23 @@ class PhrasesUnitBatchView : Fragment("Phrases in Unit Batch Edit") {
             alignment = Pos.CENTER
             button("Check All") {
                 prefWidth = 150.0
-                action {
-                    vm.checkItems(0, tvPhrases.selectionModel.selectedItems)
-                }
+            }.action {
+                vm.checkItems(0, tvPhrases.selectionModel.selectedItems)
             }
             button("Uncheck All") {
                 prefWidth = 150.0
-                action {
-                    vm.checkItems(1, tvPhrases.selectionModel.selectedItems)
-                }
+            }.action {
+                vm.checkItems(1, tvPhrases.selectionModel.selectedItems)
             }
             button("Check Selected") {
                 prefWidth = 150.0
-                action {
-                    vm.checkItems(2, tvPhrases.selectionModel.selectedItems)
-                }
+            }.action {
+                vm.checkItems(2, tvPhrases.selectionModel.selectedItems)
             }
             button("Uncheck Selected") {
                 prefWidth = 150.0
-                action {
-                    vm.checkItems(3, tvPhrases.selectionModel.selectedItems)
-                }
+            }.action {
+                vm.checkItems(3, tvPhrases.selectionModel.selectedItems)
             }
         }
         tvPhrases = tableview(vm.vm.lstPhrases) {

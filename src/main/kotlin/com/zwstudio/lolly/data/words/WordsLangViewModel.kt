@@ -58,9 +58,9 @@ class WordsLangViewModel : BaseViewModel() {
         langid = vmSettings.selectedLang.id
     }
 
-    fun getNote(index: Int): Observable<Unit> {
+    fun retrieveNote(index: Int): Observable<Unit> {
         val item = lstWordsAll[index]
-        return vmSettings.getNote(item.word).flatMap {
+        return vmSettings.retrieveNote(item.word).flatMap {
             item.note = it
             langWordService.updateNote(item.id, it)
         }

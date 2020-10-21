@@ -45,28 +45,25 @@ class PhrasesUnitView : PhrasesBaseView("Phrases in Unit") {
             }
             button("Toggle") {
                 isDisable = !vmSettings.toTypeIsMovable
-                action {
-                    val item = tvPhrases.selectionModel.selectedItem
-                    val part = item?.part ?: vmSettings.lstParts[0].value
-                    vmSettings.toggleUnitPart(part).subscribe {
-                        vm.reload()
-                    }
+            }.action {
+                val item = tvPhrases.selectionModel.selectedItem
+                val part = item?.part ?: vmSettings.lstParts[0].value
+                vmSettings.toggleUnitPart(part).subscribe {
+                    vm.reload()
                 }
             }
             button("Previous") {
                 isDisable = !vmSettings.toTypeIsMovable
-                action {
-                    vmSettings.previousUnitPart().subscribe {
-                        vm.reload()
-                    }
+            }.action {
+                vmSettings.previousUnitPart().subscribe {
+                    vm.reload()
                 }
             }
             button("Next") {
                 isDisable = !vmSettings.toTypeIsMovable
-                action {
-                    vmSettings.nextUnitPart().subscribe {
-                        vm.reload()
-                    }
+            }.action {
+                vmSettings.nextUnitPart().subscribe {
+                    vm.reload()
                 }
             }
             button("Review")
@@ -111,12 +108,18 @@ class PhrasesUnitView : PhrasesBaseView("Phrases in Unit") {
                                 this.refresh()
                         }
                         contextmenu {
-                            item("Delete")
+                            item("Delete") {
+                                enableWhen { selectionModel.selectedItemProperty().isNotNull }
+                            }
                             separator()
-                            item("Copy").action {
+                            item("Copy") {
+                                enableWhen { selectionModel.selectedItemProperty().isNotNull }
+                            }.action {
                                 copyText(selectedItem?.phrase)
                             }
-                            item("Google").action {
+                            item("Google") {
+                                enableWhen { selectionModel.selectedItemProperty().isNotNull }
+                            }.action {
                                 googleString(selectedItem?.phrase)
                             }
                         }
@@ -166,6 +169,18 @@ class PhrasesUnitView : PhrasesBaseView("Phrases in Unit") {
                         readonlyColumn("FAMIID", MLangWord::famiid)
                         onSelectionChange {
                             searchDict(it?.word)
+                        }
+                        contextmenu {
+                            item("Copy") {
+                                enableWhen { selectionModel.selectedItemProperty().isNotNull }
+                            }.action {
+                                copyText(selectedItem?.word)
+                            }
+                            item("Google") {
+                                enableWhen { selectionModel.selectedItemProperty().isNotNull }
+                            }.action {
+                                googleString(selectedItem?.word)
+                            }
                         }
                     }
                 }

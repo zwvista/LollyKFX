@@ -62,12 +62,18 @@ class WordsTextbookView : WordsBaseView("Words in Textbook") {
                                 this.refresh()
                         }
                         contextmenu {
-                            item("Delete")
+                            item("Delete") {
+                                enableWhen { selectionModel.selectedItemProperty().isNotNull }
+                            }.
                             separator()
-                            item("Copy").action {
+                            item("Copy") {
+                                enableWhen { selectionModel.selectedItemProperty().isNotNull }
+                            }.action {
                                 copyText(selectedItem?.word)
                             }
-                            item("Google").action {
+                            item("Google") {
+                                enableWhen { selectionModel.selectedItemProperty().isNotNull }
+                            }.action {
                                 googleString(selectedItem?.word)
                             }
                         }
@@ -76,6 +82,18 @@ class WordsTextbookView : WordsBaseView("Words in Textbook") {
                         readonlyColumn("ID", MLangPhrase::id)
                         column("PHRASE", MLangPhrase::phraseProperty)
                         column("TRANSLATION", MLangPhrase::translationProperty)
+                        contextmenu {
+                            item("Copy") {
+                                enableWhen { selectionModel.selectedItemProperty().isNotNull }
+                            }.action {
+                                copyText(selectedItem?.phrase)
+                            }
+                            item("Google") {
+                                enableWhen { selectionModel.selectedItemProperty().isNotNull }
+                            }.action {
+                                googleString(selectedItem?.phrase)
+                            }
+                        }
                     }
                 }
                 label(vm.statusText)
