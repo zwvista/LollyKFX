@@ -56,7 +56,7 @@ class WordsDictView : Fragment() {
         }
     }
 
-    fun searchWord(word: String) {
+    fun searchDict(word: String) {
         this.word = word
         dictStatus = DictWebViewStatus.Ready
         url = dict.urlString(word, vmSettings.lstAutoCorrect)

@@ -51,7 +51,7 @@ class PhrasesTextbookView : PhrasesBaseView("Phrases in Textbook") {
                                 rowValue.phrase = vmSettings.autoCorrectInput(rowValue.phrase)
                         }
                         onSelectionChange {
-                            vm.searchWords(it?.phraseid).subscribe {
+                            vm.getWords(it?.phraseid).subscribe {
                                 if (vm.lstWords.isNotEmpty())
                                     Platform.runLater {
                                         tvWords.selectionModel.select(0)

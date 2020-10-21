@@ -71,7 +71,7 @@ class PatternsView : Fragment("Patterns in Language"), ILollySettings {
                                             tvWebPages.selectionModel.select(0)
                                         }
                                 }
-                                vm.searchPhrases(it).subscribe()
+                                vm.getPhrases(it).subscribe()
                             }
                         }
                         onDoubleClick {

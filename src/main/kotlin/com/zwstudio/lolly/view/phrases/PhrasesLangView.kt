@@ -54,7 +54,7 @@ class PhrasesLangView : PhrasesBaseView("Phrases in Language") {
                                 rowValue.phrase = vmSettings.autoCorrectInput(rowValue.phrase)
                         }
                         onSelectionChange {
-                            vm.searchWords(it?.id).subscribe {
+                            vm.getWords(it?.id).subscribe {
                                 if (vm.lstWords.isNotEmpty())
                                     Platform.runLater {
                                         tvWords.selectionModel.select(0)

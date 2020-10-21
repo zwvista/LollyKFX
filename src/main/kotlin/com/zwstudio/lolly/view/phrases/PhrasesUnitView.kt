@@ -97,7 +97,7 @@ class PhrasesUnitView : PhrasesBaseView("Phrases in Unit") {
                             vm.update(rowValue)
                         }
                         onSelectionChange {
-                            vm.searchWords(it?.phraseid).subscribe {
+                            vm.getWords(it?.phraseid).subscribe {
                                 if (vm.lstWords.isNotEmpty())
                                     Platform.runLater {
                                         tvWords.selectionModel.select(0)

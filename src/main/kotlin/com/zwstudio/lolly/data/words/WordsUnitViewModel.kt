@@ -108,7 +108,7 @@ class WordsUnitViewModel(val inTextbook: Boolean) : BaseViewModel() {
         }, allComplete = allComplete)
     }
 
-    fun searchPhrases(wordid: Int?): Observable<Unit> =
+    fun getPhrases(wordid: Int?): Observable<Unit> =
         if (wordid == null)
             Observable.just(Unit)
                 .doAfterNext { lstPhrases.clear() }

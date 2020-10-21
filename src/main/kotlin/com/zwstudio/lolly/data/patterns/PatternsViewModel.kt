@@ -94,7 +94,7 @@ class PatternsViewModel : BaseViewModel() {
         seqnum = (lstWebPages.maxOfOrNull { it.seqnum } ?: 0) + 1
     }
 
-    fun searchPhrases(patternid: Int) =
+    fun getPhrases(patternid: Int) =
         patternPhraseService.getDataByPatternId(patternid)
             .applyIO()
             .doAfterNext { lstPhrases.setAll(it) }

@@ -50,7 +50,7 @@ abstract class WordsPhraseBaseView(title: String? = null, icon: Node? = null) : 
         val word = word ?: ""
         dictsPane.tabs.forEach {
             val f = it.content.tag as WordsDictView
-            f.searchWord(word)
+            f.searchDict(word)
         }
     }
 }

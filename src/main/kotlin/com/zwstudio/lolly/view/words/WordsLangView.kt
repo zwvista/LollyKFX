@@ -64,7 +64,7 @@ class WordsLangView : WordsBaseView("Words in Language") {
                         }
                         onSelectionChange {
                             searchDict(it?.word)
-                            vm.searchPhrases(it?.id).subscribe()
+                            vm.getPhrases(it?.id).subscribe()
                         }
                         onDoubleClick {
                             // https://github.com/edvin/tornadofx/issues/226
