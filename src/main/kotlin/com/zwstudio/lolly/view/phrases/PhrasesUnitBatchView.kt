@@ -75,17 +75,15 @@ class PhrasesUnitBatchView : Fragment("Phrases in Unit Batch Edit") {
         buttonbar {
             button("OK") {
                 isDefaultButton = true
-                action {
-                    result = true
-                    vm.commit()
-                    close()
-                }
+            }.action {
+                result = true
+                vm.commit()
+                close()
             }
             button("Cancel") {
                 isCancelButton = true
-                action {
-                    close()
-                }
+            }.action {
+                close()
             }
         }
     }

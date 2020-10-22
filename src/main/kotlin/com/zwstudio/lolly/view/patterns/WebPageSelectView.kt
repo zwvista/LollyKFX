@@ -28,9 +28,8 @@ class WebPageSelectView : Fragment("WebPage Select") {
         }
         button("Search") {
             prefWidth = 150.0
-            action {
-                vm.search()
-            }
+        }.action {
+            vm.search()
         }
         tvWebPage = tableview(vm.lstWebPages) {
             readonlyColumn("ID", MWebPage::id)
@@ -40,16 +39,14 @@ class WebPageSelectView : Fragment("WebPage Select") {
         buttonbar {
             button("OK") {
                 isDefaultButton = true
-                action {
-                    result = true
-                    close()
-                }
+            }.action {
+                result = true
+                close()
             }
             button("Cancel") {
                 isCancelButton = true
-                action {
-                    close()
-                }
+            }.action {
+                close()
             }
         }
     }

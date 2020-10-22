@@ -32,17 +32,15 @@ class TextbooksDetailView : Fragment("Textbooks Detail") {
         buttonbar {
             button("OK") {
                 isDefaultButton = true
-                action {
-                    result = true
-                    vmDetail.commit()
-                    close()
-                }
+            }.action {
+                result = true
+                vmDetail.commit()
+                close()
             }
             button("Cancel") {
                 isCancelButton = true
-                action {
-                    close()
-                }
+            }.action {
+                close()
             }
         }
     }

@@ -76,10 +76,8 @@ class PhrasesReviewView : Fragment("Phrases Review"), ILollySettings {
                 }
             }
             row {
-                textfield(vm.phraseInputString) {
-                    action {
-                        vm.check()
-                    }
+                textfield(vm.phraseInputString).action {
+                    vm.check()
                 }
             }
             row {

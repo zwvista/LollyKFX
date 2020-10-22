@@ -3,7 +3,7 @@ package com.zwstudio.lolly.view.patterns
 import com.zwstudio.lolly.data.patterns.PatternsWebPageViewModel
 import tornadofx.*
 
-class PatternsWebPagelView : Fragment("Pattern WebPage Detail") {
+class PatternsWebPageView : Fragment("Pattern WebPage Detail") {
     val vmDetail : PatternsWebPageViewModel by param()
     var result = false
 
@@ -34,21 +34,19 @@ class PatternsWebPagelView : Fragment("Pattern WebPage Detail") {
                 button("New") {
                     prefWidth = 80.0
                     isDisable = (vmDetail.id.value != 0)
-                    action {
-                        vmDetail.webpageid.value = 0
-                    }
+                }.action {
+                    vmDetail.webpageid.value = 0
                 }
                 button("Existing") {
                     prefWidth = 80.0
                     isDisable = (vmDetail.id.value != 0)
-                    action {
-                        val modal = find<WebPageSelectView> { openModal(block = true) }
-                        if (modal.result) {
-                            val o = modal.vm.selectedWebPage.value
-                            vmDetail.webpageid.value = o.id
-                            vmDetail.title.value = o.title
-                            vmDetail.url.value = o.url
-                        }
+                }.action {
+                    val modal = find<WebPageSelectView> { openModal(block = true) }
+                    if (modal.result) {
+                        val o = modal.vm.selectedWebPage.value
+                        vmDetail.webpageid.value = o.id
+                        vmDetail.title.value = o.title
+                        vmDetail.url.value = o.url
                     }
                 }
             }
@@ -62,17 +60,15 @@ class PatternsWebPagelView : Fragment("Pattern WebPage Detail") {
         buttonbar {
             button("OK") {
                 isDefaultButton = true
-                action {
-                    result = true
-                    vmDetail.commit()
-                    close()
-                }
+            }.action {
+                result = true
+                vmDetail.commit()
+                close()
             }
             button("Cancel") {
                 isCancelButton = true
-                action {
-                    close()
-                }
+            }.action {
+                close()
             }
         }
     }

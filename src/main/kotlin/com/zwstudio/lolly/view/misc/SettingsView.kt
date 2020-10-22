@@ -3,7 +3,6 @@ package com.zwstudio.lolly.view.misc
 import com.zwstudio.lolly.data.misc.SettingsViewModel
 import com.zwstudio.lolly.domain.misc.MSelectItem
 import javafx.geometry.Pos
-import javafx.scene.control.Button
 import javafx.scene.control.ComboBox
 import javafx.scene.layout.Priority
 import tornadofx.*
@@ -11,8 +10,6 @@ import tornadofx.*
 class SettingsView : Fragment("Settings") {
     var cbUnitTo: ComboBox<MSelectItem> by singleAssign()
     var cbPartTo: ComboBox<MSelectItem> by singleAssign()
-    var btnPrevious: Button by singleAssign()
-    var btnNext: Button by singleAssign()
     var cbPartFrom: ComboBox<MSelectItem> by singleAssign()
     val vm : SettingsViewModel by inject()
     var result = false
@@ -144,19 +141,17 @@ class SettingsView : Fragment("Settings") {
                 columnRowIndex(1, 8)
                 columnSpan = 3
             }
-            btnPrevious = button(vm.previousText) {
+            button(vm.previousText) {
                 enableWhen { vm.previousIsEnabled }
                 prefWidth = 100.0
-                action {
-                    vm.previousUnitPart()
-                }
+            }.action {
+                vm.previousUnitPart()
             }
-            btnNext = button(vm.nextText) {
+            button(vm.nextText) {
                 enableWhen { vm.nextIsEnabled }
                 prefWidth = 100.0
-                action {
-                    vm.nextUnitPart()
-                }
+            }.action {
+                vm.nextUnitPart()
             }
         }
         row {
@@ -165,20 +160,17 @@ class SettingsView : Fragment("Settings") {
                     columnSpan = 4
                 }
                 button("Apply to All Windows") {
-                    action {
-                        close()
-                    }
+                }.action {
+                    close()
                 }
                 button("Apply to Current Window") {
-                    action {
-                        close()
-                    }
+                }.action {
+                    close()
                 }
                 button("Apply to None") {
                     isCancelButton = true
-                    action {
-                        close()
-                    }
+                }.action {
+                    close()
                 }
             }
         }

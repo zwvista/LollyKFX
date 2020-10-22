@@ -10,7 +10,6 @@ import com.zwstudio.lolly.domain.wpp.MPatternWebPage
 import com.zwstudio.lolly.view.ILollySettings
 import javafx.application.Platform
 import javafx.geometry.Orientation
-import javafx.scene.control.Button
 import javafx.scene.control.TableView
 import javafx.scene.layout.Priority
 import javafx.scene.web.WebView
@@ -18,7 +17,6 @@ import tornadofx.*
 
 class PatternsView : Fragment("Patterns in Language"), ILollySettings {
     var vm = PatternsViewModel()
-    var btnAddWebPage: Button by singleAssign()
     var tvPatterns: TableView<MPattern> by singleAssign()
     var tvWebPages: TableView<MPatternWebPage> by singleAssign()
     var wvWebPage: WebView by singleAssign()
@@ -31,14 +29,13 @@ class PatternsView : Fragment("Patterns in Language"), ILollySettings {
                 if (modal.result)
                     tvPatterns.refresh()
             }
-            btnAddWebPage = button("Add Web Page") {
-                isDisable = true
-                action {
-                    val o = tvPatterns.selectedItem!!
-                    val modal = find<PatternsWebPagelView>("vmDetail" to PatternsWebPageViewModel(vm, vm.newPatternWebPage(o.id, o.pattern))) { openModal(block = true) }
-                    if (modal.result)
-                        tvWebPages.refresh()
-                }
+            button("Add Web Page") {
+                enableWhen { tvPatterns.selectionModel.selectedItemProperty().isNotNull }
+            }.action {
+                val o = tvPatterns.selectedItem!!
+                val modal = find<PatternsWebPageView>("vmDetail" to PatternsWebPageViewModel(vm, vm.newPatternWebPage(o.id, o.pattern))) { openModal(block = true) }
+                if (modal.result)
+                    tvWebPages.refresh()
             }
             button("Refresh").action {
                 vm.reload()
@@ -62,7 +59,6 @@ class PatternsView : Fragment("Patterns in Language"), ILollySettings {
                         column("TAGS", MPattern::tagsProperty)
                         onSelectionChange {
                             it?.id?.let {
-                                btnAddWebPage.isDisable = false
                                 vm.getWebPages(it).subscribe {
                                     if (it.isNotEmpty())
                                     // https://stackoverflow.com/questions/20413419/javafx-2-how-to-focus-a-table-row-programmatically
@@ -92,7 +88,7 @@ class PatternsView : Fragment("Patterns in Language"), ILollySettings {
                             }
                         }
                         onDoubleClick {
-                            val modal = find<PatternsWebPagelView>("vmDetail" to PatternsWebPageViewModel(vm, selectionModel.selectedItem)) { openModal(block = true) }
+                            val modal = find<PatternsWebPageView>("vmDetail" to PatternsWebPageViewModel(vm, selectionModel.selectedItem)) { openModal(block = true) }
                             if (modal.result)
                                 this.refresh()
                         }
