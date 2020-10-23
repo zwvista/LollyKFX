@@ -69,19 +69,16 @@ class PhrasesLangView : PhrasesBaseView("Phrases in Language") {
                                 this.refresh()
                         }
                         contextmenu {
-                            item("Delete") {
-                                enableWhen { selectionModel.selectedItemProperty().isNotNull }
-                            }
+                            item("Delete")
                             separator()
-                            item("Copy") {
-                                enableWhen { selectionModel.selectedItemProperty().isNotNull }
-                            }.action {
+                            item("Copy").action {
                                 copyText(selectedItem?.phrase)
                             }
-                            item("Google") {
-                                enableWhen { selectionModel.selectedItemProperty().isNotNull }
-                            }.action {
+                            item("Google").action {
                                 googleString(selectedItem?.phrase)
+                            }
+                            items.forEach {
+                                it.enableWhen { selectionModel.selectedItemProperty().isNotNull }
                             }
                         }
                     }
@@ -95,15 +92,14 @@ class PhrasesLangView : PhrasesBaseView("Phrases in Language") {
                             searchDict(it?.word)
                         }
                         contextmenu {
-                            item("Copy") {
-                                enableWhen { selectionModel.selectedItemProperty().isNotNull }
-                            }.action {
+                            item("Copy").action {
                                 copyText(selectedItem?.word)
                             }
-                            item("Google") {
-                                enableWhen { selectionModel.selectedItemProperty().isNotNull }
-                            }.action {
+                            item("Google").action {
                                 googleString(selectedItem?.word)
+                            }
+                            items.forEach {
+                                it.enableWhen { selectionModel.selectedItemProperty().isNotNull }
                             }
                         }
                         onEditCommit {

@@ -118,38 +118,29 @@ class WordsUnitView : WordsBaseView("Words in Unit") {
                                 this.refresh()
                         }
                         contextmenu {
-                            item("Retrieve Note") {
-                                enableWhen { selectionModel.selectedItemProperty().isNotNull }
-                            }.action {
+                            item("Retrieve Note").action {
                                 vm.retrieveNote(selectedItem!!)
                             }
-                            item("Clear Note") {
-                                enableWhen { selectionModel.selectedItemProperty().isNotNull }
-                            }.action {
+                            item("Clear Note").action {
                                 vm.clearNote(selectedItem!!)
                             }
                             separator()
-                            item("Edit") {
-                                enableWhen { selectionModel.selectedItemProperty().isNotNull }
-                            }.action {
+                            item("Edit").action {
                                 vm.clearNote(selectedItem!!)
                             }
                             separator()
-                            item("Delete") {
-                                enableWhen { selectionModel.selectedItemProperty().isNotNull }
-                            }.action {
+                            item("Delete").action {
                                 vm.clearNote(selectedItem!!)
                             }
                             separator()
-                            item("Copy") {
-                                enableWhen { selectionModel.selectedItemProperty().isNotNull }
-                            }.action {
+                            item("Copy").action {
                                 copyText(selectedItem?.word)
                             }
-                            item("Google") {
-                                enableWhen { selectionModel.selectedItemProperty().isNotNull }
-                            }.action {
-                                vm.clearNote(selectedItem!!)
+                            item("Google").action {
+                                googleString(selectedItem?.word)
+                            }
+                            items.forEach {
+                                it.enableWhen { selectionModel.selectedItemProperty().isNotNull }
                             }
                         }
                         // https://stackoverflow.com/questions/28603224/sort-tableview-with-drag-and-drop-rows
@@ -196,15 +187,14 @@ class WordsUnitView : WordsBaseView("Words in Unit") {
                         column("PHRASE", MLangPhrase::phraseProperty).makeEditable()
                         column("TRANSLATION", MLangPhrase::translationProperty).makeEditable()
                         contextmenu {
-                            item("Copy"){
-                                enableWhen { selectionModel.selectedItemProperty().isNotNull }
-                            }.action {
+                            item("Copy").action {
                                 copyText(selectedItem?.phrase)
                             }
-                            item("Google"){
-                                enableWhen { selectionModel.selectedItemProperty().isNotNull }
-                            }.action {
+                            item("Google").action {
                                 googleString(selectedItem?.phrase)
+                            }
+                            items.forEach {
+                                it.enableWhen { selectionModel.selectedItemProperty().isNotNull }
                             }
                             onEditCommit {
                                 val title = this.tableColumn.text

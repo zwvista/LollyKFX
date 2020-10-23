@@ -108,19 +108,16 @@ class PhrasesUnitView : PhrasesBaseView("Phrases in Unit") {
                                 this.refresh()
                         }
                         contextmenu {
-                            item("Delete") {
-                                enableWhen { selectionModel.selectedItemProperty().isNotNull }
-                            }
+                            item("Delete")
                             separator()
-                            item("Copy") {
-                                enableWhen { selectionModel.selectedItemProperty().isNotNull }
-                            }.action {
+                            item("Copy").action {
                                 copyText(selectedItem?.phrase)
                             }
-                            item("Google") {
-                                enableWhen { selectionModel.selectedItemProperty().isNotNull }
-                            }.action {
+                            item("Google").action {
                                 googleString(selectedItem?.phrase)
+                            }
+                            items.forEach {
+                                it.enableWhen { selectionModel.selectedItemProperty().isNotNull }
                             }
                         }
                         // https://stackoverflow.com/questions/28603224/sort-tableview-with-drag-and-drop-rows
@@ -171,15 +168,14 @@ class PhrasesUnitView : PhrasesBaseView("Phrases in Unit") {
                             searchDict(it?.word)
                         }
                         contextmenu {
-                            item("Copy") {
-                                enableWhen { selectionModel.selectedItemProperty().isNotNull }
-                            }.action {
+                            item("Copy").action {
                                 copyText(selectedItem?.word)
                             }
-                            item("Google") {
-                                enableWhen { selectionModel.selectedItemProperty().isNotNull }
-                            }.action {
+                            item("Google").action {
                                 googleString(selectedItem?.word)
+                            }
+                            items.forEach {
+                                it.enableWhen { selectionModel.selectedItemProperty().isNotNull }
                             }
                         }
                         onEditCommit {
