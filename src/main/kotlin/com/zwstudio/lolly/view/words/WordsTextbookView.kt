@@ -3,10 +3,12 @@ package com.zwstudio.lolly.view.words
 import com.zwstudio.lolly.data.misc.SettingsViewModel
 import com.zwstudio.lolly.data.misc.copyText
 import com.zwstudio.lolly.data.misc.googleString
+import com.zwstudio.lolly.data.phrases.PhrasesLangDetailViewModel
 import com.zwstudio.lolly.data.words.WordsUnitDetailViewModel
 import com.zwstudio.lolly.data.words.WordsUnitViewModel
 import com.zwstudio.lolly.domain.wpp.MLangPhrase
 import com.zwstudio.lolly.domain.wpp.MUnitWord
+import com.zwstudio.lolly.view.phrases.PhrasesLangDetailView
 import javafx.geometry.Orientation
 import javafx.scene.layout.Priority
 import tornadofx.*
@@ -80,6 +82,18 @@ class WordsTextbookView : WordsBaseView("Words in Textbook") {
                         readonlyColumn("ID", MLangPhrase::id)
                         column("PHRASE", MLangPhrase::phraseProperty).makeEditable()
                         column("TRANSLATION", MLangPhrase::translationProperty).makeEditable()
+                        onEditCommit {
+                            val title = this.tableColumn.text
+                            if (title == "Phrase")
+                                rowValue.phrase = vmSettings.autoCorrectInput(rowValue.phrase)
+                            vmPhrasesLang.update(rowValue).subscribe()
+                        }
+                        onDoubleClick {
+                            // https://github.com/edvin/tornadofx/issues/226
+                            val modal = find<PhrasesLangDetailView>("vmDetail" to PhrasesLangDetailViewModel(vmPhrasesLang, selectionModel.selectedItem)) { openModal(block = true) }
+                            if (modal.result)
+                                this.refresh()
+                        }
                         contextmenu {
                             item("Copy").action {
                                 copyText(selectedItem?.phrase)
@@ -90,12 +104,6 @@ class WordsTextbookView : WordsBaseView("Words in Textbook") {
                             items.forEach {
                                 it.enableWhen { selectionModel.selectedItemProperty().isNotNull }
                             }
-                        }
-                        onEditCommit {
-                            val title = this.tableColumn.text
-                            if (title == "Phrase")
-                                rowValue.phrase = vmSettings.autoCorrectInput(rowValue.phrase)
-                            vmPhrasesLang.update(rowValue).subscribe()
                         }
                     }
                 }

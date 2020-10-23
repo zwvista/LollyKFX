@@ -7,8 +7,10 @@ import com.zwstudio.lolly.data.misc.googleString
 import com.zwstudio.lolly.data.phrases.PhrasesUnitBatchViewModel
 import com.zwstudio.lolly.data.phrases.PhrasesUnitDetailViewModel
 import com.zwstudio.lolly.data.phrases.PhrasesUnitViewModel
+import com.zwstudio.lolly.data.words.WordsLangDetailViewModel
 import com.zwstudio.lolly.domain.wpp.MLangWord
 import com.zwstudio.lolly.domain.wpp.MUnitPhrase
+import com.zwstudio.lolly.view.words.WordsLangDetailView
 import javafx.application.Platform
 import javafx.geometry.Orientation
 import javafx.scene.control.TableRow
@@ -164,8 +166,20 @@ class PhrasesUnitView : PhrasesBaseView("Phrases in Unit") {
                         column("NOTE", MLangWord::noteProperty).makeEditable()
                         readonlyColumn("ACCURACY", MLangWord::accuracy)
                         readonlyColumn("FAMIID", MLangWord::famiid)
+                        onEditCommit {
+                            val title = this.tableColumn.text
+                            if (title == "WORD")
+                                rowValue.word = vmSettings.autoCorrectInput(rowValue.word)
+                            vmWordsLang.update(rowValue).subscribe()
+                        }
                         onSelectionChange {
                             searchDict(it?.word)
+                        }
+                        onDoubleClick {
+                            // https://github.com/edvin/tornadofx/issues/226
+                            val modal = find<WordsLangDetailView>("vmDetail" to WordsLangDetailViewModel(vmWordsLang, selectionModel.selectedItem)) { openModal(block = true) }
+                            if (modal.result)
+                                this.refresh()
                         }
                         contextmenu {
                             item("Copy").action {
@@ -177,12 +191,6 @@ class PhrasesUnitView : PhrasesBaseView("Phrases in Unit") {
                             items.forEach {
                                 it.enableWhen { selectionModel.selectedItemProperty().isNotNull }
                             }
-                        }
-                        onEditCommit {
-                            val title = this.tableColumn.text
-                            if (title == "WORD")
-                                rowValue.word = vmSettings.autoCorrectInput(rowValue.word)
-                            vmWordsLang.update(rowValue).subscribe()
                         }
                     }
                 }
