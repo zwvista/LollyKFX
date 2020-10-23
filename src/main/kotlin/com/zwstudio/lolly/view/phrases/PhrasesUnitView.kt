@@ -94,8 +94,8 @@ class PhrasesUnitView : PhrasesBaseView("Phrases in Unit") {
                             vm.update(rowValue)
                         }
                         onSelectionChange {
-                            vm.getWords(it?.phraseid).subscribe {
-                                if (vm.lstWords.isNotEmpty())
+                            vmWordsLang.getWords(it?.phraseid).subscribe {
+                                if (vmWordsLang.lstWords.isNotEmpty())
                                     Platform.runLater {
                                         tvWords.selectionModel.select(0)
                                     }
@@ -161,7 +161,7 @@ class PhrasesUnitView : PhrasesBaseView("Phrases in Unit") {
                             row
                         }
                     }
-                    tvWords = tableview(vm.lstWords) {
+                    tvWords = tableview(vmWordsLang.lstWords) {
                         readonlyColumn("ID", MLangWord::id)
                         column("WORD", MLangWord::wordProperty).makeEditable()
                         column("NOTE", MLangWord::noteProperty).makeEditable()

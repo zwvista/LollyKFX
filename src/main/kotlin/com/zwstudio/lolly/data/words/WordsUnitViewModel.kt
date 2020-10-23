@@ -1,44 +1,25 @@
 package com.zwstudio.lolly.data.words
 
-import com.zwstudio.lolly.data.misc.BaseViewModel
 import com.zwstudio.lolly.data.misc.SettingsViewModel
 import com.zwstudio.lolly.data.misc.applyIO
-import com.zwstudio.lolly.domain.misc.MSelectItem
-import com.zwstudio.lolly.domain.wpp.MLangPhrase
 import com.zwstudio.lolly.domain.wpp.MUnitWord
 import com.zwstudio.lolly.service.wpp.UnitWordService
-import com.zwstudio.lolly.service.wpp.WordPhraseService
 import io.reactivex.rxjava3.core.Observable
 import io.reactivex.rxjava3.disposables.CompositeDisposable
 import javafx.beans.property.SimpleBooleanProperty
-import javafx.beans.property.SimpleObjectProperty
-import javafx.beans.property.SimpleStringProperty
 import tornadofx.*
 
-class WordsUnitViewModel(val inTextbook: Boolean) : BaseViewModel() {
+class WordsUnitViewModel(val inTextbook: Boolean) : WordsBaseViewModel() {
 
     var lstWordsAll = mutableListOf<MUnitWord>()
     val lstWords = mutableListOf<MUnitWord>().asObservable()
     val compositeDisposable = CompositeDisposable()
     val unitWordService: UnitWordService by inject()
-    val lstPhrases = mutableListOf<MLangPhrase>().asObservable()
-    val wordPhraseService: WordPhraseService by inject()
 
-    val newWord = SimpleStringProperty()
-    val scopeFilter = SimpleStringProperty(SettingsViewModel.lstScopeWordFilters[0])
-    val textFilter = SimpleStringProperty("")
-    val textbookFilter = SimpleObjectProperty<MSelectItem>()
     val noFilter get() = textFilter.value.isEmpty() && textbookFilter.value.value == 0
     val ifEmpty = SimpleBooleanProperty(true)
-    val statusText = SimpleStringProperty()
 
-    init {
-        scopeFilter.addListener { _, _, _ -> applyFilters() }
-        textFilter.addListener { _, _, _ -> applyFilters() }
-        textbookFilter.addListener { _, _, _ -> applyFilters() }
-    }
-
-    private fun applyFilters() {
+    override fun applyFilters() {
         lstWords.setAll(if (noFilter) lstWordsAll else lstWordsAll.filter {
             (textFilter.value.isEmpty() || (if (scopeFilter.value == "Word") it.word else it.note ?: "").contains(textFilter.value, true)) &&
             (textbookFilter.value.value == 0 || it.textbookid == textbookFilter.value.value)
@@ -121,13 +102,4 @@ class WordsUnitViewModel(val inTextbook: Boolean) : BaseViewModel() {
             clearNote(lstWordsAll[i]).subscribe { oneComplete(i) }
         }, allComplete = allComplete)
     }
-
-    fun getPhrases(wordid: Int?): Observable<Unit> =
-        if (wordid == null)
-            Observable.just(Unit)
-                .doAfterNext { lstPhrases.clear() }
-        else
-            wordPhraseService.getPhrasesByWordId(wordid)
-                .applyIO()
-                .map { lstPhrases.setAll(it); Unit }
 }

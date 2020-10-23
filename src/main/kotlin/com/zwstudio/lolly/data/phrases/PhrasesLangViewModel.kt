@@ -1,34 +1,20 @@
 package com.zwstudio.lolly.data.phrases
 
-import com.zwstudio.lolly.data.misc.BaseViewModel
-import com.zwstudio.lolly.data.misc.SettingsViewModel
 import com.zwstudio.lolly.data.misc.applyIO
 import com.zwstudio.lolly.domain.wpp.MLangPhrase
-import com.zwstudio.lolly.domain.wpp.MLangWord
 import com.zwstudio.lolly.service.wpp.LangPhraseService
 import com.zwstudio.lolly.service.wpp.WordPhraseService
 import io.reactivex.rxjava3.core.Observable
-import javafx.beans.property.SimpleStringProperty
 import tornadofx.*
 
-class PhrasesLangViewModel : BaseViewModel() {
+class PhrasesLangViewModel : PhrasesBaseViewModel() {
 
     var lstPhrasesAll = mutableListOf<MLangPhrase>()
     val lstPhrases = mutableListOf<MLangPhrase>().asObservable()
     val langPhraseService: LangPhraseService by inject()
-    val lstWords = mutableListOf<MLangWord>().asObservable()
     val wordPhraseService: WordPhraseService by inject()
 
-    val scopeFilter = SimpleStringProperty(SettingsViewModel.lstScopePhraseFilters[0])
-    val textFilter = SimpleStringProperty("")
-    val statusText = SimpleStringProperty()
-
-    init {
-        scopeFilter.addListener { _, _, _ -> applyFilters() }
-        textFilter.addListener { _, _, _ -> applyFilters() }
-    }
-
-    private fun applyFilters() {
+    override fun applyFilters() {
         lstPhrases.setAll(if (textFilter.value.isEmpty()) lstPhrasesAll else lstPhrasesAll.filter {
             textFilter.value.isEmpty() || (if (scopeFilter.value == "Phrase") it.phrase else it.translation ?: "").contains(textFilter.value, true)
         })
@@ -57,12 +43,12 @@ class PhrasesLangViewModel : BaseViewModel() {
         langid = vmSettings.selectedLang.id
     }
 
-    fun getWords(phraseid: Int?): Observable<Unit> =
-        if (phraseid == null)
+    fun getPhrases(wordid: Int?): Observable<Unit> =
+        if (wordid == null)
             Observable.just(Unit)
-                .doAfterNext { lstWords.clear() }
+                .doAfterNext { lstPhrases.clear() }
         else
-            wordPhraseService.getWordsByPhraseId(phraseid)
+            wordPhraseService.getPhrasesByWordId(wordid)
                 .applyIO()
-                .map { lstWords.setAll(it); Unit }
+                .map { lstPhrases.setAll(it); Unit }
 }

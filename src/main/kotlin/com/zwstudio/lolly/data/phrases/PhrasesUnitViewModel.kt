@@ -1,41 +1,21 @@
 package com.zwstudio.lolly.data.phrases
 
-import com.zwstudio.lolly.data.misc.BaseViewModel
-import com.zwstudio.lolly.data.misc.SettingsViewModel
 import com.zwstudio.lolly.data.misc.applyIO
-import com.zwstudio.lolly.domain.misc.MSelectItem
-import com.zwstudio.lolly.domain.wpp.MLangWord
 import com.zwstudio.lolly.domain.wpp.MUnitPhrase
 import com.zwstudio.lolly.service.wpp.UnitPhraseService
-import com.zwstudio.lolly.service.wpp.WordPhraseService
 import io.reactivex.rxjava3.core.Observable
 import io.reactivex.rxjava3.disposables.CompositeDisposable
-import javafx.beans.property.SimpleObjectProperty
-import javafx.beans.property.SimpleStringProperty
 import tornadofx.*
 
-class PhrasesUnitViewModel(val inTextbook: Boolean) : BaseViewModel() {
+class PhrasesUnitViewModel(val inTextbook: Boolean) : PhrasesBaseViewModel() {
 
     var lstPhrasesAll = mutableListOf<MUnitPhrase>()
     val lstPhrases = mutableListOf<MUnitPhrase>().asObservable()
     val compositeDisposable = CompositeDisposable()
     val unitPhraseService: UnitPhraseService by inject()
-    val lstWords = mutableListOf<MLangWord>().asObservable()
-    val wordPhraseService: WordPhraseService by inject()
-
-    val scopeFilter = SimpleStringProperty(SettingsViewModel.lstScopePhraseFilters[0])
-    val textFilter = SimpleStringProperty("")
-    val textbookFilter = SimpleObjectProperty<MSelectItem>()
     val noFilter get() = textFilter.value.isEmpty() && textbookFilter.value.value == 0
-    val statusText = SimpleStringProperty()
 
-    init {
-        scopeFilter.addListener { _, _, _ -> applyFilters() }
-        textFilter.addListener { _, _, _ -> applyFilters() }
-        textbookFilter.addListener { _, _, _ -> applyFilters() }
-    }
-
-    private fun applyFilters() {
+    override fun applyFilters() {
         lstPhrases.setAll(if (noFilter) lstPhrasesAll else lstPhrasesAll.filter {
             (textFilter.value.isEmpty() || (if (scopeFilter.value == "Phrase") it.phrase else it.translation ?: "").contains(textFilter.value, true)) &&
             (textbookFilter.value.value == 0 || it.textbookid == textbookFilter.value.value)
@@ -90,13 +70,4 @@ class PhrasesUnitViewModel(val inTextbook: Boolean) : BaseViewModel() {
         seqnum = (maxItem?.seqnum ?: 0) + 1
         textbook = vmSettings.selectedTextbook
     }
-
-    fun getWords(phraseid: Int?): Observable<Unit> =
-        if (phraseid == null)
-            Observable.just(Unit)
-                .doAfterNext { lstWords.clear() }
-        else
-            wordPhraseService.getWordsByPhraseId(phraseid)
-                .applyIO()
-                .map { lstWords.setAll(it); Unit }
 }

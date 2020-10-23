@@ -109,7 +109,7 @@ class WordsUnitView : WordsBaseView("Words in Unit") {
                         }
                         onSelectionChange {
                             searchDict(it?.word)
-                            vm.getPhrases(it?.wordid).subscribe()
+                            vmPhrasesLang.getPhrases(it?.wordid).subscribe()
                         }
                         onDoubleClick {
                             // https://github.com/edvin/tornadofx/issues/226
@@ -191,7 +191,7 @@ class WordsUnitView : WordsBaseView("Words in Unit") {
                             row
                         }
                     }
-                    tableview(vm.lstPhrases) {
+                    tableview(vmPhrasesLang.lstPhrases) {
                         readonlyColumn("ID", MLangPhrase::id)
                         column("PHRASE", MLangPhrase::phraseProperty).makeEditable()
                         column("TRANSLATION", MLangPhrase::translationProperty).makeEditable()

@@ -52,8 +52,8 @@ class PhrasesTextbookView : PhrasesBaseView("Phrases in Textbook") {
                             vm.update(rowValue).subscribe()
                         }
                         onSelectionChange {
-                            vm.getWords(it?.phraseid).subscribe {
-                                if (vm.lstWords.isNotEmpty())
+                            vmWordsLang.getWords(it?.phraseid).subscribe {
+                                if (vmWordsLang.lstWords.isNotEmpty())
                                     Platform.runLater {
                                         tvWords.selectionModel.select(0)
                                     }
@@ -80,7 +80,7 @@ class PhrasesTextbookView : PhrasesBaseView("Phrases in Textbook") {
                             }
                         }
                     }
-                    tvWords = tableview(vm.lstWords) {
+                    tvWords = tableview(vmWordsLang.lstWords) {
                         readonlyColumn("ID", MLangWord::id)
                         column("WORD", MLangWord::wordProperty).makeEditable()
                         column("NOTE", MLangWord::noteProperty).makeEditable()

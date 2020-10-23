@@ -9,6 +9,6 @@ import tornadofx.*
 
 abstract class PhrasesBaseView(title: String? = null, icon: Node? = null) : WordsPhraseBaseView(title, icon) {
     var tvWords: TableView<MLangWord> by singleAssign()
-    val vmWordsLang = WordsLangViewModel()
+    var vmWordsLang = WordsLangViewModel()
 
 }
