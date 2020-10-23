@@ -61,13 +61,20 @@ class PhrasesTextbookView : PhrasesBaseView("Phrases in Textbook") {
                                     }
                             }
                         }
-                        onDoubleClick {
+                        fun edit() {
                             // https://github.com/edvin/tornadofx/issues/226
                             val modal = find<PhrasesTextbookDetailView>("vmDetail" to PhrasesUnitDetailViewModel(vm, selectionModel.selectedItem)) { openModal(block = true) }
                             if (modal.result)
                                 this.refresh()
                         }
+                        onDoubleClick {
+                            edit()
+                        }
                         contextmenu {
+                            item("Edit").action {
+                                edit()
+                            }
+                            separator()
                             item("Delete")
                             separator()
                             item("Copy").action {
@@ -96,13 +103,20 @@ class PhrasesTextbookView : PhrasesBaseView("Phrases in Textbook") {
                         onSelectionChange {
                             searchDict(it?.word)
                         }
-                        onDoubleClick {
+                        fun edit() {
                             // https://github.com/edvin/tornadofx/issues/226
                             val modal = find<WordsLangDetailView>("vmDetail" to WordsLangDetailViewModel(vmWordsLang, selectionModel.selectedItem)) { openModal(block = true) }
                             if (modal.result)
                                 this.refresh()
                         }
+                        onDoubleClick {
+                            edit()
+                        }
                         contextmenu {
+                            item("Edit").action {
+                                edit()
+                            }
+                            separator()
                             item("Copy").action {
                                 copyText(selectedItem?.word)
                             }

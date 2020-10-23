@@ -68,13 +68,20 @@ class WordsLangView : WordsBaseView("Words in Language") {
                             searchDict(it?.word)
                             vmPhrasesLang.getPhrases(it?.id).subscribe()
                         }
-                        onDoubleClick {
+                        fun edit() {
                             // https://github.com/edvin/tornadofx/issues/226
                             val modal = find<WordsLangDetailView>("vmDetail" to WordsLangDetailViewModel(vm, selectionModel.selectedItem)) { openModal(block = true) }
                             if (modal.result)
                                 this.refresh()
                         }
+                        onDoubleClick {
+                            edit()
+                        }
                         contextmenu {
+                            item("Edit").action {
+                                edit()
+                            }
+                            separator()
                             item("Delete")
                             separator()
                             item("Copy").action {
@@ -98,13 +105,20 @@ class WordsLangView : WordsBaseView("Words in Language") {
                                 rowValue.phrase = vmSettings.autoCorrectInput(rowValue.phrase)
                             vmPhrasesLang.update(rowValue).subscribe()
                         }
-                        onDoubleClick {
+                        fun edit() {
                             // https://github.com/edvin/tornadofx/issues/226
                             val modal = find<PhrasesLangDetailView>("vmDetail" to PhrasesLangDetailViewModel(vmPhrasesLang, selectionModel.selectedItem)) { openModal(block = true) }
                             if (modal.result)
                                 this.refresh()
                         }
+                        onDoubleClick {
+                            edit()
+                        }
                         contextmenu {
+                            item("Edit").action {
+                                edit()
+                            }
+                            separator()
                             item("Copy").action {
                                 copyText(selectedItem?.phrase)
                             }
