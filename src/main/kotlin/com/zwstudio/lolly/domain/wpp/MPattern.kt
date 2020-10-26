@@ -25,12 +25,12 @@ class MPattern: Serializable {
     var pattern = ""
     @SerializedName("NOTE")
     @Expose
-    val noteProperty = SimpleStringProperty()
-    var note: String? get() = noteProperty.value; set(value) { noteProperty.value = value }
+    val noteProperty = SimpleStringProperty("")
+    var note: String get() = noteProperty.value; set(value) { noteProperty.value = value }
     @SerializedName("TAGS")
     @Expose
-    val tagsProperty = SimpleStringProperty()
-    var tags: String? get() = tagsProperty.value; set(value) { tagsProperty.value = value }
+    val tagsProperty = SimpleStringProperty("")
+    var tags: String get() = tagsProperty.value; set(value) { tagsProperty.value = value }
     @SerializedName("IDS_MERGE")
     @Expose
     var idsMerge = ""

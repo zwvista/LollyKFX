@@ -44,8 +44,8 @@ class MUnitWord: Serializable {
     var word: String get() = wordProperty.value; set(value) { wordProperty.value = value }
     @SerializedName("NOTE")
     @Expose
-    val noteProperty = SimpleStringProperty()
-    var note: String? get() = noteProperty.value; set(value) { noteProperty.value = value }
+    val noteProperty = SimpleStringProperty("")
+    var note: String get() = noteProperty.value; set(value) { noteProperty.value = value }
     @SerializedName("WORDID")
     @Expose
     var wordid = 0

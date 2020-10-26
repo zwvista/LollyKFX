@@ -89,7 +89,7 @@ class WordsUnitViewModel(val inTextbook: Boolean) : WordsBaseViewModel() {
 
     fun retrieveNotes(oneComplete: (Int) -> Unit, allComplete: () -> Unit) {
         vmSettings.retrieveNotes(lstWordsAll.size, isNoteEmpty = {
-            !ifEmpty.value || lstWordsAll[it].note.isNullOrEmpty()
+            !ifEmpty.value || lstWordsAll[it].note.isEmpty()
         }, getOne = { i ->
             retrieveNote(lstWordsAll[i]).subscribe { oneComplete(i) }
         }, allComplete = allComplete)
@@ -97,7 +97,7 @@ class WordsUnitViewModel(val inTextbook: Boolean) : WordsBaseViewModel() {
 
     fun clearNotes(oneComplete: (Int) -> Unit, allComplete: () -> Unit) {
         vmSettings.clearNotes(lstWordsAll.size, isNoteEmpty = {
-            !ifEmpty.value || lstWordsAll[it].note.isNullOrEmpty()
+            !ifEmpty.value || lstWordsAll[it].note.isEmpty()
         }, getOne = { i ->
             clearNote(lstWordsAll[i]).subscribe { oneComplete(i) }
         }, allComplete = allComplete)

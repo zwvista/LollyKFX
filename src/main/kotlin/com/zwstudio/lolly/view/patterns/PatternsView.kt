@@ -10,6 +10,7 @@ import com.zwstudio.lolly.domain.wpp.MPatternWebPage
 import com.zwstudio.lolly.view.ILollySettings
 import javafx.application.Platform
 import javafx.geometry.Orientation
+import javafx.scene.control.Button
 import javafx.scene.control.TableView
 import javafx.scene.layout.Priority
 import javafx.scene.web.WebView
@@ -20,6 +21,7 @@ class PatternsView : Fragment("Patterns in Language"), ILollySettings {
     var tvPatterns: TableView<MPattern> by singleAssign()
     var tvWebPages: TableView<MPatternWebPage> by singleAssign()
     var wvWebPage: WebView by singleAssign()
+    var btnAddWebPage: Button by singleAssign()
 
     override val root = vbox {
         tag = this@PatternsView
@@ -30,7 +32,8 @@ class PatternsView : Fragment("Patterns in Language"), ILollySettings {
                     tvPatterns.refresh()
             }
             button("Add Web Page") {
-                enableWhen { tvPatterns.selectionModel.selectedItemProperty().isNotNull }
+                isDisable = true
+                btnAddWebPage = this
             }.action {
                 val o = tvPatterns.selectedItem!!
                 val modal = find<PatternsWebPageView>("vmDetail" to PatternsWebPageViewModel(vm, vm.newPatternWebPage(o.id, o.pattern))) { openModal(block = true) }
@@ -58,6 +61,7 @@ class PatternsView : Fragment("Patterns in Language"), ILollySettings {
                         column("NOTE", MPattern::noteProperty)
                         column("TAGS", MPattern::tagsProperty)
                         onSelectionChange {
+                            btnAddWebPage.isDisable = it == null
                             it?.id?.let {
                                 vm.getWebPages(it).subscribe {
                                     if (it.isNotEmpty())

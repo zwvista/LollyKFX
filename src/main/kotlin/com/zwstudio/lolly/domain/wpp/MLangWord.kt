@@ -24,12 +24,12 @@ class MLangWord: Serializable {
     var langid = 0
     @SerializedName("WORD")
     @Expose
-    val wordProperty = SimpleStringProperty()
+    val wordProperty = SimpleStringProperty("")
     var word: String get() = wordProperty.value; set(value) { wordProperty.value = value }
     @SerializedName("NOTE")
     @Expose
-    val noteProperty = SimpleStringProperty()
-    var note: String? get() = noteProperty.value; set(value) { noteProperty.value = value }
+    val noteProperty = SimpleStringProperty("")
+    var note: String get() = noteProperty.value; set(value) { noteProperty.value = value }
     @SerializedName("FAMIID")
     @Expose
     var famiid = 0
@@ -41,7 +41,7 @@ class MLangWord: Serializable {
     var total = 0
 
     val wordnote: String
-        get() = word + (if (note.isNullOrEmpty()) "" else "($note)")
+        get() = word + (if (note.isEmpty()) "" else "($note)")
     val accuracy: String
         get() = if (total == 0) "N/A" else "${Math.floor(correct.toDouble() / total.toDouble() * 1000) / 10}%"
 }

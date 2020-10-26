@@ -47,8 +47,8 @@ class MUnitPhrase: Serializable {
     var phrase: String get() = phraseProperty.value; set(value) { phraseProperty.value = value }
     @SerializedName("TRANSLATION")
     @Expose
-    val translationProperty = SimpleStringProperty()
-    var translation: String? get() = translationProperty.value; set(value) { translationProperty.value = value }
+    val translationProperty = SimpleStringProperty("")
+    var translation: String get() = translationProperty.value; set(value) { translationProperty.value = value }
 
     lateinit var textbook: MTextbook
     val unitstr: String
