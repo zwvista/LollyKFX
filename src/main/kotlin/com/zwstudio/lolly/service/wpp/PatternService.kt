@@ -16,7 +16,7 @@ class PatternService: BaseService() {
             .getDataById("ID,eq,$id")
             .map { it.lst!! }
 
-    fun updateNote(id: Int, note: String?): Observable<Unit> =
+    fun updateNote(id: Int, note: String): Observable<Unit> =
         retrofitJson.create(RestPattern::class.java)
             .updateNote(id, note)
             .map { println(it.toString()) }

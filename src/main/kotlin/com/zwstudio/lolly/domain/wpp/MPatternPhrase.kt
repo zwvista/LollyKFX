@@ -25,7 +25,7 @@ class MPatternPhrase: Serializable {
     var pattern = ""
     @SerializedName("NOTE")
     @Expose
-    var note: String? = null
+    var note = ""
     @SerializedName("ID")
     @Expose
     var id = 0

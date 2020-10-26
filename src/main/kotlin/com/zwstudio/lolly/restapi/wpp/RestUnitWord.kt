@@ -24,7 +24,7 @@ interface RestUnitWord {
 
     @FormUrlEncoded
     @PUT("UNITWORDS/{id}")
-    fun updateNote(@Path("id") id: Int, @Field("NOTE") note: String?): Observable<Int>
+    fun updateNote(@Path("id") id: Int, @Field("NOTE") note: String): Observable<Int>
 
     @FormUrlEncoded
     @POST("UNITWORDS_UPDATE")
@@ -32,7 +32,7 @@ interface RestUnitWord {
                @Field("P_TEXTBOOKID") textbookid: Int,
                @Field("P_UNIT") unit: Int, @Field("P_PART") part: Int,
                @Field("P_SEQNUM") seqnum: Int, @Field("P_WORDID") wordid: Int,
-               @Field("P_WORD") word: String, @Field("P_NOTE") note: String?,
+               @Field("P_WORD") word: String, @Field("P_NOTE") note: String,
                @Field("P_FAMIID") famiid: Int,
                @Field("P_CORRECT") correct: Int, @Field("P_TOTAL") total: Int): Observable<List<List<MSPResult>>>
 
@@ -42,7 +42,7 @@ interface RestUnitWord {
                @Field("P_TEXTBOOKID") textbookid: Int,
                @Field("P_UNIT") unit: Int, @Field("P_PART") part: Int,
                @Field("P_SEQNUM") seqnum: Int, @Field("P_WORDID") wordid: Int,
-               @Field("P_WORD") word: String, @Field("P_NOTE") note: String?,
+               @Field("P_WORD") word: String, @Field("P_NOTE") note: String,
                @Field("P_FAMIID") famiid: Int,
                @Field("P_CORRECT") correct: Int, @Field("P_TOTAL") total: Int): Observable<List<List<MSPResult>>>
 
@@ -52,7 +52,7 @@ interface RestUnitWord {
                @Field("P_TEXTBOOKID") textbookid: Int,
                @Field("P_UNIT") unit: Int, @Field("P_PART") part: Int,
                @Field("P_SEQNUM") seqnum: Int, @Field("P_WORDID") wordid: Int,
-               @Field("P_WORD") word: String, @Field("P_NOTE") note: String?,
+               @Field("P_WORD") word: String, @Field("P_NOTE") note: String,
                @Field("P_FAMIID") famiid: Int,
                @Field("P_CORRECT") correct: Int, @Field("P_TOTAL") total: Int): Observable<List<List<MSPResult>>>
 

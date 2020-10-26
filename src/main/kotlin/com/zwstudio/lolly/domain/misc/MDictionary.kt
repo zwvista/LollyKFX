@@ -50,28 +50,28 @@ class MDictionary: Serializable {
     var dictname = ""
     @SerializedName("URL")
     @Expose
-    var url: String? = null
+    var url = ""
     @SerializedName("CHCONV")
     @Expose
-    var chconv: String? = null
+    var chconv = ""
     @SerializedName("SITEID")
     @Expose
     var siteid = 0
     @SerializedName("AUTOMATION")
     @Expose
-    var automation: String? = null
+    var automation = ""
     @SerializedName("TRANSFORM")
     @Expose
-    var transform: String? = null
+    var transform = ""
     @SerializedName("WAIT")
     @Expose
     var wait = 0
     @SerializedName("TEMPLATE")
     @Expose
-    var template: String? = null
+    var template = ""
     @SerializedName("TEMPLATE2")
     @Expose
-    var template2: String? = null
+    var template2 = ""
 
     var langtoitem: MLanguage? = null
     var dicttypeitem: MCode? = null
@@ -88,7 +88,7 @@ class MDictionary: Serializable {
     }
 
     fun htmlString(html: String, word: String, useTemplate2: Boolean): String {
-        val t = if (useTemplate2 && !template2.isNullOrEmpty()) template2!! else template!!
-        return extractTextFrom(html, transform!!, t) { text, template -> applyTemplate(template, word, text) }
+        val t = if (useTemplate2 && !template2.isEmpty()) template2 else template
+        return extractTextFrom(html, transform, t) { text, template -> applyTemplate(template, word, text) }
     }
 }

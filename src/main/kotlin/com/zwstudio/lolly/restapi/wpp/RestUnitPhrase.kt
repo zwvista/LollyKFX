@@ -29,7 +29,7 @@ interface RestUnitPhrase {
                @Field("P_UNIT") unit: Int, @Field("P_PART") part: Int,
                @Field("P_SEQNUM") seqnum: Int, @Field("P_PHRASEID") phraseid: Int,
                @Field("P_PHRASE") phrase: String,
-               @Field("P_TRANSLATION") translation: String?): Observable<List<List<MSPResult>>>
+               @Field("P_TRANSLATION") translation: String): Observable<List<List<MSPResult>>>
 
     @FormUrlEncoded
     @POST("VUNITPHRASES_CREATE")
@@ -38,7 +38,7 @@ interface RestUnitPhrase {
                @Field("P_UNIT") unit: Int, @Field("P_PART") part: Int,
                @Field("P_SEQNUM") seqnum: Int, @Field("P_PHRASEID") phraseid: Int,
                @Field("P_PHRASE") phrase: String,
-               @Field("P_TRANSLATION") translation: String?): Observable<List<List<MSPResult>>>
+               @Field("P_TRANSLATION") translation: String): Observable<List<List<MSPResult>>>
 
     @FormUrlEncoded
     @POST("VUNITPHRASES_DELETE")
@@ -47,6 +47,6 @@ interface RestUnitPhrase {
                @Field("P_UNIT") unit: Int, @Field("P_PART") part: Int,
                @Field("P_SEQNUM") seqnum: Int, @Field("P_PHRASEID") phraseid: Int,
                @Field("P_PHRASE") phrase: String,
-               @Field("P_TRANSLATION") translation: String?): Observable<List<List<MSPResult>>>
+               @Field("P_TRANSLATION") translation: String): Observable<List<List<MSPResult>>>
 
 }

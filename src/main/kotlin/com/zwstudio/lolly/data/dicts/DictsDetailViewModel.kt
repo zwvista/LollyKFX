@@ -39,7 +39,7 @@ class DictsDetailViewModel(val vm: DictsViewModel, item: MDictionary) : ItemView
             vm.updateDict(item).subscribe()
         if (item.id != 0)
             vm.updateSite(item).subscribe()
-        else if (item.transform.isNullOrEmpty())
+        else if (item.transform.isEmpty())
             vm.createSite(item).subscribe()
     }
 }

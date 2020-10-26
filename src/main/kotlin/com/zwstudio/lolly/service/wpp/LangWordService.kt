@@ -11,17 +11,17 @@ class LangWordService: BaseService() {
             .getDataByLang("LANGID,eq,$langid")
             .map { it.lst!! }
 
-    fun updateNote(id: Int, note: String?): Observable<Unit> =
+    fun updateNote(id: Int, note: String): Observable<Unit> =
         retrofitJson.create(RestLangWord::class.java)
             .updateNote(id, note)
             .map { println(it.toString()) }
 
-    fun update(id: Int, langid: Int, word: String, note: String?): Observable<Unit> =
+    fun update(id: Int, langid: Int, word: String, note: String): Observable<Unit> =
         retrofitJson.create(RestLangWord::class.java)
             .update(id, langid, word, note)
             .map { println(it.toString()) }
 
-    fun create(langid: Int, word: String, note: String?): Observable<Int> =
+    fun create(langid: Int, word: String, note: String): Observable<Int> =
         retrofitJson.create(RestLangWord::class.java)
             .create(langid, word, note)
             .doOnNext { println(it.toString()) }
