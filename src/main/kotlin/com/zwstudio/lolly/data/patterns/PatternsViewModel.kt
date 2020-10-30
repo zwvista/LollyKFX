@@ -4,9 +4,7 @@ import com.zwstudio.lolly.data.misc.BaseViewModel
 import com.zwstudio.lolly.data.misc.SettingsViewModel
 import com.zwstudio.lolly.data.misc.applyIO
 import com.zwstudio.lolly.domain.wpp.MPattern
-import com.zwstudio.lolly.domain.wpp.MPatternPhrase
 import com.zwstudio.lolly.domain.wpp.MPatternWebPage
-import com.zwstudio.lolly.service.wpp.PatternPhraseService
 import com.zwstudio.lolly.service.wpp.PatternService
 import com.zwstudio.lolly.service.wpp.PatternWebPageService
 import com.zwstudio.lolly.service.wpp.WebPageService
@@ -19,12 +17,10 @@ class PatternsViewModel : BaseViewModel() {
     var lstPatternsAll = mutableListOf<MPattern>()
     val lstPatterns = mutableListOf<MPattern>().asObservable()
     var lstWebPages = mutableListOf<MPatternWebPage>().asObservable()
-    var lstPhrases = mutableListOf<MPatternPhrase>().asObservable()
 
     private val patternService: PatternService by inject()
     private val patternWebPageService: PatternWebPageService by inject()
     private val webPageService: WebPageService by inject()
-    private val patternPhraseService: PatternPhraseService by inject()
 
     val scopeFilter = SimpleStringProperty(SettingsViewModel.lstScopePatternFilters[0])
     val textFilter = SimpleStringProperty("")
@@ -38,7 +34,7 @@ class PatternsViewModel : BaseViewModel() {
 
     private fun applyFilters() {
         lstPatterns.setAll(if (noFilter) lstPatternsAll else lstPatternsAll.filter {
-            (textFilter.value.isEmpty() || (if (scopeFilter.value == "Pattern") it.pattern else if (scopeFilter.value == "Note") it.note ?: "" else it.tags ?: "").contains(textFilter.value, true))
+            (textFilter.value.isEmpty() || (if (scopeFilter.value == "Pattern") it.pattern else if (scopeFilter.value == "Note") it.note else it.tags).contains(textFilter.value, true))
         })
         statusText.value = "${lstPatterns.size} Patterns in ${vmSettings.langInfo}"
     }
@@ -93,9 +89,4 @@ class PatternsViewModel : BaseViewModel() {
         this.pattern = pattern
         seqnum = (lstWebPages.maxOfOrNull { it.seqnum } ?: 0) + 1
     }
-
-    fun getPhrases(patternid: Int) =
-        patternPhraseService.getDataByPatternId(patternid)
-            .applyIO()
-            .doAfterNext { lstPhrases.setAll(it) }
 }

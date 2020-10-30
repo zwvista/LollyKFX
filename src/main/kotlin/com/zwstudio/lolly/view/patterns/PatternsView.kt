@@ -5,7 +5,6 @@ import com.zwstudio.lolly.data.patterns.PatternsDetailViewModel
 import com.zwstudio.lolly.data.patterns.PatternsViewModel
 import com.zwstudio.lolly.data.patterns.PatternsWebPageViewModel
 import com.zwstudio.lolly.domain.wpp.MPattern
-import com.zwstudio.lolly.domain.wpp.MPatternPhrase
 import com.zwstudio.lolly.domain.wpp.MPatternWebPage
 import com.zwstudio.lolly.view.ILollySettings
 import javafx.application.Platform
@@ -71,7 +70,6 @@ class PatternsView : Fragment("Patterns in Language"), ILollySettings {
                                             tvWebPages.selectionModel.select(0)
                                         }
                                 }
-                                vm.getPhrases(it).subscribe()
                             }
                         }
                         onDoubleClick {
@@ -100,17 +98,8 @@ class PatternsView : Fragment("Patterns in Language"), ILollySettings {
                 }
                 label(vm.statusText)
             }
-            splitpane(Orientation.VERTICAL) {
-                setDividerPosition(0, 0.2)
-                tableview(vm.lstPhrases) {
-                    vgrow = Priority.ALWAYS
-                    readonlyColumn("ID", MPatternPhrase::id)
-                    column("PHRASE", MPatternPhrase::phrase)
-                    column("TRANSLATION", MPatternPhrase::translation)
-                }
-                wvWebPage = webview {
+            wvWebPage = webview {
 
-                }
             }
         }
     }
