@@ -1,11 +1,13 @@
 package com.zwstudio.lolly.view.words
 
+import com.zwstudio.lolly.data.misc.SettingsViewModel
 import com.zwstudio.lolly.data.words.WordsLinkViewModel
 import com.zwstudio.lolly.domain.wpp.MLangWord
 import javafx.geometry.Pos
 import javafx.scene.control.Button
 import javafx.scene.control.SelectionMode
 import javafx.scene.control.TableView
+import javafx.scene.layout.Priority
 import tornadofx.*
 
 class WordsLinkView : Fragment("Link Words") {
@@ -14,6 +16,23 @@ class WordsLinkView : Fragment("Link Words") {
     var result = false
 
     override val root = vbox(10.0) {
+        paddingAll = 10.0
+        gridpane {
+            hgap = 10.0
+            vgap = 10.0
+            constraintsForColumn(1).hgrow = Priority.ALWAYS
+            constraintsForColumn(3).hgrow = Priority.ALWAYS
+            row {
+                label("Word Scope:")
+                label("Language")
+            }
+            row {
+                label("Filter Scope:")
+                choicebox(vm.vm.scopeFilter, SettingsViewModel.lstScopeWordFilters)
+                label("Filter Text:")
+                textfield(vm.vm.textFilter)
+            }
+        }
         hbox(10.0) {
             alignment = Pos.CENTER
             button("Check All").action {

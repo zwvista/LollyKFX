@@ -1,11 +1,13 @@
 package com.zwstudio.lolly.view.phrases
 
+import com.zwstudio.lolly.data.misc.SettingsViewModel
 import com.zwstudio.lolly.data.phrases.PhrasesLinkViewModel
 import com.zwstudio.lolly.domain.wpp.MLangPhrase
 import javafx.geometry.Pos
 import javafx.scene.control.Button
 import javafx.scene.control.SelectionMode
 import javafx.scene.control.TableView
+import javafx.scene.layout.Priority
 import tornadofx.*
 
 class PhrasesLinkView : Fragment("Phrases in Unit Detail") {
@@ -14,6 +16,23 @@ class PhrasesLinkView : Fragment("Phrases in Unit Detail") {
     var result = false
 
     override val root = vbox(10.0) {
+        paddingAll = 10.0
+        gridpane {
+            hgap = 10.0
+            vgap = 10.0
+            constraintsForColumn(1).hgrow = Priority.ALWAYS
+            constraintsForColumn(3).hgrow = Priority.ALWAYS
+            row {
+                label("Word Scope:")
+                label("Language")
+            }
+            row {
+                label("Filter Scope:")
+                choicebox(vm.vm.scopeFilter, SettingsViewModel.lstScopePhraseFilters)
+                label("Filter Text:")
+                textfield(vm.vm.textFilter)
+            }
+        }
         hbox(10.0) {
             alignment = Pos.CENTER
             button("Check All").action {
