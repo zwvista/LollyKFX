@@ -116,6 +116,12 @@ class PhrasesUnitView : PhrasesBaseView("Phrases in Unit") {
                             item("Edit").action {
                                 edit()
                             }
+                            item("Link a New Word").action {
+                                edit()
+                            }
+                            item("Link Existing Words").action {
+                                edit()
+                            }
                             separator()
                             item("Delete")
                             separator()
@@ -194,6 +200,10 @@ class PhrasesUnitView : PhrasesBaseView("Phrases in Unit") {
                         contextmenu {
                             item("Edit").action {
                                 edit()
+                            }
+                            separator()
+                            item("Unlink").action {
+
                             }
                             separator()
                             item("Copy").action {

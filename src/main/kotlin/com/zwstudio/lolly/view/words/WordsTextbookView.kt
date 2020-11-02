@@ -71,6 +71,9 @@ class WordsTextbookView : WordsBaseView("Words in Textbook") {
                             item("Edit").action {
                                 edit()
                             }
+                            item("Link Existing Phrases").action {
+                                edit()
+                            }
                             separator()
                             item("Delete")
                             separator()
@@ -107,6 +110,10 @@ class WordsTextbookView : WordsBaseView("Words in Textbook") {
                         contextmenu {
                             item("Edit").action {
                                 edit()
+                            }
+                            separator()
+                            item("Unlink").action {
+
                             }
                             separator()
                             item("Copy").action {

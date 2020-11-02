@@ -116,6 +116,13 @@ class PhrasesTextbookView : PhrasesBaseView("Phrases in Textbook") {
                             item("Edit").action {
                                 edit()
                             }
+                            item("Link Existing Words").action {
+                                edit()
+                            }
+                            separator()
+                            item("Unlink").action {
+
+                            }
                             separator()
                             item("Copy").action {
                                 copyText(selectedItem?.word)

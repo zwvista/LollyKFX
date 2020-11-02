@@ -133,6 +133,12 @@ class WordsUnitView : WordsBaseView("Words in Unit") {
                             item("Edit").action {
                                 edit()
                             }
+                            item("Link a New Phrase").action {
+                                edit()
+                            }
+                            item("Link Existing Phrases").action {
+                                edit()
+                            }
                             separator()
                             item("Delete").action {
                                 vm.clearNote(selectedItem!!)
@@ -209,6 +215,10 @@ class WordsUnitView : WordsBaseView("Words in Unit") {
                         contextmenu {
                             item("Edit").action {
                                 edit()
+                            }
+                            separator()
+                            item("Unlink").action {
+
                             }
                             separator()
                             item("Copy").action {

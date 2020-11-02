@@ -81,6 +81,9 @@ class WordsLangView : WordsBaseView("Words in Language") {
                             item("Edit").action {
                                 edit()
                             }
+                            item("Link Existing Phrases").action {
+                                edit()
+                            }
                             separator()
                             item("Delete")
                             separator()
@@ -117,6 +120,10 @@ class WordsLangView : WordsBaseView("Words in Language") {
                         contextmenu {
                             item("Edit").action {
                                 edit()
+                            }
+                            separator()
+                            item("Unlink").action {
+
                             }
                             separator()
                             item("Copy").action {
