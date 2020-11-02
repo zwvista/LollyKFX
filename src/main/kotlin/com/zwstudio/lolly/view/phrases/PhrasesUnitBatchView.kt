@@ -3,6 +3,7 @@ package com.zwstudio.lolly.view.phrases
 import com.zwstudio.lolly.data.phrases.PhrasesUnitBatchViewModel
 import com.zwstudio.lolly.domain.wpp.MUnitPhrase
 import javafx.geometry.Pos
+import javafx.scene.control.Button
 import javafx.scene.control.SelectionMode
 import javafx.scene.control.TableView
 import javafx.scene.layout.Priority
@@ -40,25 +41,20 @@ class PhrasesUnitBatchView : Fragment("Phrases in Unit Batch Edit") {
         }
         hbox(10.0) {
             alignment = Pos.CENTER
-            button("Check All") {
-                prefWidth = 150.0
-            }.action {
+            button("Check All").action {
                 vm.checkItems(0, tvPhrases.selectionModel.selectedItems)
             }
-            button("Uncheck All") {
-                prefWidth = 150.0
-            }.action {
+            button("Uncheck All").action {
                 vm.checkItems(1, tvPhrases.selectionModel.selectedItems)
             }
-            button("Check Selected") {
-                prefWidth = 150.0
-            }.action {
+            button("Check Selected").action {
                 vm.checkItems(2, tvPhrases.selectionModel.selectedItems)
             }
-            button("Uncheck Selected") {
-                prefWidth = 150.0
-            }.action {
+            button("Uncheck Selected").action {
                 vm.checkItems(3, tvPhrases.selectionModel.selectedItems)
+            }
+            children.forEach {
+                (it as Button).prefWidth = 150.0
             }
         }
         tvPhrases = tableview(vm.vm.lstPhrases) {

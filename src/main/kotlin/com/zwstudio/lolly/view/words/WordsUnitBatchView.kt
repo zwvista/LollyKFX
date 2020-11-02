@@ -3,6 +3,7 @@ package com.zwstudio.lolly.view.words
 import com.zwstudio.lolly.data.words.WordsUnitBatchViewModel
 import com.zwstudio.lolly.domain.wpp.MUnitWord
 import javafx.geometry.Pos
+import javafx.scene.control.Button
 import javafx.scene.control.SelectionMode
 import javafx.scene.control.TableView
 import javafx.scene.layout.Priority
@@ -42,25 +43,20 @@ class WordsUnitBatchView : Fragment("Words in Unit Batch Edit") {
         }
         hbox(10.0) {
             alignment = Pos.CENTER
-            button("Check All") {
-                prefWidth = 150.0
-            }.action {
+            button("Check All").action {
                 vm.checkItems(0, tvWords.selectionModel.selectedItems)
             }
-            button("Uncheck All") {
-                prefWidth = 150.0
-            }.action {
+            button("Uncheck All").action {
                 vm.checkItems(1, tvWords.selectionModel.selectedItems)
             }
-            button("Check Selected") {
-                prefWidth = 150.0
-            }.action {
+            button("Check Selected").action {
                 vm.checkItems(2, tvWords.selectionModel.selectedItems)
             }
-            button("Uncheck Selected") {
-                prefWidth = 150.0
-            }.action {
+            button("Uncheck Selected").action {
                 vm.checkItems(3, tvWords.selectionModel.selectedItems)
+            }
+            children.forEach {
+                (it as Button).prefWidth = 150.0
             }
         }
         tvWords = tableview(vm.vm.lstWords) {

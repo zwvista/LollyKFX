@@ -3,10 +3,12 @@ package com.zwstudio.lolly.view.words
 import com.zwstudio.lolly.data.misc.SettingsViewModel
 import com.zwstudio.lolly.data.phrases.PhrasesLangViewModel
 import com.zwstudio.lolly.domain.misc.MDictionary
+import com.zwstudio.lolly.domain.wpp.MLangPhrase
 import com.zwstudio.lolly.view.ILollySettings
 import javafx.scene.Node
 import javafx.scene.control.CheckBox
 import javafx.scene.control.TabPane
+import javafx.scene.control.TableView
 import javafx.scene.control.ToolBar
 import tornadofx.*
 
@@ -57,5 +59,6 @@ abstract class WordsPhraseBaseView(title: String? = null, icon: Node? = null) : 
 }
 
 abstract class WordsBaseView(title: String? = null, icon: Node? = null) : WordsPhraseBaseView(title, icon) {
+    var tvPhrases: TableView<MLangPhrase> by singleAssign()
     val vmPhrasesLang = PhrasesLangViewModel()
 }

@@ -32,4 +32,12 @@ class WordPhraseService: BaseService() {
         retrofitJson.create(RestWordPhrase::class.java)
             .delete(id)
             .map { println(it.toString()) }
+
+    fun link(wordid: Int, phraseid: Int) =
+        create(wordid, phraseid)
+
+    fun unlink(wordid: Int, phraseid: Int): Observable<Unit> =
+        getDataByWordPhrase(wordid, phraseid).map {
+            it.map { delete(it.id) }
+        }
 }

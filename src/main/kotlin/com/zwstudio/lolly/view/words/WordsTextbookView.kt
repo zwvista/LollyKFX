@@ -88,7 +88,7 @@ class WordsTextbookView : WordsBaseView("Words in Textbook") {
                             }
                         }
                     }
-                    tableview(vmPhrasesLang.lstPhrases) {
+                    tvPhrases = tableview(vmPhrasesLang.lstPhrases) {
                         readonlyColumn("ID", MLangPhrase::id)
                         column("PHRASE", MLangPhrase::phraseProperty).makeEditable()
                         column("TRANSLATION", MLangPhrase::translationProperty).makeEditable()

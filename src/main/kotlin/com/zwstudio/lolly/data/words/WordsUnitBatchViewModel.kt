@@ -5,7 +5,7 @@ import com.zwstudio.lolly.domain.wpp.MUnitWord
 import javafx.beans.property.SimpleBooleanProperty
 import javafx.beans.property.SimpleIntegerProperty
 import javafx.beans.property.SimpleObjectProperty
-import tornadofx.ViewModel
+import tornadofx.*
 
 class WordsUnitBatchViewModel(val vm: WordsUnitViewModel) : ViewModel() {
     val unitIsChecked = SimpleBooleanProperty()
@@ -24,6 +24,7 @@ class WordsUnitBatchViewModel(val vm: WordsUnitViewModel) : ViewModel() {
     override fun onCommit() {
         super.onCommit()
         for (o in vm.lstWordsAll) {
+            if (!o.isChecked.value) continue
             var b = false
             if (unitIsChecked.value) {
                 o.unit = unititem.value.value

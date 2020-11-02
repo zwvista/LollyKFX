@@ -4,6 +4,7 @@ package com.zwstudio.lolly.domain.wpp
 
 import com.google.gson.annotations.Expose
 import com.google.gson.annotations.SerializedName
+import javafx.beans.property.SimpleBooleanProperty
 import javafx.beans.property.SimpleStringProperty
 import java.io.Serializable
 
@@ -44,4 +45,5 @@ class MLangWord: Serializable {
         get() = word + (if (note.isEmpty()) "" else "($note)")
     val accuracy: String
         get() = if (total == 0) "N/A" else "${Math.floor(correct.toDouble() / total.toDouble() * 1000) / 10}%"
+    val isChecked = SimpleBooleanProperty()
 }

@@ -5,12 +5,14 @@ import com.zwstudio.lolly.data.misc.SettingsViewModel
 import com.zwstudio.lolly.data.misc.copyText
 import com.zwstudio.lolly.data.misc.googleString
 import com.zwstudio.lolly.data.phrases.PhrasesLangDetailViewModel
+import com.zwstudio.lolly.data.phrases.PhrasesLinkViewModel
 import com.zwstudio.lolly.data.words.WordsUnitBatchViewModel
 import com.zwstudio.lolly.data.words.WordsUnitDetailViewModel
 import com.zwstudio.lolly.data.words.WordsUnitViewModel
 import com.zwstudio.lolly.domain.wpp.MLangPhrase
 import com.zwstudio.lolly.domain.wpp.MUnitWord
 import com.zwstudio.lolly.view.phrases.PhrasesLangDetailView
+import com.zwstudio.lolly.view.phrases.PhrasesLinkView
 import javafx.geometry.Orientation
 import javafx.scene.control.TableRow
 import javafx.scene.control.TableView
@@ -137,7 +139,10 @@ class WordsUnitView : WordsBaseView("Words in Unit") {
                                 edit()
                             }
                             item("Link Existing Phrases").action {
-                                edit()
+                                val o = selectionModel.selectedItem!!
+                                val modal = find<PhrasesLinkView>("vm" to PhrasesLinkViewModel(o.id, o.word)) { openModal(block = true) }
+                                if (modal.result)
+                                    tvPhrases.refresh()
                             }
                             separator()
                             item("Delete").action {
@@ -193,7 +198,7 @@ class WordsUnitView : WordsBaseView("Words in Unit") {
                             row
                         }
                     }
-                    tableview(vmPhrasesLang.lstPhrases) {
+                    tvPhrases = tableview(vmPhrasesLang.lstPhrases) {
                         readonlyColumn("ID", MLangPhrase::id)
                         column("PHRASE", MLangPhrase::phraseProperty).makeEditable()
                         column("TRANSLATION", MLangPhrase::translationProperty).makeEditable()

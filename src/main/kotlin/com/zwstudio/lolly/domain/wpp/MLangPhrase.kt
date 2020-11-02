@@ -2,6 +2,7 @@ package com.zwstudio.lolly.domain.wpp
 
 import com.google.gson.annotations.Expose
 import com.google.gson.annotations.SerializedName
+import javafx.beans.property.SimpleBooleanProperty
 import javafx.beans.property.SimpleStringProperty
 import java.io.Serializable
 
@@ -28,4 +29,5 @@ class MLangPhrase(): Serializable {
     @Expose
     val translationProperty = SimpleStringProperty("")
     var translation: String get() = translationProperty.value; set(value) { translationProperty.value = value }
+    val isChecked = SimpleBooleanProperty()
 }

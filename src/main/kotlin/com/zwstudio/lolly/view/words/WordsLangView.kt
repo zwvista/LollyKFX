@@ -98,7 +98,7 @@ class WordsLangView : WordsBaseView("Words in Language") {
                             }
                         }
                     }
-                    tableview(vmPhrasesLang.lstPhrases) {
+                    tvPhrases = tableview(vmPhrasesLang.lstPhrases) {
                         readonlyColumn("ID", MLangPhrase::id)
                         column("PHRASE", MLangPhrase::phraseProperty).makeEditable()
                         column("TRANSLATION", MLangPhrase::translationProperty).makeEditable()
