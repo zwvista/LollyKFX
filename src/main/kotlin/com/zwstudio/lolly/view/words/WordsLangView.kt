@@ -4,11 +4,13 @@ import com.zwstudio.lolly.data.misc.SettingsViewModel
 import com.zwstudio.lolly.data.misc.copyText
 import com.zwstudio.lolly.data.misc.googleString
 import com.zwstudio.lolly.data.phrases.PhrasesLangDetailViewModel
+import com.zwstudio.lolly.data.phrases.PhrasesLinkViewModel
 import com.zwstudio.lolly.data.words.WordsLangDetailViewModel
 import com.zwstudio.lolly.data.words.WordsLangViewModel
 import com.zwstudio.lolly.domain.wpp.MLangPhrase
 import com.zwstudio.lolly.domain.wpp.MLangWord
 import com.zwstudio.lolly.view.phrases.PhrasesLangDetailView
+import com.zwstudio.lolly.view.phrases.PhrasesLinkView
 import javafx.geometry.Orientation
 import javafx.scene.control.TableView
 import javafx.scene.layout.Priority
@@ -74,15 +76,28 @@ class WordsLangView : WordsBaseView("Words in Language") {
                             if (modal.result)
                                 this.refresh()
                         }
+                        fun link() {
+                            val o = selectionModel.selectedItem!!
+                            val modal = find<PhrasesLinkView>("vm" to PhrasesLinkViewModel(o.id, o.word)) { openModal(block = true) }
+                            if (modal.result)
+                                tvPhrases.refresh()
+                        }
+                        var isAltDown = false
+                        setOnMousePressed {
+                            isAltDown = it.isAltDown
+                        }
                         onDoubleClick {
-                            edit()
+                            if (isAltDown)
+                                link()
+                            else
+                                edit()
                         }
                         contextmenu {
                             item("Edit").action {
                                 edit()
                             }
                             item("Link Existing Phrases").action {
-                                edit()
+                                link()
                             }
                             separator()
                             item("Delete")
