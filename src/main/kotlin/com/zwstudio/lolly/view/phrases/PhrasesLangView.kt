@@ -68,12 +68,12 @@ class PhrasesLangView : PhrasesBaseView("Phrases in Language") {
                         }
                         fun edit() {
                             // https://github.com/edvin/tornadofx/issues/226
-                            val modal = find<PhrasesLangDetailView>("vmDetail" to PhrasesLangDetailViewModel(vm, selectionModel.selectedItem)) { openModal(block = true) }
+                            val modal = find<PhrasesLangDetailView>("vmDetail" to PhrasesLangDetailViewModel(vm, selectedItem!!)) { openModal(block = true) }
                             if (modal.result)
                                 this.refresh()
                         }
                         fun link() {
-                            val o = selectionModel.selectedItem!!
+                            val o = selectedItem!!
                             val modal = find<WordsLinkView>("vm" to PhrasesLinkViewModel(o.id, o.phrase)) { openModal(block = true) }
                             if (modal.result)
                                 tvWords.refresh()
@@ -126,7 +126,7 @@ class PhrasesLangView : PhrasesBaseView("Phrases in Language") {
                         }
                         fun edit() {
                             // https://github.com/edvin/tornadofx/issues/226
-                            val modal = find<WordsLangDetailView>("vmDetail" to WordsLangDetailViewModel(vmWordsLang, selectionModel.selectedItem)) { openModal(block = true) }
+                            val modal = find<WordsLangDetailView>("vmDetail" to WordsLangDetailViewModel(vmWordsLang, selectedItem!!)) { openModal(block = true) }
                             if (modal.result)
                                 this.refresh()
                         }
@@ -139,7 +139,7 @@ class PhrasesLangView : PhrasesBaseView("Phrases in Language") {
                             }
                             separator()
                             item("Unlink").action {
-
+                                vmWordsLang.unlink(selectedItem!!.id, tvPhrases.selectedItem!!.id)
                             }
                             separator()
                             item("Copy").action {

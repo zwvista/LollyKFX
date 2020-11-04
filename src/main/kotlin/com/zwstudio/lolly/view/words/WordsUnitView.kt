@@ -48,7 +48,7 @@ class WordsUnitView : WordsBaseView("Words in Unit") {
             button("Toggle") {
                 isDisable = !vmSettings.toTypeIsMovable
             }.action {
-                val item = tvWords.selectionModel.selectedItem
+                val item = tvWords.selectedItem
                 val part = item?.part ?: vmSettings.lstParts[0].value
                 vmSettings.toggleUnitPart(part).subscribe {
                     vm.reload()
@@ -117,7 +117,7 @@ class WordsUnitView : WordsBaseView("Words in Unit") {
                         }
                         fun edit() {
                             // https://github.com/edvin/tornadofx/issues/226
-                            val modal = find<WordsUnitDetailView>("vmDetail" to WordsUnitDetailViewModel(vm, selectionModel.selectedItem)) { openModal(block = true) }
+                            val modal = find<WordsUnitDetailView>("vmDetail" to WordsUnitDetailViewModel(vm, selectedItem!!)) { openModal(block = true) }
                             if (modal.result)
                                 this.refresh()
                         }
@@ -220,7 +220,7 @@ class WordsUnitView : WordsBaseView("Words in Unit") {
                         }
                         fun edit() {
                             // https://github.com/edvin/tornadofx/issues/226
-                            val modal = find<PhrasesLangDetailView>("vmDetail" to PhrasesLangDetailViewModel(vmPhrasesLang, selectionModel.selectedItem)) { openModal(block = true) }
+                            val modal = find<PhrasesLangDetailView>("vmDetail" to PhrasesLangDetailViewModel(vmPhrasesLang, selectedItem!!)) { openModal(block = true) }
                             if (modal.result)
                                 this.refresh()
                         }
@@ -233,7 +233,7 @@ class WordsUnitView : WordsBaseView("Words in Unit") {
                             }
                             separator()
                             item("Unlink").action {
-
+                                vmPhrasesLang.unlink(tvWords.selectedItem!!.wordid, selectedItem!!.id)
                             }
                             separator()
                             item("Copy").action {

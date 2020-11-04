@@ -12,10 +12,12 @@ import com.zwstudio.lolly.domain.wpp.MUnitWord
 import com.zwstudio.lolly.view.phrases.PhrasesLangDetailView
 import com.zwstudio.lolly.view.phrases.PhrasesLinkView
 import javafx.geometry.Orientation
+import javafx.scene.control.TableView
 import javafx.scene.layout.Priority
 import tornadofx.*
 
 class WordsTextbookView : WordsBaseView("Words in Textbook") {
+    var tvWords: TableView<MUnitWord> by singleAssign()
     var vm = WordsUnitViewModel(false)
     override val vmSettings get() = vm.vmSettings
 
@@ -38,7 +40,7 @@ class WordsTextbookView : WordsBaseView("Words in Textbook") {
                 splitpane(Orientation.VERTICAL) {
                     vgrow = Priority.ALWAYS
                     setDividerPosition(0, 0.8)
-                    tableview(vm.lstWords) {
+                    tvWords = tableview(vm.lstWords) {
                         vgrow = Priority.ALWAYS
                         readonlyColumn("TEXTBOOKNAME", MUnitWord::textbookname)
                         readonlyColumn("UNIT", MUnitWord::unitstr)
@@ -62,12 +64,12 @@ class WordsTextbookView : WordsBaseView("Words in Textbook") {
                         }
                         fun edit() {
                             // https://github.com/edvin/tornadofx/issues/226
-                            val modal = find<WordsTextbookDetailView>("vmDetail" to WordsUnitDetailViewModel(vm, selectionModel.selectedItem)) { openModal(block = true) }
+                            val modal = find<WordsTextbookDetailView>("vmDetail" to WordsUnitDetailViewModel(vm, selectedItem!!)) { openModal(block = true) }
                             if (modal.result)
                                 this.refresh()
                         }
                         fun link() {
-                            val o = selectionModel.selectedItem!!
+                            val o = selectedItem!!
                             val modal = find<PhrasesLinkView>("vm" to PhrasesLinkViewModel(o.wordid, o.word)) { openModal(block = true) }
                             if (modal.result)
                                 tvPhrases.refresh()
@@ -115,7 +117,7 @@ class WordsTextbookView : WordsBaseView("Words in Textbook") {
                         }
                         fun edit() {
                             // https://github.com/edvin/tornadofx/issues/226
-                            val modal = find<PhrasesLangDetailView>("vmDetail" to PhrasesLangDetailViewModel(vmPhrasesLang, selectionModel.selectedItem)) { openModal(block = true) }
+                            val modal = find<PhrasesLangDetailView>("vmDetail" to PhrasesLangDetailViewModel(vmPhrasesLang, selectedItem!!)) { openModal(block = true) }
                             if (modal.result)
                                 this.refresh()
                         }
@@ -128,7 +130,7 @@ class WordsTextbookView : WordsBaseView("Words in Textbook") {
                             }
                             separator()
                             item("Unlink").action {
-
+                                vmPhrasesLang.unlink(tvWords.selectedItem!!.wordid, selectedItem!!.id)
                             }
                             separator()
                             item("Copy").action {

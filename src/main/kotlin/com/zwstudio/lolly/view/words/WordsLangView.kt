@@ -72,12 +72,12 @@ class WordsLangView : WordsBaseView("Words in Language") {
                         }
                         fun edit() {
                             // https://github.com/edvin/tornadofx/issues/226
-                            val modal = find<WordsLangDetailView>("vmDetail" to WordsLangDetailViewModel(vm, selectionModel.selectedItem)) { openModal(block = true) }
+                            val modal = find<WordsLangDetailView>("vmDetail" to WordsLangDetailViewModel(vm, selectedItem!!)) { openModal(block = true) }
                             if (modal.result)
                                 this.refresh()
                         }
                         fun link() {
-                            val o = selectionModel.selectedItem!!
+                            val o = selectedItem!!
                             val modal = find<PhrasesLinkView>("vm" to PhrasesLinkViewModel(o.id, o.word)) { openModal(block = true) }
                             if (modal.result)
                                 tvPhrases.refresh()
@@ -125,7 +125,7 @@ class WordsLangView : WordsBaseView("Words in Language") {
                         }
                         fun edit() {
                             // https://github.com/edvin/tornadofx/issues/226
-                            val modal = find<PhrasesLangDetailView>("vmDetail" to PhrasesLangDetailViewModel(vmPhrasesLang, selectionModel.selectedItem)) { openModal(block = true) }
+                            val modal = find<PhrasesLangDetailView>("vmDetail" to PhrasesLangDetailViewModel(vmPhrasesLang, selectedItem!!)) { openModal(block = true) }
                             if (modal.result)
                                 this.refresh()
                         }
@@ -138,7 +138,7 @@ class WordsLangView : WordsBaseView("Words in Language") {
                             }
                             separator()
                             item("Unlink").action {
-
+                                vmPhrasesLang.unlink(tvWords.selectedItem!!.id, selectedItem!!.id)
                             }
                             separator()
                             item("Copy").action {

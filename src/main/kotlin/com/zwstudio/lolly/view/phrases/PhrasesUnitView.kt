@@ -50,7 +50,7 @@ class PhrasesUnitView : PhrasesBaseView("Phrases in Unit") {
             button("Toggle") {
                 isDisable = !vmSettings.toTypeIsMovable
             }.action {
-                val item = tvPhrases.selectionModel.selectedItem
+                val item = tvPhrases.selectedItem
                 val part = item?.part ?: vmSettings.lstParts[0].value
                 vmSettings.toggleUnitPart(part).subscribe {
                     vm.reload()
@@ -107,12 +107,12 @@ class PhrasesUnitView : PhrasesBaseView("Phrases in Unit") {
                         }
                         fun edit() {
                             // https://github.com/edvin/tornadofx/issues/226
-                            val modal = find<PhrasesUnitDetailView>("vmDetail" to PhrasesUnitDetailViewModel(vm, selectionModel.selectedItem)) { openModal(block = true) }
+                            val modal = find<PhrasesUnitDetailView>("vmDetail" to PhrasesUnitDetailViewModel(vm, selectedItem!!)) { openModal(block = true) }
                             if (modal.result)
                                 this.refresh()
                         }
                         fun link() {
-                            val o = selectionModel.selectedItem!!
+                            val o = selectedItem!!
                             val modal = find<WordsLinkView>("vm" to PhrasesLinkViewModel(o.phraseid, o.phrase)) { openModal(block = true) }
                             if (modal.result)
                                 tvWords.refresh()
@@ -205,7 +205,7 @@ class PhrasesUnitView : PhrasesBaseView("Phrases in Unit") {
                         }
                         fun edit() {
                             // https://github.com/edvin/tornadofx/issues/226
-                            val modal = find<WordsLangDetailView>("vmDetail" to WordsLangDetailViewModel(vmWordsLang, selectionModel.selectedItem)) { openModal(block = true) }
+                            val modal = find<WordsLangDetailView>("vmDetail" to WordsLangDetailViewModel(vmWordsLang, selectedItem!!)) { openModal(block = true) }
                             if (modal.result)
                                 this.refresh()
                         }
@@ -218,7 +218,7 @@ class PhrasesUnitView : PhrasesBaseView("Phrases in Unit") {
                             }
                             separator()
                             item("Unlink").action {
-
+                                vmWordsLang.unlink(selectedItem!!.id, tvPhrases.selectedItem!!.phraseid)
                             }
                             separator()
                             item("Copy").action {

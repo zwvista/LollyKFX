@@ -59,4 +59,12 @@ class WordsLangViewModel : WordsBaseViewModel() {
             wordPhraseService.getWordsByPhraseId(phraseid)
                 .applyIO()
                 .map { lstWords.setAll(it); Unit }
+
+    fun unlink(wordid: Int, phraseid: Int): Observable<Unit> =
+        wordPhraseService.getDataByWordPhrase(wordid, phraseid).flatMap {
+            var o = Observable.just(Unit)
+            for (item in it)
+                o = o.concatWith(wordPhraseService.delete(item.id))
+            return@flatMap o
+        }.applyIO()
 }

@@ -41,7 +41,7 @@ class DictsView : Fragment("Dictionaries"), ILollySettings {
             readonlyColumn("TEMPLATE", MDictionary::template)
             readonlyColumn("TEMPLATE2", MDictionary::template2)
             onDoubleClick {
-                val modal = find<DictsDetailView>("vmDetail" to DictsDetailViewModel(vm, selectionModel.selectedItem)) { openModal(block = true) }
+                val modal = find<DictsDetailView>("vmDetail" to DictsDetailViewModel(vm, selectedItem!!)) { openModal(block = true) }
                 if (modal.result)
                     this.refresh()
             }

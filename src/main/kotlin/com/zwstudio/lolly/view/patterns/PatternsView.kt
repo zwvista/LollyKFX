@@ -73,7 +73,7 @@ class PatternsView : Fragment("Patterns in Language"), ILollySettings {
                             }
                         }
                         onDoubleClick {
-                            val modal = find<PatternsDetailView>("vmDetail" to PatternsDetailViewModel(vm, selectionModel.selectedItem)) { openModal(block = true) }
+                            val modal = find<PatternsDetailView>("vmDetail" to PatternsDetailViewModel(vm, selectedItem!!)) { openModal(block = true) }
                             if (modal.result)
                                 this.refresh()
                         }
@@ -90,7 +90,7 @@ class PatternsView : Fragment("Patterns in Language"), ILollySettings {
                             }
                         }
                         onDoubleClick {
-                            val modal = find<PatternsWebPageView>("vmDetail" to PatternsWebPageViewModel(vm, selectionModel.selectedItem)) { openModal(block = true) }
+                            val modal = find<PatternsWebPageView>("vmDetail" to PatternsWebPageViewModel(vm, selectedItem!!)) { openModal(block = true) }
                             if (modal.result)
                                 this.refresh()
                         }

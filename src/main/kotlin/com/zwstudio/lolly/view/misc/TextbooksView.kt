@@ -33,7 +33,7 @@ class TextbooksView : Fragment("Textbooks"), ILollySettings {
             readonlyColumn("UNITS", MTextbook::units)
             readonlyColumn("PARTS", MTextbook::parts)
             onDoubleClick {
-                val modal = find<TextbooksDetailView>("vmDetail" to TextbooksDetailViewModel(vm, selectionModel.selectedItem)) { openModal(block = true) }
+                val modal = find<TextbooksDetailView>("vmDetail" to TextbooksDetailViewModel(vm, selectedItem!!)) { openModal(block = true) }
                 if (modal.result)
                     this.refresh()
             }

@@ -32,7 +32,7 @@ class TransformEditView : Fragment("Transform Edit") {
                 readonlyColumn("extractor", MTransformItem::extractor)
                 readonlyColumn("replacement", MTransformItem::replacement)
                 onDoubleClick {
-                    val modal = find<TransformItemEditView>("vmEdit" to TransformItemEditViewModel(selectionModel.selectedItem)) { openModal(block = true) }
+                    val modal = find<TransformItemEditView>("vmEdit" to TransformItemEditViewModel(selectedItem!!)) { openModal(block = true) }
                     if (modal.result)
                         this.refresh()
                 }
