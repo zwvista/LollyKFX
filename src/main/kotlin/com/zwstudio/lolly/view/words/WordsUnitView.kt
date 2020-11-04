@@ -121,8 +121,21 @@ class WordsUnitView : WordsBaseView("Words in Unit") {
                             if (modal.result)
                                 this.refresh()
                         }
+                        fun link() {
+                            val o = selectionModel.selectedItem!!
+                            val modal = find<PhrasesLinkView>("vm" to PhrasesLinkViewModel(o.wordid, o.word)) { openModal(block = true) }
+                            if (modal.result)
+                                tvPhrases.refresh()
+                        }
+                        var isAltDown = false
+                        setOnMousePressed {
+                            isAltDown = it.isAltDown
+                        }
                         onDoubleClick {
-                            edit()
+                            if (isAltDown)
+                                link()
+                            else
+                                edit()
                         }
                         contextmenu {
                             item("Retrieve Note").action {
@@ -139,10 +152,7 @@ class WordsUnitView : WordsBaseView("Words in Unit") {
                                 edit()
                             }
                             item("Link Existing Phrases").action {
-                                val o = selectionModel.selectedItem!!
-                                val modal = find<PhrasesLinkView>("vm" to PhrasesLinkViewModel(o.id, o.word)) { openModal(block = true) }
-                                if (modal.result)
-                                    tvPhrases.refresh()
+                                link()
                             }
                             separator()
                             item("Delete").action {
