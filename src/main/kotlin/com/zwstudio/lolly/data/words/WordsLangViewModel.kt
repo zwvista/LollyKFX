@@ -7,7 +7,7 @@ import com.zwstudio.lolly.service.wpp.WordPhraseService
 import io.reactivex.rxjava3.core.Observable
 import tornadofx.*
 
-class WordsLangViewModel : WordsBaseViewModel() {
+open class WordsLangViewModel : WordsBaseViewModel() {
 
     var lstWordsAll = mutableListOf<MLangWord>()
     val lstWords = mutableListOf<MLangWord>().asObservable()

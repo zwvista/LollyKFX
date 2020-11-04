@@ -28,9 +28,9 @@ class PhrasesLinkView : Fragment("Phrases in Unit Detail") {
             }
             row {
                 label("Filter Scope:")
-                choicebox(vm.vm.scopeFilter, SettingsViewModel.lstScopePhraseFilters)
+                choicebox(vm.scopeFilter, SettingsViewModel.lstScopePhraseFilters)
                 label("Filter Text:")
-                textfield(vm.vm.textFilter)
+                textfield(vm.textFilter)
             }
         }
         hbox(10.0) {
@@ -51,7 +51,7 @@ class PhrasesLinkView : Fragment("Phrases in Unit Detail") {
                 (it as Button).prefWidth = 150.0
             }
         }
-        tvPhrases = tableview(vm.vm.lstPhrases) {
+        tvPhrases = tableview(vm.lstPhrases) {
             column("", MLangPhrase::isChecked).makeEditable()
             readonlyColumn("ID", MLangPhrase::id)
             column("PHRASE", MLangPhrase::phraseProperty).makeEditable()

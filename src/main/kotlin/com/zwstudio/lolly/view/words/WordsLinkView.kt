@@ -28,9 +28,9 @@ class WordsLinkView : Fragment("Link Words") {
             }
             row {
                 label("Filter Scope:")
-                choicebox(vm.vm.scopeFilter, SettingsViewModel.lstScopeWordFilters)
+                choicebox(vm.scopeFilter, SettingsViewModel.lstScopeWordFilters)
                 label("Filter Text:")
-                textfield(vm.vm.textFilter)
+                textfield(vm.textFilter)
             }
         }
         hbox(10.0) {
@@ -51,7 +51,7 @@ class WordsLinkView : Fragment("Link Words") {
                 (it as Button).prefWidth = 150.0
             }
         }
-        tvWords = tableview(vm.vm.lstWords) {
+        tvWords = tableview(vm.lstWords) {
             column("", MLangWord::isChecked).makeEditable()
             readonlyColumn("ID", MLangWord::id)
             readonlyColumn("WORD", MLangWord::wordProperty)

@@ -1,30 +1,27 @@
 package com.zwstudio.lolly.data.words
 
 import com.zwstudio.lolly.domain.wpp.MLangWord
-import tornadofx.*
 
-class WordsLinkViewModel(val phraseid: Int, textFilter: String) : ViewModel() {
-    val vm = WordsLangViewModel()
+class WordsLinkViewModel(val phraseid: Int, textFilter: String) : WordsLangViewModel() {
 
     init {
-        vm.textFilter.value = textFilter
+        this.textFilter.value = textFilter
     }
 
-    fun reload() {
-        vm.reload()
-        for (o in vm.lstWordsAll)
+    override fun applyFilters() {
+        super.applyFilters()
+        for (o in lstWordsAll)
             o.isChecked.value = false
     }
 
-    override fun onCommit() {
-        super.onCommit()
-        for (o in vm.lstWordsAll)
+    fun commit() {
+        for (o in lstWordsAll)
             if (o.isChecked.value)
-                vm.wordPhraseService.link(o.id, phraseid).subscribe()
+                wordPhraseService.link(o.id, phraseid).subscribe()
     }
 
     fun checkItems(n: Int, selectedItems: List<MLangWord>) {
-        for (o in vm.lstWordsAll)
+        for (o in lstWordsAll)
             o.isChecked.value = when (n) {
                 0 -> true
                 1 -> false
