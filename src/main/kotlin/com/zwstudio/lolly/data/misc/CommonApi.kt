@@ -102,3 +102,5 @@ const val cssFolder = "https://zwvista.tk/lolly/css/"
 fun applyTemplate(template: String, word: String, text: String) =
     template.replace("{0}", word).replace("{1}", cssFolder).replace("{2}", text)
 
+fun List<String>.splitUsingCommaAndMerge(): String =
+    flatMap { it.split(',') }.filter { it.isNotEmpty() }.sorted().distinct().joinToString(",")
