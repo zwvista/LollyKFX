@@ -20,8 +20,13 @@ class PatternsMergeViewModel(val items: List<MPattern>) : ViewModel() {
         val strs = items.flatMap { it.pattern.split('／') }.sorted().distinct()
         lstPatternVariations.addAll(strs.mapIndexed {i, s -> MPatternVariation().apply { index = i + 1; variation = s }})
         lstPatternVariations.addListener(ListChangeListener {
-            pattern.value = lstPatternVariations.map { it.variation }.distinct().joinToString("／")
+            mergeVariations()
         })
+        mergeVariations()
+    }
+
+    fun mergeVariations() {
+        pattern.value = lstPatternVariations.map { it.variation }.distinct().joinToString("／")
     }
 
     fun reindex(onNext: (Int) -> Unit) {

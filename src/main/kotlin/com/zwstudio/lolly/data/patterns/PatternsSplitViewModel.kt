@@ -17,8 +17,13 @@ class PatternsSplitViewModel(item: MPattern) : ViewModel() {
         val strs = item.pattern.split('／')
         lstPatternVariations.addAll(strs.mapIndexed {i, s -> MPatternVariation().apply { index = i + 1; variation = s }})
         lstPatternVariations.addListener(ListChangeListener {
-            pattern.value = lstPatternVariations.map { it.variation }.distinct().joinToString("／")
+            mergeVariations()
         })
+        mergeVariations()
+    }
+
+    fun mergeVariations() {
+        pattern.value = lstPatternVariations.map { it.variation }.distinct().joinToString("／")
     }
 
     fun reindex(onNext: (Int) -> Unit) {

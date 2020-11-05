@@ -26,7 +26,7 @@ class PatternsSplitView : Fragment("Split Pattern") {
             }
             tableview(vmSplit.lstPatternVariations) {
                 readonlyColumn("", MPatternVariation::index)
-                readonlyColumn("Variation", MPatternVariation::variation)
+                column("Variation", MPatternVariation::variation).makeEditable()
                 // https://stackoverflow.com/questions/28603224/sort-tableview-with-drag-and-drop-rows
                 setRowFactory { tv ->
                     val row = TableRow<MPatternVariation>()
@@ -38,6 +38,9 @@ class PatternsSplitView : Fragment("Split Pattern") {
                         cc[LollyApp.SERIALIZED_MIME_TYPE] = index
                         db.setContent(cc)
                         event.consume()
+                    }
+                    onEditCommit {
+                        vmSplit.mergeVariations()
                     }
                     row.setOnDragOver { event ->
                         val db = event.dragboard

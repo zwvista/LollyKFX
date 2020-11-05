@@ -26,7 +26,10 @@ class PatternsMergeView : Fragment("Merge Patterns") {
             }
             tableview(vmMerge.lstPatternVariations) {
                 readonlyColumn("", MPatternVariation::index)
-                readonlyColumn("Variation", MPatternVariation::variation)
+                column("Variation", MPatternVariation::variation).makeEditable()
+                onEditCommit {
+                    vmMerge.mergeVariations()
+                }
                 // https://stackoverflow.com/questions/28603224/sort-tableview-with-drag-and-drop-rows
                 setRowFactory { tv ->
                     val row = TableRow<MPatternVariation>()
