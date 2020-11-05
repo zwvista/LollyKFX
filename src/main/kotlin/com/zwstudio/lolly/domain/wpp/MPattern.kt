@@ -2,7 +2,6 @@ package com.zwstudio.lolly.domain.wpp
 
 import com.google.gson.annotations.Expose
 import com.google.gson.annotations.SerializedName
-import javafx.beans.property.SimpleIntegerProperty
 import javafx.beans.property.SimpleStringProperty
 import java.io.Serializable
 
@@ -41,6 +40,7 @@ class MPattern: Serializable {
 }
 
 class MPatternVariation {
-    val index = SimpleIntegerProperty()
-    val variation = SimpleStringProperty("")
+    var index = 0
+    var variationProperty = SimpleStringProperty("")
+    var variation: String get() = variationProperty.value; set(value) { variationProperty.value = value }
 }

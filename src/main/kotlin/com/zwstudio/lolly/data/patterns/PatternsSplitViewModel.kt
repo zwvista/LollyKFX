@@ -15,10 +15,19 @@ class PatternsSplitViewModel(item: MPattern) : ViewModel() {
 
     init {
         val strs = item.pattern.split('／')
-        lstPatternVariations.addAll(strs.mapIndexed {i, s -> MPatternVariation().apply { index.value = i + 1; variation.value = s }})
+        lstPatternVariations.addAll(strs.mapIndexed {i, s -> MPatternVariation().apply { index = i + 1; variation = s }})
         lstPatternVariations.addListener(ListChangeListener {
             pattern.value = lstPatternVariations.map { it.variation }.distinct().joinToString("／")
         })
+    }
+
+    fun reindex(onNext: (Int) -> Unit) {
+        for (i in 1..lstPatternVariations.size) {
+            val item = lstPatternVariations[i - 1]
+            if (item.index == i) continue
+            item.index = i
+            onNext(i - 1)
+        }
     }
 
     override fun onCommit() {

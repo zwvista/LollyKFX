@@ -1,41 +1,95 @@
 package com.zwstudio.lolly.view.patterns
 
-import com.zwstudio.lolly.data.patterns.PatternsDetailViewModel
+import com.zwstudio.lolly.app.LollyApp
+import com.zwstudio.lolly.data.patterns.PatternsMergeViewModel
+import com.zwstudio.lolly.domain.wpp.MPattern
+import com.zwstudio.lolly.domain.wpp.MPatternVariation
+import javafx.geometry.Orientation
+import javafx.scene.control.TableRow
+import javafx.scene.input.ClipboardContent
+import javafx.scene.input.TransferMode
+import javafx.scene.layout.Priority
 import tornadofx.*
 
-class PatternsMergeView : Fragment("Patterns in Language Detail") {
-    val vmDetail : PatternsDetailViewModel by param()
+class PatternsMergeView : Fragment("Merge Patterns") {
+    val vmMerge : PatternsMergeViewModel by param()
     var result = false
 
-    override val root = form {
-        fieldset {
-            field("ID") {
-                textfield(vmDetail.id) {
-                    isEditable = false
+    override val root = vbox(10.0) {
+        splitpane(Orientation.VERTICAL) {
+            vgrow = Priority.ALWAYS
+            tableview(vmMerge.lstPatterns) {
+                readonlyColumn("ID", MPattern::id)
+                readonlyColumn("PATTERN", MPattern::pattern)
+                readonlyColumn("NOTE", MPattern::note)
+                readonlyColumn("TAGS", MPattern::tags)
+            }
+            tableview(vmMerge.lstPatternVariations) {
+                readonlyColumn("", MPatternVariation::index)
+                readonlyColumn("Variation", MPatternVariation::variation)
+                // https://stackoverflow.com/questions/28603224/sort-tableview-with-drag-and-drop-rows
+                setRowFactory { tv ->
+                    val row = TableRow<MPatternVariation>()
+                    row.setOnDragDetected { event ->
+                        val index = row.index
+                        val db = row.startDragAndDrop(TransferMode.MOVE)
+                        db.dragView = row.snapshot(null, null)
+                        val cc = ClipboardContent()
+                        cc[LollyApp.SERIALIZED_MIME_TYPE] = index
+                        db.setContent(cc)
+                        event.consume()
+                    }
+                    row.setOnDragOver { event ->
+                        val db = event.dragboard
+                        if (db.hasContent(LollyApp.SERIALIZED_MIME_TYPE)) {
+                            if (row.index != (db.getContent(LollyApp.SERIALIZED_MIME_TYPE) as Int).toInt()) {
+                                event.acceptTransferModes(*TransferMode.COPY_OR_MOVE)
+                                event.consume()
+                            }
+                        }
+                    }
+                    row.setOnDragDropped { event ->
+                        val db = event.dragboard
+                        if (db.hasContent(LollyApp.SERIALIZED_MIME_TYPE)) {
+                            val draggedIndex = db.getContent(LollyApp.SERIALIZED_MIME_TYPE) as Int
+                            val draggedItem = items.removeAt(draggedIndex)
+                            val dropIndex = if (row.isEmpty) items.size else row.index
+                            items.add(dropIndex, draggedItem)
+                            event.isDropCompleted = true
+                            selectionModel.select(dropIndex)
+                            event.consume()
+                            vmMerge.reindex { refresh() }
+                        }
+                    }
+                    row
                 }
             }
-            field("PATTERN") {
-                textfield(vmDetail.pattern)
-            }
-            field("NOTE") {
-                textfield(vmDetail.note)
-            }
-            field("TAGS") {
-                textfield(vmDetail.tags)
-            }
         }
-        buttonbar {
-            button("OK") {
-                isDefaultButton = true
-            }.action {
-                result = true
-                vmDetail.commit()
-                close()
+        form {
+            fieldset {
+                field("PATTERN") {
+                    textfield(vmMerge.pattern)
+                }
+                field("NOTE") {
+                    textfield(vmMerge.note)
+                }
+                field("TAGS") {
+                    textfield(vmMerge.tags)
+                }
             }
-            button("Cancel") {
-                isCancelButton = true
-            }.action {
-                close()
+            buttonbar {
+                button("OK") {
+                    isDefaultButton = true
+                }.action {
+                    result = true
+                    vmMerge.commit()
+                    close()
+                }
+                button("Cancel") {
+                    isCancelButton = true
+                }.action {
+                    close()
+                }
             }
         }
     }

@@ -183,6 +183,7 @@ class PhrasesUnitView : PhrasesBaseView("Phrases in Unit") {
                                     event.isDropCompleted = true
                                     selectionModel.select(dropIndex)
                                     event.consume()
+                                    vm.reindex { refresh() }
                                 }
                             }
                             row

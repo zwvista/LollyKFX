@@ -67,7 +67,7 @@ class TransformEditView : Fragment("Transform Edit") {
                             event.isDropCompleted = true
                             selectionModel.select(dropIndex)
                             event.consume()
-                            vm.reindex { tvTransformItems.refresh() }
+                            vm.reindex { refresh() }
                         }
                     }
                     row

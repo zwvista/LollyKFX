@@ -1,15 +1,16 @@
 package com.zwstudio.lolly.view.patterns
 
 import com.zwstudio.lolly.data.misc.SettingsViewModel
-import com.zwstudio.lolly.data.patterns.PatternsDetailViewModel
-import com.zwstudio.lolly.data.patterns.PatternsViewModel
-import com.zwstudio.lolly.data.patterns.PatternsWebPageViewModel
+import com.zwstudio.lolly.data.misc.copyText
+import com.zwstudio.lolly.data.misc.googleString
+import com.zwstudio.lolly.data.patterns.*
 import com.zwstudio.lolly.domain.wpp.MPattern
 import com.zwstudio.lolly.domain.wpp.MPatternWebPage
 import com.zwstudio.lolly.view.ILollySettings
 import javafx.application.Platform
 import javafx.geometry.Orientation
 import javafx.scene.control.Button
+import javafx.scene.control.SelectionMode
 import javafx.scene.control.TableView
 import javafx.scene.layout.Priority
 import javafx.scene.web.WebView
@@ -55,6 +56,7 @@ class PatternsView : Fragment("Patterns in Language"), ILollySettings {
                     setDividerPosition(0, 0.8)
                     tvPatterns = tableview(vm.lstPatterns) {
                         vgrow = Priority.ALWAYS
+                        selectionModel.selectionMode = SelectionMode.MULTIPLE
                         readonlyColumn("ID", MPattern::id)
                         column("PATTERN", MPattern::pattern)
                         column("NOTE", MPattern::noteProperty)
@@ -66,16 +68,48 @@ class PatternsView : Fragment("Patterns in Language"), ILollySettings {
                                     if (it.isNotEmpty())
                                     // https://stackoverflow.com/questions/20413419/javafx-2-how-to-focus-a-table-row-programmatically
                                         Platform.runLater {
-                                            //                                        tvWebPage.requestFocus()
+                                            // tvWebPage.requestFocus()
                                             tvWebPages.selectionModel.select(0)
                                         }
                                 }
                             }
                         }
-                        onDoubleClick {
+                        fun edit() {
                             val modal = find<PatternsDetailView>("vmDetail" to PatternsDetailViewModel(vm, selectedItem!!)) { openModal(block = true) }
                             if (modal.result)
                                 this.refresh()
+                        }
+                        onDoubleClick {
+                        }
+                        contextmenu {
+                            item("Edit").action {
+                                edit()
+                            }
+                            separator()
+                            item("Delete").action {
+
+                            }
+                            separator()
+                            item("Merge").action {
+                                val modal = find<PatternsMergeView>("vmMerge" to PatternsMergeViewModel(selectionModel.selectedItems)) { openModal(block = true) }
+                                if (modal.result)
+                                    this@tableview.refresh()
+                            }
+                            item("Split").action {
+                                val modal = find<PatternsSplitView>("vmSplit" to PatternsSplitViewModel(selectedItem!!)) { openModal(block = true) }
+                                if (modal.result)
+                                    this@tableview.refresh()
+                            }
+                            separator()
+                            item("Copy").action {
+                                copyText(selectedItem?.pattern)
+                            }
+                            item("Google").action {
+                                googleString(selectedItem?.pattern)
+                            }
+                            items.forEach {
+                                it.enableWhen { selectionModel.selectedItemProperty().isNotNull }
+                            }
                         }
                     }
                     tvWebPages = tableview(vm.lstWebPages) {

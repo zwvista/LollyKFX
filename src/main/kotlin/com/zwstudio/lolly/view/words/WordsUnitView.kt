@@ -202,7 +202,7 @@ class WordsUnitView : WordsBaseView("Words in Unit") {
                                     event.isDropCompleted = true
                                     selectionModel.select(dropIndex)
                                     event.consume()
-                                    vm.reindex { tvWords.refresh() }
+                                    vm.reindex { refresh() }
                                 }
                             }
                             row

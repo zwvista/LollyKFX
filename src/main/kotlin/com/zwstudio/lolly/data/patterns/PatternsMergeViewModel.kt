@@ -7,7 +7,7 @@ import javafx.beans.property.SimpleStringProperty
 import javafx.collections.ListChangeListener
 import tornadofx.*
 
-class PatternsMegeViewModel(val items: List<MPattern>) : ViewModel() {
+class PatternsMergeViewModel(val items: List<MPattern>) : ViewModel() {
     val pattern = SimpleStringProperty()
     val note = SimpleStringProperty()
     val tags = SimpleStringProperty()
@@ -18,10 +18,19 @@ class PatternsMegeViewModel(val items: List<MPattern>) : ViewModel() {
         note.value = items.map { it.note }.splitUsingCommaAndMerge()
         tags.value = items.map { it.tags }.splitUsingCommaAndMerge()
         val strs = items.flatMap { it.pattern.split('／') }.sorted().distinct()
-        lstPatternVariations.addAll(strs.mapIndexed {i, s -> MPatternVariation().apply { index.value = i + 1; variation.value = s }})
+        lstPatternVariations.addAll(strs.mapIndexed {i, s -> MPatternVariation().apply { index = i + 1; variation = s }})
         lstPatternVariations.addListener(ListChangeListener {
             pattern.value = lstPatternVariations.map { it.variation }.distinct().joinToString("／")
         })
+    }
+
+    fun reindex(onNext: (Int) -> Unit) {
+        for (i in 1..lstPatternVariations.size) {
+            val item = lstPatternVariations[i - 1]
+            if (item.index == i) continue
+            item.index = i
+            onNext(i - 1)
+        }
     }
 
     override fun onCommit() {
