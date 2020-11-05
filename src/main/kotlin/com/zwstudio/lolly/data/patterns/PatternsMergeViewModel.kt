@@ -3,6 +3,7 @@ package com.zwstudio.lolly.data.patterns
 import com.zwstudio.lolly.data.misc.splitUsingCommaAndMerge
 import com.zwstudio.lolly.domain.wpp.MPattern
 import com.zwstudio.lolly.domain.wpp.MPatternVariation
+import com.zwstudio.lolly.service.wpp.PatternService
 import javafx.beans.property.SimpleStringProperty
 import javafx.collections.ListChangeListener
 import tornadofx.*
@@ -13,6 +14,8 @@ class PatternsMergeViewModel(val items: List<MPattern>) : ViewModel() {
     val tags = SimpleStringProperty()
     val lstPatterns = items.asObservable()
     val lstPatternVariations = mutableListOf<MPatternVariation>().asObservable()
+
+    private val patternService = PatternService()
 
     init {
         note.value = items.map { it.note }.splitUsingCommaAndMerge()
@@ -40,5 +43,11 @@ class PatternsMergeViewModel(val items: List<MPattern>) : ViewModel() {
 
     override fun onCommit() {
         super.onCommit()
+        val o = MPattern()
+        o.idsMerge = lstPatterns.map { it.id }.sorted().joinToString(",")
+        o.pattern = pattern.value
+        o.note = note.value
+        o.tags = tags.value
+        patternService.mergePatterns(o)
     }
 }

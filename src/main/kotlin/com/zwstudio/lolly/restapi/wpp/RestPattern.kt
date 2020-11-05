@@ -38,6 +38,6 @@ interface RestPattern {
 
     @FormUrlEncoded
     @POST("PATTERNS_SPLIT")
-    fun splitPattern(@Field("P_ID") id: Int, @Field("P_PATTERNS") patterns: String): Observable<List<List<MSPResult>>>
+    fun splitPattern(@Field("P_ID") id: Int, @Field("P_PATTERNS_SPLIT") patternsSplit: String): Observable<List<List<MSPResult>>>
 
 }

@@ -2,6 +2,7 @@ package com.zwstudio.lolly.data.patterns
 
 import com.zwstudio.lolly.domain.wpp.MPattern
 import com.zwstudio.lolly.domain.wpp.MPatternVariation
+import com.zwstudio.lolly.service.wpp.PatternService
 import javafx.beans.property.SimpleIntegerProperty
 import javafx.beans.property.SimpleStringProperty
 import javafx.collections.ListChangeListener
@@ -12,6 +13,8 @@ class PatternsSplitViewModel(item: MPattern) : ViewModel() {
     val pattern  = SimpleStringProperty()
     val lstPatterns = listOf(item).asObservable()
     val lstPatternVariations = mutableListOf<MPatternVariation>().asObservable()
+
+    private val patternService = PatternService()
 
     init {
         val strs = item.pattern.split('／')
@@ -37,5 +40,9 @@ class PatternsSplitViewModel(item: MPattern) : ViewModel() {
 
     override fun onCommit() {
         super.onCommit()
+        val o = MPattern()
+        o.id = id.value
+        o.patternsSplit = pattern.value
+        patternService.splitPattern(o)
     }
 }
