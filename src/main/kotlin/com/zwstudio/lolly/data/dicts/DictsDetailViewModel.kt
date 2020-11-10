@@ -34,12 +34,8 @@ class DictsDetailViewModel(val vm: DictsViewModel, item: MDictionary) : ItemView
         item.langidto = item.langtoitem!!.id
         item.dicttypecode = item.dicttypeitem!!.code
         if (item.id == 0)
-            vm.createDict(item).subscribe()
+            vm.create(item).subscribe()
         else
-            vm.updateDict(item).subscribe()
-        if (item.id != 0)
-            vm.updateSite(item).subscribe()
-        else if (item.transform.isEmpty())
-            vm.createSite(item).subscribe()
+            vm.update(item).subscribe()
     }
 }

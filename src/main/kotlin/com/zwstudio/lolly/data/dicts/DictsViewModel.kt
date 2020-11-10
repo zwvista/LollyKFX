@@ -33,27 +33,15 @@ class DictsViewModel : BaseViewModel() {
         dicttypecode = 3
     }
 
-    fun updateDict(o: MDictionary): Observable<Unit> =
-        dictionaryService.updateDict(o)
+    fun update(o: MDictionary): Observable<Unit> =
+        dictionaryService.update(o)
         .applyIO()
 
-    fun createDict(o: MDictionary): Observable<Int> =
-        dictionaryService.createDict(o)
+    fun create(o: MDictionary): Observable<Int> =
+        dictionaryService.create(o)
         .applyIO()
 
-    fun deleteDict(id: Int): Observable<Unit> =
-        dictionaryService.deleteDict(id)
-        .applyIO()
-
-    fun updateSite(o: MDictionary): Observable<Unit> =
-        dictionaryService.updateSite(o)
-        .applyIO()
-
-    fun createSite(o: MDictionary): Observable<Int> =
-        dictionaryService.createSite(o)
-        .applyIO()
-
-    fun deleteSite(id: Int): Observable<Unit> =
-        dictionaryService.deleteSite(id)
+    fun delete(id: Int): Observable<Unit> =
+        dictionaryService.delete(id)
         .applyIO()
 }

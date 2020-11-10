@@ -25,39 +25,21 @@ class DictionaryService: BaseService() {
             .getDictsTranslationByLang("LANGIDFROM,eq,$langid")
             .map { it.lst!! }
 
-    fun updateDict(o: MDictionary): Observable<Unit> =
+    fun update(o: MDictionary): Observable<Unit> =
         retrofitJson.create(RestDictionary::class.java)
-            .updateDict(o.id, o.langidfrom, o.langidto, o.dictname, o.seqnum, o.dicttypecode, o.url, o.chconv, o.automation, o.template, o.template2)
+            .update(o.id, o.langidfrom, o.langidto, o.dictname, o.seqnum, o.dicttypecode, o.url, o.chconv, o.automation, o.template, o.template2)
             .map { println(it.toString()) }
 
-    fun createDict(o: MDictionary): Observable<Int> =
+    fun create(o: MDictionary): Observable<Int> =
         retrofitJson.create(RestDictionary::class.java)
-            .createDict(o.langidfrom, o.langidto, o.dictname, o.seqnum, o.dicttypecode, o.url, o.chconv, o.automation, o.template, o.template2)
+            .create(o.langidfrom, o.langidto, o.dictname, o.seqnum, o.dicttypecode, o.url, o.chconv, o.automation, o.template, o.template2)
             .map {
                 println(it.toString())
                 it
             }
 
-    fun deleteDict(id: Int): Observable<Unit> =
+    fun delete(id: Int): Observable<Unit> =
         retrofitJson.create(RestDictionary::class.java)
-            .deleteDict(id)
-            .map { println(it.toString()) }
-
-    fun updateSite(o: MDictionary): Observable<Unit> =
-        retrofitJson.create(RestDictionary::class.java)
-            .updateSite(o.siteid, o.dictname, o.transform, o.wait)
-            .map { println(it.toString()) }
-
-    fun createSite(o: MDictionary): Observable<Int> =
-        retrofitJson.create(RestDictionary::class.java)
-            .createSite(o.dictname, o.transform, o.wait)
-            .map {
-                println(it.toString())
-                it
-            }
-
-    fun deleteSite(id: Int): Observable<Unit> =
-        retrofitJson.create(RestDictionary::class.java)
-            .deleteSite(id)
+            .delete(id)
             .map { println(it.toString()) }
 }

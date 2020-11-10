@@ -45,7 +45,7 @@ class MDictionary: Serializable {
     @SerializedName("DICTTYPENAME")
     @Expose
     var dicttypename = ""
-    @SerializedName("DICTNAME")
+    @SerializedName("NAME")
     @Expose
     var dictname = ""
     @SerializedName("URL")
@@ -82,7 +82,7 @@ class MDictionary: Serializable {
                 autoCorrect(word, lstAutoCorrects, { it.extended }, { it.basic })
             else
                 word
-        val wordUrl = url!!.replace("{0}", URLEncoder.encode(word2, "UTF-8"))
+        val wordUrl = url.replace("{0}", URLEncoder.encode(word2, "UTF-8"))
         println("urlString: $wordUrl")
         return wordUrl
     }
