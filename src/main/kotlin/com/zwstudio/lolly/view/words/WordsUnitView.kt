@@ -79,9 +79,10 @@ class WordsUnitView : WordsBaseView("Words in Unit") {
             textfield(vm.newWord) {
                 promptText = "New Word"
             }.action {
-                val item = vm.newUnitWord().apply { word = vm.newWord.value }
-                vm.lstWordsAll.add(item)
-                tvWords.refresh()
+                vm.addNewWord().subscribe {
+                    tvWords.refresh()
+                    tvWords.selectionModel.select(tvWords.items.size - 1)
+                }
             }
             choicebox(vm.scopeFilter, SettingsViewModel.lstScopeWordFilters)
             textfield(vm.textFilter) {

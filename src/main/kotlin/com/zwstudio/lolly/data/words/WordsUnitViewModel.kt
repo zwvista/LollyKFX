@@ -3,6 +3,7 @@ package com.zwstudio.lolly.data.words
 import com.zwstudio.lolly.data.misc.SettingsViewModel
 import com.zwstudio.lolly.data.misc.applyIO
 import com.zwstudio.lolly.domain.wpp.MUnitWord
+import com.zwstudio.lolly.service.wpp.LangWordService
 import com.zwstudio.lolly.service.wpp.UnitWordService
 import io.reactivex.rxjava3.core.Observable
 import io.reactivex.rxjava3.disposables.CompositeDisposable
@@ -15,13 +16,14 @@ class WordsUnitViewModel(val inTextbook: Boolean) : WordsBaseViewModel() {
     val lstWords = mutableListOf<MUnitWord>().asObservable()
     val compositeDisposable = CompositeDisposable()
     val unitWordService: UnitWordService by inject()
+    val langWordService: LangWordService by inject()
 
     val noFilter get() = textFilter.value.isEmpty() && textbookFilter.value.value == 0
     val ifEmpty = SimpleBooleanProperty(true)
 
     override fun applyFilters() {
         lstWords.setAll(if (noFilter) lstWordsAll else lstWordsAll.filter {
-            (textFilter.value.isEmpty() || (if (scopeFilter.value == "Word") it.word else it.note ?: "").contains(textFilter.value, true)) &&
+            (textFilter.value.isEmpty() || (if (scopeFilter.value == "Word") it.word else it.note).contains(textFilter.value, true)) &&
             (textbookFilter.value.value == 0 || it.textbookid == textbookFilter.value.value)
         })
         statusText.value = "${lstWords.size} Words in ${if (inTextbook) vmSettings.unitInfo else vmSettings.langInfo}"
@@ -75,31 +77,37 @@ class WordsUnitViewModel(val inTextbook: Boolean) : WordsBaseViewModel() {
         textbook = vmSettings.selectedTextbook
     }
 
+    fun addNewWord(): Observable<Unit> {
+        val item = newUnitWord().apply { word = newWord.value }
+        newWord.value = ""
+        return create(item).map { Unit }
+    }
+
     fun retrieveNote(item: MUnitWord): Observable<Unit> {
         return vmSettings.retrieveNote(item.word).flatMap {
             item.note = it
-            unitWordService.updateNote(item.id, it)
+            langWordService.updateNote(item.wordid, item.note)
         }
     }
 
     fun clearNote(item: MUnitWord): Observable<Unit> {
         item.note = SettingsViewModel.zeroNote
-        return unitWordService.updateNote(item.id, item.note)
+        return langWordService.updateNote(item.wordid, item.note)
     }
 
     fun retrieveNotes(oneComplete: (Int) -> Unit, allComplete: () -> Unit) {
-        vmSettings.retrieveNotes(lstWordsAll.size, isNoteEmpty = {
-            !ifEmpty.value || lstWordsAll[it].note.isEmpty()
+        vmSettings.retrieveNotes(lstWords.size, isNoteEmpty = {
+            !ifEmpty.value || lstWords[it].note.isEmpty()
         }, getOne = { i ->
-            retrieveNote(lstWordsAll[i]).subscribe { oneComplete(i) }
+            retrieveNote(lstWords[i]).subscribe { oneComplete(i) }
         }, allComplete = allComplete)
     }
 
     fun clearNotes(oneComplete: (Int) -> Unit, allComplete: () -> Unit) {
-        vmSettings.clearNotes(lstWordsAll.size, isNoteEmpty = {
-            !ifEmpty.value || lstWordsAll[it].note.isEmpty()
+        vmSettings.clearNotes(lstWords.size, isNoteEmpty = {
+            !ifEmpty.value || lstWords[it].note.isEmpty()
         }, getOne = { i ->
-            clearNote(lstWordsAll[i]).subscribe { oneComplete(i) }
+            clearNote(lstWords[i]).subscribe { oneComplete(i) }
         }, allComplete = allComplete)
     }
 }

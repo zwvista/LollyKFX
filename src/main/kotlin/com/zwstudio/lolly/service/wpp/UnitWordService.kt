@@ -53,11 +53,6 @@ class UnitWordService: BaseService() {
             .updateSeqNum(id, seqnum)
             .map { println(it.toString()) }
 
-    fun updateNote(id: Int, note: String): Observable<Unit> =
-        retrofitJson.create(RestUnitWord::class.java)
-            .updateNote(id, note)
-            .map { println(it.toString()) }
-
     fun update(o: MUnitWord): Observable<Unit> =
         retrofitSP.create(RestUnitWord::class.java)
             .update(o.id, o.langid, o.textbookid, o.unit, o.part, o.seqnum, o.wordid, o.word, o.note, o.famiid, o.correct, o.total)

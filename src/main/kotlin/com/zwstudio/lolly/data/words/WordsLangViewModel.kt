@@ -1,7 +1,9 @@
 package com.zwstudio.lolly.data.words
 
+import com.zwstudio.lolly.data.misc.SettingsViewModel
 import com.zwstudio.lolly.data.misc.applyIO
 import com.zwstudio.lolly.domain.wpp.MLangWord
+import com.zwstudio.lolly.domain.wpp.MUnitWord
 import com.zwstudio.lolly.service.wpp.LangWordService
 import com.zwstudio.lolly.service.wpp.WordPhraseService
 import io.reactivex.rxjava3.core.Observable
@@ -16,7 +18,7 @@ open class WordsLangViewModel : WordsBaseViewModel() {
 
     override fun applyFilters() {
         lstWords.setAll(if (textFilter.value.isEmpty()) lstWordsAll else lstWordsAll.filter {
-            textFilter.value.isEmpty() || (if (scopeFilter.value == "Word") it.word else it.note ?: "").contains(textFilter.value, true)
+            textFilter.value.isEmpty() || (if (scopeFilter.value == "Word") it.word else it.note).contains(textFilter.value, true)
         })
         statusText.value = "${lstWords.size} Words in ${vmSettings.langInfo}"
     }
@@ -43,12 +45,22 @@ open class WordsLangViewModel : WordsBaseViewModel() {
         langid = vmSettings.selectedLang.id
     }
 
-    fun retrieveNote(index: Int): Observable<Unit> {
-        val item = lstWordsAll[index]
+    fun addNewWord(): Observable<Unit> {
+        val item = newLangWord().apply { word = newWord.value }
+        newWord.value = ""
+        return create(item).map { Unit }
+    }
+
+    fun retrieveNote(item: MLangWord): Observable<Unit> {
         return vmSettings.retrieveNote(item.word).flatMap {
             item.note = it
-            langWordService.updateNote(item.id, it)
+            langWordService.updateNote(item.id, item.note)
         }
+    }
+
+    fun clearNote(item: MLangWord): Observable<Unit> {
+        item.note = SettingsViewModel.zeroNote
+        return langWordService.updateNote(item.id, item.note)
     }
 
     fun getWords(phraseid: Int?): Observable<Unit> =

@@ -38,9 +38,10 @@ class WordsLangView : WordsBaseView("Words in Language") {
             textfield(vm.newWord) {
                 promptText = "New Word"
             }.action {
-                val item = vm.newLangWord().apply { word = vm.newWord.value }
-                vm.lstWords.add(item)
-                tvWords.refresh()
+                vm.addNewWord().subscribe {
+                    tvWords.refresh()
+                    tvWords.selectionModel.select(tvWords.items.size - 1)
+                }
             }
             choicebox(vm.scopeFilter, SettingsViewModel.lstScopeWordFilters)
             textfield(vm.textFilter) {
@@ -93,6 +94,13 @@ class WordsLangView : WordsBaseView("Words in Language") {
                                 edit()
                         }
                         contextmenu {
+                            item("Retrieve Note").action {
+                                vm.retrieveNote(selectedItem!!)
+                            }
+                            item("Clear Note").action {
+                                vm.clearNote(selectedItem!!)
+                            }
+                            separator()
                             item("Edit").action {
                                 edit()
                             }
