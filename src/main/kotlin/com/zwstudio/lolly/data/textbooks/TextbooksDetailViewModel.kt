@@ -1,4 +1,4 @@
-package com.zwstudio.lolly.data.misc
+package com.zwstudio.lolly.data.textbooks
 
 import com.zwstudio.lolly.domain.misc.MTextbook
 import tornadofx.*

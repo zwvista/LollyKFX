@@ -4,12 +4,13 @@ import com.zwstudio.lolly.view.dicts.DictsView
 import com.zwstudio.lolly.view.misc.BlogView
 import com.zwstudio.lolly.view.misc.ReadNumberView
 import com.zwstudio.lolly.view.misc.SettingsView
-import com.zwstudio.lolly.view.misc.TextbooksView
+import com.zwstudio.lolly.view.textbooks.TextbooksView
 import com.zwstudio.lolly.view.patterns.PatternsView
 import com.zwstudio.lolly.view.phrases.PhrasesLangView
 import com.zwstudio.lolly.view.phrases.PhrasesReviewView
 import com.zwstudio.lolly.view.phrases.PhrasesTextbookView
 import com.zwstudio.lolly.view.phrases.PhrasesUnitView
+import com.zwstudio.lolly.view.textbooks.WebTextbooksView
 import com.zwstudio.lolly.view.words.*
 import javafx.scene.control.TabPane
 import javafx.scene.layout.Priority
@@ -69,6 +70,9 @@ class MainView : View("Lolly TornadoFX") {
                 }
                 item("Textbooks").action {
                     AddTab<TextbooksView>()
+                }
+                item("WebTextbooks").action {
+                    AddTab<WebTextbooksView>()
                 }
                 item("Dictionaries").action {
                     AddTab<DictsView>()

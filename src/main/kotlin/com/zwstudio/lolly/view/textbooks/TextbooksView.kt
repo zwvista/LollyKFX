@@ -1,7 +1,7 @@
-package com.zwstudio.lolly.view.misc
+package com.zwstudio.lolly.view.textbooks
 
-import com.zwstudio.lolly.data.misc.TextbooksDetailViewModel
-import com.zwstudio.lolly.data.misc.TextbooksViewModel
+import com.zwstudio.lolly.data.textbooks.TextbooksDetailViewModel
+import com.zwstudio.lolly.data.textbooks.TextbooksViewModel
 import com.zwstudio.lolly.domain.misc.MTextbook
 import com.zwstudio.lolly.view.ILollySettings
 import javafx.scene.control.TableView

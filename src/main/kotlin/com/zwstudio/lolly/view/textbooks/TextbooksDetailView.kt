@@ -1,6 +1,6 @@
-package com.zwstudio.lolly.view.misc
+package com.zwstudio.lolly.view.textbooks
 
-import com.zwstudio.lolly.data.misc.TextbooksDetailViewModel
+import com.zwstudio.lolly.data.textbooks.TextbooksDetailViewModel
 import tornadofx.*
 
 class TextbooksDetailView : Fragment("Textbooks Detail") {

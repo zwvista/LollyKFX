@@ -1,5 +1,7 @@
-package com.zwstudio.lolly.data.misc
+package com.zwstudio.lolly.data.textbooks
 
+import com.zwstudio.lolly.data.misc.BaseViewModel
+import com.zwstudio.lolly.data.misc.applyIO
 import com.zwstudio.lolly.domain.misc.MTextbook
 import com.zwstudio.lolly.service.misc.TextbookService
 import io.reactivex.rxjava3.core.Observable
