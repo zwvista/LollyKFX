@@ -441,7 +441,7 @@ class SettingsViewModel : Component(), ScopedInstance {
         val url = dictNote.urlString(word, lstAutoCorrect)
         return getHtml(url).map {
             println(it)
-            extractTextFrom(it, dictNote.transform!!, "") { text, _ -> text }
+            extractTextFrom(it, dictNote.transform, "") { text, _ -> text }
         }
     }
 

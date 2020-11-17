@@ -16,7 +16,7 @@ open class PhrasesLangViewModel : PhrasesBaseViewModel() {
 
     override fun applyFilters() {
         lstPhrases.setAll(if (textFilter.value.isEmpty()) lstPhrasesAll else lstPhrasesAll.filter {
-            textFilter.value.isEmpty() || (if (scopeFilter.value == "Phrase") it.phrase else it.translation ?: "").contains(textFilter.value, true)
+            textFilter.value.isEmpty() || (if (scopeFilter.value == "Phrase") it.phrase else it.translation).contains(textFilter.value, true)
         })
         statusText.value = "${lstPhrases.size} Phrases in ${vmSettings.langInfo}"
     }

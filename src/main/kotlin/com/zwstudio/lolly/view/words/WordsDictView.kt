@@ -38,7 +38,7 @@ class WordsDictView : Fragment() {
                 when (dictStatus) {
                     DictWebViewStatus.Ready -> return@ChangeListener
                     DictWebViewStatus.Automating -> {
-                        val s = dict.automation!!.replace("{0}", word)
+                        val s = dict.automation.replace("{0}", word)
                         engine.executeScript(s)
                         dictStatus = DictWebViewStatus.Ready
                         if (dict.dicttypename == "OFFLINE-ONLINE")
@@ -68,7 +68,7 @@ class WordsDictView : Fragment() {
             }
         } else {
             wvDict.engine.load(url)
-            if (dict.automation != null)
+            if (dict.automation.isNotEmpty())
                 dictStatus = DictWebViewStatus.Automating
             else if (dict.dicttypename == "OFFLINE-ONLINE")
                 dictStatus = DictWebViewStatus.Navigating

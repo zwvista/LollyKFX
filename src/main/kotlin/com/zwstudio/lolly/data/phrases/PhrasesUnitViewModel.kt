@@ -17,7 +17,7 @@ class PhrasesUnitViewModel(val inTextbook: Boolean) : PhrasesBaseViewModel() {
 
     override fun applyFilters() {
         lstPhrases.setAll(if (noFilter) lstPhrasesAll else lstPhrasesAll.filter {
-            (textFilter.value.isEmpty() || (if (scopeFilter.value == "Phrase") it.phrase else it.translation ?: "").contains(textFilter.value, true)) &&
+            (textFilter.value.isEmpty() || (if (scopeFilter.value == "Phrase") it.phrase else it.translation).contains(textFilter.value, true)) &&
             (textbookFilter.value.value == 0 || it.textbookid == textbookFilter.value.value)
         })
         statusText.value = "${lstPhrases.size} Phrases in ${if (inTextbook) vmSettings.unitInfo else vmSettings.langInfo}"
