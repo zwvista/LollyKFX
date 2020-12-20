@@ -35,10 +35,14 @@ class WebPageSelectView : Fragment("WebPage Select") {
             readonlyColumn("ID", MWebPage::id)
             column("TITLE", MWebPage::title)
             column("URL", MWebPage::url)
+            onSelectionChange {
+                vm.selectedWebPage.value = it
+            }
         }
         buttonbar {
             button("OK") {
                 isDefaultButton = true
+                enableWhen { tvWebPage.selectionModel.selectedItemProperty().isNotNull }
             }.action {
                 result = true
                 close()
@@ -50,5 +54,8 @@ class WebPageSelectView : Fragment("WebPage Select") {
             }
         }
     }
-}
 
+    init {
+        vm.search()
+    }
+}

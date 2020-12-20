@@ -80,6 +80,7 @@ class PatternsView : Fragment("Patterns in Language"), ILollySettings {
                                 this.refresh()
                         }
                         onDoubleClick {
+                            edit()
                         }
                         contextmenu {
                             item("Edit").action {

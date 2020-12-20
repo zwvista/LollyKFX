@@ -36,6 +36,8 @@ class PatternsWebPageView : Fragment("Pattern WebPage Detail") {
                     isDisable = (vmDetail.id.value != 0)
                 }.action {
                     vmDetail.webpageid.value = 0
+                    vmDetail.title.value = ""
+                    vmDetail.url.value = ""
                 }
                 button("Existing") {
                     prefWidth = 80.0
@@ -60,6 +62,7 @@ class PatternsWebPageView : Fragment("Pattern WebPage Detail") {
         buttonbar {
             button("OK") {
                 isDefaultButton = true
+                enableWhen { vmDetail.title.isNotBlank().and(vmDetail.url.isNotBlank()) }
             }.action {
                 result = true
                 vmDetail.commit()
