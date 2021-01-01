@@ -1,7 +1,7 @@
 package com.zwstudio.lolly.data.phrases
 
 import com.zwstudio.lolly.domain.wpp.MLangPhrase
-import tornadofx.ItemViewModel
+import tornadofx.*
 
 class PhrasesLangDetailViewModel(val vm: PhrasesLangViewModel, item: MLangPhrase) : ItemViewModel<MLangPhrase>(item) {
     val id = bind(MLangPhrase::id)

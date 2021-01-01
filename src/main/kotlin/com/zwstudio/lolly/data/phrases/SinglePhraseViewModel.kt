@@ -4,7 +4,7 @@ import com.zwstudio.lolly.data.misc.BaseViewModel
 import com.zwstudio.lolly.data.misc.applyIO
 import com.zwstudio.lolly.domain.wpp.MUnitPhrase
 import com.zwstudio.lolly.service.wpp.UnitPhraseService
-import tornadofx.asObservable
+import tornadofx.*
 
 class SinglePhraseViewModel(phrase: String) : BaseViewModel() {
     var lstPhrases = mutableListOf<MUnitPhrase>().asObservable()

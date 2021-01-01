@@ -3,7 +3,7 @@ package com.zwstudio.lolly.data.words
 import com.zwstudio.lolly.domain.misc.MSelectItem
 import com.zwstudio.lolly.domain.wpp.MUnitWord
 import javafx.beans.property.Property
-import tornadofx.ItemViewModel
+import tornadofx.*
 
 class WordsUnitDetailViewModel(val vm: WordsUnitViewModel, item: MUnitWord) : ItemViewModel<MUnitWord>(item) {
     val id = bind(MUnitWord::id)
