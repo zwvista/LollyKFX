@@ -11,7 +11,4 @@ class TransformItemEditViewModel(item: MTransformItem) : ItemViewModel<MTransfor
     init {
     }
 
-    override fun onCommit() {
-        super.onCommit()
-    }
 }

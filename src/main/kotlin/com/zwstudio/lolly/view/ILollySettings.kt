@@ -1,5 +1,5 @@
 package com.zwstudio.lolly.view
 
-public interface ILollySettings {
+interface ILollySettings {
     fun onSettingsChanged()
 }

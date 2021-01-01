@@ -21,7 +21,7 @@ class BlogService: BaseService() {
         val lst = text.split("\n").toMutableList()
         var i = 0
         while (i < lst.size) {
-            var s = lst[i];
+            var s = lst[i]
             val m = regMarkedEntry.find(s)
             if (m != null)
             {

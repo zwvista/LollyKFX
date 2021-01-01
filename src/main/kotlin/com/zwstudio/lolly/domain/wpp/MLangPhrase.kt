@@ -13,7 +13,7 @@ class MLangPhrases {
     var lst: List<MLangPhrase>? = null
 }
 
-class MLangPhrase(): Serializable {
+class MLangPhrase : Serializable {
 
     @SerializedName("ID")
     @Expose
