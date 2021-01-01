@@ -1,10 +1,10 @@
 package com.zwstudio.lolly.view.patterns
 
-import com.zwstudio.lolly.data.patterns.PatternsWebPageViewModel
+import com.zwstudio.lolly.data.patterns.PatternsWebPagesDetailViewModel
 import tornadofx.*
 
 class PatternsWebPageView : Fragment("Pattern WebPage Detail") {
-    val vmDetail : PatternsWebPageViewModel by param()
+    val vmDetail : PatternsWebPagesDetailViewModel by param()
     var result = false
 
     override val root = form {

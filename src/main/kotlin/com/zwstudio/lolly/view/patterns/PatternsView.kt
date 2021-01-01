@@ -18,6 +18,7 @@ import tornadofx.*
 
 class PatternsView : Fragment("Patterns in Language"), ILollySettings {
     var vm = PatternsViewModel()
+    var vmWP = PatternsWebPagesViewModel()
     var tvPatterns: TableView<MPattern> by singleAssign()
     var tvWebPages: TableView<MPatternWebPage> by singleAssign()
     var wvWebPage: WebView by singleAssign()
@@ -36,7 +37,7 @@ class PatternsView : Fragment("Patterns in Language"), ILollySettings {
                 btnAddWebPage = this
             }.action {
                 val o = tvPatterns.selectedItem!!
-                val modal = find<PatternsWebPageView>("vmDetail" to PatternsWebPageViewModel(vm, vm.newPatternWebPage(o.id, o.pattern))) { openModal(block = true) }
+                val modal = find<PatternsWebPageView>("vmDetail" to PatternsWebPagesDetailViewModel(vmWP, vmWP.newPatternWebPage(o.id, o.pattern))) { openModal(block = true) }
                 if (modal.result)
                     tvWebPages.refresh()
             }
@@ -64,7 +65,7 @@ class PatternsView : Fragment("Patterns in Language"), ILollySettings {
                         onSelectionChange {
                             btnAddWebPage.isDisable = it == null
                             it?.id?.let {
-                                vm.getWebPages(it).subscribe {
+                                vmWP.getWebPages(it).subscribe {
                                     if (it.isNotEmpty())
                                     // https://stackoverflow.com/questions/20413419/javafx-2-how-to-focus-a-table-row-programmatically
                                         Platform.runLater {
@@ -113,7 +114,7 @@ class PatternsView : Fragment("Patterns in Language"), ILollySettings {
                             }
                         }
                     }
-                    tvWebPages = tableview(vm.lstWebPages) {
+                    tvWebPages = tableview(vmWP.lstWebPages) {
                         readonlyColumn("ID", MPatternWebPage::id)
                         readonlyColumn("SEQNUM", MPatternWebPage::seqnum)
                         column("TITLE", MPatternWebPage::title)
@@ -125,7 +126,7 @@ class PatternsView : Fragment("Patterns in Language"), ILollySettings {
                             }
                         }
                         onDoubleClick {
-                            val modal = find<PatternsWebPageView>("vmDetail" to PatternsWebPageViewModel(vm, selectedItem!!)) { openModal(block = true) }
+                            val modal = find<PatternsWebPageView>("vmDetail" to PatternsWebPagesDetailViewModel(vmWP, selectedItem!!)) { openModal(block = true) }
                             if (modal.result)
                                 this.refresh()
                         }
