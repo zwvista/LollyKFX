@@ -1,8 +1,6 @@
 package com.zwstudio.lolly.app
 
-import com.zwstudio.lolly.data.misc.SettingsViewModel
-import com.zwstudio.lolly.view.MainView
-import io.reactivex.rxjava3.disposables.CompositeDisposable
+import com.zwstudio.lolly.ui.MainView
 import io.reactivex.rxjava3.subjects.ReplaySubject
 import javafx.scene.input.DataFormat
 import javafx.stage.Stage

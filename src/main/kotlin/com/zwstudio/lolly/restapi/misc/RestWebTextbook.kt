@@ -1,8 +1,6 @@
 package com.zwstudio.lolly.restapi.misc
 
-import com.zwstudio.lolly.domain.misc.MTextbooks
-import com.zwstudio.lolly.domain.misc.MWebTextbook
-import com.zwstudio.lolly.domain.misc.MWebTextbooks
+import com.zwstudio.lolly.models.misc.MWebTextbooks
 import io.reactivex.rxjava3.core.Observable
 import retrofit2.http.*
 

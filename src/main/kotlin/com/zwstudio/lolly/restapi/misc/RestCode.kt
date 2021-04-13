@@ -1,6 +1,6 @@
 package com.zwstudio.lolly.restapi.misc
 
-import com.zwstudio.lolly.domain.misc.MCodes
+import com.zwstudio.lolly.models.misc.MCodes
 import io.reactivex.rxjava3.core.Observable
 import retrofit2.http.GET
 
