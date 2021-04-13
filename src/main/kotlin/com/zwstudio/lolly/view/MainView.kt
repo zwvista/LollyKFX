@@ -1,23 +1,33 @@
 package com.zwstudio.lolly.view
 
+import com.zwstudio.lolly.app.LollyApp
+import com.zwstudio.lolly.data.misc.Global
+import com.zwstudio.lolly.data.misc.SettingsViewModel
 import com.zwstudio.lolly.view.dicts.DictsView
 import com.zwstudio.lolly.view.misc.BlogView
+import com.zwstudio.lolly.view.misc.LoginView
 import com.zwstudio.lolly.view.misc.ReadNumberView
 import com.zwstudio.lolly.view.misc.SettingsView
-import com.zwstudio.lolly.view.textbooks.TextbooksView
 import com.zwstudio.lolly.view.patterns.PatternsView
 import com.zwstudio.lolly.view.phrases.PhrasesLangView
 import com.zwstudio.lolly.view.phrases.PhrasesReviewView
 import com.zwstudio.lolly.view.phrases.PhrasesTextbookView
 import com.zwstudio.lolly.view.phrases.PhrasesUnitView
+import com.zwstudio.lolly.view.textbooks.TextbooksView
 import com.zwstudio.lolly.view.textbooks.WebTextbooksView
 import com.zwstudio.lolly.view.words.*
+import javafx.application.Platform
 import javafx.scene.control.TabPane
 import javafx.scene.layout.Priority
 import tornadofx.*
+import java.io.FileInputStream
+import java.io.FileOutputStream
+import java.util.*
+
 
 class MainView : View("Lolly TornadoFX") {
     var tabpane: TabPane by singleAssign()
+    val vm: SettingsViewModel by inject()
 
     override val root = vbox {
         menubar {
@@ -81,6 +91,9 @@ class MainView : View("Lolly TornadoFX") {
                     AddTab<PhrasesUnitView>()
                 }
                 separator()
+                item("Logout").action {
+                    login()
+                }
             }
         }
         tabpane = tabpane {
@@ -91,6 +104,39 @@ class MainView : View("Lolly TornadoFX") {
     inline fun <reified Screen: Fragment> AddTab() {
         val t = tabpane.tabs.firstOrNull { it.content.tag is Screen } ?: tabpane.tab<Screen>()
         tabpane.selectionModel.select(t)
+    }
+
+    init {
+        // https://stackoverflow.com/questions/51023378/setting-and-getting-parameters-in-a-javafx-application
+        val props = Properties()
+        val inStream = FileInputStream(LollyApp.configFile)
+        props.loadFromXML(inStream)
+        Global.userid = props.getProperty("userid")
+        if (Global.userid.isEmpty())
+            login()
+        else
+            setup()
+    }
+
+    fun setup() {
+        vm.getData().subscribe {
+            LollyApp.initializeObject.onNext(Unit)
+            LollyApp.initializeObject.onComplete()
+        }
+    }
+
+    fun login() {
+        tabpane.tabs.clear()
+        val props = Properties()
+        props.setProperty("userid", "")
+        props.setProperty("username", "")
+        val outStream = FileOutputStream(LollyApp.configFile)
+        props.storeToXML(outStream, "Configuration")
+        val modal = find<LoginView> { openModal(block = true) }
+        if (modal.result)
+            setup()
+        else
+            Platform.exit();
     }
 
     fun searchNewWord(word: String) {

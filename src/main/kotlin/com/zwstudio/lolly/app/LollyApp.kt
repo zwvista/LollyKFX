@@ -12,6 +12,7 @@ import retrofit2.adapter.rxjava3.RxJava3CallAdapterFactory
 import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.converter.scalars.ScalarsConverterFactory
 import tornadofx.*
+import java.io.File
 import java.security.GeneralSecurityException
 import java.security.SecureRandom
 import java.security.cert.X509Certificate
@@ -29,10 +30,8 @@ class LollyApp: App(MainView::class, Styles::class) {
         lateinit var retrofitHtml: Retrofit
         val initializeObject = ReplaySubject.createWithSize<Unit>(1)
         val SERIALIZED_MIME_TYPE = DataFormat("application/x-java-serialized-object")
+        val configFile = File("config.xml")
     }
-
-    val vm: SettingsViewModel by inject()
-    val compositeDisposable = CompositeDisposable()
 
     init {
         super.init()
@@ -49,10 +48,6 @@ class LollyApp: App(MainView::class, Styles::class) {
             .addCallAdapterFactory(RxJava3CallAdapterFactory.create())
             .addConverterFactory(ScalarsConverterFactory.create())
             .build()
-        compositeDisposable.add(vm.getData().subscribe {
-            initializeObject.onNext(Unit)
-            initializeObject.onComplete()
-        })
 
         // https://stackoverflow.com/questions/22605701/javafx-webview-not-working-using-a-untrusted-ssl-certificate
         // Create a trust manager that does not validate certificate chains

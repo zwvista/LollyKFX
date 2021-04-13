@@ -13,7 +13,7 @@ import kotlin.reflect.full.isSupertypeOf
 import kotlin.reflect.full.memberProperties
 
 object Global {
-    val userid = ""
+    var userid = ""
 }
 
 enum class DictWebViewStatus {
