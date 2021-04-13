@@ -7,29 +7,22 @@ import java.io.Serializable
 class MAutoCorrects {
 
     @SerializedName("records")
-    @Expose
     var lst: List<MAutoCorrect>? = null
 }
 
 class MAutoCorrect: Serializable {
 
     @SerializedName("ID")
-    @Expose
     var id = 0
     @SerializedName("LANGID")
-    @Expose
     var langid = 0
     @SerializedName("SEQNUM")
-    @Expose
     var seqnum = 0
     @SerializedName("INPUT")
-    @Expose
     var input = ""
     @SerializedName("EXTENDED")
-    @Expose
     var extended = ""
     @SerializedName("BASIC")
-    @Expose
     var basic = ""
 }
 

@@ -99,11 +99,10 @@ class WordsReviewViewModel : BaseViewModel() {
     }
 
     private fun getTranslation(): Observable<String> {
-        val mDictTranslation = vmSettings.selectedDictTranslation
-        if (mDictTranslation == null) return Observable.empty()
-        val url = mDictTranslation.urlString(currentWord, vmSettings.lstAutoCorrect)
+        val dictTranslation = vmSettings.selectedDictTranslation ?: return Observable.empty()
+        val url = dictTranslation.urlString(currentWord, vmSettings.lstAutoCorrect)
         return vmSettings.getHtml(url)
-            .map { extractTextFrom(it, mDictTranslation.transform, "") { text, _ -> text } }
+            .map { extractTextFrom(it, dictTranslation.transform, "") { text, _ -> text } }
             .applyIO()
     }
 

@@ -12,8 +12,8 @@ import kotlin.reflect.KProperty
 import kotlin.reflect.full.isSupertypeOf
 import kotlin.reflect.full.memberProperties
 
-object GlobalConstants {
-    val userid = 1
+object Global {
+    val userid = ""
 }
 
 enum class DictWebViewStatus {

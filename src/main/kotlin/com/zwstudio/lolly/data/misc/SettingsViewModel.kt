@@ -343,7 +343,7 @@ class SettingsViewModel : Component(), ScopedInstance {
     fun getData(): Observable<Unit> =
         Observables.zip(languageService.getData(),
                 usMappingService.getData(),
-                userSettingService.getDataByUser(GlobalConstants.userid),
+                userSettingService.getData(),
                 codeService.getDictCodes()) {
             res1, res2, res3, res4 ->
             lstLanguagesAll = res1

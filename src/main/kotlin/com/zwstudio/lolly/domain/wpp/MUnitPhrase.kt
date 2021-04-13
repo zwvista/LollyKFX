@@ -11,42 +11,31 @@ import java.io.Serializable
 class MUnitPhrases {
 
     @SerializedName("records")
-    @Expose
     var lst: List<MUnitPhrase>? = null
 }
 
 class MUnitPhrase: Serializable {
 
     @SerializedName("ID")
-    @Expose
     var id = 0
     @SerializedName("LANGID")
-    @Expose
     var langid = 0
     @SerializedName("TEXTBOOKID")
-    @Expose
     var textbookid = 0
     @SerializedName("TEXTBOOKNAME")
-    @Expose
     var textbookname = ""
     @SerializedName("UNIT")
-    @Expose
     var unit = 0
     @SerializedName("PART")
-    @Expose
     var part = 0
     @SerializedName("SEQNUM")
-    @Expose
     var seqnum = 0
     @SerializedName("PHRASEID")
-    @Expose
     var phraseid = 0
     @SerializedName("PHRASE")
-    @Expose
     val phraseProperty = SimpleStringProperty("")
     var phrase: String get() = phraseProperty.value; set(value) { phraseProperty.value = value }
     @SerializedName("TRANSLATION")
-    @Expose
     val translationProperty = SimpleStringProperty("")
     var translation: String get() = translationProperty.value; set(value) { translationProperty.value = value }
 

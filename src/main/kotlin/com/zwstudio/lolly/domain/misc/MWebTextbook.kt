@@ -9,34 +9,25 @@ import java.io.Serializable
 class MWebTextbooks {
 
     @SerializedName("records")
-    @Expose
     var lst: List<MWebTextbook>? = null
 }
 
 class MWebTextbook: Serializable {
 
     @SerializedName("ID")
-    @Expose
     var id = 0
     @SerializedName("LANGID")
-    @Expose
     var langid = 0
     @SerializedName("TEXTBOOKID")
-    @Expose
     var textbookid = 0
     @SerializedName("TEXTBOOKNAME")
-    @Expose
     var textbookname = ""
     @SerializedName("UNIT")
-    @Expose
     var unit = 0
     @SerializedName("WEBPAGEID")
-    @Expose
     var webpageid = 0
     @SerializedName("TITLE")
-    @Expose
     var title = ""
     @SerializedName("URL")
-    @Expose
     var url = ""
 }

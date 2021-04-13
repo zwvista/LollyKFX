@@ -20,7 +20,7 @@ class UnitPhraseService: BaseService() {
 
     fun getDataByTextbook(textbook: MTextbook): Observable<List<MUnitPhrase>> =
         retrofitJson.create(RestUnitPhrase::class.java)
-            .getDataByTextbookUnitPart("TEXTBOOKID,eq,${textbook.id}")
+            .getDataByTextbook("TEXTBOOKID,eq,${textbook.id}")
             .map {
                 val lst = it.lst!!.distinctBy { it.phraseid }
                 for (o in lst)

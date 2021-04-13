@@ -9,26 +9,20 @@ import java.io.Serializable
 class MTextbooks {
 
     @SerializedName("records")
-    @Expose
     var lst: List<MTextbook>? = null
 }
 
 class MTextbook: Serializable {
 
     @SerializedName("ID")
-    @Expose
     var id = 0
     @SerializedName("LANGID")
-    @Expose
     var langid = 0
     @SerializedName("NAME")
-    @Expose
     var textbookname = ""
     @SerializedName("UNITS")
-    @Expose
     var units = ""
     @SerializedName("PARTS")
-    @Expose
     var parts = ""
 
     lateinit var lstUnits: List<MSelectItem>

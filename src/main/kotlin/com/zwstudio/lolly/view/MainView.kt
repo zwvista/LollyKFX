@@ -80,6 +80,7 @@ class MainView : View("Lolly TornadoFX") {
                 item("Test").action {
                     AddTab<PhrasesUnitView>()
                 }
+                separator()
             }
         }
         tabpane = tabpane {
