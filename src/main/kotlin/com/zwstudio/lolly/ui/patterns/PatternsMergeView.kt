@@ -1,6 +1,6 @@
 package com.zwstudio.lolly.ui.patterns
 
-import com.zwstudio.lolly.app.LollyApp
+import com.zwstudio.lolly.ui.LollyApp
 import com.zwstudio.lolly.viewmodels.patterns.PatternsMergeViewModel
 import com.zwstudio.lolly.models.wpp.MPattern
 import com.zwstudio.lolly.models.wpp.MPatternVariation

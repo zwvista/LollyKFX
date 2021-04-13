@@ -1,4 +1,4 @@
-package com.zwstudio.lolly.app
+package com.zwstudio.lolly.ui
 
 import javafx.scene.text.FontWeight
 import tornadofx.*

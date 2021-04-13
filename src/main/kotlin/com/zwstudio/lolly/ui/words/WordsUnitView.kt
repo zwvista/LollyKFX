@@ -1,6 +1,6 @@
 package com.zwstudio.lolly.ui.words
 
-import com.zwstudio.lolly.app.LollyApp
+import com.zwstudio.lolly.ui.LollyApp
 import com.zwstudio.lolly.viewmodels.misc.SettingsViewModel
 import com.zwstudio.lolly.viewmodels.misc.copyText
 import com.zwstudio.lolly.viewmodels.misc.googleString

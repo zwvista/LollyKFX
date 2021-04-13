@@ -1,6 +1,6 @@
 package com.zwstudio.lolly.ui.misc
 
-import com.zwstudio.lolly.app.LollyApp
+import com.zwstudio.lolly.ui.LollyApp
 import com.zwstudio.lolly.viewmodels.misc.Global
 import com.zwstudio.lolly.viewmodels.misc.LoginViewModel
 import javafx.geometry.Pos

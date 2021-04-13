@@ -1,6 +1,5 @@
 package com.zwstudio.lolly.ui
 
-import com.zwstudio.lolly.app.LollyApp
 import com.zwstudio.lolly.viewmodels.misc.Global
 import com.zwstudio.lolly.viewmodels.misc.SettingsViewModel
 import com.zwstudio.lolly.ui.dicts.DictsView
