@@ -58,7 +58,7 @@ dependencies {
     testRuntimeOnly "org.junit.jupiter:junit-jupiter-engine:$junit_version"
 }
 
-mainClassName = "com.zwstudio.lolly.app.LollyApp"
+mainClassName = "com.zwstudio.lolly.LollyApp"
 
 jar {
     manifest {

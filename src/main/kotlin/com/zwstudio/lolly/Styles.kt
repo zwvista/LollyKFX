@@ -1,4 +1,4 @@
-package com.zwstudio.lolly.views
+package com.zwstudio.lolly
 
 import javafx.scene.text.FontWeight
 import tornadofx.*

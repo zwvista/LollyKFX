@@ -1,6 +1,6 @@
 package com.zwstudio.lolly.views.dicts
 
-import com.zwstudio.lolly.views.LollyApp
+import com.zwstudio.lolly.LollyApp
 import com.zwstudio.lolly.viewmodels.dicts.TransformEditViewModel
 import com.zwstudio.lolly.viewmodels.dicts.TransformItemEditViewModel
 import com.zwstudio.lolly.models.misc.MTransformItem

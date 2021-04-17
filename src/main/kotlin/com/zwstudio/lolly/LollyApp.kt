@@ -1,5 +1,6 @@
-package com.zwstudio.lolly.views
+package com.zwstudio.lolly
 
+import com.zwstudio.lolly.views.MainView
 import io.reactivex.rxjava3.subjects.ReplaySubject
 import javafx.scene.input.DataFormat
 import javafx.stage.Stage

@@ -1,6 +1,6 @@
 package com.zwstudio.lolly.views.patterns
 
-import com.zwstudio.lolly.views.LollyApp
+import com.zwstudio.lolly.LollyApp
 import com.zwstudio.lolly.viewmodels.patterns.PatternsSplitViewModel
 import com.zwstudio.lolly.models.wpp.MPattern
 import com.zwstudio.lolly.models.wpp.MPatternVariation

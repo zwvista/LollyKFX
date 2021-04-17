@@ -1,6 +1,6 @@
 package com.zwstudio.lolly.services.misc
 
-import com.zwstudio.lolly.views.LollyApp
+import com.zwstudio.lolly.LollyApp
 import retrofit2.Retrofit
 import tornadofx.Component
 import tornadofx.ScopedInstance
