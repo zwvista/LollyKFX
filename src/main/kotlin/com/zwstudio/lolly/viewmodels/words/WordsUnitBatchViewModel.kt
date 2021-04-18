@@ -8,9 +8,9 @@ import javafx.beans.property.SimpleObjectProperty
 import tornadofx.*
 
 class WordsUnitBatchViewModel(val vm: WordsUnitViewModel) : ViewModel() {
-    val unitIsChecked = SimpleBooleanProperty()
-    val partIsChecked = SimpleBooleanProperty()
-    val seqNumIsChecked = SimpleBooleanProperty()
+    val unitChecked = SimpleBooleanProperty()
+    val partChecked = SimpleBooleanProperty()
+    val seqNumChecked = SimpleBooleanProperty()
     val unititem = SimpleObjectProperty<MSelectItem>()
     val partitem = SimpleObjectProperty<MSelectItem>()
     val seqnum = SimpleIntegerProperty()
@@ -26,15 +26,15 @@ class WordsUnitBatchViewModel(val vm: WordsUnitViewModel) : ViewModel() {
         for (o in vm.lstWordsAll) {
             if (!o.isChecked.value) continue
             var b = false
-            if (unitIsChecked.value) {
+            if (unitChecked.value) {
                 o.unit = unititem.value.value
                 b = true
             }
-            if (partIsChecked.value) {
+            if (partChecked.value) {
                 o.part = partitem.value.value
                 b = true
             }
-            if (seqNumIsChecked.value) {
+            if (seqNumChecked.value) {
                 o.seqnum += seqnum.value
                 b = true
             }

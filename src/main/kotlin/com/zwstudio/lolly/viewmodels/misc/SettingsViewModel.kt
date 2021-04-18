@@ -163,14 +163,14 @@ class SettingsViewModel : Component(), ScopedInstance {
     var toType: UnitPartToType
         get() = toTypeProperty.value.first
         set(value) = toTypeProperty.setValue(lstToTypes[value.ordinal])
-    val toTypeIsMovable get() = toType != UnitPartToType.To
-    val unitToIsEnabled = SimpleBooleanProperty()
-    val partToIsEnabled = SimpleBooleanProperty()
-    val previousIsEnabled = SimpleBooleanProperty()
-    val nextIsEnabled = SimpleBooleanProperty()
+    val toTypeMovable get() = toType != UnitPartToType.To
+    val unitToEnabled = SimpleBooleanProperty()
+    val partToEnabled = SimpleBooleanProperty()
+    val previousEnabled = SimpleBooleanProperty()
+    val nextEnabled = SimpleBooleanProperty()
     val previousText = SimpleStringProperty()
     val nextText = SimpleStringProperty()
-    val partFromIsEnabled = SimpleBooleanProperty()
+    val partFromEnabled = SimpleBooleanProperty()
 
     companion object {
         val lstScopeWordFilters = listOf("Word", "Note")
@@ -269,15 +269,15 @@ class SettingsViewModel : Component(), ScopedInstance {
         }
         toTypeProperty.addListener { _, oldValue, _ ->
             val b = toType == UnitPartToType.To
-            unitToIsEnabled.value = b
-            partToIsEnabled.value = b && !isSinglePart
-            previousIsEnabled.value = !b
-            nextIsEnabled.value = !b
+            unitToEnabled.value = b
+            partToEnabled.value = b && !isSinglePart
+            previousEnabled.value = !b
+            nextEnabled.value = !b
             val b2 = toType != UnitPartToType.Unit
             val t = if (!b2) "Unit" else "Part"
             previousText.value = "Previous $t"
             nextText.value = "Next $t"
-            partFromIsEnabled.value = b2 && !isSinglePart
+            partFromEnabled.value = b2 && !isSinglePart
             if (oldValue != null)
                 if (toType == UnitPartToType.Unit)
                     doUpdateSingleUnit().subscribe()

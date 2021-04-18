@@ -21,21 +21,21 @@ class PhrasesUnitBatchView : Fragment("Phrases in Unit Batch Edit") {
             vgap = 10.0
             constraintsForColumn(1).hgrow = Priority.ALWAYS
             row {
-                checkbox("UNIT:", vm.unitIsChecked)
+                checkbox("UNIT:", vm.unitChecked)
                 combobox(vm.unititem, vm.selectedTextbook.lstUnits) {
-                    enableWhen { vm.unitIsChecked }
+                    enableWhen { vm.unitChecked }
                 }
             }
             row {
-                checkbox("PART:", vm.partIsChecked)
+                checkbox("PART:", vm.partChecked)
                 combobox(vm.partitem, vm.selectedTextbook.lstParts) {
-                    enableWhen { vm.partIsChecked }
+                    enableWhen { vm.partChecked }
                 }
             }
             row {
-                checkbox("SEQNUM(+):", vm.seqNumIsChecked)
+                checkbox("SEQNUM(+):", vm.seqNumChecked)
                 textfield(vm.seqnum) {
-                    enableWhen { vm.seqNumIsChecked }
+                    enableWhen { vm.seqNumChecked }
                 }
             }
         }

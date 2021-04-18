@@ -47,7 +47,7 @@ class WordsReviewViewModel : BaseViewModel() {
     val translationString = SimpleStringProperty("")
     val wordInputString = SimpleStringProperty("")
     val checkString = SimpleStringProperty("Check")
-    val searchIsEnabled = SimpleBooleanProperty()
+    val searchEnabled = SimpleBooleanProperty()
 
     fun newTest() {
         fun f() {
@@ -125,7 +125,7 @@ class WordsReviewViewModel : BaseViewModel() {
             else
                 incorrectVisible.value = true
             wordHintVisible.value = false
-            searchIsEnabled.value = true
+            searchEnabled.value = true
             checkString.value = "Next"
             if (!hasNext) return
             val o = currentItem!!
@@ -157,7 +157,7 @@ class WordsReviewViewModel : BaseViewModel() {
         wordHintVisible.value = isTestMode
         translationString.value = ""
         wordInputString.value = ""
-        searchIsEnabled.value = false
+        searchEnabled.value = false
         if (hasNext) {
             indexString.value = "${index + 1}/$count"
             accuracyString.value = currentItem!!.accuracy

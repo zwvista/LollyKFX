@@ -48,7 +48,7 @@ class PhrasesUnitView : PhrasesBaseView("Phrases in Unit") {
                 }
             }
             button("Toggle") {
-                isDisable = !vmSettings.toTypeIsMovable
+                isDisable = !vmSettings.toTypeMovable
             }.action {
                 val item = tvPhrases.selectedItem
                 val part = item?.part ?: vmSettings.lstParts[0].value
@@ -57,14 +57,14 @@ class PhrasesUnitView : PhrasesBaseView("Phrases in Unit") {
                 }
             }
             button("Previous") {
-                isDisable = !vmSettings.toTypeIsMovable
+                isDisable = !vmSettings.toTypeMovable
             }.action {
                 vmSettings.previousUnitPart().subscribe {
                     vm.reload()
                 }
             }
             button("Next") {
-                isDisable = !vmSettings.toTypeIsMovable
+                isDisable = !vmSettings.toTypeMovable
             }.action {
                 vmSettings.nextUnitPart().subscribe {
                     vm.reload()

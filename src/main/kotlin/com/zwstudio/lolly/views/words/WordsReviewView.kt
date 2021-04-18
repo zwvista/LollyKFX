@@ -101,7 +101,7 @@ class WordsReviewView : Fragment("Words Review"), ILollySettings {
             row {
                 hbox {
                     button("Search") {
-                        enableWhen(vm.searchIsEnabled)
+                        enableWhen(vm.searchEnabled)
                     }.action {
                         find<MainView>().searchNewWord(vm.currentWord)
                     }
