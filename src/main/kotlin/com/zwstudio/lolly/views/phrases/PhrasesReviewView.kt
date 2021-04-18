@@ -41,18 +41,18 @@ class PhrasesReviewView : Fragment("Phrases Review"), ILollySettings {
             row {
                 hbox(10.0) {
                     label(vm.indexString) {
-                        visibleWhen(vm.indexIsVisible)
+                        visibleWhen(vm.indexVisible)
                     }
                     stackpane {
                         setMaxSize(Region.USE_PREF_SIZE, Region.USE_PREF_SIZE)
                         label("Correct") {
-                            visibleWhen(vm.correctIsVisible)
+                            visibleWhen(vm.correctVisible)
                             style {
                                 textFill = c("green")
                             }
                         }
                         label("Incorrect") {
-                            visibleWhen(vm.incorrectIsVisible)
+                            visibleWhen(vm.incorrectVisible)
                             style {
                                 textFill = c("red")
                             }
@@ -62,7 +62,7 @@ class PhrasesReviewView : Fragment("Phrases Review"), ILollySettings {
             }
             row {
                 label(vm.phraseTargetString) {
-                    visibleWhen(vm.phraseTargetIsVisible)
+                    visibleWhen(vm.phraseTargetVisible)
                     style {
                         textFill = c("orange")
                     }

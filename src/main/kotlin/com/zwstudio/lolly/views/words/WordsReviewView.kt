@@ -42,18 +42,18 @@ class WordsReviewView : Fragment("Words Review"), ILollySettings {
             row {
                 hbox(10.0) {
                     label(vm.indexString) {
-                        visibleWhen(vm.indexIsVisible)
+                        visibleWhen(vm.indexVisible)
                     }
                     stackpane {
                         setMaxSize(Region.USE_PREF_SIZE, Region.USE_PREF_SIZE)
                         label("Correct") {
-                            visibleWhen(vm.correctIsVisible)
+                            visibleWhen(vm.correctVisible)
                             style {
                                 textFill = c("green")
                             }
                         }
                         label("Incorrect") {
-                            visibleWhen(vm.incorrectIsVisible)
+                            visibleWhen(vm.incorrectVisible)
                             style {
                                 textFill = c("red")
                             }
@@ -63,7 +63,7 @@ class WordsReviewView : Fragment("Words Review"), ILollySettings {
                         hgrow = Priority.ALWAYS
                     }
                     label(vm.accuracyString) {
-                        visibleWhen(vm.accuracyIsVisible)
+                        visibleWhen(vm.accuracyVisible)
                     }
                 }
             }
@@ -72,20 +72,20 @@ class WordsReviewView : Fragment("Words Review"), ILollySettings {
                     hbox(10.0) {
                         alignment = Pos.CENTER_LEFT
                         label(vm.wordTargetString) {
-                            visibleWhen(vm.wordTargetIsVisible)
+                            visibleWhen(vm.wordTargetVisible)
                             style {
                                 textFill = c("orange")
                             }
                         }
                         label(vm.noteTargetString) {
-                            visibleWhen(vm.noteTargetIsVisible)
+                            visibleWhen(vm.noteTargetVisible)
                             style {
                                 textFill = c("magenta")
                                 fontSize = 18.px
                             }
                         }
                         label(vm.wordHintString) {
-                            visibleWhen(vm.wordHintIsVisible)
+                            visibleWhen(vm.wordHintVisible)
                         }
                     }
                 }

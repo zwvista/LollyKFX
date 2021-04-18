@@ -1,12 +1,12 @@
 package com.zwstudio.lolly.viewmodels.words
 
-import com.zwstudio.lolly.viewmodels.misc.BaseViewModel
-import com.zwstudio.lolly.viewmodels.misc.applyIO
-import com.zwstudio.lolly.viewmodels.misc.extractTextFrom
 import com.zwstudio.lolly.models.misc.MReviewOptions
 import com.zwstudio.lolly.models.misc.ReviewMode
 import com.zwstudio.lolly.models.wpp.MUnitWord
 import com.zwstudio.lolly.services.wpp.UnitWordService
+import com.zwstudio.lolly.viewmodels.misc.BaseViewModel
+import com.zwstudio.lolly.viewmodels.misc.applyIO
+import com.zwstudio.lolly.viewmodels.misc.extractTextFrom
 import io.reactivex.rxjava3.core.Observable
 import io.reactivex.rxjava3.disposables.Disposable
 import javafx.beans.property.SimpleBooleanProperty
@@ -32,18 +32,18 @@ class WordsReviewViewModel : BaseViewModel() {
 
     val isSpeaking = SimpleBooleanProperty(true)
     val indexString = SimpleStringProperty("")
-    val indexIsVisible = SimpleBooleanProperty(true)
-    val correctIsVisible = SimpleBooleanProperty()
-    val incorrectIsVisible = SimpleBooleanProperty()
+    val indexVisible = SimpleBooleanProperty(true)
+    val correctVisible = SimpleBooleanProperty()
+    val incorrectVisible = SimpleBooleanProperty()
     val accuracyString = SimpleStringProperty("")
-    val accuracyIsVisible = SimpleBooleanProperty(true)
+    val accuracyVisible = SimpleBooleanProperty(true)
     val checkEnabled = SimpleBooleanProperty()
     val wordTargetString = SimpleStringProperty("")
     val noteTargetString = SimpleStringProperty("")
     val wordHintString = SimpleStringProperty("")
-    val wordTargetIsVisible = SimpleBooleanProperty(true)
-    val noteTargetIsVisible = SimpleBooleanProperty(true)
-    val wordHintIsVisible = SimpleBooleanProperty(true)
+    val wordTargetVisible = SimpleBooleanProperty(true)
+    val noteTargetVisible = SimpleBooleanProperty(true)
+    val wordHintVisible = SimpleBooleanProperty(true)
     val translationString = SimpleStringProperty("")
     val wordInputString = SimpleStringProperty("")
     val checkString = SimpleStringProperty("Check")
@@ -111,20 +111,20 @@ class WordsReviewViewModel : BaseViewModel() {
             var b = true
             if (options.mode == ReviewMode.ReviewManual && wordInputString.value.isNotEmpty() && wordInputString.value != currentWord) {
                 b = false
-                incorrectIsVisible.value = true
+                incorrectVisible.value = true
             }
             if (b) {
                 next()
                 doTest()
             }
-        } else if (!correctIsVisible.value && !incorrectIsVisible.value) {
+        } else if (!correctVisible.value && !incorrectVisible.value) {
             wordInputString.value = vmSettings.autoCorrectInput(wordInputString.value)
-            wordTargetIsVisible.value = true
+            wordTargetVisible.value = true
             if (wordInputString.value == currentWord)
-                correctIsVisible.value = true
+                correctVisible.value = true
             else
-                incorrectIsVisible.value = true
-            wordHintIsVisible.value = false
+                incorrectVisible.value = true
+            wordHintVisible.value = false
             searchIsEnabled.value = true
             checkString.value = "Next"
             if (!hasNext) return
@@ -144,17 +144,17 @@ class WordsReviewViewModel : BaseViewModel() {
     }
 
     private fun doTest() {
-        indexIsVisible.value = hasNext
-        correctIsVisible.value = false
-        incorrectIsVisible.value = false
-        accuracyIsVisible.value = isTestMode && hasNext
+        indexVisible.value = hasNext
+        correctVisible.value = false
+        incorrectVisible.value = false
+        accuracyVisible.value = isTestMode && hasNext
         checkEnabled.value = hasNext
         wordTargetString.value = currentWord
         noteTargetString.value = currentItem?.note ?: ""
-        wordTargetIsVisible.value = !isTestMode
-        noteTargetIsVisible.value = !isTestMode
+        wordTargetVisible.value = !isTestMode
+        noteTargetVisible.value = !isTestMode
         wordHintString.value = currentItem?.word?.length?.toString() ?: ""
-        wordHintIsVisible.value = isTestMode
+        wordHintVisible.value = isTestMode
         translationString.value = ""
         wordInputString.value = ""
         searchIsEnabled.value = false
