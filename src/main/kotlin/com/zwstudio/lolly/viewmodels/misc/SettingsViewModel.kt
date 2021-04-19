@@ -193,10 +193,10 @@ class SettingsViewModel : Component(), ScopedInstance {
 
     init {
         selectedLangProperty.addListener { _, _, newValue ->
-            if (newValue.id != uslang) {
-                uslang = selectedLang.id
-                userSettingService.update(INFO_USLANG, uslang).subscribe()
-            }
+            if (newValue == null) return@addListener
+            val newVal = newValue.id
+            val dirty = uslang != newVal
+            uslang = newVal
             INFO_USTEXTBOOK = getUSInfo(MUSMapping.NAME_USTEXTBOOK)
             INFO_USDICTSREFERENCE = getUSInfo(MUSMapping.NAME_USDICTSREFERENCE)
             INFO_USDICTNOTE = getUSInfo(MUSMapping.NAME_USDICTNOTE)
@@ -223,34 +223,43 @@ class SettingsViewModel : Component(), ScopedInstance {
                     lstVoices.setAll(res6)
                     selectedVoice = lstVoices.firstOrNull { it.id == usvoice } ?: lstVoices.firstOrNull()
                 }
+            }.flatMap {
+                if (!dirty) Observable.just(Unit) else userSettingService.update(INFO_USLANG, uslang)
             }.applyIO().subscribe()
         }
         selectedVoiceProperty.addListener { _, _, newValue ->
-            val newid = newValue?.id ?: 0
-            if (usvoice == newid) return@addListener
-            usvoice = newid
-            userSettingService.update(INFO_USANDROIDVOICE, usvoice).subscribe()
+            if (newValue == null) return@addListener
+            val newVal = newValue.id
+            val dirty = usvoice != newVal
+            usvoice = newVal
+            (if (!dirty) Observable.just(Unit) else userSettingService.update(INFO_USANDROIDVOICE, usvoice)).subscribe()
         }
         selectedDictsReference.addListener(ListChangeListener {
-            val newids = selectedDictsReference.joinToString(",") { it.dictid.toString() }
-            if (usdictsreference == newids) return@ListChangeListener
-            usdictsreference = newids
-            userSettingService.update(INFO_USDICTSREFERENCE, usdictsreference).subscribe()
+            if (it == null) return@ListChangeListener
+            val newVal = selectedDictsReference.joinToString(",") { it.dictid.toString() }
+            val dirty = usdictsreference != newVal
+            usdictsreference = newVal
+            (if (!dirty) Observable.just(Unit) else userSettingService.update(INFO_USDICTSREFERENCE, usdictsreference)).subscribe()
         })
         selectedDictNoteProperty.addListener { _, _, newValue ->
-            val newdictid = newValue?.dictid ?: 0
-            if (usdictnote == newdictid) return@addListener
-            usdictnote = newdictid
-            userSettingService.update(INFO_USDICTNOTE, usdictnote).subscribe()
+            if (newValue == null) return@addListener
+            val newVal = newValue.dictid
+            val dirty = usdictnote != newVal
+            usdictnote = newVal
+            (if (!dirty) Observable.just(Unit) else userSettingService.update(INFO_USDICTNOTE, usdictnote)).subscribe()
         }
         selectedDictTranslationProperty.addListener { _, _, newValue ->
-            val newdictid = newValue?.dictid ?: 0
-            if (usdicttranslation == newdictid) return@addListener
-            usdicttranslation = newdictid
-            userSettingService.update(INFO_USDICTTRANSLATION, usdicttranslation).subscribe()
+            if (newValue == null) return@addListener
+            val newVal = newValue.dictid
+            val dirty = usdicttranslation != newVal
+            usdicttranslation = newVal
+            (if (!dirty) Observable.just(Unit) else userSettingService.update(INFO_USDICTTRANSLATION, usdicttranslation)).subscribe()
         }
         selectedTextbookProperty.addListener { _, _, newValue ->
-            val newid = newValue.id
+            if (newValue == null) return@addListener
+            val newVal = newValue.id
+            val dirty = ustextbook != newVal
+            ustextbook = newVal
             lstUnits.setAll(newValue.lstUnits)
             unitsInAll.value = "($unitCount in all)"
             lstParts.setAll(newValue.lstParts)
@@ -263,9 +272,7 @@ class SettingsViewModel : Component(), ScopedInstance {
             INFO_USPARTTO = getUSInfo(MUSMapping.NAME_USPARTTO)
             uspartto = uspartto
             toType = if (isSingleUnit) UnitPartToType.Unit else if (isSingleUnitPart) UnitPartToType.Part else UnitPartToType.To
-            if (ustextbook == newid) return@addListener
-            ustextbook = newid
-            userSettingService.update(INFO_USTEXTBOOK, ustextbook).subscribe()
+            (if (!dirty) Observable.just(Unit) else userSettingService.update(INFO_USTEXTBOOK, ustextbook)).subscribe()
         }
         toTypeProperty.addListener { _, oldValue, _ ->
             val b = toType == UnitPartToType.To
@@ -287,7 +294,7 @@ class SettingsViewModel : Component(), ScopedInstance {
         usunitfromItem.addListener { _, oldValue, newValue ->
             if (oldValue == null || newValue == null) return@addListener
             usunitfrom = newValue.value
-            doUpdateUnitFrom(usunitfrom, false).flatMap {
+            doUpdateUnitFrom(usunitfrom).flatMap {
                 if (toType == UnitPartToType.Unit)
                     doUpdateSingleUnit()
                 else if (toType == UnitPartToType.Part || isInvalidUnitPart)
@@ -299,7 +306,7 @@ class SettingsViewModel : Component(), ScopedInstance {
         uspartfromItem.addListener { _, oldValue, newValue ->
             if (oldValue == null || newValue == null) return@addListener
             uspartfrom = newValue.value
-            doUpdatePartFrom(uspartfrom, false).flatMap {
+            doUpdatePartFrom(uspartfrom).flatMap {
                 if (toType == UnitPartToType.Part || isInvalidUnitPart)
                     doUpdateUnitPartTo()
                 else
@@ -309,7 +316,7 @@ class SettingsViewModel : Component(), ScopedInstance {
         usunittoItem.addListener { _, oldValue, newValue ->
             if (oldValue == null || newValue == null) return@addListener
             usunitto = newValue.value
-            doUpdateUnitTo(usunitto, false).flatMap {
+            doUpdateUnitTo(usunitto).flatMap {
                 if (isInvalidUnitPart)
                     doUpdateUnitPartFrom()
                 else
@@ -319,7 +326,7 @@ class SettingsViewModel : Component(), ScopedInstance {
         usparttoItem.addListener { _, oldValue, newValue ->
             if (oldValue == null || newValue == null) return@addListener
             uspartto = newValue.value
-            doUpdatePartTo(uspartto, false).flatMap {
+            doUpdatePartTo(uspartto).flatMap {
                 if (isInvalidUnitPart)
                     doUpdateUnitPartFrom()
                 else
@@ -409,28 +416,28 @@ class SettingsViewModel : Component(), ScopedInstance {
     private fun doUpdateSingleUnit(): Observable<Unit> =
         Observables.zip(doUpdateUnitTo(usunitfrom), doUpdatePartFrom(1), doUpdatePartTo(partCount)).map { Unit }
 
-    private fun doUpdateUnitFrom(v: Int, check: Boolean = true): Observable<Unit> {
-        if (check && usunitfrom == v) return Observable.just(Unit)
+    private fun doUpdateUnitFrom(v: Int): Observable<Unit> {
+        val dirty = usunitfrom != v
         usunitfrom = v
-        return userSettingService.update(INFO_USUNITFROM, usunitfrom).applyIO()
+        return if (!dirty) Observable.just(Unit) else userSettingService.update(INFO_USUNITFROM, usunitfrom).applyIO()
     }
 
-    private fun doUpdatePartFrom(v: Int, check: Boolean = true): Observable<Unit> {
-        if (check && uspartfrom == v) return Observable.just(Unit)
+    private fun doUpdatePartFrom(v: Int): Observable<Unit> {
+        val dirty = uspartfrom != v
         uspartfrom = v
-        return userSettingService.update(INFO_USPARTFROM, uspartfrom).applyIO()
+        return if (!dirty) Observable.just(Unit) else userSettingService.update(INFO_USPARTFROM, uspartfrom).applyIO()
     }
 
-    private fun doUpdateUnitTo(v: Int, check: Boolean = true): Observable<Unit> {
-        if (check && usunitto == v) return Observable.just(Unit)
+    private fun doUpdateUnitTo(v: Int): Observable<Unit> {
+        val dirty = usunitto != v
         usunitto = v
-        return userSettingService.update(INFO_USUNITTO, usunitto).applyIO()
+        return if (!dirty) Observable.just(Unit) else userSettingService.update(INFO_USUNITTO, usunitto).applyIO()
     }
 
-    private fun doUpdatePartTo(v: Int, check: Boolean = true): Observable<Unit> {
-        if (check && uspartto == v) return Observable.just(Unit)
+    private fun doUpdatePartTo(v: Int): Observable<Unit> {
+        val dirty = uspartto != v
         uspartto = v
-        return userSettingService.update(INFO_USPARTTO, uspartto).applyIO()
+        return if (!dirty) Observable.just(Unit) else userSettingService.update(INFO_USPARTTO, uspartto).applyIO()
     }
 
     fun getHtml(url: String): Observable<String> =
