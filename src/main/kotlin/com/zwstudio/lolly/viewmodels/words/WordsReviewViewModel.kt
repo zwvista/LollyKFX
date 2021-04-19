@@ -4,6 +4,7 @@ import com.zwstudio.lolly.models.misc.MReviewOptions
 import com.zwstudio.lolly.models.misc.ReviewMode
 import com.zwstudio.lolly.models.wpp.MUnitWord
 import com.zwstudio.lolly.services.wpp.UnitWordService
+import com.zwstudio.lolly.services.wpp.WordFamiService
 import com.zwstudio.lolly.viewmodels.misc.BaseViewModel
 import com.zwstudio.lolly.viewmodels.misc.applyIO
 import com.zwstudio.lolly.viewmodels.misc.extractTextFrom
@@ -16,8 +17,8 @@ import kotlin.math.min
 
 class WordsReviewViewModel : BaseViewModel() {
 
-    val unitWordService: UnitWordService by inject()
-    val vmWordFami: WordsFamiViewModel by inject()
+    private val unitWordService: UnitWordService by inject()
+    private val wordFamiService: WordFamiService by inject()
 
     var lstWords = listOf<MUnitWord>()
     val count get() = lstWords.size
@@ -131,7 +132,7 @@ class WordsReviewViewModel : BaseViewModel() {
             val o = currentItem!!
             val isCorrect = o.word == wordInputString.value
             if (isCorrect) lstCorrectIDs.add(o.id)
-            vmWordFami.update(o.wordid, isCorrect).applyIO().subscribe {
+            wordFamiService.update(o.wordid, isCorrect).applyIO().subscribe {
                 o.correct = it.correct
                 o.total = it.total
                 accuracyString.value = o.accuracy

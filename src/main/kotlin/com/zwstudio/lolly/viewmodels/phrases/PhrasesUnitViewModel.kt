@@ -1,8 +1,8 @@
 package com.zwstudio.lolly.viewmodels.phrases
 
-import com.zwstudio.lolly.viewmodels.misc.applyIO
 import com.zwstudio.lolly.models.wpp.MUnitPhrase
 import com.zwstudio.lolly.services.wpp.UnitPhraseService
+import com.zwstudio.lolly.viewmodels.misc.applyIO
 import io.reactivex.rxjava3.core.Observable
 import io.reactivex.rxjava3.disposables.CompositeDisposable
 import tornadofx.*
@@ -12,7 +12,7 @@ class PhrasesUnitViewModel(val inTextbook: Boolean) : PhrasesBaseViewModel() {
     var lstPhrasesAll = mutableListOf<MUnitPhrase>()
     val lstPhrases = mutableListOf<MUnitPhrase>().asObservable()
     val compositeDisposable = CompositeDisposable()
-    val unitPhraseService: UnitPhraseService by inject()
+    private val unitPhraseService: UnitPhraseService by inject()
     val noFilter get() = textFilter.value.isEmpty() && textbookFilter.value.value == 0
 
     override fun applyFilters() {

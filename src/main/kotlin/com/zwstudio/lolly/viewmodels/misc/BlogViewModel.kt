@@ -4,7 +4,7 @@ import com.zwstudio.lolly.services.misc.BlogService
 import javafx.beans.property.SimpleStringProperty
 
 class BlogViewModel : BaseViewModel() {
-    val blogService: BlogService by inject()
+    private val blogService: BlogService by inject()
 
     val markedText = SimpleStringProperty()
     val htmlText = SimpleStringProperty()

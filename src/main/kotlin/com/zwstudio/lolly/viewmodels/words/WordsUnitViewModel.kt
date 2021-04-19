@@ -1,10 +1,10 @@
 package com.zwstudio.lolly.viewmodels.words
 
-import com.zwstudio.lolly.viewmodels.misc.SettingsViewModel
-import com.zwstudio.lolly.viewmodels.misc.applyIO
 import com.zwstudio.lolly.models.wpp.MUnitWord
 import com.zwstudio.lolly.services.wpp.LangWordService
 import com.zwstudio.lolly.services.wpp.UnitWordService
+import com.zwstudio.lolly.viewmodels.misc.SettingsViewModel
+import com.zwstudio.lolly.viewmodels.misc.applyIO
 import io.reactivex.rxjava3.core.Observable
 import io.reactivex.rxjava3.disposables.CompositeDisposable
 import javafx.beans.property.SimpleBooleanProperty
@@ -15,8 +15,8 @@ class WordsUnitViewModel(val inTextbook: Boolean) : WordsBaseViewModel() {
     var lstWordsAll = mutableListOf<MUnitWord>()
     val lstWords = mutableListOf<MUnitWord>().asObservable()
     val compositeDisposable = CompositeDisposable()
-    val unitWordService: UnitWordService by inject()
-    val langWordService: LangWordService by inject()
+    private val unitWordService: UnitWordService by inject()
+    private val langWordService: LangWordService by inject()
 
     val noFilter get() = textFilter.value.isEmpty() && textbookFilter.value.value == 0
     val ifEmpty = SimpleBooleanProperty(true)

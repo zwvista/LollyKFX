@@ -11,7 +11,7 @@ class SettingsView : Fragment("Settings") {
     var cbUnitTo: ComboBox<MSelectItem> by singleAssign()
     var cbPartTo: ComboBox<MSelectItem> by singleAssign()
     var cbPartFrom: ComboBox<MSelectItem> by singleAssign()
-    val vm : SettingsViewModel by inject()
+    private val vm : SettingsViewModel by inject()
     var result = false
 
     override val root = gridpane {

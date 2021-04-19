@@ -1,10 +1,10 @@
 package com.zwstudio.lolly.viewmodels.words
 
-import com.zwstudio.lolly.viewmodels.misc.SettingsViewModel
-import com.zwstudio.lolly.viewmodels.misc.applyIO
 import com.zwstudio.lolly.models.wpp.MLangWord
 import com.zwstudio.lolly.services.wpp.LangWordService
 import com.zwstudio.lolly.services.wpp.WordPhraseService
+import com.zwstudio.lolly.viewmodels.misc.SettingsViewModel
+import com.zwstudio.lolly.viewmodels.misc.applyIO
 import io.reactivex.rxjava3.core.Observable
 import tornadofx.*
 
@@ -12,8 +12,8 @@ open class WordsLangViewModel : WordsBaseViewModel() {
 
     var lstWordsAll = mutableListOf<MLangWord>()
     val lstWords = mutableListOf<MLangWord>().asObservable()
-    val langWordService: LangWordService by inject()
-    val wordPhraseService: WordPhraseService by inject()
+    private val langWordService: LangWordService by inject()
+    protected val wordPhraseService: WordPhraseService by inject()
 
     override fun applyFilters() {
         lstWords.setAll(if (textFilter.value.isEmpty()) lstWordsAll else lstWordsAll.filter {

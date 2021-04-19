@@ -1,14 +1,14 @@
 package com.zwstudio.lolly.viewmodels.words
 
-import com.zwstudio.lolly.viewmodels.misc.BaseViewModel
-import com.zwstudio.lolly.viewmodels.misc.applyIO
 import com.zwstudio.lolly.models.wpp.MUnitWord
 import com.zwstudio.lolly.services.wpp.UnitWordService
+import com.zwstudio.lolly.viewmodels.misc.BaseViewModel
+import com.zwstudio.lolly.viewmodels.misc.applyIO
 import tornadofx.*
 
 class SingleWordViewModel(word: String) : BaseViewModel() {
     var lstWords = mutableListOf<MUnitWord>().asObservable()
-    val unitWordService: UnitWordService by inject()
+    private val unitWordService: UnitWordService by inject()
 
     init {
         unitWordService.getDataByLangWord(vmSettings.selectedLang.id, word, vmSettings.lstTextbooks)

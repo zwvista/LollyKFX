@@ -1,9 +1,9 @@
 package com.zwstudio.lolly.viewmodels.textbooks
 
-import com.zwstudio.lolly.viewmodels.misc.BaseViewModel
-import com.zwstudio.lolly.viewmodels.misc.applyIO
 import com.zwstudio.lolly.models.misc.MTextbook
 import com.zwstudio.lolly.services.misc.TextbookService
+import com.zwstudio.lolly.viewmodels.misc.BaseViewModel
+import com.zwstudio.lolly.viewmodels.misc.applyIO
 import io.reactivex.rxjava3.core.Observable
 import javafx.beans.property.SimpleStringProperty
 import javafx.collections.ListChangeListener
@@ -12,7 +12,7 @@ import tornadofx.*
 class TextbooksViewModel : BaseViewModel() {
 
     var lstItems = mutableListOf<MTextbook>().asObservable()
-    val textbookService: TextbookService by inject()
+    private val textbookService: TextbookService by inject()
     val statusText = SimpleStringProperty()
 
     init {

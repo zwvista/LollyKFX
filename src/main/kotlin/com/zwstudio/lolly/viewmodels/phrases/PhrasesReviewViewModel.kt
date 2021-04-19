@@ -15,7 +15,7 @@ import kotlin.math.min
 
 class PhrasesReviewViewModel : BaseViewModel() {
 
-    val unitPhraseService: UnitPhraseService by inject()
+    private val unitPhraseService: UnitPhraseService by inject()
 
     var lstPhrases = listOf<MUnitPhrase>()
     val count get() = lstPhrases.size

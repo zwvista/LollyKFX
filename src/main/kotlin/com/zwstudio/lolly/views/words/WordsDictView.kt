@@ -12,7 +12,7 @@ import tornadofx.*
 
 class WordsDictView : Fragment() {
     val dict: MDictionary by param()
-    val vmSettings: SettingsViewModel by inject()
+    private val vmSettings: SettingsViewModel by inject()
     var dictStatus = DictWebViewStatus.Ready
     var url = ""
     var word = ""

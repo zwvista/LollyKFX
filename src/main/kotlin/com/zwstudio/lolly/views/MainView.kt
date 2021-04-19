@@ -26,7 +26,7 @@ import java.util.*
 
 class MainView : View("Lolly TornadoFX") {
     var tabpane: TabPane by singleAssign()
-    val vm: SettingsViewModel by inject()
+    private val vm: SettingsViewModel by inject()
 
     override val root = vbox {
         menubar {

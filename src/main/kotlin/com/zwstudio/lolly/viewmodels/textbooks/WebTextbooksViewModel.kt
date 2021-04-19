@@ -1,9 +1,9 @@
 package com.zwstudio.lolly.viewmodels.textbooks
 
-import com.zwstudio.lolly.viewmodels.misc.BaseViewModel
-import com.zwstudio.lolly.viewmodels.misc.applyIO
 import com.zwstudio.lolly.models.misc.MWebTextbook
 import com.zwstudio.lolly.services.misc.WebTextbookService
+import com.zwstudio.lolly.viewmodels.misc.BaseViewModel
+import com.zwstudio.lolly.viewmodels.misc.applyIO
 import javafx.beans.property.SimpleStringProperty
 import javafx.collections.ListChangeListener
 import tornadofx.*
@@ -11,7 +11,7 @@ import tornadofx.*
 class WebTextbooksViewModel : BaseViewModel() {
 
     var lstItems = mutableListOf<MWebTextbook>().asObservable()
-    val webTextbookService: WebTextbookService by inject()
+    private val webTextbookService: WebTextbookService by inject()
     val statusText = SimpleStringProperty()
 
     init {

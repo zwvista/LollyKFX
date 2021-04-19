@@ -1,9 +1,9 @@
 package com.zwstudio.lolly.viewmodels.dicts
 
-import com.zwstudio.lolly.viewmodels.misc.BaseViewModel
-import com.zwstudio.lolly.viewmodels.misc.applyIO
 import com.zwstudio.lolly.models.misc.MDictionary
 import com.zwstudio.lolly.services.misc.DictionaryService
+import com.zwstudio.lolly.viewmodels.misc.BaseViewModel
+import com.zwstudio.lolly.viewmodels.misc.applyIO
 import io.reactivex.rxjava3.core.Observable
 import javafx.beans.property.SimpleStringProperty
 import javafx.collections.ListChangeListener
@@ -12,7 +12,7 @@ import tornadofx.*
 class DictsViewModel : BaseViewModel() {
 
     var lstItems = mutableListOf<MDictionary>().asObservable()
-    val dictionaryService: DictionaryService by inject()
+    private val dictionaryService: DictionaryService by inject()
     val statusText = SimpleStringProperty()
 
     init {
