@@ -99,14 +99,25 @@ class WordsReviewView : Fragment("Words Review"), ILollySettings {
                 }
             }
             row {
-                hbox {
+                hbox(spacing = 10) {
                     region {
                         hgrow = Priority.ALWAYS
                     }
-                    button(vm.checkPrevString).action {
+                    checkbox("On Repeat", vm.onRepeat) {
+                        visibleWhen { vm.onRepeatVisible }
+                    }
+                    checkbox("Forward", vm.moveForward) {
+                        visibleWhen { vm.moveForwardVisible }
+                    }
+                    button(vm.checkPrevString) {
+                        enableWhen { vm.checkPrevEnabled }
+                        visibleWhen { vm.checkPrevVisible }
+                    }.action {
                         vm.check(false)
                     }
-                    button(vm.checkNextString).action {
+                    button(vm.checkNextString) {
+                        enableWhen { vm.checkNextEnabled }
+                    }.action {
                         vm.check(true)
                     }
                 }

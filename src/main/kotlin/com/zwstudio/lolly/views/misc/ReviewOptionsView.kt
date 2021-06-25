@@ -22,6 +22,10 @@ class ReviewOptionsView : Fragment("Review Options") {
             checkbox("Shuffled", vm.shuffled)
         }
         row {
+            checkbox("On Repeat", vm.onRepeat)
+            checkbox("Forward", vm.moveForward)
+        }
+        row {
             label("Interval:")
             spinner(1, 10, property = vm.interval)
         }
