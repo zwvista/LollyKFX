@@ -1,6 +1,7 @@
 package com.zwstudio.lolly.views.words
 
-import com.zwstudio.lolly.views.LollyApp
+import com.zwstudio.lolly.models.wpp.MLangPhrase
+import com.zwstudio.lolly.models.wpp.MUnitWord
 import com.zwstudio.lolly.viewmodels.misc.SettingsViewModel
 import com.zwstudio.lolly.viewmodels.misc.copyText
 import com.zwstudio.lolly.viewmodels.misc.googleString
@@ -9,8 +10,7 @@ import com.zwstudio.lolly.viewmodels.phrases.PhrasesLinkViewModel
 import com.zwstudio.lolly.viewmodels.words.WordsUnitBatchViewModel
 import com.zwstudio.lolly.viewmodels.words.WordsUnitDetailViewModel
 import com.zwstudio.lolly.viewmodels.words.WordsUnitViewModel
-import com.zwstudio.lolly.models.wpp.MLangPhrase
-import com.zwstudio.lolly.models.wpp.MUnitWord
+import com.zwstudio.lolly.views.LollyApp
 import com.zwstudio.lolly.views.phrases.PhrasesLangDetailView
 import com.zwstudio.lolly.views.phrases.PhrasesLinkView
 import javafx.geometry.Orientation
@@ -75,7 +75,6 @@ class WordsUnitView : WordsBaseView("Words in Unit") {
             button("Clear Notes").action {
                 vm.clearNotes({}, {})
             }
-            button("Review")
             textfield(vm.newWord) {
                 promptText = "New Word"
             }.action {

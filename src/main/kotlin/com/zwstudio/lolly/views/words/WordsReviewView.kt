@@ -15,7 +15,10 @@ import tornadofx.*
 import java.util.concurrent.TimeUnit
 
 class WordsReviewView : WordsBaseView("Words Review"), ILollySettings {
-    var vm = WordsReviewViewModel { searchDict(currentWord) }
+    var vm = WordsReviewViewModel {
+        if (!isTestMode)
+            searchDict(currentWord)
+    }
     override val vmSettings get() = vm.vmSettings
 
     override val root = vbox {

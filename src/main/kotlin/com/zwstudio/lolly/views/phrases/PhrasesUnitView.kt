@@ -70,7 +70,6 @@ class PhrasesUnitView : PhrasesBaseView("Phrases in Unit") {
                     vm.reload()
                 }
             }
-            button("Review")
             choicebox(vm.scopeFilter, SettingsViewModel.lstScopePhraseFilters)
             textfield(vm.textFilter) {
                 promptText = "Filter"
