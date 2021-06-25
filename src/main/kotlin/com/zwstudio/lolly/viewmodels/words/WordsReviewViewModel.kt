@@ -15,7 +15,7 @@ import javafx.beans.property.SimpleStringProperty
 import java.util.concurrent.TimeUnit
 import kotlin.math.min
 
-class WordsReviewViewModel : BaseViewModel() {
+class WordsReviewViewModel(private val doTestAction: WordsReviewViewModel.() -> Unit) : WordsBaseViewModel() {
 
     private val unitWordService: UnitWordService by inject()
     private val wordFamiService: WordFamiService by inject()
@@ -186,6 +186,7 @@ class WordsReviewViewModel : BaseViewModel() {
         wordHintVisible.value = isTestMode
         translationString.value = ""
         wordInputString.value = ""
+        doTestAction()
         if (hasCurrent) {
             indexString.value = "${index + 1}/$count"
             accuracyString.value = currentItem!!.accuracy

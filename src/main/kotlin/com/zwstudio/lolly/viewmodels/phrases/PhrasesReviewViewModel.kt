@@ -6,6 +6,7 @@ import com.zwstudio.lolly.models.misc.MReviewOptions
 import com.zwstudio.lolly.models.misc.ReviewMode
 import com.zwstudio.lolly.models.wpp.MUnitPhrase
 import com.zwstudio.lolly.services.wpp.UnitPhraseService
+import com.zwstudio.lolly.viewmodels.words.WordsReviewViewModel
 import io.reactivex.rxjava3.core.Observable
 import io.reactivex.rxjava3.disposables.Disposable
 import javafx.beans.property.SimpleBooleanProperty
@@ -13,7 +14,7 @@ import javafx.beans.property.SimpleStringProperty
 import java.util.concurrent.TimeUnit
 import kotlin.math.min
 
-class PhrasesReviewViewModel : BaseViewModel() {
+class PhrasesReviewViewModel(private val doTestAction: PhrasesReviewViewModel.() -> Unit) : BaseViewModel() {
 
     private val unitPhraseService: UnitPhraseService by inject()
 
@@ -136,6 +137,7 @@ class PhrasesReviewViewModel : BaseViewModel() {
         translationString.value = currentItem?.translation ?: ""
         phraseTargetVisible.value = !isTestMode
         phraseInputString.value = ""
+        doTestAction()
         if (hasCurrent)
             indexString.value = "${index + 1}/$count"
         else if (options.mode == ReviewMode.ReviewAuto)

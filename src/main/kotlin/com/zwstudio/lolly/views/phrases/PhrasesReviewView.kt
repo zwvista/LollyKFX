@@ -13,7 +13,7 @@ import tornadofx.*
 import java.util.concurrent.TimeUnit
 
 class PhrasesReviewView : Fragment("Phrases Review"), ILollySettings {
-    var vm = PhrasesReviewViewModel()
+    var vm = PhrasesReviewViewModel {}
 
     override val root = vbox {
         tag = this@PhrasesReviewView
