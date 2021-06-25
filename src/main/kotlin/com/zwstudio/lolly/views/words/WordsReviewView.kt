@@ -95,21 +95,19 @@ class WordsReviewView : Fragment("Words Review"), ILollySettings {
             }
             row {
                 textfield(vm.wordInputString).action {
-                    vm.check()
+                    vm.check(true)
                 }
             }
             row {
                 hbox {
-                    button("Search") {
-                        enableWhen(vm.searchEnabled)
-                    }.action {
-                        find<MainView>().searchNewWord(vm.currentWord)
-                    }
                     region {
                         hgrow = Priority.ALWAYS
                     }
-                    button(vm.checkString).action {
-                        vm.check()
+                    button(vm.checkPrevString).action {
+                        vm.check(false)
+                    }
+                    button(vm.checkNextString).action {
+                        vm.check(true)
                     }
                 }
             }

@@ -77,7 +77,7 @@ class PhrasesReviewView : Fragment("Phrases Review"), ILollySettings {
             }
             row {
                 textfield(vm.phraseInputString).action {
-                    vm.check()
+                    vm.check(true)
                 }
             }
             row {
@@ -85,9 +85,13 @@ class PhrasesReviewView : Fragment("Phrases Review"), ILollySettings {
                     region {
                         hgrow = Priority.ALWAYS
                     }
-                    button(vm.checkString).action {
+                    button(vm.checkPrevString).action {
                         alignment = Pos.CENTER_RIGHT
-                        vm.check()
+                        vm.check(false)
+                    }
+                    button(vm.checkNextString).action {
+                        alignment = Pos.CENTER_RIGHT
+                        vm.check(true)
                     }
                 }
             }

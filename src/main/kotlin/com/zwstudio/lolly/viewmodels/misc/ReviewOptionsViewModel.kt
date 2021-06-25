@@ -14,6 +14,8 @@ class ReviewOptionsViewModel(item: MReviewOptions) : ItemViewModel<MReviewOption
     val groupCount = bind(MReviewOptions::groupCount)
     val speakingEnabled = bind(MReviewOptions::speakingEnabled)
     val reviewCount = bind(MReviewOptions::reviewCount)
+    val moveForward = bind(MReviewOptions::moveForward)
+    val onRepeat = bind(MReviewOptions::onRepeat)
 
     init {
         groupSelected.addListener { _, _, newValue ->
