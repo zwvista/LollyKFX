@@ -101,7 +101,7 @@ fun toHtml(text: String) = """
     </html>
     """.trimIndent()
 
-const val cssFolder = "https://zwvista.tk/lolly/css/"
+const val cssFolder = "https://zwvista2.tk/lolly/css/"
 
 fun applyTemplate(template: String, word: String, text: String) =
     template.replace("{0}", word).replace("{1}", cssFolder).replace("{2}", text)

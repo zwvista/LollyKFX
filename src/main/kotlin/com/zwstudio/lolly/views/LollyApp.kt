@@ -32,11 +32,11 @@ class LollyApp: App(MainView::class, Styles::class) {
 
     init {
         super.init()
-        retrofitJson = Retrofit.Builder().baseUrl("https://zwvista.tk/lolly/api.php/records/")
+        retrofitJson = Retrofit.Builder().baseUrl("https://zwvista2.tk/lolly/api.php/records/")
             .addCallAdapterFactory(RxJava3CallAdapterFactory.create())
             .addConverterFactory(GsonConverterFactory.create(FxGson.create()))
             .build()
-        retrofitSP = Retrofit.Builder().baseUrl("https://zwvista.tk/lolly/sp.php/")
+        retrofitSP = Retrofit.Builder().baseUrl("https://zwvista2.tk/lolly/sp.php/")
             .addCallAdapterFactory(RxJava3CallAdapterFactory.create())
             .addConverterFactory(GsonConverterFactory.create())
             .build()
