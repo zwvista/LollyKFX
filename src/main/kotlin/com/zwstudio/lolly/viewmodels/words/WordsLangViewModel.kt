@@ -5,7 +5,9 @@ import com.zwstudio.lolly.services.wpp.LangWordService
 import com.zwstudio.lolly.services.wpp.WordPhraseService
 import com.zwstudio.lolly.viewmodels.misc.SettingsViewModel
 import com.zwstudio.lolly.viewmodels.misc.applyIO
-import io.reactivex.rxjava3.core.Observable
+import io.reactivex.rxjava3.core.Completable
+import io.reactivex.rxjava3.core.Single
+import io.reactivex.rxjava3.kotlin.subscribeBy
 import tornadofx.*
 
 open class WordsLangViewModel : WordsBaseViewModel() {
@@ -25,18 +27,18 @@ open class WordsLangViewModel : WordsBaseViewModel() {
     fun reload() {
         langWordService.getDataByLang(vmSettings.selectedLang.id)
             .applyIO()
-            .subscribe { lstWordsAll = it.toMutableList(); applyFilters() }
+            .subscribeBy { lstWordsAll = it.toMutableList(); applyFilters() }
     }
 
-    fun update(o: MLangWord): Observable<Unit> =
+    fun update(o: MLangWord): Completable =
         langWordService.update(o.id, o.langid, o.word, o.note)
             .applyIO()
 
-    fun create(o: MLangWord): Observable<Int> =
+    fun create(o: MLangWord): Single<Int> =
         langWordService.create(o.langid, o.word, o.note)
             .applyIO()
 
-    fun delete(item: MLangWord): Observable<Unit> =
+    fun delete(item: MLangWord): Completable =
         langWordService.delete(item)
             .applyIO()
 
@@ -44,38 +46,38 @@ open class WordsLangViewModel : WordsBaseViewModel() {
         langid = vmSettings.selectedLang.id
     }
 
-    fun addNewWord(): Observable<Unit> {
+    fun addNewWord(): Completable {
         val item = newLangWord().apply { word = newWord.value }
         newWord.value = ""
-        return create(item).map { Unit }
+        return create(item).flatMapCompletable { Completable.complete() }
     }
 
-    fun retrieveNote(item: MLangWord): Observable<Unit> {
-        return vmSettings.retrieveNote(item.word).flatMap {
+    fun retrieveNote(item: MLangWord): Completable {
+        return vmSettings.retrieveNote(item.word).flatMapCompletable {
             item.note = it
             langWordService.updateNote(item.id, item.note)
         }
     }
 
-    fun clearNote(item: MLangWord): Observable<Unit> {
+    fun clearNote(item: MLangWord): Completable {
         item.note = SettingsViewModel.zeroNote
         return langWordService.updateNote(item.id, item.note)
     }
 
-    fun getWords(phraseid: Int?): Observable<Unit> =
+    fun getWords(phraseid: Int?): Completable =
         if (phraseid == null)
-            Observable.just(Unit)
-                .doAfterNext { lstWords.clear() }
+            Completable.complete()
+                .doOnComplete { lstWords.clear() }
         else
             wordPhraseService.getWordsByPhraseId(phraseid)
                 .applyIO()
-                .map { lstWords.setAll(it); Unit }
+                .flatMapCompletable { lstWords.setAll(it); Completable.complete() }
 
-    fun unlink(wordid: Int, phraseid: Int): Observable<Unit> =
-        wordPhraseService.getDataByWordPhrase(wordid, phraseid).flatMap {
-            var o = Observable.just(Unit)
+    fun unlink(wordid: Int, phraseid: Int): Completable =
+        wordPhraseService.getDataByWordPhrase(wordid, phraseid).flatMapCompletable {
+            var o = Completable.complete()
             for (item in it)
-                o = o.concatWith(wordPhraseService.delete(item.id))
-            return@flatMap o
+                o = o.mergeWith(wordPhraseService.delete(item.id))
+            o
         }.applyIO()
 }

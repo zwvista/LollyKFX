@@ -1,11 +1,13 @@
 package com.zwstudio.lolly.viewmodels.patterns
 
+import com.zwstudio.lolly.models.wpp.MPattern
+import com.zwstudio.lolly.services.wpp.PatternService
 import com.zwstudio.lolly.viewmodels.misc.BaseViewModel
 import com.zwstudio.lolly.viewmodels.misc.SettingsViewModel
 import com.zwstudio.lolly.viewmodels.misc.applyIO
-import com.zwstudio.lolly.models.wpp.MPattern
-import com.zwstudio.lolly.services.wpp.PatternService
-import io.reactivex.rxjava3.core.Observable
+import io.reactivex.rxjava3.core.Completable
+import io.reactivex.rxjava3.core.Single
+import io.reactivex.rxjava3.kotlin.subscribeBy
 import javafx.beans.property.SimpleStringProperty
 import tornadofx.*
 
@@ -36,16 +38,16 @@ class PatternsViewModel : BaseViewModel() {
     fun reload() {
         patternService.getDataByLang(vmSettings.selectedLang.id)
             .applyIO()
-            .subscribe { lstPatternsAll = it.toMutableList(); applyFilters() }
+            .subscribeBy { lstPatternsAll = it.toMutableList(); applyFilters() }
     }
 
-    fun update(item: MPattern): Observable<Unit> =
+    fun update(item: MPattern): Completable =
         patternService.update(item)
             .applyIO()
-    fun create(item: MPattern): Observable<Int> =
+    fun create(item: MPattern): Single<Int> =
         patternService.create(item)
             .applyIO()
-    fun delete(id: Int): Observable<Unit> =
+    fun delete(id: Int): Completable =
         patternService.delete(id)
             .applyIO()
     fun newPattern() = MPattern().apply {

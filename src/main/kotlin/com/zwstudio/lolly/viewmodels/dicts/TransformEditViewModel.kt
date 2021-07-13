@@ -4,7 +4,7 @@ import com.zwstudio.lolly.viewmodels.misc.applyTemplate
 import com.zwstudio.lolly.viewmodels.misc.doTransform
 import com.zwstudio.lolly.viewmodels.misc.toHtml
 import com.zwstudio.lolly.viewmodels.misc.toTransformItems
-import io.reactivex.rxjava3.core.Observable
+import io.reactivex.rxjava3.core.Completable
 import javafx.beans.property.SimpleObjectProperty
 import javafx.beans.property.SimpleStringProperty
 import tornadofx.*
@@ -32,9 +32,9 @@ class TransformEditViewModel(val vmDetail: DictsDetailViewModel) : ViewModel() {
         vmDetail.transform.value = lstTranformItems.flatMap { listOf(it.extractor, it.replacement) }.joinToString("\r\n")
     }
 
-    fun getHtml(): Observable<Unit> {
+    fun getHtml(): Completable {
         sourceUrl = vmDetail.url.value.replace("{0}", sourceWord.value)
-        return vmDetail.vm.vmSettings.getHtml(sourceUrl).map { sourceText.value = it }
+        return vmDetail.vm.vmSettings.getHtml(sourceUrl).flatMapCompletable { sourceText.value = it; Completable.complete() }
     }
 
     fun transformText() {

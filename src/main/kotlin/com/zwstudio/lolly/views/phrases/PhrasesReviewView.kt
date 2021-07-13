@@ -5,7 +5,8 @@ import com.zwstudio.lolly.viewmodels.misc.applyIO
 import com.zwstudio.lolly.viewmodels.phrases.PhrasesReviewViewModel
 import com.zwstudio.lolly.views.ILollySettings
 import com.zwstudio.lolly.views.misc.ReviewOptionsView
-import io.reactivex.rxjava3.core.Observable
+import io.reactivex.rxjava3.core.Single
+import io.reactivex.rxjava3.kotlin.subscribeBy
 import javafx.geometry.Pos
 import javafx.scene.layout.Priority
 import javafx.scene.layout.Region
@@ -108,7 +109,7 @@ class PhrasesReviewView : Fragment("Phrases Review"), ILollySettings {
     }
 
     init {
-        Observable.timer(1, TimeUnit.SECONDS).applyIO().subscribe {
+        Single.timer(1, TimeUnit.SECONDS).applyIO().subscribeBy {
             onSettingsChanged()
         }
     }

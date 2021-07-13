@@ -3,6 +3,7 @@ package com.zwstudio.lolly.views.misc
 import com.zwstudio.lolly.views.LollyApp
 import com.zwstudio.lolly.viewmodels.misc.Global
 import com.zwstudio.lolly.viewmodels.misc.LoginViewModel
+import io.reactivex.rxjava3.kotlin.subscribeBy
 import javafx.geometry.Pos
 import javafx.scene.control.Alert
 import tornadofx.*
@@ -30,7 +31,7 @@ class LoginView : Fragment("Login") {
             button("Login") {
 
             }.action {
-                vm.login().subscribe {
+                vm.login().subscribeBy {
                     Global.userid = it
                     if (Global.userid.isEmpty())
                         Alert(Alert.AlertType.ERROR).apply {

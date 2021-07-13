@@ -4,7 +4,9 @@ import com.zwstudio.lolly.models.misc.MDictionary
 import com.zwstudio.lolly.services.misc.DictionaryService
 import com.zwstudio.lolly.viewmodels.misc.BaseViewModel
 import com.zwstudio.lolly.viewmodels.misc.applyIO
-import io.reactivex.rxjava3.core.Observable
+import io.reactivex.rxjava3.core.Completable
+import io.reactivex.rxjava3.core.Single
+import io.reactivex.rxjava3.kotlin.subscribeBy
 import javafx.beans.property.SimpleStringProperty
 import javafx.collections.ListChangeListener
 import tornadofx.*
@@ -24,7 +26,7 @@ class DictsViewModel : BaseViewModel() {
     fun reload() {
         dictionaryService.getDictsByLang(vmSettings.selectedLang.id)
             .applyIO()
-            .subscribe { lstItems.setAll(it) }
+            .subscribeBy { lstItems.setAll(it) }
     }
 
     fun newDictionary() = MDictionary().apply {
@@ -33,15 +35,15 @@ class DictsViewModel : BaseViewModel() {
         dicttypecode = 3
     }
 
-    fun update(o: MDictionary): Observable<Unit> =
+    fun update(o: MDictionary): Completable =
         dictionaryService.update(o)
         .applyIO()
 
-    fun create(o: MDictionary): Observable<Int> =
+    fun create(o: MDictionary): Single<Int> =
         dictionaryService.create(o)
         .applyIO()
 
-    fun delete(id: Int): Observable<Unit> =
+    fun delete(id: Int): Completable =
         dictionaryService.delete(id)
         .applyIO()
 }

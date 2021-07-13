@@ -1,14 +1,14 @@
 package com.zwstudio.lolly.viewmodels.phrases
 
-import com.zwstudio.lolly.viewmodels.misc.BaseViewModel
-import com.zwstudio.lolly.viewmodels.misc.applyIO
 import com.zwstudio.lolly.models.misc.MReviewOptions
 import com.zwstudio.lolly.models.misc.ReviewMode
 import com.zwstudio.lolly.models.wpp.MUnitPhrase
 import com.zwstudio.lolly.services.wpp.UnitPhraseService
-import com.zwstudio.lolly.viewmodels.words.WordsReviewViewModel
+import com.zwstudio.lolly.viewmodels.misc.BaseViewModel
+import com.zwstudio.lolly.viewmodels.misc.applyIO
 import io.reactivex.rxjava3.core.Observable
 import io.reactivex.rxjava3.disposables.Disposable
+import io.reactivex.rxjava3.kotlin.subscribeBy
 import javafx.beans.property.SimpleBooleanProperty
 import javafx.beans.property.SimpleStringProperty
 import java.util.concurrent.TimeUnit
@@ -58,13 +58,13 @@ class PhrasesReviewViewModel(private val doTestAction: PhrasesReviewViewModel.()
         }
         subscriptionTimer?.dispose()
         if (options.mode == ReviewMode.Textbook)
-            unitPhraseService.getDataByTextbook(vmSettings.selectedTextbook).applyIO().subscribe {
+            unitPhraseService.getDataByTextbook(vmSettings.selectedTextbook).applyIO().subscribeBy {
                 val cnt = min(options.reviewCount, it.size)
                 lstPhrases = it.shuffled().subList(0, cnt)
                 f()
             }
         else
-            unitPhraseService.getDataByTextbookUnitPart(vmSettings.selectedTextbook, vmSettings.usunitpartfrom, vmSettings.usunitpartto).applyIO().subscribe {
+            unitPhraseService.getDataByTextbookUnitPart(vmSettings.selectedTextbook, vmSettings.usunitpartfrom, vmSettings.usunitpartto).applyIO().subscribeBy {
                 lstPhrases = it
                 val nFrom = count * (options.groupSelected - 1) / options.groupCount
                 val nTo = count * options.groupSelected / options.groupCount

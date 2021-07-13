@@ -4,7 +4,9 @@ import com.zwstudio.lolly.models.wpp.MLangPhrase
 import com.zwstudio.lolly.services.wpp.LangPhraseService
 import com.zwstudio.lolly.services.wpp.WordPhraseService
 import com.zwstudio.lolly.viewmodels.misc.applyIO
-import io.reactivex.rxjava3.core.Observable
+import io.reactivex.rxjava3.core.Completable
+import io.reactivex.rxjava3.core.Single
+import io.reactivex.rxjava3.kotlin.subscribeBy
 import tornadofx.*
 
 open class PhrasesLangViewModel : PhrasesBaseViewModel() {
@@ -24,18 +26,18 @@ open class PhrasesLangViewModel : PhrasesBaseViewModel() {
     fun reload() {
         langPhraseService.getDataByLang(vmSettings.selectedLang.id)
             .applyIO()
-            .subscribe { lstPhrasesAll = it.toMutableList(); applyFilters() }
+            .subscribeBy { lstPhrasesAll = it.toMutableList(); applyFilters() }
     }
 
-    fun update(o: MLangPhrase): Observable<Unit> =
+    fun update(o: MLangPhrase): Completable =
         langPhraseService.update(o.id, o.langid, o.phrase, o.translation)
             .applyIO()
 
-    fun create(o: MLangPhrase): Observable<Int> =
+    fun create(o: MLangPhrase): Single<Int> =
         langPhraseService.create(o.langid, o.phrase, o.translation)
             .applyIO()
 
-    fun delete(item: MLangPhrase): Observable<Unit> =
+    fun delete(item: MLangPhrase): Completable =
         langPhraseService.delete(item)
             .applyIO()
 
@@ -43,20 +45,20 @@ open class PhrasesLangViewModel : PhrasesBaseViewModel() {
         langid = vmSettings.selectedLang.id
     }
 
-    fun getPhrases(wordid: Int?): Observable<Unit> =
+    fun getPhrases(wordid: Int?): Completable =
         if (wordid == null)
-            Observable.just(Unit)
-                .doAfterNext { lstPhrases.clear() }
+            Completable.complete()
+                .doOnComplete { lstPhrases.clear() }
         else
             wordPhraseService.getPhrasesByWordId(wordid)
                 .applyIO()
-                .map { lstPhrases.setAll(it); Unit }
+                .flatMapCompletable { lstPhrases.setAll(it); Completable.complete() }
 
-    fun unlink(wordid: Int, phraseid: Int): Observable<Unit> =
-        wordPhraseService.getDataByWordPhrase(wordid, phraseid).flatMap {
-            var o = Observable.just(Unit)
+    fun unlink(wordid: Int, phraseid: Int): Completable =
+        wordPhraseService.getDataByWordPhrase(wordid, phraseid).flatMapCompletable {
+            var o = Completable.complete()
             for (item in it)
-                o = o.concatWith(wordPhraseService.delete(item.id))
-            return@flatMap o
+                o = o.mergeWith(wordPhraseService.delete(item.id))
+            o
         }.applyIO()
 }

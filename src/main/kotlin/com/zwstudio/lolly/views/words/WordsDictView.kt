@@ -4,6 +4,7 @@ import com.zwstudio.lolly.viewmodels.misc.DictWebViewStatus
 import com.zwstudio.lolly.viewmodels.misc.SettingsViewModel
 import com.zwstudio.lolly.viewmodels.misc.openPage
 import com.zwstudio.lolly.models.misc.MDictionary
+import io.reactivex.rxjava3.kotlin.subscribeBy
 import javafx.concurrent.Worker
 import javafx.scene.control.TextField
 import javafx.scene.layout.Priority
@@ -62,7 +63,7 @@ class WordsDictView : Fragment() {
         url = dict.urlString(word, vmSettings.lstAutoCorrect)
         if (dict.dicttypename == "OFFLINE") {
             wvDict.engine.load("about:blank")
-            vmSettings.getHtml(url).subscribe {
+            vmSettings.getHtml(url).subscribeBy {
                 val str = dict.htmlString(it, word, false)
                 wvDict.engine.loadContent(str)
             }

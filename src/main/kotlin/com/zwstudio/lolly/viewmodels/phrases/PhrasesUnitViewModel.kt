@@ -3,8 +3,10 @@ package com.zwstudio.lolly.viewmodels.phrases
 import com.zwstudio.lolly.models.wpp.MUnitPhrase
 import com.zwstudio.lolly.services.wpp.UnitPhraseService
 import com.zwstudio.lolly.viewmodels.misc.applyIO
-import io.reactivex.rxjava3.core.Observable
+import io.reactivex.rxjava3.core.Completable
+import io.reactivex.rxjava3.core.Single
 import io.reactivex.rxjava3.disposables.CompositeDisposable
+import io.reactivex.rxjava3.kotlin.subscribeBy
 import tornadofx.*
 
 class PhrasesUnitViewModel(val inTextbook: Boolean) : PhrasesBaseViewModel() {
@@ -29,23 +31,23 @@ class PhrasesUnitViewModel(val inTextbook: Boolean) : PhrasesBaseViewModel() {
         else
             unitPhraseService.getDataByLang(vmSettings.selectedLang.id, vmSettings.lstTextbooks))
             .applyIO()
-            .subscribe { lstPhrasesAll = it.toMutableList(); applyFilters() }
+            .subscribeBy { lstPhrasesAll = it.toMutableList(); applyFilters() }
         textbookFilter.value = vmSettings.lstTextbookFilters[0]
     }
 
-    fun updateSeqNum(id: Int, seqnum: Int): Observable<Unit> =
+    fun updateSeqNum(id: Int, seqnum: Int): Completable =
         unitPhraseService.updateSeqNum(id, seqnum)
             .applyIO()
 
-    fun update(item: MUnitPhrase): Observable<Unit> =
+    fun update(item: MUnitPhrase): Completable =
         unitPhraseService.update(item)
             .applyIO()
 
-    fun create(item: MUnitPhrase): Observable<Int> =
+    fun create(item: MUnitPhrase): Single<Int> =
         unitPhraseService.create(item)
             .applyIO()
 
-    fun delete(item: MUnitPhrase): Observable<Unit> =
+    fun delete(item: MUnitPhrase): Completable =
         unitPhraseService.delete(item)
             .applyIO()
 

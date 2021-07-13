@@ -1,10 +1,20 @@
 package com.zwstudio.lolly.viewmodels.misc
 
+import io.reactivex.rxjava3.core.Completable
 import io.reactivex.rxjava3.core.Observable
+import io.reactivex.rxjava3.core.Single
 import io.reactivex.rxjavafx.schedulers.JavaFxScheduler
 import tornadofx.*
 
 fun <T> Observable<T>.applyIO(): Observable<T> =
+    this.subscribeOn(JavaFxScheduler.platform())
+        .observeOn(JavaFxScheduler.platform())
+
+fun <T> Single<T>.applyIO(): Single<T> =
+    this.subscribeOn(JavaFxScheduler.platform())
+        .observeOn(JavaFxScheduler.platform())
+
+fun Completable.applyIO(): Completable =
     this.subscribeOn(JavaFxScheduler.platform())
         .observeOn(JavaFxScheduler.platform())
 

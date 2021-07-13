@@ -5,8 +5,10 @@ import com.zwstudio.lolly.services.wpp.LangWordService
 import com.zwstudio.lolly.services.wpp.UnitWordService
 import com.zwstudio.lolly.viewmodels.misc.SettingsViewModel
 import com.zwstudio.lolly.viewmodels.misc.applyIO
-import io.reactivex.rxjava3.core.Observable
+import io.reactivex.rxjava3.core.Completable
+import io.reactivex.rxjava3.core.Single
 import io.reactivex.rxjava3.disposables.CompositeDisposable
+import io.reactivex.rxjava3.kotlin.subscribeBy
 import javafx.beans.property.SimpleBooleanProperty
 import tornadofx.*
 
@@ -35,23 +37,23 @@ class WordsUnitViewModel(val inTextbook: Boolean) : WordsBaseViewModel() {
         else
             unitWordService.getDataByLang(vmSettings.selectedLang.id, vmSettings.lstTextbooks))
             .applyIO()
-            .subscribe { lstWordsAll = it.toMutableList(); applyFilters() }
+            .subscribeBy { lstWordsAll = it.toMutableList(); applyFilters() }
         textbookFilter.value = vmSettings.lstTextbookFilters[0]
     }
 
-    fun updateSeqNum(id: Int, seqnum: Int): Observable<Unit> =
+    fun updateSeqNum(id: Int, seqnum: Int): Completable =
         unitWordService.updateSeqNum(id, seqnum)
             .applyIO()
 
-    fun update(item: MUnitWord): Observable<Unit> =
+    fun update(item: MUnitWord): Completable =
         unitWordService.update(item)
             .applyIO()
 
-    fun create(item: MUnitWord): Observable<Int> =
+    fun create(item: MUnitWord): Single<Int> =
         unitWordService.create(item)
             .applyIO()
 
-    fun delete(item: MUnitWord): Observable<Unit> =
+    fun delete(item: MUnitWord): Completable =
         unitWordService.delete(item)
             .applyIO()
 
@@ -77,20 +79,20 @@ class WordsUnitViewModel(val inTextbook: Boolean) : WordsBaseViewModel() {
         textbook = vmSettings.selectedTextbook
     }
 
-    fun addNewWord(): Observable<Unit> {
+    fun addNewWord(): Completable {
         val item = newUnitWord().apply { word = newWord.value }
         newWord.value = ""
-        return create(item).map { Unit }
+        return create(item).flatMapCompletable { Completable.complete() }
     }
 
-    fun retrieveNote(item: MUnitWord): Observable<Unit> {
-        return vmSettings.retrieveNote(item.word).flatMap {
+    fun retrieveNote(item: MUnitWord): Completable {
+        return vmSettings.retrieveNote(item.word).flatMapCompletable {
             item.note = it
             langWordService.updateNote(item.wordid, item.note)
         }
     }
 
-    fun clearNote(item: MUnitWord): Observable<Unit> {
+    fun clearNote(item: MUnitWord): Completable {
         item.note = SettingsViewModel.zeroNote
         return langWordService.updateNote(item.wordid, item.note)
     }

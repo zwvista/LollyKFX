@@ -1,10 +1,11 @@
 package com.zwstudio.lolly.viewmodels.patterns
 
-import com.zwstudio.lolly.viewmodels.misc.BaseViewModel
-import com.zwstudio.lolly.viewmodels.misc.applyIO
 import com.zwstudio.lolly.models.wpp.MPatternWebPage
 import com.zwstudio.lolly.services.wpp.PatternWebPageService
 import com.zwstudio.lolly.services.wpp.WebPageService
+import com.zwstudio.lolly.viewmodels.misc.BaseViewModel
+import com.zwstudio.lolly.viewmodels.misc.applyIO
+import io.reactivex.rxjava3.core.Completable
 import tornadofx.*
 
 class PatternsWebPagesViewModel : BaseViewModel() {
@@ -20,26 +21,27 @@ class PatternsWebPagesViewModel : BaseViewModel() {
     fun getWebPages(patternid: Int) =
         patternWebPageService.getDataByPattern(patternid)
             .applyIO()
-            .doAfterNext { lstWebPages.setAll(it) }
+            .doAfterSuccess { lstWebPages.setAll(it) }
 
     fun updatePatternWebPage(item: MPatternWebPage) =
         patternWebPageService.update(item)
-    fun createPatternWebPage(item: MPatternWebPage) =
+    fun createPatternWebPage(item: MPatternWebPage): Completable =
         patternWebPageService.create(item)
             .applyIO()
-            .doAfterNext {
+            .doAfterSuccess {
                 item.id = it
                 lstWebPages.add(item)
-            }
+            }.flatMapCompletable { Completable.complete() }
     fun deletePatternWebPage(id: Int) =
         patternWebPageService.delete(id)
 
     fun updateWebPage(item: MPatternWebPage) =
         webPageService.update(item)
-    fun createWebPage(item: MPatternWebPage) =
+    fun createWebPage(item: MPatternWebPage): Completable =
         webPageService.create(item)
             .applyIO()
-            .doAfterNext { item.id = it }
+            .doAfterSuccess { item.id = it }
+            .flatMapCompletable { Completable.complete() }
     fun deleteWebPage(id: Int) =
         webPageService.delete(id)
 

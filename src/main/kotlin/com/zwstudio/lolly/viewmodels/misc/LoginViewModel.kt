@@ -1,7 +1,7 @@
 package com.zwstudio.lolly.viewmodels.misc
 
 import com.zwstudio.lolly.services.misc.UserService
-import io.reactivex.rxjava3.core.Observable
+import io.reactivex.rxjava3.core.Single
 import javafx.beans.property.SimpleStringProperty
 
 class LoginViewModel {
@@ -10,7 +10,7 @@ class LoginViewModel {
 
     private val userService = UserService()
 
-    fun login(): Observable<String> =
+    fun login(): Single<String> =
         userService.getData(username.value!!, password.value!!)
             .map { if (it.isEmpty()) "" else it[0].userid }
             .applyIO()

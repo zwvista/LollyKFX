@@ -3,10 +3,11 @@ package com.zwstudio.lolly.services.misc
 import com.zwstudio.lolly.models.misc.MSelectItem
 import com.zwstudio.lolly.models.misc.MTextbook
 import com.zwstudio.lolly.restapi.misc.RestTextbook
-import io.reactivex.rxjava3.core.Observable
+import io.reactivex.rxjava3.core.Completable
+import io.reactivex.rxjava3.core.Single
 
 class TextbookService: BaseService() {
-    fun getDataByLang(langid: Int): Observable<List<MTextbook>> {
+    fun getDataByLang(langid: Int): Single<List<MTextbook>> {
         fun f(units: String): List<String> {
             var m = Regex("UNITS,(\\d+)").find(units)
             if (m != null) {
@@ -37,12 +38,12 @@ class TextbookService: BaseService() {
             }
     }
 
-    fun update(o: MTextbook): Observable<Unit> =
+    fun update(o: MTextbook): Completable =
         retrofitSP.create(RestTextbook::class.java)
             .update(o.id, o.langid, o.textbookname, o.units, o.parts)
-            .map { println(it.toString()) }
+            .flatMapCompletable { println(it.toString()); Completable.complete() }
 
-    fun create(o: MTextbook): Observable<Int> =
+    fun create(o: MTextbook): Single<Int> =
         retrofitSP.create(RestTextbook::class.java)
             .create(o.langid, o.textbookname, o.units, o.parts)
             .map {
@@ -50,9 +51,9 @@ class TextbookService: BaseService() {
                 it
             }
 
-    fun delete(id: Int): Observable<Unit> =
+    fun delete(id: Int): Completable =
         retrofitSP.create(RestTextbook::class.java)
             .delete(id)
-            .map { println(it.toString()) }
+            .flatMapCompletable { println(it.toString()); Completable.complete() }
 
 }

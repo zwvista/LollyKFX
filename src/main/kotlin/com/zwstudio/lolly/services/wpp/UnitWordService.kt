@@ -4,10 +4,11 @@ import com.zwstudio.lolly.models.misc.MTextbook
 import com.zwstudio.lolly.models.wpp.MUnitWord
 import com.zwstudio.lolly.restapi.wpp.RestUnitWord
 import com.zwstudio.lolly.services.misc.BaseService
-import io.reactivex.rxjava3.core.Observable
+import io.reactivex.rxjava3.core.Completable
+import io.reactivex.rxjava3.core.Single
 
 class UnitWordService: BaseService() {
-    fun getDataByTextbookUnitPart(textbook: MTextbook, unitPartFrom: Int, unitPartTo: Int): Observable<List<MUnitWord>> =
+    fun getDataByTextbookUnitPart(textbook: MTextbook, unitPartFrom: Int, unitPartTo: Int): Single<List<MUnitWord>> =
         retrofitJson.create(RestUnitWord::class.java)
             .getDataByTextbookUnitPart("TEXTBOOKID,eq,${textbook.id}",
                 "UNITPART,bt,$unitPartFrom,$unitPartTo")
@@ -18,7 +19,7 @@ class UnitWordService: BaseService() {
                 lst
             }
 
-    fun getDataByTextbook(textbook: MTextbook): Observable<List<MUnitWord>> =
+    fun getDataByTextbook(textbook: MTextbook): Single<List<MUnitWord>> =
         retrofitJson.create(RestUnitWord::class.java)
             .getDataByTextbook("TEXTBOOKID,eq,${textbook.id}")
             .map {
@@ -28,7 +29,7 @@ class UnitWordService: BaseService() {
                 lst
             }
 
-    fun getDataByLang(langid: Int, lstTextbooks: List<MTextbook>): Observable<List<MUnitWord>> =
+    fun getDataByLang(langid: Int, lstTextbooks: List<MTextbook>): Single<List<MUnitWord>> =
         retrofitJson.create(RestUnitWord::class.java)
             .getDataByLang("LANGID,eq,$langid")
             .map {
@@ -38,7 +39,7 @@ class UnitWordService: BaseService() {
                 lst
             }
 
-    fun getDataByLangWord(langid: Int, word: String, lstTextbooks: List<MTextbook>): Observable<List<MUnitWord>> =
+    fun getDataByLangWord(langid: Int, word: String, lstTextbooks: List<MTextbook>): Single<List<MUnitWord>> =
         retrofitJson.create(RestUnitWord::class.java)
             .getDataByLangWord("LANGID,eq,$langid", "WORD,eq,$word")
             .map {
@@ -48,17 +49,17 @@ class UnitWordService: BaseService() {
                 lst
             }
 
-    fun updateSeqNum(id: Int, seqnum: Int): Observable<Unit> =
+    fun updateSeqNum(id: Int, seqnum: Int): Completable =
         retrofitJson.create(RestUnitWord::class.java)
             .updateSeqNum(id, seqnum)
-            .map { println(it.toString()) }
+            .flatMapCompletable { println(it.toString()); Completable.complete() }
 
-    fun update(o: MUnitWord): Observable<Unit> =
+    fun update(o: MUnitWord): Completable =
         retrofitSP.create(RestUnitWord::class.java)
             .update(o.id, o.langid, o.textbookid, o.unit, o.part, o.seqnum, o.wordid, o.word, o.note, o.famiid, o.correct, o.total)
-            .map { println(it.toString()) }
+            .flatMapCompletable { println(it.toString()); Completable.complete() }
 
-    fun create(o: MUnitWord): Observable<Int> =
+    fun create(o: MUnitWord): Single<Int> =
         retrofitSP.create(RestUnitWord::class.java)
             .create(o.id, o.langid, o.textbookid, o.unit, o.part, o.seqnum, o.wordid, o.word, o.note, o.famiid, o.correct, o.total)
             .map {
@@ -66,8 +67,8 @@ class UnitWordService: BaseService() {
                 it[0][0].newid!!.toInt()
             }
 
-    fun delete(o: MUnitWord): Observable<Unit> =
+    fun delete(o: MUnitWord): Completable =
         retrofitSP.create(RestUnitWord::class.java)
             .delete(o.id, o.langid, o.textbookid, o.unit, o.part, o.seqnum, o.wordid, o.word, o.note, o.famiid, o.correct, o.total)
-            .map { println(it.toString()) }
+            .flatMapCompletable { println(it.toString()); Completable.complete() }
 }

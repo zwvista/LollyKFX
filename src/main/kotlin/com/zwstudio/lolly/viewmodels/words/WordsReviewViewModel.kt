@@ -5,11 +5,12 @@ import com.zwstudio.lolly.models.misc.ReviewMode
 import com.zwstudio.lolly.models.wpp.MUnitWord
 import com.zwstudio.lolly.services.wpp.UnitWordService
 import com.zwstudio.lolly.services.wpp.WordFamiService
-import com.zwstudio.lolly.viewmodels.misc.BaseViewModel
 import com.zwstudio.lolly.viewmodels.misc.applyIO
 import com.zwstudio.lolly.viewmodels.misc.extractTextFrom
 import io.reactivex.rxjava3.core.Observable
+import io.reactivex.rxjava3.core.Single
 import io.reactivex.rxjava3.disposables.Disposable
+import io.reactivex.rxjava3.kotlin.subscribeBy
 import javafx.beans.property.SimpleBooleanProperty
 import javafx.beans.property.SimpleStringProperty
 import java.util.concurrent.TimeUnit
@@ -74,7 +75,7 @@ class WordsReviewViewModel(private val doTestAction: WordsReviewViewModel.() -> 
         onRepeatVisible.value = !isTestMode
         checkPrevVisible.value = !isTestMode
         if (options.mode == ReviewMode.Textbook)
-            unitWordService.getDataByTextbook(vmSettings.selectedTextbook).applyIO().subscribe {
+            unitWordService.getDataByTextbook(vmSettings.selectedTextbook).applyIO().subscribeBy {
                 val lst2 = mutableListOf<MUnitWord>()
                 for (o in it) {
                     val s = o.accuracy
@@ -94,7 +95,7 @@ class WordsReviewViewModel(private val doTestAction: WordsReviewViewModel.() -> 
                 f()
             }
         else
-            unitWordService.getDataByTextbookUnitPart(vmSettings.selectedTextbook, vmSettings.usunitpartfrom, vmSettings.usunitpartto).applyIO().subscribe {
+            unitWordService.getDataByTextbookUnitPart(vmSettings.selectedTextbook, vmSettings.usunitpartfrom, vmSettings.usunitpartto).applyIO().subscribeBy {
                 lstWords = it
                 val nFrom = count * (options.groupSelected - 1) / options.groupCount
                 val nTo = count * options.groupSelected / options.groupCount
@@ -125,8 +126,8 @@ class WordsReviewViewModel(private val doTestAction: WordsReviewViewModel.() -> 
         }
     }
 
-    private fun getTranslation(): Observable<String> {
-        val dictTranslation = vmSettings.selectedDictTranslation ?: return Observable.empty()
+    private fun getTranslation(): Single<String> {
+        val dictTranslation = vmSettings.selectedDictTranslation ?: return Single.just("")
         val url = dictTranslation.urlString(currentWord, vmSettings.lstAutoCorrect)
         return vmSettings.getHtml(url)
             .map { extractTextFrom(it, dictTranslation.transform, "") { text, _ -> text } }
@@ -158,7 +159,7 @@ class WordsReviewViewModel(private val doTestAction: WordsReviewViewModel.() -> 
             val o = currentItem!!
             val isCorrect = o.word == wordInputString.value
             if (isCorrect) lstCorrectIDs.add(o.id)
-            wordFamiService.update(o.wordid, isCorrect).applyIO().subscribe {
+            wordFamiService.update(o.wordid, isCorrect).applyIO().subscribeBy {
                 o.correct = it.correct
                 o.total = it.total
                 accuracyString.value = o.accuracy
@@ -190,7 +191,7 @@ class WordsReviewViewModel(private val doTestAction: WordsReviewViewModel.() -> 
         if (hasCurrent) {
             indexString.value = "${index + 1}/$count"
             accuracyString.value = currentItem!!.accuracy
-            getTranslation().subscribe {
+            getTranslation().subscribeBy {
                 translationString.value = it
                 if (it.isEmpty() && !options.speakingEnabled)
                     wordInputString.value = currentWord

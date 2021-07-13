@@ -20,7 +20,7 @@ class PatternsWebPagesDetailViewModel(val vm: PatternsWebPagesViewModel, item: M
         (if (item.webpageid == 0)
             vm.createWebPage(item)
         else
-            vm.updateWebPage(item)).flatMap {
+            vm.updateWebPage(item)).mergeWith {
             (if (item.id == 0)
                 vm.createPatternWebPage(item)
             else
