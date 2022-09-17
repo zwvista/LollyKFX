@@ -1,8 +1,8 @@
 buildscript {
-    ext.kotlin_version = "1.5.20"
+    ext.kotlin_version = "1.7.10"
     ext.tornadofx_version = "1.7.20"
     ext.retrofit_version = "2.9.0"
-    ext.junit_version = "5.1.0"
+    ext.junit_version = "5.9.0"
 
     repositories {
         mavenLocal()
@@ -46,13 +46,13 @@ dependencies {
     implementation "no.tornado:tornadofx:$tornadofx_version"
     implementation 'javax.persistence:persistence-api:1.0.2'
     implementation 'io.reactivex.rxjava3:rxandroid:3.0.0'
-    implementation 'io.reactivex.rxjava3:rxjava:3.0.5'
-    implementation 'io.reactivex.rxjava3:rxkotlin:3.0.0'
+    implementation 'io.reactivex.rxjava3:rxjava:3.1.5'
+    implementation 'io.reactivex.rxjava3:rxkotlin:3.0.1'
     implementation "com.squareup.retrofit2:retrofit:$retrofit_version"
     implementation "com.squareup.retrofit2:adapter-rxjava3:$retrofit_version"
     implementation "com.squareup.retrofit2:converter-gson:$retrofit_version"
     implementation "com.squareup.retrofit2:converter-scalars:$retrofit_version"
-    implementation "org.hildan.fxgson:fx-gson:3.1.2"
+    implementation 'org.hildan.fxgson:fx-gson:4.0.1'
 
     testImplementation "org.junit.jupiter:junit-jupiter-api:$junit_version"
     testRuntimeOnly "org.junit.jupiter:junit-jupiter-engine:$junit_version"
