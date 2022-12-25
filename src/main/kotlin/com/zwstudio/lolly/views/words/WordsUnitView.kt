@@ -70,7 +70,7 @@ class WordsUnitView : WordsBaseView("Words in Unit") {
             }
             checkbox("If Empty", vm.ifEmpty)
             button("Retrieve Notes").action {
-                vm.retrieveNotes({}, {})
+                vm.getNotes({}, {})
             }
             button("Clear Notes").action {
                 vm.clearNotes({}, {})
@@ -139,7 +139,7 @@ class WordsUnitView : WordsBaseView("Words in Unit") {
                         }
                         contextmenu {
                             item("Retrieve Note").action {
-                                vm.retrieveNote(selectedItem!!)
+                                vm.getNote(selectedItem!!)
                             }
                             item("Clear Note").action {
                                 vm.clearNote(selectedItem!!)

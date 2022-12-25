@@ -95,7 +95,7 @@ class WordsLangView : WordsBaseView("Words in Language") {
                         }
                         contextmenu {
                             item("Retrieve Note").action {
-                                vm.retrieveNote(selectedItem!!)
+                                vm.getNote(selectedItem!!)
                             }
                             item("Clear Note").action {
                                 vm.clearNote(selectedItem!!)

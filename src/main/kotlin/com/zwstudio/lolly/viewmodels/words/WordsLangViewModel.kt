@@ -52,8 +52,8 @@ open class WordsLangViewModel : WordsBaseViewModel() {
         return create(item).flatMapCompletable { Completable.complete() }
     }
 
-    fun retrieveNote(item: MLangWord): Completable {
-        return vmSettings.retrieveNote(item.word).flatMapCompletable {
+    fun getNote(item: MLangWord): Completable {
+        return vmSettings.getNote(item.word).flatMapCompletable {
             item.note = it
             langWordService.updateNote(item.id, item.note)
         }

@@ -85,8 +85,8 @@ class WordsUnitViewModel(val inTextbook: Boolean) : WordsBaseViewModel() {
         return create(item).flatMapCompletable { Completable.complete() }
     }
 
-    fun retrieveNote(item: MUnitWord): Completable {
-        return vmSettings.retrieveNote(item.word).flatMapCompletable {
+    fun getNote(item: MUnitWord): Completable {
+        return vmSettings.getNote(item.word).flatMapCompletable {
             item.note = it
             langWordService.updateNote(item.wordid, item.note)
         }
@@ -97,11 +97,11 @@ class WordsUnitViewModel(val inTextbook: Boolean) : WordsBaseViewModel() {
         return langWordService.updateNote(item.wordid, item.note)
     }
 
-    fun retrieveNotes(oneComplete: (Int) -> Unit, allComplete: () -> Unit) {
-        vmSettings.retrieveNotes(lstWords.size, isNoteEmpty = {
+    fun getNotes(oneComplete: (Int) -> Unit, allComplete: () -> Unit) {
+        vmSettings.getNotes(lstWords.size, isNoteEmpty = {
             !ifEmpty.value || lstWords[it].note.isEmpty()
         }, getOne = { i ->
-            retrieveNote(lstWords[i]).subscribe { oneComplete(i) }
+            getNote(lstWords[i]).subscribe { oneComplete(i) }
         }, allComplete = allComplete)
     }
 

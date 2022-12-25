@@ -431,7 +431,7 @@ class SettingsViewModel : Component(), ScopedInstance {
     fun getHtml(url: String): Single<String> =
         htmlService.getHtml(url)
 
-    fun retrieveNote(word: String): Single<String> {
+    fun getNote(word: String): Single<String> {
         val dictNote = selectedDictNote ?: return Single.just("")
         val url = dictNote.urlString(word, lstAutoCorrect)
         return getHtml(url).map {
@@ -440,7 +440,7 @@ class SettingsViewModel : Component(), ScopedInstance {
         }
     }
 
-    fun retrieveNotes(wordCount: Int, isNoteEmpty: (Int) -> Boolean, getOne: (Int) -> Unit, allComplete: () -> Unit) {
+    fun getNotes(wordCount: Int, isNoteEmpty: (Int) -> Boolean, getOne: (Int) -> Unit, allComplete: () -> Unit) {
         val dictNote = selectedDictNote ?: return
         var i = 0
         var subscription: Disposable? = null
