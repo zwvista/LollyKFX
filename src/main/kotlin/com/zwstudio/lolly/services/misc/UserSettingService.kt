@@ -3,14 +3,14 @@ package com.zwstudio.lolly.services.misc
 import com.zwstudio.lolly.models.misc.MUserSetting
 import com.zwstudio.lolly.models.misc.MUserSettingInfo
 import com.zwstudio.lolly.restapi.misc.RestUserSetting
-import com.zwstudio.lolly.viewmodels.misc.Global
+import com.zwstudio.lolly.viewmodels.misc.GlobalUser
 import io.reactivex.rxjava3.core.Completable
 import io.reactivex.rxjava3.core.Single
 
 class UserSettingService: BaseService() {
     fun getData(): Single<List<MUserSetting>> =
         retrofitJson.create(RestUserSetting::class.java)
-            .getDataByUser("USERID,eq,${Global.userid}")
+            .getDataByUser("USERID,eq,${GlobalUser.userid}")
             .map { it.lst!! }
 
     fun update(info: MUserSettingInfo, v: Int): Completable =

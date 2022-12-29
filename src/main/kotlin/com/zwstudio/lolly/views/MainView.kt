@@ -1,6 +1,6 @@
 package com.zwstudio.lolly.views
 
-import com.zwstudio.lolly.viewmodels.misc.Global
+import com.zwstudio.lolly.viewmodels.misc.GlobalUser
 import com.zwstudio.lolly.viewmodels.misc.SettingsViewModel
 import com.zwstudio.lolly.views.dicts.DictsView
 import com.zwstudio.lolly.views.misc.BlogView
@@ -110,8 +110,8 @@ class MainView : View("Lolly TornadoFX") {
         val props = Properties()
         val inStream = FileInputStream(LollyApp.configFile)
         props.loadFromXML(inStream)
-        Global.userid = props.getProperty("userid")
-        if (Global.userid.isEmpty())
+        GlobalUser.userid = props.getProperty("userid")
+        if (GlobalUser.userid.isEmpty())
             login()
         else
             setup()

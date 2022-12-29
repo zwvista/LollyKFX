@@ -3,7 +3,7 @@ package com.zwstudio.lolly.viewmodels.misc
 import com.zwstudio.lolly.models.misc.MTransformItem
 import javafx.scene.input.Clipboard
 import javafx.scene.input.ClipboardContent
-import tornadofx.*
+import tornadofx.UIComponent
 import java.net.URLEncoder
 import kotlin.collections.component1
 import kotlin.collections.component2
@@ -12,16 +12,8 @@ import kotlin.reflect.KProperty
 import kotlin.reflect.full.isSupertypeOf
 import kotlin.reflect.full.memberProperties
 
-object Global {
+object GlobalUser {
     var userid = ""
-}
-
-enum class DictWebViewStatus {
-    Ready, Navigating, Automating
-}
-
-enum class UnitPartToType {
-    Unit, Part, To
 }
 
 fun copyText(text: String?) {

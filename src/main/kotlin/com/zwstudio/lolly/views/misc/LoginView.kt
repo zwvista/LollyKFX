@@ -1,7 +1,7 @@
 package com.zwstudio.lolly.views.misc
 
 import com.zwstudio.lolly.views.LollyApp
-import com.zwstudio.lolly.viewmodels.misc.Global
+import com.zwstudio.lolly.viewmodels.misc.GlobalUser
 import com.zwstudio.lolly.viewmodels.misc.LoginViewModel
 import io.reactivex.rxjava3.kotlin.subscribeBy
 import javafx.geometry.Pos
@@ -32,15 +32,15 @@ class LoginView : Fragment("Login") {
 
             }.action {
                 vm.login().subscribeBy {
-                    Global.userid = it
-                    if (Global.userid.isEmpty())
+                    GlobalUser.userid = it
+                    if (GlobalUser.userid.isEmpty())
                         Alert(Alert.AlertType.ERROR).apply {
                             title = "Login"
                             contentText = "Wrong username or password!"
                         }.showAndWait()
                     else {
                         val props = Properties()
-                        props.setProperty("userid", Global.userid)
+                        props.setProperty("userid", GlobalUser.userid)
                         props.setProperty("username", "")
                         val outStream = FileOutputStream(LollyApp.configFile)
                         props.storeToXML(outStream, "Configuration")

@@ -16,6 +16,10 @@ import javafx.collections.ListChangeListener
 import tornadofx.*
 import java.util.concurrent.TimeUnit
 
+enum class UnitPartToType {
+    Unit, Part, To
+}
+
 class SettingsViewModel : Component(), ScopedInstance {
 
     var lstUSMappings = listOf<MUSMapping>()

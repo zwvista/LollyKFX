@@ -1,15 +1,18 @@
 package com.zwstudio.lolly.views.words
 
-import com.zwstudio.lolly.viewmodels.misc.DictWebViewStatus
+import com.zwstudio.lolly.models.misc.MDictionary
 import com.zwstudio.lolly.viewmodels.misc.SettingsViewModel
 import com.zwstudio.lolly.viewmodels.misc.openPage
-import com.zwstudio.lolly.models.misc.MDictionary
 import io.reactivex.rxjava3.kotlin.subscribeBy
 import javafx.concurrent.Worker
 import javafx.scene.control.TextField
 import javafx.scene.layout.Priority
 import javafx.scene.web.WebView
 import tornadofx.*
+
+enum class DictWebViewStatus {
+    Ready, Navigating, Automating
+}
 
 class WordsDictView : Fragment() {
     val dict: MDictionary by param()
