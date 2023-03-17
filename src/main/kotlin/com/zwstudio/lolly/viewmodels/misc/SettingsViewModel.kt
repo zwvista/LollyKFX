@@ -173,7 +173,7 @@ class SettingsViewModel : Component(), ScopedInstance {
     companion object {
         val lstScopeWordFilters = listOf("Word", "Note")
         val lstScopePhraseFilters = listOf("Phrase", "Translation")
-        val lstScopePatternFilters = listOf("Pattern", "Note", "Tags")
+        val lstScopePatternFilters = listOf("Pattern", "Tags")
         val lstReviewModes = ReviewMode.values().mapIndexed { index, s -> MSelectItem(index, s.toString()) }
         val zeroNote = "O"
     }

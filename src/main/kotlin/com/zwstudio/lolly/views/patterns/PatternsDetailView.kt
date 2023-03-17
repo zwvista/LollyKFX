@@ -1,39 +1,37 @@
 package com.zwstudio.lolly.views.patterns
 
-import com.zwstudio.lolly.viewmodels.patterns.PatternsDetailViewModel
+import com.zwstudio.lolly.models.wpp.MPattern
 import tornadofx.*
 
 class PatternsDetailView : Fragment("Patterns in Language Detail") {
-    val vmDetail : PatternsDetailViewModel by param()
-    var result = false
+    val item : MPattern by param()
 
     override val root = form {
         fieldset {
             field("ID") {
-                textfield(vmDetail.id) {
+                textfield("${item.id}") {
                     isEditable = false
                 }
             }
             field("PATTERN") {
-                textfield(vmDetail.pattern)
+                textfield(item.pattern) {
+                    isEditable = false
+                }
             }
-            field("NOTE") {
-                textfield(vmDetail.note)
+            field("TITLE") {
+                textfield(item.title) {
+                    isEditable = false
+                }
             }
-            field("TAGS") {
-                textfield(vmDetail.tags)
+            field("URL") {
+                textfield(item.url) {
+                    isEditable = false
+                }
             }
         }
         buttonbar {
-            button("OK") {
+            button("Close") {
                 isDefaultButton = true
-            }.action {
-                result = true
-                vmDetail.commit()
-                close()
-            }
-            button("Cancel") {
-                isCancelButton = true
             }.action {
                 close()
             }

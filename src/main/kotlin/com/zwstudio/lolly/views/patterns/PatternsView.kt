@@ -5,10 +5,8 @@ import com.zwstudio.lolly.models.wpp.MPatternWebPage
 import com.zwstudio.lolly.viewmodels.misc.SettingsViewModel
 import com.zwstudio.lolly.viewmodels.misc.copyText
 import com.zwstudio.lolly.viewmodels.misc.googleString
-import com.zwstudio.lolly.viewmodels.patterns.*
+import com.zwstudio.lolly.viewmodels.patterns.PatternsViewModel
 import com.zwstudio.lolly.views.ILollySettings
-import io.reactivex.rxjava3.kotlin.subscribeBy
-import javafx.application.Platform
 import javafx.geometry.Orientation
 import javafx.scene.control.Button
 import javafx.scene.control.SelectionMode
@@ -19,7 +17,6 @@ import tornadofx.*
 
 class PatternsView : Fragment("Patterns in Language"), ILollySettings {
     var vm = PatternsViewModel()
-    var vmWP = PatternsWebPagesViewModel()
     var tvPatterns: TableView<MPattern> by singleAssign()
     var tvWebPages: TableView<MPatternWebPage> by singleAssign()
     var wvWebPage: WebView by singleAssign()
@@ -28,20 +25,6 @@ class PatternsView : Fragment("Patterns in Language"), ILollySettings {
     override val root = vbox {
         tag = this@PatternsView
         toolbar {
-            button("Add Pattern").action {
-                val modal = find<PatternsDetailView>("vmDetail" to PatternsDetailViewModel(vm, vm.newPattern())) { openModal(block = true) }
-                if (modal.result)
-                    tvPatterns.refresh()
-            }
-            button("Add Web Page") {
-                isDisable = true
-                btnAddWebPage = this
-            }.action {
-                val o = tvPatterns.selectedItem!!
-                val modal = find<PatternsWebPageView>("vmDetail" to PatternsWebPagesDetailViewModel(vmWP, vmWP.newPatternWebPage(o.id, o.pattern))) { openModal(block = true) }
-                if (modal.result)
-                    tvWebPages.refresh()
-            }
             button("Refresh").action {
                 vm.reload()
             }
@@ -53,83 +36,38 @@ class PatternsView : Fragment("Patterns in Language"), ILollySettings {
         splitpane(Orientation.HORIZONTAL) {
             vgrow = Priority.ALWAYS
             vbox {
-                splitpane(Orientation.VERTICAL) {
+                tvPatterns = tableview(vm.lstPatterns) {
                     vgrow = Priority.ALWAYS
-                    setDividerPosition(0, 0.8)
-                    tvPatterns = tableview(vm.lstPatterns) {
-                        vgrow = Priority.ALWAYS
-                        selectionModel.selectionMode = SelectionMode.MULTIPLE
-                        readonlyColumn("ID", MPattern::id)
-                        column("PATTERN", MPattern::pattern)
-                        column("NOTE", MPattern::noteProperty)
-                        column("TAGS", MPattern::tagsProperty)
-                        onSelectionChange {
-                            btnAddWebPage.isDisable = it == null
-                            it?.id?.let {
-                                vmWP.getWebPages(it).subscribeBy {
-                                    if (it.isNotEmpty())
-                                    // https://stackoverflow.com/questions/20413419/javafx-2-how-to-focus-a-table-row-programmatically
-                                        Platform.runLater {
-                                            // tvWebPage.requestFocus()
-                                            tvWebPages.selectionModel.select(0)
-                                        }
-                                }
-                            }
-                        }
-                        fun edit() {
-                            val modal = find<PatternsDetailView>("vmDetail" to PatternsDetailViewModel(vm, selectedItem!!)) { openModal(block = true) }
-                            if (modal.result)
-                                this.refresh()
-                        }
-                        onDoubleClick {
-                            edit()
-                        }
-                        contextmenu {
-                            item("Edit").action {
-                                edit()
-                            }
-                            separator()
-                            item("Delete").action {
-
-                            }
-                            separator()
-                            item("Merge").action {
-                                val modal = find<PatternsMergeView>("vmMerge" to PatternsMergeViewModel(selectionModel.selectedItems)) { openModal(block = true) }
-                                if (modal.result)
-                                    this@tableview.refresh()
-                            }
-                            item("Split").action {
-                                val modal = find<PatternsSplitView>("vmSplit" to PatternsSplitViewModel(selectedItem!!)) { openModal(block = true) }
-                                if (modal.result)
-                                    this@tableview.refresh()
-                            }
-                            separator()
-                            item("Copy").action {
-                                copyText(selectedItem?.pattern)
-                            }
-                            item("Google").action {
-                                googleString(selectedItem?.pattern)
-                            }
-                            items.forEach {
-                                it.enableWhen { selectionModel.selectedItemProperty().isNotNull }
-                            }
+                    selectionModel.selectionMode = SelectionMode.MULTIPLE
+                    readonlyColumn("ID", MPattern::id)
+                    readonlyColumn("PATTERN", MPattern::pattern)
+                    readonlyColumn("TAGS", MPattern::tags)
+                    readonlyColumn("TITLE", MPattern::title)
+                    readonlyColumn("URL", MPattern::url)
+                    onSelectionChange {
+                        it?.url?.let {
+                            wvWebPage.engine.load(it)
                         }
                     }
-                    tvWebPages = tableview(vmWP.lstWebPages) {
-                        readonlyColumn("ID", MPatternWebPage::id)
-                        readonlyColumn("SEQNUM", MPatternWebPage::seqnum)
-                        column("TITLE", MPatternWebPage::title)
-                        column("URL", MPatternWebPage::url)
-                        column("WEBPAGEID", MPatternWebPage::webpageid)
-                        onSelectionChange {
-                            it?.url?.let {
-                                wvWebPage.engine.load(it)
-                            }
+                    fun edit() {
+                        find<PatternsDetailView>("item" to selectedItem!!) { openModal(block = true) }
+                    }
+                    onDoubleClick {
+                        edit()
+                    }
+                    contextmenu {
+                        item("Edit").action {
+                            edit()
                         }
-                        onDoubleClick {
-                            val modal = find<PatternsWebPageView>("vmDetail" to PatternsWebPagesDetailViewModel(vmWP, selectedItem!!)) { openModal(block = true) }
-                            if (modal.result)
-                                this.refresh()
+                        separator()
+                        item("Copy").action {
+                            copyText(selectedItem?.pattern)
+                        }
+                        item("Google").action {
+                            googleString(selectedItem?.pattern)
+                        }
+                        items.forEach {
+                            it.enableWhen { selectionModel.selectedItemProperty().isNotNull }
                         }
                     }
                 }

@@ -9,7 +9,7 @@ import io.reactivex.rxjava3.core.Completable
 import io.reactivex.rxjava3.core.Single
 import io.reactivex.rxjava3.kotlin.subscribeBy
 import javafx.beans.property.SimpleStringProperty
-import tornadofx.*
+import tornadofx.asObservable
 
 class PatternsViewModel : BaseViewModel() {
 
@@ -30,7 +30,7 @@ class PatternsViewModel : BaseViewModel() {
 
     private fun applyFilters() {
         lstPatterns.setAll(if (noFilter) lstPatternsAll else lstPatternsAll.filter {
-            (textFilter.value.isEmpty() || (if (scopeFilter.value == "Pattern") it.pattern else if (scopeFilter.value == "Note") it.note else it.tags).contains(textFilter.value, true))
+            (textFilter.value.isEmpty() || (if (scopeFilter.value == "Pattern") it.pattern else it.tags).contains(textFilter.value, true))
         })
         statusText.value = "${lstPatterns.size} Patterns in ${vmSettings.langInfo}"
     }
