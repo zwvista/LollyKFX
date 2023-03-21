@@ -7,7 +7,6 @@ import io.reactivex.rxjava3.core.Observable
 import io.reactivex.rxjava3.core.Single
 import io.reactivex.rxjava3.disposables.CompositeDisposable
 import io.reactivex.rxjava3.disposables.Disposable
-import io.reactivex.rxjava3.kotlin.Singles
 import javafx.application.Platform
 import javafx.beans.property.SimpleBooleanProperty
 import javafx.beans.property.SimpleObjectProperty
@@ -200,7 +199,7 @@ class SettingsViewModel : Component(), ScopedInstance {
             INFO_USDICTNOTE = getUSInfo(MUSMapping.NAME_USDICTNOTE)
             INFO_USDICTTRANSLATION = getUSInfo(MUSMapping.NAME_USDICTTRANSLATION)
             INFO_USVOICE = getUSInfo(MUSMapping.NAME_USVOICE)
-            Singles.zip(dictionaryService.getDictsReferenceByLang(uslang),
+            Single.zip(dictionaryService.getDictsReferenceByLang(uslang),
                 dictionaryService.getDictsNoteByLang(uslang),
                 dictionaryService.getDictsTranslationByLang(uslang),
                 textbookService.getDataByLang(uslang),
@@ -346,7 +345,7 @@ class SettingsViewModel : Component(), ScopedInstance {
     }
 
     fun getData(): Completable =
-        Singles.zip(languageService.getData(),
+        Single.zip(languageService.getData(),
                 usMappingService.getData(),
                 userSettingService.getData(),
                 codeService.getDictCodes()) {
@@ -460,11 +459,11 @@ class SettingsViewModel : Component(), ScopedInstance {
                 i++
             }
         }
-        compositeDisposable.add(subscription)
+        compositeDisposable.add(subscription!!)
     }
 
     fun clearNotes(wordCount: Int, isNoteEmpty: (Int) -> Boolean, getOne: (Int) -> Unit, allComplete: () -> Unit) {
-        val dictNote = selectedDictNote ?: return
+        selectedDictNote ?: return
         var i = 0
         while (i < wordCount) {
             while (i < wordCount && !isNoteEmpty(i))
