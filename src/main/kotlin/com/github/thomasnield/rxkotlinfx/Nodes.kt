@@ -6,7 +6,7 @@ import javafx.scene.control.*
 /**
  * Returns an [Observable] emitting integer values for selected row indexes.
  */
-val <T> TableView<T>.rowIndexSelections: Observable<Int>
+val <T: Any> TableView<T>.rowIndexSelections: Observable<Int>
     get() = itemSelections.map { selectionModel.selectedIndex }
 
 /**
@@ -19,19 +19,19 @@ val <T> TableView<T>.columnIndexSelections: Observable<Int>
 /**
  * Returns an [Observable] emitting selected items for the given TableView
  */
-val <T> TableView<T>.itemSelections: Observable<T>
+val <T: Any> TableView<T>.itemSelections: Observable<T>
     get() = selectionModel.selectedItemProperty().toObservable()
 
 /**
  * Returns an [Observable] emitting single selected items for the given [ListView]
  */
-val <T> ListView<T>.itemSelections: Observable<T>
+val <T: Any> ListView<T>.itemSelections: Observable<T>
     get() = selectionModel.selectedItems.additions()
 
 /**
  * Returns an [Observable] emitting single selected items for the given [ComboBox]
  */
-val <T> ComboBox<T>.valueSelections: Observable<T>
+val <T: Any> ComboBox<T>.valueSelections: Observable<T>
     get() = valueProperty().toObservable()
 
 /**

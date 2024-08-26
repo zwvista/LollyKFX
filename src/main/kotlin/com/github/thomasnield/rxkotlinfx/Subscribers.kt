@@ -15,7 +15,7 @@ import javafx.beans.property.Property
  * The `Binding` is also returned so caller can be dispose it later if needed
  * @return `Binding`
  */
-fun <T> Property<T>.bind(observable: Observable<T>, actionOp: (ObservableBindingSideEffects<T>.() -> Unit)? = null): Binding<T> {
+fun <T: Any> Property<T>.bind(observable: Observable<T>, actionOp: (ObservableBindingSideEffects<T>.() -> Unit)? = null): Binding<T> {
     val transformer = actionOp?.let {
         val sideEffects = ObservableBindingSideEffects<T>()
         it.invoke(sideEffects)
@@ -32,7 +32,7 @@ fun <T> Property<T>.bind(observable: Observable<T>, actionOp: (ObservableBinding
  * The `Binding` is also returned so caller can be dispose it later if needed
  * @return `Binding`
  */
-fun <T> Property<T>.bind(flowable: Flowable<T>, actionOp: (FlowableBindingSideEffects<T>.() -> Unit)? = null): Binding<T> {
+fun <T: Any> Property<T>.bind(flowable: Flowable<T>, actionOp: (FlowableBindingSideEffects<T>.() -> Unit)? = null): Binding<T> {
     val transformer = actionOp?.let {
         val sideEffects = FlowableBindingSideEffects<T>()
         it.invoke(sideEffects)
@@ -42,20 +42,20 @@ fun <T> Property<T>.bind(flowable: Flowable<T>, actionOp: (FlowableBindingSideEf
     bind(binding)
     return binding
 }
-fun <T> Binding<T>.addTo(compositeBinding: CompositeBinding): Binding<T> {
+fun <T: Any> Binding<T>.addTo(compositeBinding: CompositeBinding): Binding<T> {
     compositeBinding.add(this)
     return this
 }
 
-operator fun <T> CompositeBinding.plusAssign(binding: Binding<T>) = add(binding)
+operator fun <T: Any> CompositeBinding.plusAssign(binding: Binding<T>) = add(binding)
 
 operator fun CompositeBinding.plusAssign(compositeBinding: CompositeBinding) = add(compositeBinding)
 
-operator fun <T> CompositeBinding.minusAssign(binding: Binding<T>) = remove(binding)
+operator fun <T: Any> CompositeBinding.minusAssign(binding: Binding<T>) = remove(binding)
 
 operator fun CompositeBinding.minusAssign(compositeBinding: CompositeBinding) = remove(compositeBinding)
 
-class ObservableBindingSideEffects<T> {
+class ObservableBindingSideEffects<T : Any> {
     private var onNextAction: ((T) -> Unit)? = null
     private var onCompleteAction: (() -> Unit)? = null
     private var onErrorAction: ((ex: Throwable) -> Unit)? = null
@@ -74,15 +74,15 @@ class ObservableBindingSideEffects<T> {
 
     internal val transformer: ObservableTransformer<T, T> get() = ObservableTransformer<T, T> { obs ->
         var withActions: Observable<T> = obs
-        withActions = onNextAction?.let { withActions.doOnNext(onNextAction) } ?: withActions
-        withActions = onCompleteAction?.let { withActions.doOnComplete(onCompleteAction) } ?: withActions
-        withActions = onErrorAction?.let { withActions.doOnError(onErrorAction) } ?: withActions
+        withActions = onNextAction?.let { withActions.doOnNext(onNextAction!!) } ?: withActions
+        withActions = onCompleteAction?.let { withActions.doOnComplete(onCompleteAction!!) } ?: withActions
+        withActions = onErrorAction?.let { withActions.doOnError(onErrorAction!!) } ?: withActions
         withActions
     }
 }
 
 
-class FlowableBindingSideEffects<T> {
+class FlowableBindingSideEffects<T : Any> {
     private var onNextAction: ((T) -> Unit)? = null
     private var onCompleteAction: (() -> Unit)? = null
     private var onErrorAction: ((ex: Throwable) -> Unit)? = null
@@ -101,9 +101,9 @@ class FlowableBindingSideEffects<T> {
 
     internal val transformer: FlowableTransformer<T, T> get() = FlowableTransformer<T, T> { obs ->
         var withActions: Flowable<T> = obs
-        withActions = onNextAction?.let { withActions.doOnNext(onNextAction) } ?: withActions
-        withActions = onCompleteAction?.let { withActions.doOnComplete(onCompleteAction) } ?: withActions
-        withActions = onErrorAction?.let { withActions.doOnError(onErrorAction) } ?: withActions
+        withActions = onNextAction?.let { withActions.doOnNext(onNextAction!!) } ?: withActions
+        withActions = onCompleteAction?.let { withActions.doOnComplete(onCompleteAction!!) } ?: withActions
+        withActions = onErrorAction?.let { withActions.doOnError(onErrorAction!!) } ?: withActions
         withActions
     }
 }

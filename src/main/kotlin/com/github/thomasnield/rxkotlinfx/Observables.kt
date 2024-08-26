@@ -27,7 +27,7 @@ import java.util.*
 /**
  * Turns an Observable into a JavaFX Binding. Calling the Binding's dispose() method will handle the disposal.
  */
-fun <T> Observable<T>.toBinding(actionOp: (ObservableBindingSideEffects<T>.() -> Unit)? = null): Binding<T> {
+fun <T: Any> Observable<T>.toBinding(actionOp: (ObservableBindingSideEffects<T>.() -> Unit)? = null): Binding<T> {
     val transformer = actionOp?.let {
         val sideEffects = ObservableBindingSideEffects<T>()
         it.invoke(sideEffects)
@@ -40,7 +40,7 @@ fun <T> Observable<T>.toBinding(actionOp: (ObservableBindingSideEffects<T>.() ->
 /**
  * Turns an Flowable into a JavaFX Binding. Calling the Binding's dispose() method will handle the unsubscription.
  */
-fun <T> Flowable<T>.toBinding(actionOp: (FlowableBindingSideEffects<T>.() -> Unit)? = null): Binding<T> {
+fun <T: Any> Flowable<T>.toBinding(actionOp: (FlowableBindingSideEffects<T>.() -> Unit)? = null): Binding<T> {
     val transformer = actionOp?.let {
         val sideEffects = FlowableBindingSideEffects<T>()
         it.invoke(sideEffects)
@@ -52,7 +52,7 @@ fun <T> Flowable<T>.toBinding(actionOp: (FlowableBindingSideEffects<T>.() -> Uni
 /**
  * Turns an Observable into a JavaFX Binding with a nullSentinel `T` acting as a placeholder for null values. Calling the Binding's dispose() method will handle the disposal.
  */
-fun <T> Observable<T>.toNullBinding(nullSentinel: T, actionOp: (ObservableBindingSideEffects<T>.() -> Unit)? = null): Binding<T> {
+fun <T: Any> Observable<T>.toNullBinding(nullSentinel: T, actionOp: (ObservableBindingSideEffects<T>.() -> Unit)? = null): Binding<T> {
     val transformer = actionOp?.let {
         val sideEffects = ObservableBindingSideEffects<T>()
         it.invoke(sideEffects)
@@ -65,7 +65,7 @@ fun <T> Observable<T>.toNullBinding(nullSentinel: T, actionOp: (ObservableBindin
 /**
  * Turns an Flowable into a JavaFX Binding with a nullSentinel `T` acting as a placeholder for null values. Calling the Binding's dispose() method will handle the disposal.
  */
-fun <T> Flowable<T>.toNullBinding(nullSentinel: T, actionOp: (FlowableBindingSideEffects<T>.() -> Unit)? = null): Binding<T> {
+fun <T: Any> Flowable<T>.toNullBinding(nullSentinel: T, actionOp: (FlowableBindingSideEffects<T>.() -> Unit)? = null): Binding<T> {
     val transformer = actionOp?.let {
         val sideEffects = FlowableBindingSideEffects<T>()
         it.invoke(sideEffects)
@@ -78,7 +78,7 @@ fun <T> Flowable<T>.toNullBinding(nullSentinel: T, actionOp: (FlowableBindingSid
 /**
  * Turns an Observable into a JavaFX Binding that automatically unwraps the Optional to a nullable value. Calling the Binding's dispose() method will handle the disposal.
  */
-fun <T> Observable<Optional<T>>.toNullableBinding(actionOp: (ObservableBindingSideEffects<Optional<T>>.() -> Unit)? = null): Binding<T> {
+fun <T: Any> Observable<Optional<T>>.toNullableBinding(actionOp: (ObservableBindingSideEffects<Optional<T>>.() -> Unit)? = null): Binding<T> {
     val transformer = actionOp?.let {
         val sideEffects = ObservableBindingSideEffects<Optional<T>>()
         it.invoke(sideEffects)
@@ -91,7 +91,7 @@ fun <T> Observable<Optional<T>>.toNullableBinding(actionOp: (ObservableBindingSi
 /**
  * Turns an `Flowable<Optional<T>>` into a JavaFX Binding that automatically unwraps the Optional to a nullable value. Calling the Binding's dispose() method will handle the unsubscription.
  */
-fun <T> Flowable<Optional<T>>.toNullableBinding(actionOp: (FlowableBindingSideEffects<Optional<T>>.() -> Unit)? = null): Binding<T> {
+fun <T: Any> Flowable<Optional<T>>.toNullableBinding(actionOp: (FlowableBindingSideEffects<Optional<T>>.() -> Unit)? = null): Binding<T> {
     val transformer = actionOp?.let {
         val sideEffects = FlowableBindingSideEffects<Optional<T>>()
         it.invoke(sideEffects)
@@ -104,31 +104,31 @@ fun <T> Flowable<Optional<T>>.toNullableBinding(actionOp: (FlowableBindingSideEf
 /**
  * Turns an Observable into a lazy JavaFX Binding, by lazy meaning it will delay subscription until `getValue()` is requested. Calling the Binding's dispose() method will handle the unsubscription.
  */
-fun <T> Observable<T>.toLazyBinding() = JavaFxObserver.toLazyBinding(this)
+fun <T: Any> Observable<T>.toLazyBinding() = JavaFxObserver.toLazyBinding(this)
 
 
 /**
  * Turns a Flowable into a lazy JavaFX Binding, by lazy meaning it will delay subscription until `getValue()` is requested. Calling the Binding's dispose() method will handle the unsubscription.
  */
-fun <T> Flowable<T>.toLazyBinding() = JavaFxSubscriber.toLazyBinding(this)
+fun <T: Any> Flowable<T>.toLazyBinding() = JavaFxSubscriber.toLazyBinding(this)
 
 
 
 /**
  * Turns an `Observable<Optional<T>>` into a lazy JavaFX Binding that automatically unwraps the Optional to a nullable value, by lazy meaning it will delay subscription until `getValue()` is requested. Calling the Binding's dispose() method will handle the unsubscription.
  */
-fun <T> Observable<Optional<T>>.toLazyNullableBinding() = JavaFxObserver.toLazyNullableBinding(this)
+fun <T: Any> Observable<Optional<T>>.toLazyNullableBinding() = JavaFxObserver.toLazyNullableBinding(this)
 
 
 /**
  * Turns a `Flowable<Optional<T>>` into a lazy JavaFX Binding, by lazy meaning it will delay subscription until `getValue()` is requested. Calling the Binding's dispose() method will handle the unsubscription.
  */
-fun <T> Flowable<Optional<T>>.toLazyNullableBinding() = JavaFxSubscriber.toLazyNullableBinding(this)
+fun <T: Any> Flowable<Optional<T>>.toLazyNullableBinding() = JavaFxSubscriber.toLazyNullableBinding(this)
 
 /**
  * Turns a Single into a JavaFX Binding. Calling the Binding's dispose() method will handle the disposal.
  */
-fun <T> Single<T>.toBinding(actionOp: (ObservableBindingSideEffects<T>.() -> Unit)? = null): Binding<T> {
+fun <T: Any> Single<T>.toBinding(actionOp: (ObservableBindingSideEffects<T>.() -> Unit)? = null): Binding<T> {
     val transformer = actionOp?.let {
         val sideEffects = ObservableBindingSideEffects<T>()
         it.invoke(sideEffects)
@@ -140,19 +140,19 @@ fun <T> Single<T>.toBinding(actionOp: (ObservableBindingSideEffects<T>.() -> Uni
 /**
  * Turns a Single into a lazy JavaFX Binding, by lazy meaning it will delay subscription until `getValue()` is requested. Calling the Binding's dispose() method will handle the unsubscription.
  */
-fun <T> Single<T>.toLazyBinding() = JavaFxObserver.toLazyBinding(this.toObservable())
+fun <T: Any> Single<T>.toLazyBinding() = JavaFxObserver.toLazyBinding(this.toObservable())
 
 
 /**
  * Turns a `Single<Optional<T>>` into a lazy JavaFX Binding that automatically unwraps the Optional to a nullable value, by lazy meaning it will delay subscription until `getValue()` is requested. Calling the Binding's dispose() method will handle the unsubscription.
  */
-fun <T> Single<Optional<T>>.toLazyNullableBinding() = JavaFxObserver.toLazyNullableBinding(this.toObservable())
+fun <T: Any> Single<Optional<T>>.toLazyNullableBinding() = JavaFxObserver.toLazyNullableBinding(this.toObservable())
 
 
 /**
  * Turns a Maybe into a JavaFX Binding. Calling the Binding's dispose() method will handle the disposal.
  */
-fun <T> Maybe<T>.toBinding(actionOp: (ObservableBindingSideEffects<T>.() -> Unit)? = null): Binding<T> {
+fun <T: Any> Maybe<T>.toBinding(actionOp: (ObservableBindingSideEffects<T>.() -> Unit)? = null): Binding<T> {
     val transformer = actionOp?.let {
         val sideEffects = ObservableBindingSideEffects<T>()
         it.invoke(sideEffects)
@@ -164,24 +164,24 @@ fun <T> Maybe<T>.toBinding(actionOp: (ObservableBindingSideEffects<T>.() -> Unit
 /**
  * Turns a Maybe into a lazy JavaFX Binding, by lazy meaning it will delay subscription until `getValue()` is requested. Calling the Binding's dispose() method will handle the unsubscription.
  */
-fun <T> Maybe<T>.toLazyBinding() = JavaFxObserver.toLazyBinding(this.toObservable())
+fun <T: Any> Maybe<T>.toLazyBinding() = JavaFxObserver.toLazyBinding(this.toObservable())
 
 /**
  * Turns a `Maybe<Optional<T>>` into a lazy JavaFX Binding that automatically unwraps the Optional to a nullable value, by lazy meaning it will delay subscription until `getValue()` is requested. Calling the Binding's dispose() method will handle the unsubscription.
  */
-fun <T> Maybe<Optional<T>>.toLazyNullableBinding() = JavaFxObserver.toLazyNullableBinding(this.toObservable())
+fun <T: Any> Maybe<Optional<T>>.toLazyNullableBinding() = JavaFxObserver.toLazyNullableBinding(this.toObservable())
 
 
 
 /**
  * Turns an Observable into a lazy JavaFX Binding, by lazy meaning it will delay subscription until `getValue()` is requested. Calling the Binding's dispose() method will handle the unsubscription.
  */
-fun <T> Observable<T>.toLazyBinding(errorHandler: (Throwable) -> Unit) = JavaFxObserver.toLazyBinding(this,errorHandler)
+fun <T: Any> Observable<T>.toLazyBinding(errorHandler: (Throwable) -> Unit) = JavaFxObserver.toLazyBinding(this,errorHandler)
 
 /**
  * Turns a Flowable into a lazy JavaFX Binding, by lazy meaning it will delay subscription until `getValue()` is requested. Calling the Binding's dispose() method will handle the unsubscription.
  */
-fun <T> Flowable<T>.toLazyBinding(errorHandler: (Throwable) -> Unit) = JavaFxSubscriber.toLazyBinding(this,errorHandler)
+fun <T: Any> Flowable<T>.toLazyBinding(errorHandler: (Throwable) -> Unit) = JavaFxSubscriber.toLazyBinding(this,errorHandler)
 
 
 /**
@@ -189,7 +189,7 @@ fun <T> Flowable<T>.toLazyBinding(errorHandler: (Throwable) -> Unit) = JavaFxSub
  * @param <T>          the type of the observed value
  * @return an Observable emitting values as the wrapped ObservableValue changes
  */
-fun <T> ObservableValue<T>.toObservable() = JavaFxObservable.valuesOf(this)
+fun <T: Any> ObservableValue<T>.toObservable() = JavaFxObservable.valuesOf(this)
 
 /**
  * Create an rx Observable from a javafx ObservableValue
@@ -197,7 +197,7 @@ fun <T> ObservableValue<T>.toObservable() = JavaFxObservable.valuesOf(this)
  * @param nullSentinel the default sentinel value emitted when the observable is null
  * @return an Observable emitting values as the wrapped ObservableValue changes
  */
-fun <T> ObservableValue<T>.toObservable(nullSentinel: T) = JavaFxObservable.valuesOf(this, nullSentinel)
+fun <T: Any> ObservableValue<T>.toObservable(nullSentinel: T) = JavaFxObservable.valuesOf(this, nullSentinel)
 
 
 /**
@@ -205,7 +205,7 @@ fun <T> ObservableValue<T>.toObservable(nullSentinel: T) = JavaFxObservable.valu
  * @param <T>          the type of the observed value
  * @return an Observable emitting `Optional<T>` values as the wrapped ObservableValue changes
  */
-fun <T> ObservableValue<T>.toNullableObservable() = JavaFxObservable.nullableValuesOf(this)
+fun <T: Any> ObservableValue<T>.toNullableObservable() = JavaFxObservable.nullableValuesOf(this)
 
 /**
  * Create an rx Observable from a javafx Observable, emitting it when an invalidation occursk
@@ -218,14 +218,14 @@ fun javafx.beans.Observable.invalidations() = JavaFxObservable.invalidationsOf(t
  * @param <T>          the type of the observed value
  * @return an Observable emitting values as the wrapped ObservableValue changes
  */
-fun <T> ObservableValue<T>.toObservableChanges() = JavaFxObservable.changesOf(this)
+fun <T: Any> ObservableValue<T>.toObservableChanges() = JavaFxObservable.changesOf(this)
 
 /**
  * Create an rx Observable from a javafx ObservableValue, and emits changes with old and new non-null value pairs
  * @param <T>          the type of the observed value
  * @return an Observable emitting non-null values as the wrapped ObservableValue changes
  */
-fun <T> ObservableValue<T>.toObservableChangesNonNull() = JavaFxObservable.nonNullChangesOf(this)
+fun <T: Any> ObservableValue<T>.toObservableChangesNonNull() = JavaFxObservable.nonNullChangesOf(this)
 
 
 /**
@@ -271,18 +271,18 @@ fun <T: WindowEvent> Window.events(eventType: EventType<T>) = JavaFxObservable.e
  * Creates an observable that emits an ObservableList every time it is modified
  * @return An Observable emitting the ObservableList each time it changes
  */
-fun <T> ObservableList<T>.onChangedObservable() = JavaFxObservable.emitOnChanged(this)
+fun <T: Any> ObservableList<T>.onChangedObservable() = JavaFxObservable.emitOnChanged(this)
 
 /**
  * Creates an observable that emits all removal items from an ObservableList
  * @return An Observable emitting items removed from the ObservableList
  */
-fun <T> ObservableList<T>.removals() = JavaFxObservable.removalsOf(this)
+fun <T: Any> ObservableList<T>.removals() = JavaFxObservable.removalsOf(this)
 /**
  * Creates an observable that emits all additions to an ObservableList
  * @return An Observable emitting items added to the ObservableList
  */
-fun <T> ObservableList<T>.additions() = JavaFxObservable.additionsOf(this)
+fun <T: Any> ObservableList<T>.additions() = JavaFxObservable.additionsOf(this)
 /**
  * Creates an observable that emits all updated items from an ObservableList.
  * If you declare an ObservableList that listens to one or more properties of each element,
@@ -290,12 +290,12 @@ fun <T> ObservableList<T>.additions() = JavaFxObservable.additionsOf(this)
  * <pre>ObservableList<Person> sourceList = FXCollections.observableArrayList(user -> new javafx.beans.Observable[]{user.age} );</pre>
  * @return An Observable emitting items updated in the ObservableList
  */
-fun <T> ObservableList<T>.updates() = JavaFxObservable.updatesOf(this)
+fun <T: Any> ObservableList<T>.updates() = JavaFxObservable.updatesOf(this)
 /**
  * Emits all added, removed, and updated items from an ObservableList
  * @return An Observable emitting changed items with an ADDED, REMOVED, or UPDATED flags
  */
-fun <T> ObservableList<T>.changes() = JavaFxObservable.changesOf(this)
+fun <T: Any> ObservableList<T>.changes() = JavaFxObservable.changesOf(this)
 
 /**
  * Emits distinctly  added and removed items from an ObservableList.
@@ -303,7 +303,7 @@ fun <T> ObservableList<T>.changes() = JavaFxObservable.changesOf(this)
  * When the last dupe is removed, only then will it fire a REMOVED item.
  * @return An Observable emitting changed items with an ADDED, REMOVED, or UPDATED flags
  */
-fun <T> ObservableList<T>.distinctChanges() = JavaFxObservable.distinctChangesOf(this)
+fun <T: Any> ObservableList<T>.distinctChanges() = JavaFxObservable.distinctChangesOf(this)
 /**
  * Emits distinctly added and removed items item from an ObservableList.
  * If dupe mapped R items with identical hashcode/equals evaluations are added to an ObservableList, only the first one will fire an ADDED T item.
@@ -345,26 +345,26 @@ fun <K,T> ObservableMap<K, T>.changes() = JavaFxObservable.changesOf(this)
  * Creates an observable that emits an ObservableSet every time it is modified
  * @return An Observable emitting the ObservableSet each time it changes
  */
-fun <T> ObservableSet<T>.onChangedObservable() = JavaFxObservable.emitOnChanged(this)
+fun <T: Any> ObservableSet<T>.onChangedObservable() = JavaFxObservable.emitOnChanged(this)
 
 /**
  * Creates an observable that emits all removal items from an ObservableSet
  * @return An Observable emitting items removed from the ObservableSet
  */
-fun <T> ObservableSet<T>.removals() = JavaFxObservable.removalsOf(this)
+fun <T: Any> ObservableSet<T>.removals() = JavaFxObservable.removalsOf(this)
 /**
  * Creates an observable that emits all additions to an ObservableSet
  * @return An Observable emitting items added to the ObservableSet
  */
-fun <T> ObservableSet<T>.additions() = JavaFxObservable.additionsOf(this)
+fun <T: Any> ObservableSet<T>.additions() = JavaFxObservable.additionsOf(this)
 /**
  * Emits all added, removed, and updated items from an ObservableSet
  * @return An Observable emitting changed items with an ADDED, REMOVED, or UPDATED flags
  */
-fun <T> ObservableSet<SetChange<T>>.changes() = JavaFxObservable.changesOf(this)
+fun <T: Any> ObservableSet<SetChange<T>>.changes() = JavaFxObservable.changesOf(this)
 
 
 /**
  * Emits the response `T` for a given `Dialog<T>`. If no response is provided the Maybe  will be empty.
  */
-fun <T> Dialog<T>.toMaybe() = JavaFxObservable.fromDialog(this)!!
+fun <T: Any> Dialog<T>.toMaybe() = JavaFxObservable.fromDialog(this)!!
