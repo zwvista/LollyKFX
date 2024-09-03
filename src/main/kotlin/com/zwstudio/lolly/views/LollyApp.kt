@@ -69,3 +69,7 @@ class LollyApp: App(MainView::class, Styles::class) {
         stage.isMaximized = true
     }
 }
+
+fun main(args: Array<String>) {
+    launch<LollyApp>(args)
+}

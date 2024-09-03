@@ -53,6 +53,7 @@ dependencies {
     implementation "com.squareup.retrofit2:converter-gson:$retrofit_version"
     implementation "com.squareup.retrofit2:converter-scalars:$retrofit_version"
     implementation 'org.hildan.fxgson:fx-gson:5.0.0'
+    implementation 'com.google.cloud:google-cloud-texttospeech:2.47.0'
 
     testImplementation "org.junit.jupiter:junit-jupiter-api:$junit_version"
     testRuntimeOnly "org.junit.jupiter:junit-jupiter-engine:$junit_version"

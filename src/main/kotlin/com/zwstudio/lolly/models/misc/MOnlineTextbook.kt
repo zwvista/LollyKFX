@@ -1,32 +1,26 @@
 package com.zwstudio.lolly.models.misc
 
-// Generated 2014-10-4 23:22:52 by Hibernate Tools 4.3.1
-
 import com.google.gson.annotations.SerializedName
 import java.io.Serializable
 
-class MWebTextbooks {
-
+data class MOnlineTextbooks(
     @SerializedName("records")
-    var lst: List<MWebTextbook>? = null
-}
+    var lst: List<MOnlineTextbook>? = null
+)
 
-class MWebTextbook: Serializable {
-
+class MOnlineTextbook(
     @SerializedName("ID")
-    var id = 0
+    var id: Int = 0,
     @SerializedName("LANGID")
-    var langid = 0
+    var langid: Int = 0,
     @SerializedName("TEXTBOOKID")
-    var textbookid = 0
+    var textbookid: Int = 0,
     @SerializedName("TEXTBOOKNAME")
-    var textbookname = ""
+    var textbookname: String = "",
     @SerializedName("UNIT")
-    var unit = 0
-    @SerializedName("WEBPAGEID")
-    var webpageid = 0
+    var unit: Int = 0,
     @SerializedName("TITLE")
-    var title = ""
+    var title: String = "",
     @SerializedName("URL")
-    var url = ""
-}
+    var url: String = "",
+) : Serializable

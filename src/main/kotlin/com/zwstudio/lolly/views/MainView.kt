@@ -13,7 +13,7 @@ import com.zwstudio.lolly.views.phrases.PhrasesReviewView
 import com.zwstudio.lolly.views.phrases.PhrasesTextbookView
 import com.zwstudio.lolly.views.phrases.PhrasesUnitView
 import com.zwstudio.lolly.views.textbooks.TextbooksView
-import com.zwstudio.lolly.views.textbooks.WebTextbooksView
+import com.zwstudio.lolly.views.textbooks.OnlineTextbooksView
 import com.zwstudio.lolly.views.words.*
 import javafx.application.Platform
 import javafx.scene.control.TabPane
@@ -80,8 +80,8 @@ class MainView : View("Lolly TornadoFX") {
                 item("Textbooks").action {
                     AddTab<TextbooksView>()
                 }
-                item("WebTextbooks").action {
-                    AddTab<WebTextbooksView>()
+                item("OnlineTextbooks").action {
+                    AddTab<OnlineTextbooksView>()
                 }
                 item("Dictionaries").action {
                     AddTab<DictsView>()
