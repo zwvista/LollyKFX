@@ -1,6 +1,6 @@
 package com.zwstudio.lolly.viewmodels.misc
 
-import com.zwstudio.lolly.services.misc.BlogService
+import com.zwstudio.lolly.services.blogs.BlogService
 import javafx.beans.property.SimpleStringProperty
 
 class BlogViewModel : BaseViewModel() {

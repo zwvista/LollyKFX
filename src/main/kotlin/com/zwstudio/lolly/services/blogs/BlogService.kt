@@ -1,6 +1,8 @@
-package com.zwstudio.lolly.services.misc
+package com.zwstudio.lolly.services.blogs
 
+import com.zwstudio.lolly.services.misc.BaseService
 import com.zwstudio.lolly.viewmodels.misc.SettingsViewModel
+import io.reactivex.rxjava3.disposables.CompositeDisposable
 
 class BlogService: BaseService() {
     private fun html1With(s: String) =
@@ -108,7 +110,7 @@ class BlogService: BaseService() {
     fun getPatternUrl(patternNo: String) = "http://viethuong.web.fc2.com/MONDAI/$patternNo.html"
     fun getPatternMarkDown(patternText: String) = "* [$patternText　文法](https://www.google.com/search?q=$patternText　文法)\n* [$patternText　句型](https://www.google.com/search?q=$patternText　句型)"
     private val bigDigits = "０１２３４５６７８９"
-    fun addNotes(vmSettings: SettingsViewModel, text: String, allComplete: (String) -> Unit) {
+    fun addNotes(vmSettings: SettingsViewModel, text: String, compositeDisposable: CompositeDisposable, allComplete: (String) -> Unit) {
         fun f(s: String): String {
             var s = s
             for (i in 0 until 10)
@@ -127,13 +129,13 @@ class BlogService: BaseService() {
             val word = m.groupValues[2]
             val s3 = m.groupValues[3]
             val s4 = m.groupValues[4]
-            vmSettings.getNote(word).subscribe { note ->
+            compositeDisposable.add(vmSettings.getNote(word).subscribe { note ->
                 val j = note.indexOfFirst { it.isDigit() }
                 val s21 = if (j == -1) note else note.substring(0, j)
                 val s22 = if (j == -1) "" else f(note.substring(j))
                 val s2 = word + (if (s21 == word || s21.isEmpty()) "" else "（$s21）") + s22
                 items[i] = "$s1 $s2：$s3：$s4"
-            }
+            })
         }) { allComplete(items.joinToString("\n")) }
     }
 }
