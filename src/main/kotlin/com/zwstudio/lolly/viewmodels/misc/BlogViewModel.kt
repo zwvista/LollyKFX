@@ -1,6 +1,7 @@
 package com.zwstudio.lolly.viewmodels.misc
 
 import com.zwstudio.lolly.services.blogs.BlogService
+import io.reactivex.rxjava3.disposables.CompositeDisposable
 import javafx.beans.property.SimpleStringProperty
 
 class BlogViewModel : BaseViewModel() {
@@ -12,6 +13,7 @@ class BlogViewModel : BaseViewModel() {
     val patternText = SimpleStringProperty()
     val patterUrl get() = blogService.getPatternUrl(patternNo.value)
     val patternMarkDown get() = blogService.getPatternMarkDown((patternText.value))
+    private val compositeDisposable = CompositeDisposable()
 
     init {
     }
@@ -29,5 +31,5 @@ class BlogViewModel : BaseViewModel() {
         val str = toHtml(htmlText.value)
         return str
     }
-    fun addNotes() = blogService.addNotes(vmSettings, markedText.value) { markedText.value = it }
+    fun addNotes() = blogService.addNotes(vmSettings, markedText.value, compositeDisposable) { markedText.value = it }
 }
