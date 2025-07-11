@@ -1,18 +1,22 @@
-package com.zwstudio.lolly.models.misc
+package com.zwstudio.lolly.models.blogs
 
 import com.google.gson.annotations.Expose
 import com.google.gson.annotations.SerializedName
 import java.io.Serializable
 
-data class MLanguages(
+data class MLangBlogGroups(
     @SerializedName("records")
-    var lst: List<MLanguage> = emptyList()
+    var lst: List<MLangBlogGroup> = emptyList()
 )
 
-data class MLanguage(
+data class MLangBlogGroup(
     @Expose(serialize = false, deserialize = true)
     @SerializedName("ID")
     var id: Int = 0,
+    @SerializedName("LANGID")
+    var langid: Int = 0,
     @SerializedName("NAME")
-    var langname: String = "",
-) : Serializable
+    var groupname: String = ""
+) : Serializable {
+    @Transient var gpid = 0
+}

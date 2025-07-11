@@ -2,57 +2,57 @@ package com.zwstudio.lolly.models.misc
 
 // Generated 2014-10-12 21:44:14 by Hibernate Tools 4.3.1
 
+import com.google.gson.annotations.Expose
 import com.google.gson.annotations.SerializedName
 import com.zwstudio.lolly.viewmodels.misc.applyTemplate
 import com.zwstudio.lolly.viewmodels.misc.extractTextFrom
 import java.io.Serializable
 import java.net.URLEncoder
 
-class MDictionaries {
-
+data class MDictionaries(
     @SerializedName("records")
-    var lst: List<MDictionary>? = null
-}
+    var lst: List<MDictionary> = emptyList()
+)
 
-class MDictionary: Serializable {
-
+data class MDictionary(
+    @Expose(serialize = false, deserialize = true)
     @SerializedName("ID")
-    var id = 0
+    var id: Int = 0,
     @SerializedName("DICTID")
-    var dictid = 0
+    var dictid: Int = 0,
     @SerializedName("LANGIDFROM")
-    var langidfrom = 0
+    var langidfrom: Int = 0,
     @SerializedName("LANGNAMEFROM")
-    var langnamefrom = ""
+    var langnamefrom: String = "",
     @SerializedName("LANGIDTO")
-    var langidto = 0
+    var langidto: Int = 0,
     @SerializedName("LANGNAMETO")
-    var langnameto = ""
+    var langnameto: String = "",
     @SerializedName("SEQNUM")
-    var seqnum = 0
+    var seqnum: Int = 0,
     @SerializedName("DICTTYPECODE")
-    var dicttypecode = 0
+    var dicttypecode: Int = 0,
     @SerializedName("DICTTYPENAME")
-    var dicttypename = ""
+    var dicttypename: String = "",
     @SerializedName("NAME")
-    var dictname = ""
+    var dictname: String = "",
     @SerializedName("URL")
-    var url = ""
+    var url: String = "",
     @SerializedName("CHCONV")
-    var chconv = ""
+    var chconv: String = "",
     @SerializedName("SITEID")
-    var siteid = 0
+    var siteid: Int = 0,
     @SerializedName("AUTOMATION")
-    var automation = ""
+    var automation: String = "",
     @SerializedName("TRANSFORM")
-    var transform = ""
+    var transform: String = "",
     @SerializedName("WAIT")
-    var wait = 0
+    var wait: Int = 0,
     @SerializedName("TEMPLATE")
-    var template = ""
+    var template: String = "",
     @SerializedName("TEMPLATE2")
-    var template2 = ""
-
+    var template2: String = "",
+) : Serializable {
     var langtoitem: MLanguage? = null
     var dicttypeitem: MCode? = null
 

@@ -1,29 +1,29 @@
 package com.zwstudio.lolly.models.misc
 
+import com.google.gson.annotations.Expose
 import com.google.gson.annotations.SerializedName
 import java.io.Serializable
 
-class MUSMappings {
-
+data class MUSMappings(
     @SerializedName("records")
-    var lst: List<MUSMapping>? = null
-}
+    var lst: List<MUSMapping> = emptyList()
+)
 
-class MUSMapping: Serializable {
-
+data class MUSMapping(
+    @Expose(serialize = false, deserialize = true)
     @SerializedName("ID")
-    var id = 0
+    var id: Int = 0,
     @SerializedName("NAME")
-    var name = ""
+    var name: String = "",
     @SerializedName("KIND")
-    var kind = 0
+    var kind: Int = 0,
     @SerializedName("ENTITYID")
-    var entityid = 0
+    var entityid: Int = 0,
     @SerializedName("VALUEID")
-    var valueid = 0
+    var valueid: Int = 0,
     @SerializedName("LEVEL")
-    var level = 0
-
+    var level: Int = 0,
+) : Serializable {
     companion object Companion {
 
         val NAME_USLANG = "USLANG"

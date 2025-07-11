@@ -2,36 +2,36 @@ package com.zwstudio.lolly.models.wpp
 
 // Generated 2014-10-12 21:44:14 by Hibernate Tools 4.3.1
 
+import com.google.gson.annotations.Expose
 import com.google.gson.annotations.SerializedName
 import javafx.beans.property.SimpleBooleanProperty
 import javafx.beans.property.SimpleStringProperty
 import java.io.Serializable
 
-class MLangWords {
-
+data class MLangWords(
     @SerializedName("records")
-    var lst: List<MLangWord>? = null
-}
+    var lst: List<MLangWord> = emptyList()
+)
 
-class MLangWord: Serializable {
-
+data class MLangWord(
+    @Expose(serialize = false, deserialize = true)
     @SerializedName("ID")
-    var id = 0
+    var id: Int = 0,
     @SerializedName("LANGID")
-    var langid = 0
+    var langid: Int = 0,
     @SerializedName("WORD")
-    val wordProperty = SimpleStringProperty("")
-    var word: String get() = wordProperty.value; set(value) { wordProperty.value = value }
+    val wordProperty: SimpleStringProperty = SimpleStringProperty(""),
     @SerializedName("NOTE")
-    val noteProperty = SimpleStringProperty("")
-    var note: String get() = noteProperty.value; set(value) { noteProperty.value = value }
+    val noteProperty: SimpleStringProperty = SimpleStringProperty(""),
     @SerializedName("FAMIID")
-    var famiid = 0
+    var famiid: Int = 0,
     @SerializedName("CORRECT")
-    var correct = 0
+    var correct: Int = 0,
     @SerializedName("TOTAL")
-    var total = 0
-
+    var total: Int = 0,
+) : Serializable {
+    var word: String get() = wordProperty.value; set(value) { wordProperty.value = value }
+    var note: String get() = noteProperty.value; set(value) { noteProperty.value = value }
     val wordnote: String
         get() = word + (if (note.isEmpty()) "" else "($note)")
     val accuracy: String

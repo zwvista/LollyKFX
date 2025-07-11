@@ -1,30 +1,30 @@
 package com.zwstudio.lolly.models.wpp
 
+import com.google.gson.annotations.Expose
 import com.google.gson.annotations.SerializedName
 import java.io.Serializable
 
-class MPatternWebPages {
-
+data class MPatternWebPages(
     @SerializedName("records")
-    var lst: List<MPatternWebPage>? = null
-}
+    var lst: List<MPatternWebPage> = emptyList()
+)
 
-class MPatternWebPage: Serializable {
-
+data class MPatternWebPage(
+    @Expose(serialize = false, deserialize = true)
     @SerializedName("ID")
-    var id = 0
+    var id: Int = 0,
     @SerializedName("PATTERNID")
-    var patternid = 0
+    var patternid: Int = 0,
     @SerializedName("LANGID")
-    var langid = 0
+    var langid: Int = 0,
     @SerializedName("PATTERN")
-    var pattern = ""
+    var pattern: String = "",
     @SerializedName("WEBPAGEID")
-    var webpageid = 0
+    var webpageid: Int = 0,
     @SerializedName("SEQNUM")
-    var seqnum = 0
+    var seqnum: Int = 0,
     @SerializedName("TITLE")
-    var title = ""
+    var title: String = "",
     @SerializedName("URL")
-    var url = ""
-}
+    var url: String = "",
+) : Serializable

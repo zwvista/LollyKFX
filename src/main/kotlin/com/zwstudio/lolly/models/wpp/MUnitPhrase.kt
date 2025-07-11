@@ -1,5 +1,6 @@
 package com.zwstudio.lolly.models.wpp
 
+import com.google.gson.annotations.Expose
 import com.google.gson.annotations.SerializedName
 import com.zwstudio.lolly.models.misc.MSelectItem
 import com.zwstudio.lolly.models.misc.MTextbook
@@ -7,37 +8,36 @@ import javafx.beans.property.SimpleBooleanProperty
 import javafx.beans.property.SimpleStringProperty
 import java.io.Serializable
 
-class MUnitPhrases {
-
+data class MUnitPhrases(
     @SerializedName("records")
-    var lst: List<MUnitPhrase>? = null
-}
+    var lst: List<MUnitPhrase> = emptyList()
+)
 
-class MUnitPhrase: Serializable {
-
+data class MUnitPhrase(
+    @Expose(serialize = false, deserialize = true)
     @SerializedName("ID")
-    var id = 0
+    var id: Int = 0,
     @SerializedName("LANGID")
-    var langid = 0
+    var langid: Int = 0,
     @SerializedName("TEXTBOOKID")
-    var textbookid = 0
+    var textbookid: Int = 0,
     @SerializedName("TEXTBOOKNAME")
-    var textbookname = ""
+    var textbookname: String = "",
     @SerializedName("UNIT")
-    var unit = 0
+    var unit: Int = 0,
     @SerializedName("PART")
-    var part = 0
+    var part: Int = 0,
     @SerializedName("SEQNUM")
-    var seqnum = 0
+    var seqnum: Int = 0,
     @SerializedName("PHRASEID")
-    var phraseid = 0
+    var phraseid: Int = 0,
     @SerializedName("PHRASE")
-    val phraseProperty = SimpleStringProperty("")
-    var phrase: String get() = phraseProperty.value; set(value) { phraseProperty.value = value }
+    val phraseProperty: SimpleStringProperty = SimpleStringProperty(""),
     @SerializedName("TRANSLATION")
-    val translationProperty = SimpleStringProperty("")
+    val translationProperty: SimpleStringProperty = SimpleStringProperty(""),
+) : Serializable {
+    var phrase: String get() = phraseProperty.value; set(value) { phraseProperty.value = value }
     var translation: String get() = translationProperty.value; set(value) { translationProperty.value = value }
-
     lateinit var textbook: MTextbook
     val unitstr: String
         get() = textbook.unitstr(unit)

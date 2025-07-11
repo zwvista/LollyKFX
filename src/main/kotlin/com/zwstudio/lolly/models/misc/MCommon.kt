@@ -7,13 +7,12 @@ class MSelectItem(val value: Int, val label: String): Serializable {
     override fun toString() = label
 }
 
-class MSPResult: Serializable {
-
+data class MSPResult(
     @SerializedName("NEW_ID")
-    var newid: String? = null
+    var newid: String? = null,
     @SerializedName("result")
-    var result = ""
-}
+    var result: String = "",
+) : Serializable
 
 class MCodes {
 

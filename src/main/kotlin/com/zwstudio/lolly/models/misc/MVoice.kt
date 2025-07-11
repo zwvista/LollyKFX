@@ -1,24 +1,24 @@
 package com.zwstudio.lolly.models.misc
 
+import com.google.gson.annotations.Expose
 import com.google.gson.annotations.SerializedName
 import java.io.Serializable
 
-class MVoices {
-
+data class MVoices(
     @SerializedName("records")
-    var lst: List<MVoice>? = null
-}
+    var lst: List<MVoice> = emptyList()
+)
 
-class MVoice: Serializable {
-
+data class MVoice(
+    @Expose(serialize = false, deserialize = true)
     @SerializedName("ID")
-    var id = 0
+    var id: Int = 0,
     @SerializedName("LANGID")
-    var langid = 0
+    var langid: Int = 0,
     @SerializedName("VOICETYPEID")
-    var voicetypeid = 0
+    var voicetypeid: Int = 0,
     @SerializedName("VOICELANG")
-    var voicelang = ""
+    var voicelang: String = "",
     @SerializedName("VOICENAME")
-    var voicename = ""
-}
+    var voicename: String = "",
+) : Serializable

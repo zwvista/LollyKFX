@@ -1,29 +1,29 @@
 package com.zwstudio.lolly.models.misc
 
+import com.google.gson.annotations.Expose
 import com.google.gson.annotations.SerializedName
 import java.io.Serializable
 
-class MAutoCorrects {
-
+data class MAutoCorrects(
     @SerializedName("records")
-    var lst: List<MAutoCorrect>? = null
-}
+    var lst: List<MAutoCorrect> = emptyList()
+)
 
-class MAutoCorrect: Serializable {
-
+data class MAutoCorrect(
+    @Expose(serialize = false, deserialize = true)
     @SerializedName("ID")
-    var id = 0
+    var id: Int = 0,
     @SerializedName("LANGID")
-    var langid = 0
+    var langid: Int = 0,
     @SerializedName("SEQNUM")
-    var seqnum = 0
+    var seqnum: Int = 0,
     @SerializedName("INPUT")
-    var input = ""
+    var input: String = "",
     @SerializedName("EXTENDED")
-    var extended = ""
+    var extended: String = "",
     @SerializedName("BASIC")
-    var basic = ""
-}
+    var basic: String = "",
+) : Serializable
 
 fun autoCorrect(text: String, lstAutoCorrects: List<MAutoCorrect>,
                 colFunc1: (MAutoCorrect) -> String, colFunc2: (MAutoCorrect) -> String) =
