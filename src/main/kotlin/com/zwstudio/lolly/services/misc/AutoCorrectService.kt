@@ -8,8 +8,9 @@ import tornadofx.Component
 import tornadofx.ScopedInstance
 
 class AutoCorrectService: Component(), ScopedInstance {
+    private val api = retrofitJson.create(RestAutoCorrect::class.java)
+
     fun getDataByLang(langid: Int): Single<List<MAutoCorrect>> =
-        retrofitJson.create(RestAutoCorrect::class.java)
-            .getDataByLang("LANGID,eq,$langid")
+        api.getDataByLang("LANGID,eq,$langid")
             .map { it.lst }
 }

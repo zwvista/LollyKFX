@@ -8,8 +8,9 @@ import tornadofx.Component
 import tornadofx.ScopedInstance
 
 class VoiceService: Component(), ScopedInstance {
+    private val api = retrofitJson.create(RestVoice::class.java)
+
     fun getDataByLang(langid: Int): Single<List<MVoice>> =
-        retrofitJson.create(RestVoice::class.java)
-            .getDataByLang("LANGID,eq,$langid")
+        api.getDataByLang("LANGID,eq,$langid", "VOICETYPEID,eq,4")
             .map { it.lst }
 }

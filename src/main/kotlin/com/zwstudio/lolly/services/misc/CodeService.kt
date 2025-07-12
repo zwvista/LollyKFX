@@ -8,12 +8,12 @@ import tornadofx.Component
 import tornadofx.ScopedInstance
 
 class CodeService: Component(), ScopedInstance {
+    private val api = retrofitJson.create(RestCode::class.java)
+
     fun getDictCodes(): Single<List<MCode>> =
-        retrofitJson.create(RestCode::class.java)
-            .getDictCodes()
+        api.getDictCodes()
             .map { it.lst }
     fun getReadNumberCodes(): Single<List<MCode>> =
-        retrofitJson.create(RestCode::class.java)
-            .getReadNumberCodes()
+        api.getReadNumberCodes()
             .map { it.lst }
 }

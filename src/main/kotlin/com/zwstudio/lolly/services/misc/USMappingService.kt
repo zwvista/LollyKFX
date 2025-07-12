@@ -8,8 +8,9 @@ import tornadofx.Component
 import tornadofx.ScopedInstance
 
 class USMappingService: Component(), ScopedInstance {
+    private val api = retrofitJson.create(RestUSMapping::class.java)
+
     fun getData(): Single<List<MUSMapping>> =
-        retrofitJson.create(RestUSMapping::class.java)
-            .getData()
+        api.getData()
             .map { it.lst }
 }

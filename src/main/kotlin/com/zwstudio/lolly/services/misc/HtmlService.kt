@@ -8,10 +8,10 @@ import tornadofx.Component
 import tornadofx.ScopedInstance
 
 class HtmlService: Component(), ScopedInstance {
+    private val apiHtml = retrofitHtml.create(RestHtml::class.java)
 
     // https://futurestud.io/tutorials/retrofit-2-receive-plain-string-responses
     fun getHtml(url: String): Single<String> =
-        retrofitHtml.create(RestHtml::class.java)
-            .getStringResponse(url)
+        apiHtml.getStringResponse(url)
             .applyIO()
 }

@@ -8,8 +8,9 @@ import tornadofx.Component
 import tornadofx.ScopedInstance
 
 class OnlineTextbookService: Component(), ScopedInstance {
+    private val api = retrofitJson.create(RestOnlineTextbook::class.java)
+
     fun getDataByLang(langid: Int): Single<List<MOnlineTextbook>> =
-        retrofitJson.create(RestOnlineTextbook::class.java)
-            .getDataByLang("LANGID,eq,$langid")
+        api.getDataByLang("LANGID,eq,$langid")
             .map { it.lst }
 }

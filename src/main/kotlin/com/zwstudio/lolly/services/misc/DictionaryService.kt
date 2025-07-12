@@ -1,5 +1,8 @@
 package com.zwstudio.lolly.services.misc
 
+import com.zwstudio.lolly.common.completeDelete
+import com.zwstudio.lolly.common.completeUpdate
+import com.zwstudio.lolly.common.debugCreate
 import com.zwstudio.lolly.common.retrofitJson
 import com.zwstudio.lolly.models.misc.MDictionary
 import com.zwstudio.lolly.restapi.misc.RestDictionary
@@ -9,41 +12,32 @@ import tornadofx.Component
 import tornadofx.ScopedInstance
 
 class DictionaryService: Component(), ScopedInstance {
+    private val api = retrofitJson.create(RestDictionary::class.java)
+
     fun getDictsByLang(langid: Int): Single<List<MDictionary>> =
-        retrofitJson.create(RestDictionary::class.java)
-            .getDictsByLang("LANGIDFROM,eq,$langid")
+        api.getDictsByLang("LANGIDFROM,eq,$langid")
             .map { it.lst }
 
     fun getDictsReferenceByLang(langid: Int): Single<List<MDictionary>> =
-        retrofitJson.create(RestDictionary::class.java)
-            .getDictsReferenceByLang("LANGIDFROM,eq,$langid")
+        api.getDictsReferenceByLang("LANGIDFROM,eq,$langid")
             .map { it.lst }
 
     fun getDictsNoteByLang(langid: Int): Single<List<MDictionary>> =
-        retrofitJson.create(RestDictionary::class.java)
-            .getDictsNoteByLang("LANGIDFROM,eq,$langid")
+        api.getDictsNoteByLang("LANGIDFROM,eq,$langid")
             .map { it.lst }
 
     fun getDictsTranslationByLang(langid: Int): Single<List<MDictionary>> =
-        retrofitJson.create(RestDictionary::class.java)
-            .getDictsTranslationByLang("LANGIDFROM,eq,$langid")
+        api.getDictsTranslationByLang("LANGIDFROM,eq,$langid")
             .map { it.lst }
 
-    fun update(o: MDictionary): Completable =
-        retrofitJson.create(RestDictionary::class.java)
-            .update(o.id, o.langidfrom, o.langidto, o.dictname, o.seqnum, o.dicttypecode, o.url, o.chconv, o.automation, o.template, o.template2)
-            .flatMapCompletable { println(it.toString()); Completable.complete() }
+    fun update(item: MDictionary): Completable =
+        api.update(item.id, item.langidfrom, item.langidto, item.dictname, item.seqnum, item.dicttypecode, item.url, item.chconv, item.automation, item.template, item.template2)
+            .completeUpdate(item.id)
 
-    fun create(o: MDictionary): Single<Int> =
-        retrofitJson.create(RestDictionary::class.java)
-            .create(o.langidfrom, o.langidto, o.dictname, o.seqnum, o.dicttypecode, o.url, o.chconv, o.automation, o.template, o.template2)
-            .map {
-                println(it.toString())
-                it
-            }
+    fun create(item: MDictionary): Single<Int> =
+        api.create(item.langidfrom, item.langidto, item.dictname, item.seqnum, item.dicttypecode, item.url, item.chconv, item.automation, item.template, item.template2)
+            .debugCreate()
 
     fun delete(id: Int): Completable =
-        retrofitJson.create(RestDictionary::class.java)
-            .delete(id)
-            .flatMapCompletable { println(it.toString()); Completable.complete() }
+        api.delete(id).completeDelete()
 }

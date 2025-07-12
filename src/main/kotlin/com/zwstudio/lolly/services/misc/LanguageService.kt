@@ -8,8 +8,9 @@ import tornadofx.Component
 import tornadofx.ScopedInstance
 
 class LanguageService: Component(), ScopedInstance {
+    private val api = retrofitJson.create(RestLanguage::class.java)
+
     fun getData(): Single<List<MLanguage>> =
-        retrofitJson.create(RestLanguage::class.java)
-            .getData()
+        api.getData()
             .map { it.lst }
 }

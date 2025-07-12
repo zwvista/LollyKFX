@@ -1,9 +1,9 @@
 package com.zwstudio.lolly.services.misc
 
-import com.zwstudio.lolly.common.retrofitJson
-import com.zwstudio.lolly.common.retrofitSP
+import com.zwstudio.lolly.common.*
 import com.zwstudio.lolly.models.misc.MSelectItem
 import com.zwstudio.lolly.models.misc.MTextbook
+import com.zwstudio.lolly.restapi.misc.RestOnlineTextbook
 import com.zwstudio.lolly.restapi.misc.RestTextbook
 import io.reactivex.rxjava3.core.Completable
 import io.reactivex.rxjava3.core.Single
@@ -11,6 +11,9 @@ import tornadofx.Component
 import tornadofx.ScopedInstance
 
 class TextbookService: Component(), ScopedInstance {
+    private val api = retrofitJson.create(RestTextbook::class.java)
+    private val apiSP = retrofitSP.create(RestTextbook::class.java)
+
     fun getDataByLang(langid: Int): Single<List<MTextbook>> {
         fun f(units: String): List<String> {
             var m = Regex("UNITS,(\\d+)").find(units)
@@ -30,8 +33,7 @@ class TextbookService: Component(), ScopedInstance {
                 return m.groupValues[1].split(",")
             return listOf()
         }
-        return retrofitJson.create(RestTextbook::class.java)
-            .getDataByLang("LANGID,eq,$langid")
+        return api.getDataByLang("LANGID,eq,$langid")
             .map {
                 val lst = it.lst
                 for (o in lst) {
@@ -43,21 +45,14 @@ class TextbookService: Component(), ScopedInstance {
     }
 
     fun update(o: MTextbook): Completable =
-        retrofitSP.create(RestTextbook::class.java)
-            .update(o.id, o.langid, o.textbookname, o.units, o.parts)
-            .flatMapCompletable { println(it.toString()); Completable.complete() }
+        apiSP.update(o.id, o.langid, o.textbookname, o.units, o.parts)
+            .completeUpdate(o.id)
 
     fun create(o: MTextbook): Single<Int> =
-        retrofitSP.create(RestTextbook::class.java)
-            .create(o.langid, o.textbookname, o.units, o.parts)
-            .map {
-                println(it.toString())
-                it
-            }
+        apiSP.create(o.langid, o.textbookname, o.units, o.parts)
+            .debugCreate()
 
     fun delete(id: Int): Completable =
-        retrofitSP.create(RestTextbook::class.java)
-            .delete(id)
-            .flatMapCompletable { println(it.toString()); Completable.complete() }
+        apiSP.delete(id).completeDelete()
 
 }
