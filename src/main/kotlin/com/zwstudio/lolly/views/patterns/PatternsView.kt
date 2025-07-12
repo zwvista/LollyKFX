@@ -1,10 +1,10 @@
 package com.zwstudio.lolly.views.patterns
 
+import com.zwstudio.lolly.common.copyText
+import com.zwstudio.lolly.common.googleString
 import com.zwstudio.lolly.models.wpp.MPattern
 import com.zwstudio.lolly.models.wpp.MPatternWebPage
 import com.zwstudio.lolly.viewmodels.misc.SettingsViewModel
-import com.zwstudio.lolly.viewmodels.misc.copyText
-import com.zwstudio.lolly.viewmodels.misc.googleString
 import com.zwstudio.lolly.viewmodels.patterns.PatternsViewModel
 import com.zwstudio.lolly.views.ILollySettings
 import javafx.geometry.Orientation

@@ -4,8 +4,8 @@ package com.zwstudio.lolly.models.misc
 
 import com.google.gson.annotations.Expose
 import com.google.gson.annotations.SerializedName
-import com.zwstudio.lolly.viewmodels.misc.applyTemplate
-import com.zwstudio.lolly.viewmodels.misc.extractTextFrom
+import com.zwstudio.lolly.common.applyTemplate
+import com.zwstudio.lolly.common.extractTextFrom
 import java.io.Serializable
 import java.net.URLEncoder
 

@@ -1,5 +1,6 @@
 package com.zwstudio.lolly.viewmodels.misc
 
+import com.zwstudio.lolly.common.extractTextFrom
 import com.zwstudio.lolly.models.misc.*
 import com.zwstudio.lolly.services.misc.*
 import io.reactivex.rxjava3.core.Completable

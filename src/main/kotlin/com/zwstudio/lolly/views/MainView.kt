@@ -1,6 +1,6 @@
 package com.zwstudio.lolly.views
 
-import com.zwstudio.lolly.viewmodels.misc.GlobalUser
+import com.zwstudio.lolly.common.GlobalUser
 import com.zwstudio.lolly.viewmodels.misc.SettingsViewModel
 import com.zwstudio.lolly.views.dicts.DictsView
 import com.zwstudio.lolly.views.misc.BlogView

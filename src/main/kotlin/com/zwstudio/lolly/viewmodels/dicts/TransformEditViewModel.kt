@@ -1,9 +1,9 @@
 package com.zwstudio.lolly.viewmodels.dicts
 
-import com.zwstudio.lolly.viewmodels.misc.applyTemplate
-import com.zwstudio.lolly.viewmodels.misc.doTransform
-import com.zwstudio.lolly.viewmodels.misc.toHtml
-import com.zwstudio.lolly.viewmodels.misc.toTransformItems
+import com.zwstudio.lolly.common.applyTemplate
+import com.zwstudio.lolly.common.doTransform
+import com.zwstudio.lolly.common.toHtml
+import com.zwstudio.lolly.common.toTransformItems
 import io.reactivex.rxjava3.core.Completable
 import javafx.beans.property.SimpleObjectProperty
 import javafx.beans.property.SimpleStringProperty

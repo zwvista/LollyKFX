@@ -1,5 +1,6 @@
 package com.zwstudio.lolly.viewmodels.misc
 
+import com.zwstudio.lolly.common.toHtml
 import com.zwstudio.lolly.services.blogs.BlogService
 import io.reactivex.rxjava3.disposables.CompositeDisposable
 import javafx.beans.property.SimpleStringProperty

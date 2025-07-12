@@ -1,8 +1,8 @@
 package com.zwstudio.lolly.views.words
 
+import com.zwstudio.lolly.common.openPage
 import com.zwstudio.lolly.models.misc.MDictionary
 import com.zwstudio.lolly.viewmodels.misc.SettingsViewModel
-import com.zwstudio.lolly.viewmodels.misc.openPage
 import io.reactivex.rxjava3.kotlin.subscribeBy
 import javafx.concurrent.Worker
 import javafx.scene.control.TextField

@@ -1,9 +1,9 @@
 package com.zwstudio.lolly.services.misc
 
+import com.zwstudio.lolly.common.GlobalUser
 import com.zwstudio.lolly.models.misc.MUserSetting
 import com.zwstudio.lolly.models.misc.MUserSettingInfo
 import com.zwstudio.lolly.restapi.misc.RestUserSetting
-import com.zwstudio.lolly.viewmodels.misc.GlobalUser
 import io.reactivex.rxjava3.core.Completable
 import io.reactivex.rxjava3.core.Single
 

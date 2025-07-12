@@ -1,7 +1,7 @@
 package com.zwstudio.lolly.views.misc
 
+import com.zwstudio.lolly.common.copyText
 import com.zwstudio.lolly.viewmodels.misc.BlogViewModel
-import com.zwstudio.lolly.viewmodels.misc.copyText
 import com.zwstudio.lolly.views.MainView
 import javafx.geometry.Orientation
 import javafx.scene.control.TextArea

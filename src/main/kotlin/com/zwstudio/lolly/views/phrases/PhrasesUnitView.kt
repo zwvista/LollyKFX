@@ -1,9 +1,9 @@
 package com.zwstudio.lolly.views.phrases
 
+import com.zwstudio.lolly.common.copyText
+import com.zwstudio.lolly.common.googleString
 import com.zwstudio.lolly.views.LollyApp
 import com.zwstudio.lolly.viewmodels.misc.SettingsViewModel
-import com.zwstudio.lolly.viewmodels.misc.copyText
-import com.zwstudio.lolly.viewmodels.misc.googleString
 import com.zwstudio.lolly.viewmodels.phrases.PhrasesLinkViewModel
 import com.zwstudio.lolly.viewmodels.phrases.PhrasesUnitBatchViewModel
 import com.zwstudio.lolly.viewmodels.phrases.PhrasesUnitDetailViewModel

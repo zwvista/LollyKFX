@@ -1,7 +1,7 @@
 package com.zwstudio.lolly.views.misc
 
+import com.zwstudio.lolly.common.GlobalUser
 import com.zwstudio.lolly.views.LollyApp
-import com.zwstudio.lolly.viewmodels.misc.GlobalUser
 import com.zwstudio.lolly.viewmodels.misc.LoginViewModel
 import io.reactivex.rxjava3.kotlin.subscribeBy
 import javafx.geometry.Pos
