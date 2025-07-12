@@ -9,5 +9,5 @@ class UserService {
     fun getData(username: String, password: String): Single<List<MUser>> =
         retrofitJson.create(RestUser::class.java)
             .getData("USERNAME,eq,$username", "PASSWORD,eq,$password")
-            .map { it.lst!! }
+            .map { it.lst }
 }

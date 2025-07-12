@@ -8,5 +8,5 @@ class OnlineTextbookService: BaseService() {
     fun getDataByLang(langid: Int): Single<List<MOnlineTextbook>> =
         retrofitJson.create(RestOnlineTextbook::class.java)
             .getDataByLang("LANGID,eq,$langid")
-            .map { it.lst!! }
+            .map { it.lst }
 }

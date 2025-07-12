@@ -8,5 +8,5 @@ class LanguageService: BaseService() {
     fun getData(): Single<List<MLanguage>> =
         retrofitJson.create(RestLanguage::class.java)
             .getData()
-            .map { it.lst!!}
+            .map { it.lst }
 }

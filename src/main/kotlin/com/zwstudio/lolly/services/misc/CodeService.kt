@@ -8,9 +8,9 @@ class CodeService: BaseService() {
     fun getDictCodes(): Single<List<MCode>> =
         retrofitJson.create(RestCode::class.java)
             .getDictCodes()
-            .map { it.lst!!}
+            .map { it.lst }
     fun getReadNumberCodes(): Single<List<MCode>> =
         retrofitJson.create(RestCode::class.java)
             .getReadNumberCodes()
-            .map { it.lst!!}
+            .map { it.lst }
 }

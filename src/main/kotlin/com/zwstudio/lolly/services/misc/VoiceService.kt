@@ -8,5 +8,5 @@ class VoiceService: BaseService() {
     fun getDataByLang(langid: Int): Single<List<MVoice>> =
         retrofitJson.create(RestVoice::class.java)
             .getDataByLang("LANGID,eq,$langid")
-            .map { it.lst!! }
+            .map { it.lst }
 }

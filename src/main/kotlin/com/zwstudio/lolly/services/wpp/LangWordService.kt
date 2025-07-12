@@ -1,5 +1,8 @@
 package com.zwstudio.lolly.services.wpp
 
+import com.zwstudio.lolly.common.completeDeleteResult
+import com.zwstudio.lolly.common.completeUpdate
+import com.zwstudio.lolly.common.debugCreate
 import com.zwstudio.lolly.models.wpp.MLangWord
 import com.zwstudio.lolly.restapi.wpp.RestLangWord
 import com.zwstudio.lolly.services.misc.BaseService
@@ -7,28 +10,23 @@ import io.reactivex.rxjava3.core.Completable
 import io.reactivex.rxjava3.core.Single
 
 class LangWordService: BaseService() {
+    private val api = retrofitJson.create(RestLangWord::class.java)
+    private val apiSP = retrofitSP.create(RestLangWord::class.java)
+
     fun getDataByLang(langid: Int): Single<List<MLangWord>> =
-        retrofitJson.create(RestLangWord::class.java)
-            .getDataByLang("LANGID,eq,$langid")
-            .map { it.lst!! }
+        api.getDataByLang("LANGID,eq,$langid")
+            .map { it.lst }
 
-    fun updateNote(id: Int, note: String): Completable =
-        retrofitJson.create(RestLangWord::class.java)
-            .updateNote(id, note)
-            .flatMapCompletable { println(it.toString()); Completable.complete() }
+    fun updateNote(id: Int, note: String?): Completable =
+        api.updateNote(id, note).completeUpdate(id)
 
-    fun update(id: Int, langid: Int, word: String, note: String): Completable =
-        retrofitJson.create(RestLangWord::class.java)
-            .update(id, langid, word, note)
-            .flatMapCompletable { println(it.toString()); Completable.complete() }
+    fun update(item: MLangWord): Completable =
+        api.update(item.id, item).completeUpdate(item.id)
 
-    fun create(langid: Int, word: String, note: String): Single<Int> =
-        retrofitJson.create(RestLangWord::class.java)
-            .create(langid, word, note)
-            .doAfterSuccess { println(it.toString()) }
+    fun create(item: MLangWord): Single<Int> =
+        api.create(item).debugCreate()
 
-    fun delete(o: MLangWord): Completable =
-        retrofitJson.create(RestLangWord::class.java)
-            .delete(o.id, o.langid, o.word, o.note, o.famiid, o.correct, o.total)
-            .flatMapCompletable { println(it.toString()); Completable.complete() }
+    fun delete(item: MLangWord): Completable =
+        apiSP.delete(item.id, item.langid, item.word, item.note, item.famiid, item.correct, item.total)
+            .completeDeleteResult()
 }

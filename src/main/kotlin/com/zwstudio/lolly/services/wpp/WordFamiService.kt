@@ -1,5 +1,8 @@
 package com.zwstudio.lolly.services.wpp
 
+import com.zwstudio.lolly.common.completeDelete
+import com.zwstudio.lolly.common.completeUpdate
+import com.zwstudio.lolly.common.debugCreate
 import com.zwstudio.lolly.models.wpp.MWordFami
 import com.zwstudio.lolly.restapi.wpp.RestWordFami
 import com.zwstudio.lolly.services.misc.BaseService
@@ -8,25 +11,20 @@ import io.reactivex.rxjava3.core.Completable
 import io.reactivex.rxjava3.core.Single
 
 class WordFamiService: BaseService() {
+    private val api = retrofitJson.create(RestWordFami::class.java)
+
     private fun getDataByWord(wordid: Int): Single<List<MWordFami>> =
-        retrofitJson.create(RestWordFami::class.java)
-            .getDataByUserWord("USERID,eq,${GlobalUser.userid}", "WORDID,eq,$wordid")
-            .map { it.lst!! }
+        api.getDataByUserWord("USERID,eq,${GlobalUser.userid}", "WORDID,eq,$wordid")
+            .map { it.lst }
 
-    private fun update(o: MWordFami): Completable =
-        retrofitJson.create(RestWordFami::class.java)
-            .update(o.id, o.userid, o.wordid, o.correct, o.total)
-            .flatMapCompletable { println(it.toString()); Completable.complete() }
+    private fun update(item: MWordFami): Completable =
+        api.update(item.id, item).completeUpdate(item.id)
 
-    private fun create(o: MWordFami): Single<Int> =
-        retrofitJson.create(RestWordFami::class.java)
-            .create(o.userid, o.wordid, o.correct, o.total)
-            .doAfterSuccess { println(it.toString()) }
+    private fun create(item: MWordFami): Single<Int> =
+        api.create(item).debugCreate()
 
     fun delete(id: Int): Completable =
-        retrofitJson.create(RestWordFami::class.java)
-            .delete(id)
-            .flatMapCompletable { println(it.toString()); Completable.complete() }
+        api.delete(id).completeDelete()
 
     fun update(wordid: Int, isCorrect: Boolean): Single<MWordFami> =
         getDataByWord(wordid).flatMap { lst ->
@@ -44,10 +42,10 @@ class WordFamiService: BaseService() {
                 }
             }
             else {
-                val o = lst[0]
-                item.id = o.id
-                item.correct = o.correct + d
-                item.total = o.total + 1
+                val item2 = lst[0]
+                item.id = item2.id
+                item.correct = item2.correct + d
+                item.total = item2.total + 1
                 update(item).toSingle {
                     item
                 }

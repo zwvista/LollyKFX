@@ -12,17 +12,17 @@ class WordPhraseService: BaseService() {
     fun getDataByWordPhrase(wordid: Int, phraseid: Int): Single<List<MWordPhrase>> =
         retrofitJson.create(RestWordPhrase::class.java)
             .getDataByWordPhrase("WORDID,eq,$wordid", "PHRASEID,eq,$phraseid")
-            .map { it.lst!! }
+            .map { it.lst }
 
     fun getPhrasesByWordId(wordid: Int): Single<List<MLangPhrase>> =
         retrofitJson.create(RestWordPhrase::class.java)
             .getPhrasesByWordId("WORDID,eq,$wordid")
-            .map { it.lst!! }
+            .map { it.lst }
 
     fun getWordsByPhraseId(phraseid: Int): Single<List<MLangWord>> =
         retrofitJson.create(RestWordPhrase::class.java)
             .getWordsByPhraseId("PHRASEID,eq,$phraseid")
-            .map { it.lst!! }
+            .map { it.lst }
 
     fun create(wordid: Int, phraseid: Int): Single<Int> =
         retrofitJson.create(RestWordPhrase::class.java)

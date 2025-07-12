@@ -29,7 +29,7 @@ class TextbookService: BaseService() {
         return retrofitJson.create(RestTextbook::class.java)
             .getDataByLang("LANGID,eq,$langid")
             .map {
-                val lst = it.lst!!
+                val lst = it.lst
                 for (o in lst) {
                     o.lstUnits = f(o.units).mapIndexed { index, s -> MSelectItem(index + 1, s) }
                     o.lstParts = o.parts.split(",").mapIndexed { index, s -> MSelectItem(index + 1, s) }

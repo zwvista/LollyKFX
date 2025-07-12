@@ -11,7 +11,7 @@ class UserSettingService: BaseService() {
     fun getData(): Single<List<MUserSetting>> =
         retrofitJson.create(RestUserSetting::class.java)
             .getDataByUser("USERID,eq,${GlobalUser.userid}")
-            .map { it.lst!! }
+            .map { it.lst }
 
     fun update(info: MUserSettingInfo, v: Int): Completable =
         update(info, v.toString())

@@ -1,5 +1,9 @@
 package com.zwstudio.lolly.services.wpp
 
+import com.zwstudio.lolly.common.completeDeleteResult
+import com.zwstudio.lolly.common.completeUpdate
+import com.zwstudio.lolly.common.completeUpdateResult
+import com.zwstudio.lolly.common.debugCreateResult
 import com.zwstudio.lolly.models.misc.MTextbook
 import com.zwstudio.lolly.models.wpp.MUnitWord
 import com.zwstudio.lolly.restapi.wpp.RestUnitWord
@@ -8,67 +12,60 @@ import io.reactivex.rxjava3.core.Completable
 import io.reactivex.rxjava3.core.Single
 
 class UnitWordService: BaseService() {
+    private val api = retrofitJson.create(RestUnitWord::class.java)
+    private val apiSP = retrofitSP.create(RestUnitWord::class.java)
+
     fun getDataByTextbookUnitPart(textbook: MTextbook, unitPartFrom: Int, unitPartTo: Int): Single<List<MUnitWord>> =
-        retrofitJson.create(RestUnitWord::class.java)
-            .getDataByTextbookUnitPart("TEXTBOOKID,eq,${textbook.id}",
-                "UNITPART,bt,$unitPartFrom,$unitPartTo")
+        api.getDataByTextbookUnitPart("TEXTBOOKID,eq,${textbook.id}",
+            "UNITPART,bt,$unitPartFrom,$unitPartTo")
             .map {
-                val lst = it.lst!!
+                val lst = it.lst
                 for (o in lst)
                     o.textbook = textbook
                 lst
             }
 
     fun getDataByTextbook(textbook: MTextbook): Single<List<MUnitWord>> =
-        retrofitJson.create(RestUnitWord::class.java)
-            .getDataByTextbook("TEXTBOOKID,eq,${textbook.id}")
+        api.getDataByTextbook("TEXTBOOKID,eq,${textbook.id}")
             .map {
-                val lst = it.lst!!.distinctBy { it.wordid }
+                val lst = it.lst.distinctBy { it.wordid }
                 for (o in lst)
                     o.textbook = textbook
                 lst
             }
 
     fun getDataByLang(langid: Int, lstTextbooks: List<MTextbook>): Single<List<MUnitWord>> =
-        retrofitJson.create(RestUnitWord::class.java)
-            .getDataByLang("LANGID,eq,$langid")
+        api.getDataByLang("LANGID,eq,$langid")
             .map {
-                val lst = it.lst!!
+                val lst = it.lst
+
                 for (o in lst)
                     o.textbook = lstTextbooks.first { it.id == o.textbookid }
                 lst
             }
 
     fun getDataByLangWord(langid: Int, word: String, lstTextbooks: List<MTextbook>): Single<List<MUnitWord>> =
-        retrofitJson.create(RestUnitWord::class.java)
-            .getDataByLangWord("LANGID,eq,$langid", "WORD,eq,$word")
+        api.getDataByLangWord("LANGID,eq,$langid", "WORD,eq,$word")
             .map {
-                val lst = it.lst!!
+                val lst = it.lst
+
                 for (o in lst)
                     o.textbook = lstTextbooks.first { it.id == o.textbookid }
                 lst
             }
 
     fun updateSeqNum(id: Int, seqnum: Int): Completable =
-        retrofitJson.create(RestUnitWord::class.java)
-            .updateSeqNum(id, seqnum)
-            .flatMapCompletable { println(it.toString()); Completable.complete() }
+        api.updateSeqNum(id, seqnum).completeUpdate(id)
 
-    fun update(o: MUnitWord): Completable =
-        retrofitSP.create(RestUnitWord::class.java)
-            .update(o.id, o.langid, o.textbookid, o.unit, o.part, o.seqnum, o.wordid, o.word, o.note, o.famiid, o.correct, o.total)
-            .flatMapCompletable { println(it.toString()); Completable.complete() }
+    fun update(item: MUnitWord): Completable =
+        apiSP.update(item.id, item.langid, item.textbookid, item.unit, item.part, item.seqnum, item.wordid, item.word, item.note, item.famiid, item.correct, item.total)
+            .completeUpdateResult(item.id)
 
-    fun create(o: MUnitWord): Single<Int> =
-        retrofitSP.create(RestUnitWord::class.java)
-            .create(o.id, o.langid, o.textbookid, o.unit, o.part, o.seqnum, o.wordid, o.word, o.note, o.famiid, o.correct, o.total)
-            .map {
-                println(it.toString())
-                it[0][0].newid!!.toInt()
-            }
+    fun create(item: MUnitWord): Single<Int> =
+        apiSP.create(item.id, item.langid, item.textbookid, item.unit, item.part, item.seqnum, item.wordid, item.word, item.note, item.famiid, item.correct, item.total)
+            .debugCreateResult()
 
-    fun delete(o: MUnitWord): Completable =
-        retrofitSP.create(RestUnitWord::class.java)
-            .delete(o.id, o.langid, o.textbookid, o.unit, o.part, o.seqnum, o.wordid, o.word, o.note, o.famiid, o.correct, o.total)
-            .flatMapCompletable { println(it.toString()); Completable.complete() }
+    fun delete(item: MUnitWord): Completable =
+        apiSP.delete(item.id, item.langid, item.textbookid, item.unit, item.part, item.seqnum, item.wordid, item.word, item.note, item.famiid, item.correct, item.total)
+            .completeDeleteResult()
 }

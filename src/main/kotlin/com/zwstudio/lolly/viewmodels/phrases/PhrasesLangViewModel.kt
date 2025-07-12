@@ -30,11 +30,11 @@ open class PhrasesLangViewModel : PhrasesBaseViewModel() {
     }
 
     fun update(o: MLangPhrase): Completable =
-        langPhraseService.update(o.id, o.langid, o.phrase, o.translation)
+        langPhraseService.update(o)
             .applyIO()
 
     fun create(o: MLangPhrase): Single<Int> =
-        langPhraseService.create(o.langid, o.phrase, o.translation)
+        langPhraseService.create(o)
             .applyIO()
 
     fun delete(item: MLangPhrase): Completable =

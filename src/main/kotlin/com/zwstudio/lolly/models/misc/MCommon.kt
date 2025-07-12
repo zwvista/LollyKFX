@@ -17,7 +17,7 @@ data class MSPResult(
 class MCodes {
 
     @SerializedName("records")
-    var lst: List<MCode>? = null
+    var lst: List<MCode> = emptyList()
 }
 
 class MCode: Serializable {

@@ -8,5 +8,5 @@ class USMappingService: BaseService() {
     fun getData(): Single<List<MUSMapping>> =
         retrofitJson.create(RestUSMapping::class.java)
             .getData()
-            .map { it.lst!! }
+            .map { it.lst }
 }

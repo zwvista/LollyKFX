@@ -6,7 +6,7 @@ import java.io.Serializable
 class MWordsPhrases {
 
     @SerializedName("records")
-    var lst: List<MWordPhrase>? = null
+    var lst: List<MWordPhrase> = emptyList()
 }
 
 class MWordPhrase: Serializable {

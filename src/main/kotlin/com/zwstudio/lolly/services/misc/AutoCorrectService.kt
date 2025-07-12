@@ -8,5 +8,5 @@ class AutoCorrectService: BaseService() {
     fun getDataByLang(langid: Int): Single<List<MAutoCorrect>> =
         retrofitJson.create(RestAutoCorrect::class.java)
             .getDataByLang("LANGID,eq,$langid")
-            .map { it.lst!! }
+            .map { it.lst }
 }

@@ -31,11 +31,11 @@ open class WordsLangViewModel : WordsBaseViewModel() {
     }
 
     fun update(o: MLangWord): Completable =
-        langWordService.update(o.id, o.langid, o.word, o.note)
+        langWordService.update(o)
             .applyIO()
 
     fun create(o: MLangWord): Single<Int> =
-        langWordService.create(o.langid, o.word, o.note)
+        langWordService.create(o)
             .applyIO()
 
     fun delete(item: MLangWord): Completable =

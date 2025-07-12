@@ -9,22 +9,22 @@ class DictionaryService: BaseService() {
     fun getDictsByLang(langid: Int): Single<List<MDictionary>> =
         retrofitJson.create(RestDictionary::class.java)
             .getDictsByLang("LANGIDFROM,eq,$langid")
-            .map { it.lst!! }
+            .map { it.lst }
 
     fun getDictsReferenceByLang(langid: Int): Single<List<MDictionary>> =
         retrofitJson.create(RestDictionary::class.java)
             .getDictsReferenceByLang("LANGIDFROM,eq,$langid")
-            .map { it.lst!! }
+            .map { it.lst }
 
     fun getDictsNoteByLang(langid: Int): Single<List<MDictionary>> =
         retrofitJson.create(RestDictionary::class.java)
             .getDictsNoteByLang("LANGIDFROM,eq,$langid")
-            .map { it.lst!! }
+            .map { it.lst }
 
     fun getDictsTranslationByLang(langid: Int): Single<List<MDictionary>> =
         retrofitJson.create(RestDictionary::class.java)
             .getDictsTranslationByLang("LANGIDFROM,eq,$langid")
-            .map { it.lst!! }
+            .map { it.lst }
 
     fun update(o: MDictionary): Completable =
         retrofitJson.create(RestDictionary::class.java)
