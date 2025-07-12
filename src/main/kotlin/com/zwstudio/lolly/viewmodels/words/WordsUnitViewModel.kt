@@ -10,7 +10,7 @@ import io.reactivex.rxjava3.core.Single
 import io.reactivex.rxjava3.disposables.CompositeDisposable
 import io.reactivex.rxjava3.kotlin.subscribeBy
 import javafx.beans.property.SimpleBooleanProperty
-import tornadofx.*
+import tornadofx.asObservable
 
 class WordsUnitViewModel(val inTextbook: Boolean) : WordsBaseViewModel() {
 

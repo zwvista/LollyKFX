@@ -7,7 +7,7 @@ import io.reactivex.rxjava3.core.Completable
 import io.reactivex.rxjava3.core.Single
 import io.reactivex.rxjava3.disposables.CompositeDisposable
 import io.reactivex.rxjava3.kotlin.subscribeBy
-import tornadofx.*
+import tornadofx.asObservable
 
 class PhrasesUnitViewModel(val inTextbook: Boolean) : PhrasesBaseViewModel() {
 

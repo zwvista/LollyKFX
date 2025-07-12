@@ -1,10 +1,11 @@
 package com.zwstudio.lolly.services.blogs
 
-import com.zwstudio.lolly.services.misc.BaseService
 import com.zwstudio.lolly.viewmodels.misc.SettingsViewModel
 import io.reactivex.rxjava3.disposables.CompositeDisposable
+import tornadofx.Component
+import tornadofx.ScopedInstance
 
-class BlogService: BaseService() {
+class BlogService: Component(), ScopedInstance {
     private fun html1With(s: String) =
         "<strong><span style=\"color:#0000ff;\">$s</span></strong>"
     private fun htmlWordWith(s: String) = html1With("$s：")

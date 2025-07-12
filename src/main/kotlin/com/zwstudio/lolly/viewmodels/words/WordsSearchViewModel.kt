@@ -1,9 +1,9 @@
 package com.zwstudio.lolly.viewmodels.words
 
-import com.zwstudio.lolly.viewmodels.misc.BaseViewModel
 import com.zwstudio.lolly.models.wpp.MUnitWord
+import com.zwstudio.lolly.viewmodels.misc.BaseViewModel
 import javafx.beans.property.SimpleStringProperty
-import tornadofx.*
+import tornadofx.asObservable
 
 class WordsSearchViewModel : BaseViewModel() {
     var lstWords = mutableListOf<MUnitWord>().asObservable()

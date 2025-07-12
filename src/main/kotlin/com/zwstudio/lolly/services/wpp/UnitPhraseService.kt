@@ -1,17 +1,15 @@
 package com.zwstudio.lolly.services.wpp
 
-import com.zwstudio.lolly.common.completeDeleteResult
-import com.zwstudio.lolly.common.completeUpdate
-import com.zwstudio.lolly.common.completeUpdateResult
-import com.zwstudio.lolly.common.debugCreateResult
+import com.zwstudio.lolly.common.*
 import com.zwstudio.lolly.models.misc.MTextbook
 import com.zwstudio.lolly.models.wpp.MUnitPhrase
 import com.zwstudio.lolly.restapi.wpp.RestUnitPhrase
-import com.zwstudio.lolly.services.misc.BaseService
 import io.reactivex.rxjava3.core.Completable
 import io.reactivex.rxjava3.core.Single
+import tornadofx.Component
+import tornadofx.ScopedInstance
 
-class UnitPhraseService: BaseService() {
+class UnitPhraseService: Component(), ScopedInstance {
     private val api = retrofitJson.create(RestUnitPhrase::class.java)
     private val apiSP = retrofitSP.create(RestUnitPhrase::class.java)
 

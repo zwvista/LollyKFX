@@ -1,7 +1,7 @@
 package com.zwstudio.lolly.views.words
 
-import com.zwstudio.lolly.viewmodels.words.WordsLangDetailViewModel
 import com.zwstudio.lolly.models.wpp.MUnitWord
+import com.zwstudio.lolly.viewmodels.words.WordsLangDetailViewModel
 import tornadofx.*
 
 class WordsLangDetailView : Fragment("Words in Language Detail") {

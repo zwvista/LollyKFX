@@ -3,7 +3,7 @@ package com.zwstudio.lolly.viewmodels.misc
 import com.zwstudio.lolly.models.misc.MReviewOptions
 import com.zwstudio.lolly.models.misc.ReviewMode
 import javafx.beans.property.SimpleObjectProperty
-import tornadofx.*
+import tornadofx.ItemViewModel
 
 
 class ReviewOptionsViewModel(item: MReviewOptions) : ItemViewModel<MReviewOptions>(item) {

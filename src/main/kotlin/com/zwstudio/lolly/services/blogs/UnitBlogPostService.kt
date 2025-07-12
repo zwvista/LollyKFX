@@ -2,14 +2,16 @@ package com.zwstudio.lolly.services.blogs
 
 import com.zwstudio.lolly.common.completeCreate
 import com.zwstudio.lolly.common.completeUpdate
+import com.zwstudio.lolly.common.retrofitJson
 import com.zwstudio.lolly.models.blogs.MUnitBlogPost
 import com.zwstudio.lolly.restapi.blogs.RestUnitBlogPost
-import com.zwstudio.lolly.services.misc.BaseService
 import io.reactivex.rxjava3.core.Completable
 import io.reactivex.rxjava3.core.Single
+import tornadofx.Component
+import tornadofx.ScopedInstance
 import java.util.*
 
-class UnitBlogPostService: BaseService() {
+class UnitBlogPostService: Component(), ScopedInstance {
     private val api = retrofitJson.create(RestUnitBlogPost::class.java)
 
     fun getDataByTextbook(textbookid: Int, unit: Int): Single<Optional<MUnitBlogPost>> =

@@ -3,13 +3,15 @@ package com.zwstudio.lolly.services.wpp
 import com.zwstudio.lolly.common.completeDelete
 import com.zwstudio.lolly.common.completeUpdate
 import com.zwstudio.lolly.common.debugCreate
+import com.zwstudio.lolly.common.retrofitJson
 import com.zwstudio.lolly.models.wpp.MPattern
 import com.zwstudio.lolly.restapi.wpp.RestPattern
-import com.zwstudio.lolly.services.misc.BaseService
 import io.reactivex.rxjava3.core.Completable
 import io.reactivex.rxjava3.core.Single
+import tornadofx.Component
+import tornadofx.ScopedInstance
 
-class PatternService: BaseService() {
+class PatternService: Component(), ScopedInstance {
     private val api = retrofitJson.create(RestPattern::class.java)
 
     fun getDataByLang(langid: Int): Single<List<MPattern>> =

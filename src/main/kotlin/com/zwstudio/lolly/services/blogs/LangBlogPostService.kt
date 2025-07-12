@@ -3,13 +3,15 @@ package com.zwstudio.lolly.services.blogs
 import com.zwstudio.lolly.common.completeDelete
 import com.zwstudio.lolly.common.completeUpdate
 import com.zwstudio.lolly.common.debugCreate
+import com.zwstudio.lolly.common.retrofitJson
 import com.zwstudio.lolly.models.blogs.MLangBlogPost
 import com.zwstudio.lolly.restapi.blogs.RestLangBlogPost
-import com.zwstudio.lolly.views.LollyApp.Companion.retrofitJson
 import io.reactivex.rxjava3.core.Completable
 import io.reactivex.rxjava3.core.Single
+import tornadofx.Component
+import tornadofx.ScopedInstance
 
-class LangBlogPostService {
+class LangBlogPostService: Component(), ScopedInstance {
     private val api = retrofitJson.create(RestLangBlogPost::class.java)
 
     fun getDataByLang(langid: Int): Single<List<MLangBlogPost>> =

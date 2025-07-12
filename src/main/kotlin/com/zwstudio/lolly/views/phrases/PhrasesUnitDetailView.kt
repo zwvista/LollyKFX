@@ -1,7 +1,7 @@
 package com.zwstudio.lolly.views.phrases
 
-import com.zwstudio.lolly.viewmodels.phrases.PhrasesUnitDetailViewModel
 import com.zwstudio.lolly.models.wpp.MUnitPhrase
+import com.zwstudio.lolly.viewmodels.phrases.PhrasesUnitDetailViewModel
 import tornadofx.*
 
 class PhrasesUnitDetailView : Fragment("Phrases in Unit Detail") {

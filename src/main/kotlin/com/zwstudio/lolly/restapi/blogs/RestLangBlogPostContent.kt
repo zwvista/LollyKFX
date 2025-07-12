@@ -3,11 +3,7 @@ package com.zwstudio.lolly.restapi.blogs
 import com.zwstudio.lolly.models.blogs.MLangBlogPostContent
 import com.zwstudio.lolly.models.blogs.MLangBlogsContent
 import io.reactivex.rxjava3.core.Single
-import retrofit2.http.Body
-import retrofit2.http.GET
-import retrofit2.http.PUT
-import retrofit2.http.Path
-import retrofit2.http.Query
+import retrofit2.http.*
 
 interface RestLangBlogPostContent {
     @GET("LANGBLOGPOSTS")

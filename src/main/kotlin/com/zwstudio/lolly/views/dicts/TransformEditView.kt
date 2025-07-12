@@ -1,9 +1,9 @@
 package com.zwstudio.lolly.views.dicts
 
-import com.zwstudio.lolly.views.LollyApp
+import com.zwstudio.lolly.common.SERIALIZED_MIME_TYPE
+import com.zwstudio.lolly.models.misc.MTransformItem
 import com.zwstudio.lolly.viewmodels.dicts.TransformEditViewModel
 import com.zwstudio.lolly.viewmodels.dicts.TransformItemEditViewModel
-import com.zwstudio.lolly.models.misc.MTransformItem
 import javafx.geometry.Orientation
 import javafx.geometry.Pos
 import javafx.scene.control.TableRow
@@ -44,14 +44,14 @@ class TransformEditView : Fragment("Transform Edit") {
                         val db = row.startDragAndDrop(TransferMode.MOVE)
                         db.dragView = row.snapshot(null, null)
                         val cc = ClipboardContent()
-                        cc[LollyApp.SERIALIZED_MIME_TYPE] = index
+                        cc[SERIALIZED_MIME_TYPE] = index
                         db.setContent(cc)
                         event.consume()
                     }
                     row.setOnDragOver { event ->
                         val db = event.dragboard
-                        if (db.hasContent(LollyApp.SERIALIZED_MIME_TYPE)) {
-                            if (row.index != (db.getContent(LollyApp.SERIALIZED_MIME_TYPE) as Int).toInt()) {
+                        if (db.hasContent(SERIALIZED_MIME_TYPE)) {
+                            if (row.index != (db.getContent(SERIALIZED_MIME_TYPE) as Int).toInt()) {
                                 event.acceptTransferModes(*TransferMode.COPY_OR_MOVE)
                                 event.consume()
                             }
@@ -59,8 +59,8 @@ class TransformEditView : Fragment("Transform Edit") {
                     }
                     row.setOnDragDropped { event ->
                         val db = event.dragboard
-                        if (db.hasContent(LollyApp.SERIALIZED_MIME_TYPE)) {
-                            val draggedIndex = db.getContent(LollyApp.SERIALIZED_MIME_TYPE) as Int
+                        if (db.hasContent(SERIALIZED_MIME_TYPE)) {
+                            val draggedIndex = db.getContent(SERIALIZED_MIME_TYPE) as Int
                             val draggedItem = items.removeAt(draggedIndex)
                             val dropIndex = if (row.isEmpty) items.size else row.index
                             items.add(dropIndex, draggedItem)

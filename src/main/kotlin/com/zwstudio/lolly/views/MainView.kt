@@ -1,6 +1,8 @@
 package com.zwstudio.lolly.views
 
 import com.zwstudio.lolly.common.GlobalUser
+import com.zwstudio.lolly.common.configFile
+import com.zwstudio.lolly.common.initializeObject
 import com.zwstudio.lolly.viewmodels.misc.SettingsViewModel
 import com.zwstudio.lolly.views.dicts.DictsView
 import com.zwstudio.lolly.views.misc.BlogView
@@ -12,8 +14,8 @@ import com.zwstudio.lolly.views.phrases.PhrasesLangView
 import com.zwstudio.lolly.views.phrases.PhrasesReviewView
 import com.zwstudio.lolly.views.phrases.PhrasesTextbookView
 import com.zwstudio.lolly.views.phrases.PhrasesUnitView
-import com.zwstudio.lolly.views.textbooks.TextbooksView
 import com.zwstudio.lolly.views.textbooks.OnlineTextbooksView
+import com.zwstudio.lolly.views.textbooks.TextbooksView
 import com.zwstudio.lolly.views.words.*
 import javafx.application.Platform
 import javafx.scene.control.TabPane
@@ -108,7 +110,7 @@ class MainView : View("Lolly TornadoFX") {
     init {
         // https://stackoverflow.com/questions/51023378/setting-and-getting-parameters-in-a-javafx-application
         val props = Properties()
-        val inStream = FileInputStream(LollyApp.configFile)
+        val inStream = FileInputStream(configFile)
         props.loadFromXML(inStream)
         GlobalUser.userid = props.getProperty("userid")
         if (GlobalUser.userid.isEmpty())
@@ -119,8 +121,8 @@ class MainView : View("Lolly TornadoFX") {
 
     fun setup() {
         vm.getData().subscribe {
-            LollyApp.initializeObject.onNext(Unit)
-            LollyApp.initializeObject.onComplete()
+            initializeObject.onNext(Unit)
+            initializeObject.onComplete()
         }
     }
 
@@ -129,7 +131,7 @@ class MainView : View("Lolly TornadoFX") {
         val props = Properties()
         props.setProperty("userid", "")
         props.setProperty("username", "")
-        val outStream = FileOutputStream(LollyApp.configFile)
+        val outStream = FileOutputStream(configFile)
         props.storeToXML(outStream, "Configuration")
         val modal = find<LoginView> { openModal(block = true) }
         if (modal.result)

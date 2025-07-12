@@ -1,8 +1,8 @@
 package com.zwstudio.lolly.views.textbooks
 
+import com.zwstudio.lolly.models.misc.MTextbook
 import com.zwstudio.lolly.viewmodels.textbooks.TextbooksDetailViewModel
 import com.zwstudio.lolly.viewmodels.textbooks.TextbooksViewModel
-import com.zwstudio.lolly.models.misc.MTextbook
 import com.zwstudio.lolly.views.ILollySettings
 import javafx.scene.control.TableView
 import javafx.scene.layout.Priority

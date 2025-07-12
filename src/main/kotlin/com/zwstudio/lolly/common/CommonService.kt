@@ -4,14 +4,25 @@ import com.zwstudio.lolly.models.misc.MSPResult
 import com.zwstudio.lolly.models.misc.MTransformItem
 import io.reactivex.rxjava3.core.Completable
 import io.reactivex.rxjava3.core.Single
+import io.reactivex.rxjava3.subjects.ReplaySubject
 import javafx.scene.input.Clipboard
 import javafx.scene.input.ClipboardContent
+import javafx.scene.input.DataFormat
+import retrofit2.Retrofit
 import tornadofx.UIComponent
+import java.io.File
 import java.net.URLEncoder
 import kotlin.reflect.KMutableProperty
 import kotlin.reflect.KProperty
 import kotlin.reflect.full.isSupertypeOf
 import kotlin.reflect.full.memberProperties
+
+lateinit var retrofitJson: Retrofit
+lateinit var retrofitSP: Retrofit
+lateinit var retrofitHtml: Retrofit
+val initializeObject = ReplaySubject.createWithSize<Unit>(1)
+val SERIALIZED_MIME_TYPE = DataFormat("application/x-java-serialized-object")
+val configFile = File("config.xml")
 
 object GlobalUser {
     var userid = ""

@@ -1,7 +1,7 @@
 package com.zwstudio.lolly.views.words
 
-import com.zwstudio.lolly.viewmodels.words.WordsUnitBatchViewModel
 import com.zwstudio.lolly.models.wpp.MUnitWord
+import com.zwstudio.lolly.viewmodels.words.WordsUnitBatchViewModel
 import javafx.geometry.Pos
 import javafx.scene.control.Button
 import javafx.scene.control.SelectionMode

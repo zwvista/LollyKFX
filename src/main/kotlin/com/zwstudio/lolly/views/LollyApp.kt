@@ -1,15 +1,16 @@
 package com.zwstudio.lolly.views
 
-import io.reactivex.rxjava3.subjects.ReplaySubject
-import javafx.scene.input.DataFormat
+import com.zwstudio.lolly.common.retrofitHtml
+import com.zwstudio.lolly.common.retrofitJson
+import com.zwstudio.lolly.common.retrofitSP
 import javafx.stage.Stage
 import org.hildan.fxgson.FxGson
 import retrofit2.Retrofit
 import retrofit2.adapter.rxjava3.RxJava3CallAdapterFactory
 import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.converter.scalars.ScalarsConverterFactory
-import tornadofx.*
-import java.io.File
+import tornadofx.App
+import tornadofx.launch
 import java.security.GeneralSecurityException
 import java.security.SecureRandom
 import java.security.cert.X509Certificate
@@ -20,15 +21,6 @@ import javax.net.ssl.X509TrustManager
 
 
 class LollyApp: App(MainView::class, Styles::class) {
-
-    companion object {
-        lateinit var retrofitJson: Retrofit
-        lateinit var retrofitSP: Retrofit
-        lateinit var retrofitHtml: Retrofit
-        val initializeObject = ReplaySubject.createWithSize<Unit>(1)
-        val SERIALIZED_MIME_TYPE = DataFormat("application/x-java-serialized-object")
-        val configFile = File("config.xml")
-    }
 
     init {
         super.init()

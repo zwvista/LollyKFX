@@ -1,14 +1,16 @@
 package com.zwstudio.lolly.services.wpp
 
+import com.zwstudio.lolly.common.retrofitJson
 import com.zwstudio.lolly.models.wpp.MLangPhrase
 import com.zwstudio.lolly.models.wpp.MLangWord
 import com.zwstudio.lolly.models.wpp.MWordPhrase
 import com.zwstudio.lolly.restapi.wpp.RestWordPhrase
-import com.zwstudio.lolly.services.misc.BaseService
 import io.reactivex.rxjava3.core.Completable
 import io.reactivex.rxjava3.core.Single
+import tornadofx.Component
+import tornadofx.ScopedInstance
 
-class WordPhraseService: BaseService() {
+class WordPhraseService: Component(), ScopedInstance {
     fun getDataByWordPhrase(wordid: Int, phraseid: Int): Single<List<MWordPhrase>> =
         retrofitJson.create(RestWordPhrase::class.java)
             .getDataByWordPhrase("WORDID,eq,$wordid", "PHRASEID,eq,$phraseid")

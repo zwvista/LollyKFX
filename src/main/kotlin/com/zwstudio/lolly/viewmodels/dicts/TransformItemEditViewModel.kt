@@ -1,7 +1,7 @@
 package com.zwstudio.lolly.viewmodels.dicts
 
 import com.zwstudio.lolly.models.misc.MTransformItem
-import tornadofx.*
+import tornadofx.ItemViewModel
 
 class TransformItemEditViewModel(item: MTransformItem) : ItemViewModel<MTransformItem>(item) {
     val index = bind(MTransformItem::index)

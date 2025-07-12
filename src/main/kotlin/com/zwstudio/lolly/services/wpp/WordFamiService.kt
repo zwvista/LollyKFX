@@ -1,16 +1,14 @@
 package com.zwstudio.lolly.services.wpp
 
-import com.zwstudio.lolly.common.GlobalUser
-import com.zwstudio.lolly.common.completeDelete
-import com.zwstudio.lolly.common.completeUpdate
-import com.zwstudio.lolly.common.debugCreate
+import com.zwstudio.lolly.common.*
 import com.zwstudio.lolly.models.wpp.MWordFami
 import com.zwstudio.lolly.restapi.wpp.RestWordFami
-import com.zwstudio.lolly.services.misc.BaseService
 import io.reactivex.rxjava3.core.Completable
 import io.reactivex.rxjava3.core.Single
+import tornadofx.Component
+import tornadofx.ScopedInstance
 
-class WordFamiService: BaseService() {
+class WordFamiService: Component(), ScopedInstance {
     private val api = retrofitJson.create(RestWordFami::class.java)
 
     private fun getDataByWord(wordid: Int): Single<List<MWordFami>> =

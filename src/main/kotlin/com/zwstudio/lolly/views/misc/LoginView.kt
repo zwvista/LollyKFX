@@ -1,7 +1,7 @@
 package com.zwstudio.lolly.views.misc
 
 import com.zwstudio.lolly.common.GlobalUser
-import com.zwstudio.lolly.views.LollyApp
+import com.zwstudio.lolly.common.configFile
 import com.zwstudio.lolly.viewmodels.misc.LoginViewModel
 import io.reactivex.rxjava3.kotlin.subscribeBy
 import javafx.geometry.Pos
@@ -42,7 +42,7 @@ class LoginView : Fragment("Login") {
                         val props = Properties()
                         props.setProperty("userid", GlobalUser.userid)
                         props.setProperty("username", "")
-                        val outStream = FileOutputStream(LollyApp.configFile)
+                        val outStream = FileOutputStream(configFile)
                         props.storeToXML(outStream, "Configuration")
                         result = true
                         close()

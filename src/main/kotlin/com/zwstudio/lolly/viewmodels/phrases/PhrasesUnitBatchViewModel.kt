@@ -5,7 +5,7 @@ import com.zwstudio.lolly.models.wpp.MUnitPhrase
 import javafx.beans.property.SimpleBooleanProperty
 import javafx.beans.property.SimpleIntegerProperty
 import javafx.beans.property.SimpleObjectProperty
-import tornadofx.*
+import tornadofx.ViewModel
 
 class PhrasesUnitBatchViewModel(val vm: PhrasesUnitViewModel) : ViewModel() {
     val unitChecked = SimpleBooleanProperty()

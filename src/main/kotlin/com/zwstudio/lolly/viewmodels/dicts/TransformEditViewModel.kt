@@ -7,7 +7,8 @@ import com.zwstudio.lolly.common.toTransformItems
 import io.reactivex.rxjava3.core.Completable
 import javafx.beans.property.SimpleObjectProperty
 import javafx.beans.property.SimpleStringProperty
-import tornadofx.*
+import tornadofx.ViewModel
+import tornadofx.asObservable
 
 class TransformEditViewModel(val vmDetail: DictsDetailViewModel) : ViewModel() {
     val sourceWord = SimpleStringProperty("")

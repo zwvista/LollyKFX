@@ -4,7 +4,7 @@ import com.zwstudio.lolly.models.misc.MCode
 import com.zwstudio.lolly.models.misc.MDictionary
 import com.zwstudio.lolly.models.misc.MLanguage
 import javafx.beans.property.SimpleObjectProperty
-import tornadofx.*
+import tornadofx.ItemViewModel
 
 class DictsDetailViewModel(val vm: DictsViewModel, item: MDictionary) : ItemViewModel<MDictionary>(item) {
     val id = bind(MDictionary::id)

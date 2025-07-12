@@ -1,7 +1,7 @@
 package com.zwstudio.lolly.viewmodels.textbooks
 
 import com.zwstudio.lolly.models.misc.MTextbook
-import tornadofx.*
+import tornadofx.ItemViewModel
 
 class TextbooksDetailViewModel(val vm: TextbooksViewModel, item: MTextbook) : ItemViewModel<MTextbook>(item) {
     val id = bind(MTextbook::id)

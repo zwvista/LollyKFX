@@ -1,9 +1,9 @@
 package com.zwstudio.lolly.views.words
 
-import com.zwstudio.lolly.viewmodels.misc.SettingsViewModel
-import com.zwstudio.lolly.viewmodels.phrases.PhrasesLangViewModel
 import com.zwstudio.lolly.models.misc.MDictionary
 import com.zwstudio.lolly.models.wpp.MLangPhrase
+import com.zwstudio.lolly.viewmodels.misc.SettingsViewModel
+import com.zwstudio.lolly.viewmodels.phrases.PhrasesLangViewModel
 import com.zwstudio.lolly.views.ILollySettings
 import javafx.scene.Node
 import javafx.scene.control.CheckBox

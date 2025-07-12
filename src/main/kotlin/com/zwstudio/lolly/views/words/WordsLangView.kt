@@ -2,13 +2,13 @@ package com.zwstudio.lolly.views.words
 
 import com.zwstudio.lolly.common.copyText
 import com.zwstudio.lolly.common.googleString
+import com.zwstudio.lolly.models.wpp.MLangPhrase
+import com.zwstudio.lolly.models.wpp.MLangWord
 import com.zwstudio.lolly.viewmodels.misc.SettingsViewModel
 import com.zwstudio.lolly.viewmodels.phrases.PhrasesLangDetailViewModel
 import com.zwstudio.lolly.viewmodels.phrases.PhrasesLinkViewModel
 import com.zwstudio.lolly.viewmodels.words.WordsLangDetailViewModel
 import com.zwstudio.lolly.viewmodels.words.WordsLangViewModel
-import com.zwstudio.lolly.models.wpp.MLangPhrase
-import com.zwstudio.lolly.models.wpp.MLangWord
 import com.zwstudio.lolly.views.phrases.PhrasesLangDetailView
 import com.zwstudio.lolly.views.phrases.PhrasesLinkView
 import javafx.geometry.Orientation

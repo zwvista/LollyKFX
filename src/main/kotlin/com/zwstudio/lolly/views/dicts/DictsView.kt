@@ -1,8 +1,8 @@
 package com.zwstudio.lolly.views.dicts
 
+import com.zwstudio.lolly.models.misc.MDictionary
 import com.zwstudio.lolly.viewmodels.dicts.DictsDetailViewModel
 import com.zwstudio.lolly.viewmodels.dicts.DictsViewModel
-import com.zwstudio.lolly.models.misc.MDictionary
 import com.zwstudio.lolly.views.ILollySettings
 import javafx.scene.control.TableView
 import javafx.scene.layout.Priority

@@ -1,8 +1,8 @@
 package com.zwstudio.lolly.views.words
 
+import com.zwstudio.lolly.models.wpp.MLangWord
 import com.zwstudio.lolly.viewmodels.misc.SettingsViewModel
 import com.zwstudio.lolly.viewmodels.words.WordsLinkViewModel
-import com.zwstudio.lolly.models.wpp.MLangWord
 import javafx.geometry.Pos
 import javafx.scene.control.Button
 import javafx.scene.control.SelectionMode

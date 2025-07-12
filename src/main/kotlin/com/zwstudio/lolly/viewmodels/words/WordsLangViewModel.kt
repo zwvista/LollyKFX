@@ -8,7 +8,7 @@ import com.zwstudio.lolly.viewmodels.misc.applyIO
 import io.reactivex.rxjava3.core.Completable
 import io.reactivex.rxjava3.core.Single
 import io.reactivex.rxjava3.kotlin.subscribeBy
-import tornadofx.*
+import tornadofx.asObservable
 
 open class WordsLangViewModel : WordsBaseViewModel() {
 

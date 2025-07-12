@@ -4,7 +4,6 @@ import com.zwstudio.lolly.viewmodels.misc.ReviewOptionsViewModel
 import com.zwstudio.lolly.viewmodels.misc.applyIO
 import com.zwstudio.lolly.viewmodels.words.WordsReviewViewModel
 import com.zwstudio.lolly.views.ILollySettings
-import com.zwstudio.lolly.views.MainView
 import com.zwstudio.lolly.views.misc.ReviewOptionsView
 import io.reactivex.rxjava3.core.Single
 import io.reactivex.rxjava3.kotlin.subscribeBy

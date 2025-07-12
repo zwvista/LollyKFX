@@ -1,6 +1,5 @@
 package com.zwstudio.lolly.restapi.wpp
 
-import com.zwstudio.lolly.models.misc.MSPResult
 import com.zwstudio.lolly.models.wpp.MPattern
 import com.zwstudio.lolly.models.wpp.MPatterns
 import io.reactivex.rxjava3.core.Single

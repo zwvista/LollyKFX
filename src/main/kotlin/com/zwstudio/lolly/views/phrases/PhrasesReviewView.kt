@@ -7,7 +7,6 @@ import com.zwstudio.lolly.views.ILollySettings
 import com.zwstudio.lolly.views.misc.ReviewOptionsView
 import io.reactivex.rxjava3.core.Single
 import io.reactivex.rxjava3.kotlin.subscribeBy
-import javafx.geometry.Pos
 import javafx.scene.layout.Priority
 import javafx.scene.layout.Region
 import tornadofx.*

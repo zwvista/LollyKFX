@@ -1,16 +1,16 @@
 package com.zwstudio.lolly.views.phrases
 
+import com.zwstudio.lolly.common.SERIALIZED_MIME_TYPE
 import com.zwstudio.lolly.common.copyText
 import com.zwstudio.lolly.common.googleString
-import com.zwstudio.lolly.views.LollyApp
+import com.zwstudio.lolly.models.wpp.MLangWord
+import com.zwstudio.lolly.models.wpp.MUnitPhrase
 import com.zwstudio.lolly.viewmodels.misc.SettingsViewModel
 import com.zwstudio.lolly.viewmodels.phrases.PhrasesLinkViewModel
 import com.zwstudio.lolly.viewmodels.phrases.PhrasesUnitBatchViewModel
 import com.zwstudio.lolly.viewmodels.phrases.PhrasesUnitDetailViewModel
 import com.zwstudio.lolly.viewmodels.phrases.PhrasesUnitViewModel
 import com.zwstudio.lolly.viewmodels.words.WordsLangDetailViewModel
-import com.zwstudio.lolly.models.wpp.MLangWord
-import com.zwstudio.lolly.models.wpp.MUnitPhrase
 import com.zwstudio.lolly.views.words.WordsLangDetailView
 import com.zwstudio.lolly.views.words.WordsLinkView
 import javafx.application.Platform
@@ -158,15 +158,15 @@ class PhrasesUnitView : PhrasesBaseView("Phrases in Unit") {
                                     val db = row.startDragAndDrop(TransferMode.MOVE)
                                     db.dragView = row.snapshot(null, null)
                                     val cc = ClipboardContent()
-                                    cc[LollyApp.SERIALIZED_MIME_TYPE] = index
+                                    cc[SERIALIZED_MIME_TYPE] = index
                                     db.setContent(cc)
                                     event.consume()
                                 }
                             }
                             row.setOnDragOver { event ->
                                 val db = event.dragboard
-                                if (db.hasContent(LollyApp.SERIALIZED_MIME_TYPE)) {
-                                    if (row.index != (db.getContent(LollyApp.SERIALIZED_MIME_TYPE) as Int).toInt()) {
+                                if (db.hasContent(SERIALIZED_MIME_TYPE)) {
+                                    if (row.index != (db.getContent(SERIALIZED_MIME_TYPE) as Int).toInt()) {
                                         event.acceptTransferModes(*TransferMode.COPY_OR_MOVE)
                                         event.consume()
                                     }
@@ -174,8 +174,8 @@ class PhrasesUnitView : PhrasesBaseView("Phrases in Unit") {
                             }
                             row.setOnDragDropped { event ->
                                 val db = event.dragboard
-                                if (db.hasContent(LollyApp.SERIALIZED_MIME_TYPE)) {
-                                    val draggedIndex = db.getContent(LollyApp.SERIALIZED_MIME_TYPE) as Int
+                                if (db.hasContent(SERIALIZED_MIME_TYPE)) {
+                                    val draggedIndex = db.getContent(SERIALIZED_MIME_TYPE) as Int
                                     val draggedItem = items.removeAt(draggedIndex)
                                     val dropIndex = if (row.isEmpty) items.size else row.index
                                     items.add(dropIndex, draggedItem)

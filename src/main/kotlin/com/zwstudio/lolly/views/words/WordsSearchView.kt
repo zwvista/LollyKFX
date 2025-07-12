@@ -1,7 +1,7 @@
 package com.zwstudio.lolly.views.words
 
-import com.zwstudio.lolly.viewmodels.words.WordsSearchViewModel
 import com.zwstudio.lolly.models.wpp.MUnitWord
+import com.zwstudio.lolly.viewmodels.words.WordsSearchViewModel
 import javafx.geometry.Orientation
 import javafx.scene.control.TableView
 import javafx.scene.layout.Priority

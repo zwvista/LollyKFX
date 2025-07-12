@@ -1,15 +1,14 @@
 package com.zwstudio.lolly.services.wpp
 
-import com.zwstudio.lolly.common.completeDeleteResult
-import com.zwstudio.lolly.common.completeUpdate
-import com.zwstudio.lolly.common.debugCreate
+import com.zwstudio.lolly.common.*
 import com.zwstudio.lolly.models.wpp.MLangWord
 import com.zwstudio.lolly.restapi.wpp.RestLangWord
-import com.zwstudio.lolly.services.misc.BaseService
 import io.reactivex.rxjava3.core.Completable
 import io.reactivex.rxjava3.core.Single
+import tornadofx.Component
+import tornadofx.ScopedInstance
 
-class LangWordService: BaseService() {
+class LangWordService: Component(), ScopedInstance {
     private val api = retrofitJson.create(RestLangWord::class.java)
     private val apiSP = retrofitSP.create(RestLangWord::class.java)
 

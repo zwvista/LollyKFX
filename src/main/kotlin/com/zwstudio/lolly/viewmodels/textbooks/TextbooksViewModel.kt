@@ -9,7 +9,7 @@ import io.reactivex.rxjava3.core.Single
 import io.reactivex.rxjava3.kotlin.subscribeBy
 import javafx.beans.property.SimpleStringProperty
 import javafx.collections.ListChangeListener
-import tornadofx.*
+import tornadofx.asObservable
 
 class TextbooksViewModel : BaseViewModel() {
 

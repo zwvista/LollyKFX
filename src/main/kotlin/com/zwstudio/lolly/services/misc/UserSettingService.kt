@@ -1,13 +1,16 @@
 package com.zwstudio.lolly.services.misc
 
 import com.zwstudio.lolly.common.GlobalUser
+import com.zwstudio.lolly.common.retrofitJson
 import com.zwstudio.lolly.models.misc.MUserSetting
 import com.zwstudio.lolly.models.misc.MUserSettingInfo
 import com.zwstudio.lolly.restapi.misc.RestUserSetting
 import io.reactivex.rxjava3.core.Completable
 import io.reactivex.rxjava3.core.Single
+import tornadofx.Component
+import tornadofx.ScopedInstance
 
-class UserSettingService: BaseService() {
+class UserSettingService: Component(), ScopedInstance {
     fun getData(): Single<List<MUserSetting>> =
         retrofitJson.create(RestUserSetting::class.java)
             .getDataByUser("USERID,eq,${GlobalUser.userid}")
