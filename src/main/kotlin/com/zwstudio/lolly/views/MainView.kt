@@ -5,7 +5,7 @@ import com.zwstudio.lolly.common.configFile
 import com.zwstudio.lolly.common.initializeObject
 import com.zwstudio.lolly.viewmodels.misc.SettingsViewModel
 import com.zwstudio.lolly.views.dicts.DictsView
-import com.zwstudio.lolly.views.misc.BlogView
+import com.zwstudio.lolly.views.blogs.BlogPostEditView
 import com.zwstudio.lolly.views.misc.LoginView
 import com.zwstudio.lolly.views.misc.ReadNumberView
 import com.zwstudio.lolly.views.misc.SettingsView
@@ -73,8 +73,8 @@ class MainView : View("Lolly TornadoFX") {
                 }
             }
             menu("Tools") {
-                item("Blog").action {
-                    AddTab<BlogView>()
+                item("Edit Unit Blog").action {
+                    AddTab<BlogPostEditView>()
                 }
                 item("Read Number").action {
                     AddTab<ReadNumberView>()

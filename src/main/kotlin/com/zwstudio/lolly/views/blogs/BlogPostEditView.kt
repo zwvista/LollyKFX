@@ -1,4 +1,4 @@
-package com.zwstudio.lolly.views.misc
+package com.zwstudio.lolly.views.blogs
 
 import com.zwstudio.lolly.common.copyText
 import com.zwstudio.lolly.viewmodels.misc.BlogViewModel
@@ -10,7 +10,7 @@ import javafx.scene.layout.Priority
 import javafx.scene.web.WebView
 import tornadofx.*
 
-class BlogView : Fragment("Blog") {
+class BlogPostEditView : Fragment("Blog") {
     var taMarkedText: TextArea by singleAssign()
     var wvBlog: WebView by singleAssign()
     var vm = BlogViewModel()
@@ -19,7 +19,7 @@ class BlogView : Fragment("Blog") {
         taMarkedText.replaceSelection(f(vm, taMarkedText.selectedText))
 
     override val root = vbox {
-        tag = this@BlogView
+        tag = this@BlogPostEditView
         toolbar {
             button("HtmlToMarked").action {
                 vm.htmlToMarked()
