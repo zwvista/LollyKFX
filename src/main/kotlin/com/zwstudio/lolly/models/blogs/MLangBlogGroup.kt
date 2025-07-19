@@ -2,6 +2,7 @@ package com.zwstudio.lolly.models.blogs
 
 import com.google.gson.annotations.Expose
 import com.google.gson.annotations.SerializedName
+import javafx.beans.property.SimpleStringProperty
 import java.io.Serializable
 
 data class MLangBlogGroups(
@@ -16,7 +17,8 @@ data class MLangBlogGroup(
     @SerializedName("LANGID")
     var langid: Int = 0,
     @SerializedName("NAME")
-    var groupname: String = ""
+    val groupnameProperty: SimpleStringProperty = SimpleStringProperty(""),
 ) : Serializable {
     @Transient var gpid = 0
+    var groupname: String get() = groupnameProperty.value; set(value) { groupnameProperty.value = value }
 }

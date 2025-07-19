@@ -1,12 +1,18 @@
 package com.zwstudio.lolly.views.blogs
 
+import com.zwstudio.lolly.models.blogs.MLangBlogGroup
+import com.zwstudio.lolly.models.blogs.MLangBlogPost
 import com.zwstudio.lolly.viewmodels.blogs.LangBlogPostsViewModel
+import com.zwstudio.lolly.views.ILollySettings
 import javafx.geometry.Orientation
+import javafx.scene.control.TableView
 import javafx.scene.layout.Priority
 import javafx.scene.web.WebView
 import tornadofx.*
 
-class LangBlogPostsView : Fragment("Language Blog Posts") {
+class LangBlogPostsView : Fragment("Language Blog Posts"), ILollySettings {
+    var tvPosts: TableView<MLangBlogPost> by singleAssign()
+    var tvGroups: TableView<MLangBlogGroup> by singleAssign()
     var vm = LangBlogPostsViewModel()
     var wvWebPage: WebView by singleAssign()
 
@@ -31,11 +37,33 @@ class LangBlogPostsView : Fragment("Language Blog Posts") {
                 splitpane(Orientation.VERTICAL) {
                     vgrow = Priority.ALWAYS
                     setDividerPosition(0, 0.8)
+                    tvPosts = tableview(vm.lstLangBlogPosts) {
+                        vgrow = Priority.ALWAYS
+                        readonlyColumn("ID", MLangBlogPost::id)
+                        column("TITLE", MLangBlogPost::titleProperty).makeEditable()
+                        column("URL", MLangBlogPost::urlProperty).makeEditable()
+                        onSelectionChange {
+                            vm.selectedPost.value = it
+                            vm.reloadGroups()
+                        }
+                    }
+                    tvGroups = tableview(vm.lstLangBlogGroups) {
+                        readonlyColumn("ID", MLangBlogGroup::id)
+                        column("GROUPNAME", MLangBlogGroup::groupnameProperty).makeEditable()
+                    }
                 }
             }
             wvWebPage = webview {
 
             }
         }
+    }
+
+    init {
+        onSettingsChanged()
+    }
+
+    override fun onSettingsChanged() {
+        vm.reloadPosts()
     }
 }

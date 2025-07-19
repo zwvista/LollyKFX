@@ -2,6 +2,7 @@ package com.zwstudio.lolly.models.blogs
 
 import com.google.gson.annotations.Expose
 import com.google.gson.annotations.SerializedName
+import javafx.beans.property.SimpleStringProperty
 import java.io.Serializable
 
 data class MLangBlogPosts(
@@ -16,9 +17,11 @@ data class MLangBlogPost(
     @SerializedName("LANGID")
     var langid: Int = 0,
     @SerializedName("TITLE")
-    var title: String = "",
+    val titleProperty: SimpleStringProperty = SimpleStringProperty(""),
     @SerializedName("URL")
-    var url: String = ""
+    val urlProperty: SimpleStringProperty = SimpleStringProperty(""),
 ) : Serializable {
     @Transient var gpid = 0
+    var title: String get() = titleProperty.value; set(value) { titleProperty.value = value }
+    var url: String get() = urlProperty.value; set(value) { urlProperty.value = value }
 }

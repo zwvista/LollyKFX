@@ -8,6 +8,7 @@ import com.zwstudio.lolly.models.blogs.MLangBlogGroup
 import com.zwstudio.lolly.restapi.blogs.RestLangBlogGroup
 import io.reactivex.rxjava3.core.Completable
 import io.reactivex.rxjava3.core.Single
+import javafx.beans.property.SimpleStringProperty
 import tornadofx.Component
 import tornadofx.ScopedInstance
 
@@ -25,7 +26,7 @@ class LangBlogGroupService: Component(), ScopedInstance {
                 MLangBlogGroup(
                     id = item.groupid,
                     langid = langid,
-                    groupname = item.groupname,
+                    groupnameProperty = SimpleStringProperty(item.groupname),
                 ).also { it.gpid = item.id }
             }.distinctBy { it.id }
         }

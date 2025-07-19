@@ -8,6 +8,7 @@ import com.zwstudio.lolly.models.blogs.MLangBlogPost
 import com.zwstudio.lolly.restapi.blogs.RestLangBlogPost
 import io.reactivex.rxjava3.core.Completable
 import io.reactivex.rxjava3.core.Single
+import javafx.beans.property.SimpleStringProperty
 import tornadofx.Component
 import tornadofx.ScopedInstance
 
@@ -25,8 +26,8 @@ class LangBlogPostService: Component(), ScopedInstance {
                 MLangBlogPost(
                     id = item.postid,
                     langid = langid,
-                    title = item.title,
-                    url = item.url
+                    titleProperty = SimpleStringProperty(item.title),
+                    urlProperty = SimpleStringProperty(item.url)
                 ).also { it.gpid = item.id }
             }.distinctBy { it.id }
         }
