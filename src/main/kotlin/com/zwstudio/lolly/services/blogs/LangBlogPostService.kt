@@ -19,6 +19,18 @@ class LangBlogPostService: Component(), ScopedInstance {
             it.lst
         }
 
+    fun getDataByLangGroup(langid: Int, groupid: Int): Single<List<MLangBlogPost>> =
+        api.getDataByLangGroup("LANGID,eq,$langid", "GROUPID,eq,$groupid").map {
+            it.lst.map { item ->
+                MLangBlogPost(
+                    id = item.postid,
+                    langid = langid,
+                    title = item.title,
+                    url = item.url
+                ).also { it.gpid = item.id }
+            }.distinctBy { it.id }
+        }
+
     fun create(item: MLangBlogPost): Single<Int> =
         api.create(item).debugCreate()
 
