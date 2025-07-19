@@ -2,6 +2,7 @@ package com.zwstudio.lolly.viewmodels.blogs
 
 import com.zwstudio.lolly.viewmodels.misc.applyIO
 import io.reactivex.rxjava3.kotlin.subscribeBy
+import tornadofx.onChange
 
 class LangBlogGroupsViewModel: LangBlogViewModel() {
 
@@ -15,5 +16,9 @@ class LangBlogGroupsViewModel: LangBlogViewModel() {
         langBlogPostService.getDataByLangGroup(vmSettings.selectedLang.id, selectedGroup.value?.id ?: 0)
             .applyIO()
             .subscribeBy { lstLangBlogPostsAll = it.toMutableList(); applyPostFilters() }
+    }
+
+    init {
+        selectedGroup.onChange { reloadPosts() }
     }
 }

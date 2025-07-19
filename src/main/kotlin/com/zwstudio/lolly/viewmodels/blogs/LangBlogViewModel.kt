@@ -2,6 +2,7 @@ package com.zwstudio.lolly.viewmodels.blogs
 
 import com.zwstudio.lolly.models.blogs.MLangBlogGroup
 import com.zwstudio.lolly.models.blogs.MLangBlogPost
+import com.zwstudio.lolly.services.blogs.BlogService
 import com.zwstudio.lolly.services.blogs.LangBlogGroupService
 import com.zwstudio.lolly.services.blogs.LangBlogPostContentService
 import com.zwstudio.lolly.services.blogs.LangBlogPostService
@@ -9,9 +10,11 @@ import com.zwstudio.lolly.viewmodels.misc.BaseViewModel
 import com.zwstudio.lolly.viewmodels.misc.applyIO
 import io.reactivex.rxjava3.core.Completable
 import io.reactivex.rxjava3.core.Single
+import io.reactivex.rxjava3.kotlin.subscribeBy
 import javafx.beans.property.SimpleObjectProperty
 import javafx.beans.property.SimpleStringProperty
 import tornadofx.asObservable
+import tornadofx.onChange
 
 open class LangBlogViewModel : BaseViewModel() {
 
@@ -28,10 +31,19 @@ open class LangBlogViewModel : BaseViewModel() {
     var selectedPost = SimpleObjectProperty<MLangBlogPost?>()
 
     var postHtml = SimpleStringProperty("")
+    private val blogService: BlogService by inject()
 
     protected val langBlogGroupService: LangBlogGroupService by inject()
     protected val langBlogPostService: LangBlogPostService by inject()
     protected val langBlogPostContentService: LangBlogPostContentService by inject()
+
+    init {
+        selectedPost.onChange {
+            langBlogPostContentService.getDataById(it?.id ?: 0).subscribeBy {
+                postHtml.value = blogService.markedToHtml(it.map { it.content }.orElse(""))
+            }
+        }
+    }
 
     fun applyGroupFilters() {
         lstLangBlogGroups.setAll(if (noGroupFilter) lstLangBlogGroupsAll else lstLangBlogGroupsAll.filter {

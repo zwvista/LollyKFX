@@ -4,6 +4,7 @@ import com.zwstudio.lolly.models.blogs.MLangBlogGroup
 import com.zwstudio.lolly.models.blogs.MLangBlogPost
 import com.zwstudio.lolly.viewmodels.blogs.LangBlogGroupsViewModel
 import com.zwstudio.lolly.views.ILollySettings
+import javafx.application.Platform
 import javafx.geometry.Orientation
 import javafx.scene.control.TableView
 import javafx.scene.layout.Priority
@@ -36,14 +37,19 @@ class LangBlogGroupsView : Fragment("Language Blog Groups"), ILollySettings {
             vbox {
                 splitpane(Orientation.VERTICAL) {
                     vgrow = Priority.ALWAYS
-                    setDividerPosition(0, 0.8)
+                    setDividerPosition(0, 0.5)
                     tvGroups = tableview(vm.lstLangBlogGroups) {
                         vgrow = Priority.ALWAYS
                         readonlyColumn("ID", MLangBlogGroup::id)
                         column("GROUPNAME", MLangBlogGroup::groupnameProperty).makeEditable()
                         onSelectionChange {
                             vm.selectedGroup.value = it
-                            vm.reloadPosts()
+                        }
+                        fun editGroup() {
+                            find<LangBlogGroupsDetailView>("item" to selectedItem!!) { openModal(block = true) }
+                        }
+                        onDoubleClick {
+                            editGroup()
                         }
                     }
                     tvPosts = tableview(vm.lstLangBlogPosts) {
@@ -52,6 +58,12 @@ class LangBlogGroupsView : Fragment("Language Blog Groups"), ILollySettings {
                         column("URL", MLangBlogPost::urlProperty).makeEditable()
                         onSelectionChange {
                             vm.selectedPost.value = it
+                        }
+                        fun editPost() {
+                            find<LangBlogPostsDetailView>("item" to selectedItem!!) { openModal(block = true) }
+                        }
+                        onDoubleClick {
+                            editPost()
                         }
                     }
                 }
@@ -68,5 +80,8 @@ class LangBlogGroupsView : Fragment("Language Blog Groups"), ILollySettings {
 
     override fun onSettingsChanged() {
         vm.reloadGroups()
+        vm.postHtml.onChange {
+            Platform.runLater { wvWebPage.engine.loadContent(it) }
+        }
     }
 }

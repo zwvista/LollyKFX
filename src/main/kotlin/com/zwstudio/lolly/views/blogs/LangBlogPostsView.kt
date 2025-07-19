@@ -4,6 +4,7 @@ import com.zwstudio.lolly.models.blogs.MLangBlogGroup
 import com.zwstudio.lolly.models.blogs.MLangBlogPost
 import com.zwstudio.lolly.viewmodels.blogs.LangBlogPostsViewModel
 import com.zwstudio.lolly.views.ILollySettings
+import javafx.application.Platform
 import javafx.geometry.Orientation
 import javafx.scene.control.TableView
 import javafx.scene.layout.Priority
@@ -36,7 +37,7 @@ class LangBlogPostsView : Fragment("Language Blog Posts"), ILollySettings {
             vbox {
                 splitpane(Orientation.VERTICAL) {
                     vgrow = Priority.ALWAYS
-                    setDividerPosition(0, 0.8)
+                    setDividerPosition(0, 0.5)
                     tvPosts = tableview(vm.lstLangBlogPosts) {
                         vgrow = Priority.ALWAYS
                         readonlyColumn("ID", MLangBlogPost::id)
@@ -46,10 +47,22 @@ class LangBlogPostsView : Fragment("Language Blog Posts"), ILollySettings {
                             vm.selectedPost.value = it
                             vm.reloadGroups()
                         }
+                        fun editPost() {
+                            find<LangBlogPostsDetailView>("item" to selectedItem!!) { openModal(block = true) }
+                        }
+                        onDoubleClick {
+                            editPost()
+                        }
                     }
                     tvGroups = tableview(vm.lstLangBlogGroups) {
                         readonlyColumn("ID", MLangBlogGroup::id)
                         column("GROUPNAME", MLangBlogGroup::groupnameProperty).makeEditable()
+                        fun editGroup() {
+                            find<LangBlogGroupsDetailView>("item" to selectedItem!!) { openModal(block = true) }
+                        }
+                        onDoubleClick {
+                            editGroup()
+                        }
                     }
                 }
             }
@@ -65,5 +78,8 @@ class LangBlogPostsView : Fragment("Language Blog Posts"), ILollySettings {
 
     override fun onSettingsChanged() {
         vm.reloadPosts()
+        vm.postHtml.onChange {
+            Platform.runLater { wvWebPage.engine.loadContent(it) }
+        }
     }
 }
