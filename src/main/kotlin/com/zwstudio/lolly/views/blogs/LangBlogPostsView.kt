@@ -53,6 +53,19 @@ class LangBlogPostsView : Fragment("Language Blog Posts"), ILollySettings {
                         onDoubleClick {
                             editPost()
                         }
+                        contextmenu {
+                            item("Add Post").action {
+                                editPost()
+                            }
+                            item("Edit Post").action {
+                                editPost()
+                            }
+                            item("Edit Content").action {
+                            }
+                            items.forEach {
+                                it.enableWhen { selectionModel.selectedItemProperty().isNotNull }
+                            }
+                        }
                     }
                     tvGroups = tableview(vm.lstLangBlogGroups) {
                         readonlyColumn("ID", MLangBlogGroup::id)
@@ -62,6 +75,14 @@ class LangBlogPostsView : Fragment("Language Blog Posts"), ILollySettings {
                         }
                         onDoubleClick {
                             editGroup()
+                        }
+                        contextmenu {
+                            item("Edit Group").action {
+                                editGroup()
+                            }
+                            items.forEach {
+                                it.enableWhen { selectionModel.selectedItemProperty().isNotNull }
+                            }
                         }
                     }
                 }
